@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="wucho" name="author" />
+    <title>ProjectName-moduleName</title>
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/bootstrap-switch.css" rel="stylesheet">
+    <link href="./css/main.css" rel="stylesheet">
+</head>
+<body>
+
+<!--！！！！！！！！！！！！！！这个头都是一样的，可以全部进行替换！！！！！！！！！！！！！！-->
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">RTA</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">修改密码</a></li>
+                <li><a href="#">退出</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--！！！！！！！！！！！！！！这个头都是一样的，可以全部进行替换！！！！！！！！！！！！！！-->
+
+
+<div class="page-container">
+    <div class="row">
+
+        <div class="col-md-2 ">
+            <!--！！！！！！！！！！！！！！这个导航都是一样的，可以全部进行替换！！！！！！！！！！！！！！-->
+            <div class="nav-container">
+                <ul class="nav nav-pills nav-stacked">
+                    <li>
+                        <a href="providerManagement.html">供应商管理</a>
+                    </li>
+                    <li>
+                        <a href="providerMemberManagement.html">供应商账号管理</a>
+                    </li>
+                    <li>
+                        <a href="ticketManagement.html">景点门票管理</a>
+                    </li>
+                    <li>
+                        <a href="hotelManagement.html">酒店信息管理</a>
+                    </li>
+                    <li>
+                        <a href="votureManagement.html">优惠券管理</a>
+                    </li>
+                    <li>
+                        <a href="packageManagement.html">打包产品管理</a>
+                    </li>
+                    <li>
+                        <a href="ticketPriceInput.html">门票价格录入</a>
+                    </li>
+                    <li>
+                        <a href="hotelPriceInput.html">酒店价格录入</a>
+                    </li>
+                    <li>
+                        <a href="voturePriceInput.html">优惠券价格录入</a>
+                    </li>
+                    <li>
+                        <a href="ticketPriceQuery.html">门票价格查询</a>
+                    </li>
+                    <li>
+                        <a href="hotelPriceQuery.html">酒店价格查询</a>
+                    </li>
+                    <li>
+                        <a href="voturePriceQuery.html">优惠券价格查询</a>
+                    </li>
+                    <li>
+                        <a href="packagePriceQuery.html">打包产品价格查询</a>
+                    </li>
+                    <li>
+                        <a href="ticketPriceAudit.html">门票价格审核</a>
+                    </li>
+                    <li>
+                        <a href="hotelPriceAudit.html">酒店价格审核</a>
+                    </li>
+                    <li>
+                        <a href="voturePriceAudit.html">优惠券价格审核</a>
+                    </li>
+                    <li>
+                        <a href="newsManagement.html">旅游咨询管理</a>
+                    </li>
+                </ul>
+            </div>
+           <!--！！！！！！！！！！！！！！这个导航都是一样的，可以全部进行替换！！！！！！！！！！！！！！-->
+    </div>
+
+     <div class="col-md-10">
+         <div class="row">
+             <!--这一部分为查询栏-->
+             <div class="col-md-12">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="control-label col-md-1" for="searchMobile">手机号：</label>
+                        <div class="col-md-2">
+                            <input type="text" id="searchMobile" class="form-control">
+                        </div>
+                        <label class="control-label col-md-1" for="searchName">姓名：</label>
+                        <div class="col-md-2">
+                            <input type="text" id="searchName" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-1" for="searchEmail">邮箱：</label>
+                        <div class="col-md-2">
+                            <input type="text" id="searchEmail" class="form-control">
+                        </div>
+                        <label class="control-label col-md-1" for="searchProvider">供应商：</label>
+                        <div class="col-md-2">
+                            <select id="searchProvider" class="form-control">
+                                <option value="providerID">providerName</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-1" for="searchisEnable">是否有效：</label>
+                        <div class="col-md-2">
+                            <select id="searchisEnable" class="form-control">
+                                <option value="true">有效</option>
+                                <option value="false">无效</option>
+                            </select>
+                        </div>
+                         <div class="col-md-1 col-md-offset-1">
+                             <button id="query" class="btn btn-danger form-control">查询</button>
+                         </div>
+                    </div>
+                </form>
+             </div>
+         </div>
+         <div class="row">
+             <!--这一部分是按钮栏-->
+             <div class="col-md-12">
+                <button type="button" class="btn bg-primary" data-toggle="modal" data-target="#createProviderMemberModal">新增供应商账号</button>
+                <button type="button" class="btn bg-primary" data-toggle="modal" data-target="#updateProviderMemberModal">编辑供应商账号</button>
+             </div>
+         </div>
+         <div class="row">
+             <!--这一部分是分页栏 以及 表格栏-->
+             <div class="col-md-12">
+                <ul class="pagination">
+                 <li><a href="#">&laquo;</a></li>
+                 <li><a href="#"> 1</a></li>
+                 <li><a href="#">2</a></li>
+                 <li><a href="#">3</a></li>
+                 <li><a href="#">4</a></li>
+                 <li><a href="#">5</a></li>
+                 <li><a href="#">55</a></li>
+                 <li><a href="#">&raquo;</a></li>
+             </ul>
+                <table id="provider" class="table table-bordered table-hover" ="0" width="100%">
+                 <thead>
+                 <tr>
+                     <th>手机(登录名)</th>
+                     <th>姓名</th>
+                     <th>邮箱</th>
+                     <th>电话</th>
+                     <th>性别</th>
+                     <th>开通时间</th>
+                     <th>供应商</th>
+                     <th>是否有效</th>
+                 </tr>
+                 </thead>
+                 <tr>
+                     <td>18666666666</td>
+                     <td>王大伟</td>
+                     <td>a@b.com</td>
+                     <td>28769999</td>
+                     <td>男</td>
+                     <td>2010-01-01</td>
+                     <td>华为旅行社</td>
+                     <td>是</td>
+                 </tr>
+             </table>
+             </div>
+         </div>
+    </div>
+    </div>
+</div>
+
+</body>
+
+
+
+
+<div class="modal fade" id="createProviderMemberModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">新增供应商账号</h4>
+            </div>
+            <form role="form" class="form-horizontal">
+            <div class="modal-body">
+                   <div class="form-group">
+                        <label for="name" class="col-md-2 control-label">账号</label>
+                        <div class="col-md-10"><input type="text" class="form-control" placeholder="请输入手机号" id="name" required></div>
+                   </div>
+                   <div class="form-group">
+                       <label for="contactName" class="col-md-2 control-label">姓名</label>
+                       <div class="col-md-10"><input type="text" class="form-control" placeholder="请输入姓名" id="contactName"></div>
+                   </div>
+                   <div class="form-group">
+                       <label for="contactPhone" class="col-md-2 control-label">邮箱</label>
+                       <div class="col-md-10"><input type="text" class="form-control" placeholder="请输入邮箱" id="contactPhone"></div>
+                   </div>
+                   <div class="form-group">
+                       <label for="proCode" class="col-md-2 control-label">联系电话</label>
+                       <div class="col-md-10"><input type="text" class="form-control" placeholder="请输入联系电话" id="proCode"></div>
+                   </div>
+                   <div class="form-group">
+                       <label for="balanceType" class="col-md-2 control-label">性别</label>
+                       <div class="col-md-10"><input type="text" class="form-control" placeholder="请输入性别" id="balanceType"></div>
+                   </div>
+                   <div class="form-group">
+                       <label for="returnType" class="col-md-2 control-label">身份证</label>
+                       <div class="col-md-10"><input type="text" class="form-control" placeholder="请输入身份证号码" id="returnType"></div>
+                   </div>
+                   <div class="form-group">
+                       <label for="providerInfo" class="col-md-2 control-label">所属供应商</label>
+                       <div class="col-md-10">
+                            <select class="form-control" id="providerInfo">
+                                <option value="providerID">providerName</option>
+                            </select>
+                       </div>
+                   </div>
+                   <div class="form-group">
+                    <label for="passwd" class="col-md-2 control-label">初始密码</label>
+                    <div class="col-md-10"><input type="password" class="form-control" placeholder="请输入账号密码" id="passwd"></div>
+                   </div>
+                   <div class="form-group">
+                      <label for="operatorName" class="col-md-2 control-label">操作员</label>
+                      <div class="col-md-10"><input type="password" value="" class="form-control" id="operatorName" readonly></div>
+                   </div>
+                   <div class="form-group">
+                       <label for="isEnable" class="col-md-2 control-labdffel">是否启用</label>
+                       <div class="col-md-10">
+                            <div class="switch switch-small">
+                                <input id="isEnable" type="checkbox" checked />
+                            </div>
+                       </div>
+                   </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-primary" id="createProvider">保存</button>
+            </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+<script src="./js/jquery.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/bootstrap-switch.js"></script>
+<script src="./js/footer.js"></script>
+
+
+<script>
+    $(document).ready(function() {
+        $('#isEnable').bootstrapSwitch();
+    } );
+</script>
+
+</html>

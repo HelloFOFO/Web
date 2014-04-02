@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  	<meta charset="utf-8">
+    <title>万车游 个人信息</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/wcy.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.min.js"></script>
+        <script src="http://cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  <div id="wrap">
+    	<div class="bs-wcy-nav">
+              <div class="container bs-wcy-headheight bs-wcy_headwidth">
+                        <a class="bs-wcy-logo" href="#"></a>
+                        <div class="bs-wcy-headword">完善信息，享自驾游专享价！</div>
+                        <ul class="bs-wcy_navlist">
+                            <li><a href="#">政府公告</a></li>
+                            <li><a href="#">注册</a></li>
+                            <li><a href="#">登录</a></li>
+                         </ul>
+              </div>
+     </div>
+             <div class="container bs-wcy_citybox">
+                    <div class="bs-wcy_govnoticetitle">个人信息</div>
+                    <div class="bs-wcy_userinfo">
+                                <form class="form-horizontal" role="form">
+                                  <div class="form-group">
+                                    <label for="name" class="col-sm-4 control-label">姓名</label>
+                                    <div class="col-sm-8">
+                                      <input type="text" class="form-control" id="name" >
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="city" class="col-sm-4 control-label">所在城市</label>
+                                    <div class="col-sm-8">
+                                      <input type="text" class="form-control" id="city">
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                  	<label for="sex" class="col-sm-4 control-label">性别</label>
+                                    <div class="col-sm-8">
+                                        <label  class="radio-inline">
+                                          <input type="radio">男
+                                        </label>
+                                        <label  class="radio-inline radiopad">
+                                          <input type="radio">女
+                                        </label>
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="carnum" class="col-sm-4 control-label">车牌号</label>
+                                    <div class="col-sm-8">
+                                      <input type="text" class="form-control" id="carnum" >
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="age" class="col-sm-4 control-label">年龄</label>
+                                    <div class="col-sm-8">
+                                      <select class="form-control">
+                                          <option>1</option>
+                                          <option>2</option>
+                                          <option>3</option>
+                                          <option>4</option>
+                                          <option>5</option>
+                                       </select>
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="partner" class="col-sm-4 control-label">同行对象</label>
+                                    <div class="col-sm-8">
+                                      <select class="form-control">
+                                          <option>1</option>
+                                          <option>2</option>
+                                          <option>3</option>
+                                          <option>4</option>
+                                          <option>5</option>
+                                       </select>
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="lastpoint" class="col-sm-4 control-label">最近一次自驾游目的地</label>
+                                    <div class="col-sm-8">
+                                      <input type="text" class="form-control" id="lastpoint" >
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="lovepoint" class="col-sm-4 control-label">最喜欢的自驾游目的地</label>
+                                    <div class="col-sm-8">
+                                      <input type="text" class="form-control" id="lovepoint" >
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="lovepoint" class="col-sm-4 control-label newline">一年内自驾游去过并且<br>愿意再去的目的地</label>
+                                    <div class="col-sm-8">
+                                      <input type="text" class="form-control" id="lovepoint" >
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <div class="col-sm-offset-4 col-sm-8">
+                                      <button type="submit" class="btn bs-wcy_userinfosubmit">保存</button>
+                                    </div>
+                                  </div>
+                                </form>
+            </div>
+    </div>
+ </div>
+     
+	<div id="footer" class="bs-wcy_footer">
+      <div class="container bs-wcy_footerwidth">
+        <p class="Copyright">©Copyright 2011-2014 万车游 All Rights Reserved. 沪ICP备08026014号 </p>
+        <p class="link"><a href="#">关于万车游</a><a href="#">联系我们</a>客服电话 400-888-8888</p>
+      </div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+	$(document).ready(function(){
+	$("#add").click(function(){
+		var n=$("#num").val();
+       var num=parseInt(n)+1;
+	   if(num==0){alert("cc");}
+       $("#num").val(num);
+    });
+
+	$("#sub").click(function(){
+	 var n=$("#num").val();
+      var num=parseInt(n)-1;
+	   if(num==0){alert("不能为0!"); return}
+      $("#num").val(num);
+      });
+
+	});
+	</script>
+  </body>
+</html>

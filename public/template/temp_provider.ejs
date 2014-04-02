@@ -1,0 +1,11 @@
+<%data.forEach(function(obj){%>
+<tr id="<%=obj._id%>">
+    <td> <%=obj.name%></td>
+    <td> <%=obj.contactName%></td>
+    <td> <%=obj.contactEmail%></td>
+    <td> <%=obj.contactPhone%></td>
+    <td> <%=obj.proCode%></td>
+    <td> <%=obj.createTime%></td>
+    <td> <%=obj.isEnable%></td>
+</tr>
+<%});%>

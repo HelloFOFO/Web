@@ -1,0 +1,42 @@
+<div class="col-md-12">
+    <ul class="pagination">
+        <li><a href="<%=pageInfo.urls.firstPage%>">首页</a></li>
+        <li class="<%=pageInfo.pages[20].class%>"><a href="<%=pageInfo.urls.prePage%>">上一页</a></li>
+        <li class="<%=pageInfo.pages[0].class%>"><a href="<%=pageInfo.urls.pageStr1%>"><%=pageInfo.pages[0].page%></a></li>
+        <li class="<%=pageInfo.pages[1].class%>"><a href="<%=pageInfo.urls.pageStr2%>"><%=pageInfo.pages[1].page%></a></li>
+        <li class="<%=pageInfo.pages[2].class%>"><a href="<%=pageInfo.urls.pageStr3%>"><%=pageInfo.pages[2].page%></a></li>
+        <li class="<%=pageInfo.pages[3].class%>"><a href="<%=pageInfo.urls.pageStr4%>"><%=pageInfo.pages[3].page%></a></li>
+        <li class="<%=pageInfo.pages[4].class%>"><a href="<%=pageInfo.urls.pageStr5%>"><%=pageInfo.pages[4].page%></a></li>
+        <li class="<%=pageInfo.pages[21].class%>"><a href="<%=pageInfo.urls.nextPage%>">下一页</a></li>
+        <li><a href="<%=pageInfo.urls.lastPage%>">末页</a></li>
+    </ul>
+
+    <table id="provider" class="myTable table table-bordered"  width="100%">
+        <thead>
+        <tr>
+            <th>酒店名称</th>
+            <th>城市</th>
+            <th>星级</th>
+            <th>有效期开始</th>
+            <th>有效期结束</th>
+            <th>创建时间</th>
+            <!--<th>产品子类</th>-->
+            <th>是否有效</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%data.forEach(function(obj){%>
+        <tr id="<%=obj._id%>">
+            <td><%=obj.name%></td>
+            <td><%=obj.city.name%></td>
+            <td><%=obj.level%></td>
+            <td><%=new Date(obj.effectDate).Format("yyyy-MM-dd")%></td>
+            <td><%=new Date(obj.expiryDate).Format("yyyy-MM-dd")%></td>
+            <td><%=new Date(obj.createTime).Format("yyyy-MM-dd")%></td>
+            <!--<td><%=obj.subType%></td>-->
+            <td><%=obj.isEnable%></td>
+        </tr>
+        <% })%>
+        </tbody>
+    </table>
+</div>

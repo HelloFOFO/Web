@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="万车游">
+    <meta name="author" content="万车游">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <title>万车游</title>
+</head>
+<body>
+<div>
+    <form id="loginForm" action="/wap/doRegister" method="post">
+        <input type="text" name="mobile" />
+        <input type="password" id="passwd" name="passwd" />
+        <input type="password" id="repasswd" name="repasswd" />
+        <input type="submit" value="注册" />
+    </form>
+    <a href="/wap/">登录</a>
+</div>
+</body>
+</html>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/md5.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+        $("#loginForm").submit(function(event){
+            if($('#passwd').val()!=$('#repasswd').val()){
+                event.preventDefault();
+            } else {
+                $('#passwd').val(faultylabs.MD5($('#passwd').val()).toLowerCase());
+                $('#repasswd').val(faultylabs.MD5($('#repasswd').val()).toLowerCase());
+            }
+        });
+    });
+</script>

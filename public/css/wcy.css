@@ -1,0 +1,161 @@
+@charset "UTF-8";
+/* CSS Document */
+/*
+ * Main navigation
+ */
+ html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,a,code,em,img,q,small,strong,dd,dl,dt,li,ol,ul,fieldset,form,label,tbody,tr,th,td,input {
+  margin: 0;
+  padding: 0;
+}
+ul {
+  list-style: none;
+}
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+#wrap {
+  min-height: 100%;
+  height: auto;
+  /* Negative indent footer by its height */
+  margin: 0 auto -100px;
+  /* Pad bottom by footer height */
+  padding: 0 0 100px;
+}
+
+ body{ background:#ecf5f5}
+.bs-wcy-nav {text-shadow: 0 -1px 0 rgba(0,0,0,.15);  background-color: #464949; background-image:url(../images/wcy_headbg.gif); border-color: #464949; box-shadow: 0 1px 0 rgba(255,255,255,.1); height:80px; line-height:80px;}
+.bs-wcy_headwidth{width: 1100px}
+.bs-wcy-headheight{ height:80px; line-height:80px;}
+.bs-wcy-logo{ float:left; background:url(../images/wcy_logo.png) no-repeat left 5px; width:250px; height:80px;}
+.bs-wcy-headword{ float:left; width:600px;text-align:center; font-size:16px; color:#13d377;}
+.bs-wcy_navlist{ float:right; height:80px; line-height:80px;}
+.bs-wcy_navlist li{ float:left; padding-left:20px;}
+.bs-wcy_navlist li a{ color:#fff; font-size:16px;}
+.bs-wcy_navlist li a:hover{ color:#CCC; text-decoration:none;}
+.bs-wcy_citybox{ width:940px; padding:20px 0 50px;}
+.bs-wcy_citytitle{ height:55px; margin-bottom:25px;}
+.bs-wcy_citytitle .city{ height:50px; float:left; font-size:30px; padding-right:50px; font-weight:lighter; background:url(../images/wcy_titlelinebg.png) no-repeat right bottom; padding-bottom:5px; color:#25bf8f;}
+.bs-wcy_cityimgbox{ background:#FFF; padding:30px 10px; height:auto; overflow:hidden;}
+.bs-wcy_cityimgbox ul{ padding:0; margin:0;  list-style: none;}
+.bs-wcy_cityimgbox ul li{ float:left; width:280px; height:180px; overflow:hidden; margin-left:20px; margin-bottom:20px; position:relative;}
+.bs-wcy_cityimgbox ul li img{width:280px; height:180px;}
+.bs-wcy_cityimgbox ul li .cityinfo{ background:url(../images/wcy_imggray.png); height:36px; line-height:36px; color:#FFFFFF; font-size:14px; position:absolute; bottom:0; left:0px; width:280px; text-decoration:none;}
+.bs-wcy_cityimgbox ul li .cityinfo .info{ padding:0 0 0 10px; float:left; width:200px; *width:180px;}
+.bs-wcy_cityimgbox ul li .cityinfo .price{ float:right; width:80px; color:#ff7212; text-align:right; padding-right:10px; font-size:12px;}
+.bs-wcy_cityimgbox ul li .cityinfo .pricebig{ font-size:22px; padding:0px 1px;}
+.bs-wcy_footer{ background:#1abc89;}
+.bs-wcy_footerwidth{ width:940px; height:100px; color:#fff;}
+.bs-wcy_footerwidth .Copyright{ float:right; line-height:100px; font-size:14px; color:#fff}
+.bs-wcy_footerwidth .link{ float:left; line-height:100px; font-size:14px; color:#fff}
+.bs-wcy_footerwidth .link a{ color:#fff; padding-right:15px;}
+.bs-wcy_footerwidth .link a:hover{ color:#d6fcf0; text-decoration:none;}
+
+.bs-wcy_govnoticetitle{ height:60px; line-height:60px; background:#1abc89; padding:0px 25px; font-size:22px; font-weight:lighter; color:#FFFFFF}
+.bs-wcy_govnoticetitle .rightlink{ float:right; font-size:12px; color:#FFFFFF;}
+.bs-wcy_govnoticeTab{ color:#818181; font-size:15px; border:none; background-color:#f3f8f8; margin-bottom:0;}
+.bs-wcy_govnoticeTab>thead>tr>th, .bs-wcy_govnoticeTab>tbody>tr>th, .bs-wcy_govnoticeTab>tfoot>tr>th, .bs-wcy_govnoticeTab>thead>tr>td, .bs-wcy_govnoticeTab>tbody>tr>td, .bs-wcy_govnoticeTab>tfoot>tr>td {padding:5px 30px;vertical-align:middle; border:none; border-top:#fff solid 1px;}
+.bs-wcy_govnoticeTab>thead>tr>th {vertical-align:bottom; border:none; background:#dce3e3;}
+.bs-wcy_govnoticeTab>tbody>tr:nth-child(odd)>td, .bs-wcy_govnoticeTab>tbody>tr:nth-child(odd)>th {  background:#fff;}
+.bs-wcy_govnoticeTab a{color:#818181; padding-right:10px;}
+.bs-wcy_govnoticeTab a:hover{ color:#428bca; text-decoration:none;}
+.bs-wcy_orange{ color:#ff9955;}
+.bs-wcy_red{ color:#ef541e;}
+.bs-wcy_green{ color:#13d377;}
+.bs-wcy_darkgreen{ color:#0d8f66}
+.bs-wcy_gray{ color:#aaaaaa}
+
+.bs-wcy_govnoticePage{ padding:3px 30px; background:#dce3e3; text-align:right;}
+.bs-wcy_govnoticePage .quotes { padding:3px; margin:3px; }
+.bs-wcy_govnoticePage .quotes a { border:#ddd 1px solid; padding:2px 5px; color:#aaa; text-decoration:none; margin-right:5px; background:#fff;}
+.bs-wcy_govnoticePage .quotes a:hover { border:#17a97b 1px solid; padding:2px 5px; margin-right:5px;}
+.bs-wcy_govnoticePage .quotes a:active { border:#a0a0a0 1px solid; padding:2px 5px; margin-right:5px;}
+.bs-wcy_govnoticePage .quotes span.current { border:#17a97b 1px solid; padding:2px 5px; color:#aaa;  margin-right:5px;  background:#d1eee5}
+.bs-wcy_govnoticePage .quotes span.disabled { border:#f3f3f3 1px solid; padding:2px 5px; margin-right:5px;}
+
+.bs-wcy_noticedetail{ background:#FFFFFF; padding:20px 30px;}
+.bs-wcy_noticedetail h3{ text-align:center; color:#333; line-height:1.5em;}
+.bs-wcy_noticedetail h5{ text-align:center; line-height:1.5em; color:#aaaaaa}
+.bs-wcy_noticedetail p{ padding-top:20px; text-indent:2em; font-size:15px; color:#818181; line-height:22px; text-align:justify}
+
+.bs-wcy_orderdetail{ background:#fff; padding:30px;}
+.bs-wcy_orderdetail .OrdStatus{ padding:10px 0 30px; height:auto; overflow:hidden;}
+.bs-wcy_orderdetail .OrdStatus h2{ color:#818181;}
+.bs-wcy_orderdetail .tabtop{ line-height:24px; color:#818181; font-size:16px; padding-bottom:20px; border-bottom:#e6e6e6 solid 1px; margin-bottom:20px;}
+/*.bs-wcy_orderdetail .tabtop span{ float:right;}*/
+.bs-wcy_orderdetail .clientinfo{ padding:20px 0;  border-bottom:#e6e6e6 solid 1px; height:auto; overflow:hidden;}
+.bs-wcy_orderdetail .clientinfo p{ font-size:14px; line-height:1.6; color:#818181;}
+.bs-wcy_orderdetail .clientinfo .halfbox{ float:left; width:400px; padding-right:20px;}
+.bs-wcy_orderdetail .clientinfo .lightgray{ color:#aaaaaa;  font-size:12px;}
+.bs-wcy_orderdetail .QRCodeTitle{ line-height:40px; font-size:16px; color:#818181; padding:20px 0 10px 0;}
+.bs-wcy_orderdetail .QRCodeDiv{ height:auto; overflow:hidden;}
+.bs-wcy_orderdetail .QRCode{ float:left; width:177px; height:177px;}
+.bs-wcy_orderdetail .QRCode img{width:177px; height:177px;}
+.bs-wcy_orderdetail .QRCodePhone{ float:left;  padding-left:20px;}
+.bs-wcy_orderdetail .QRCodePhone .mobileNum{ height:35px; line-height:35px; background:#f4f4f4; border:#e6e6e6 solid 1px; padding:0px 10px; width:240px; margin-bottom:10px;}
+.bs-wcy_orderdetail .QRCodePhone .mobileNum::-webkit-input-placeholder{color:#aaaaaa;font-size:16px; }
+.bs-wcy_orderdetail .QRCodePhone .mobileNum::-moz-placeholder{color:#aaaaaa;font-size:16px; }
+.bs-wcy_orderdetail .QRCodePhoneBt{ display:block; border-radius:0}
+.bs-wcy_orderdetailTab{ color:#818181; font-size:14px; border:none; background-color:#f3f8f8; margin-bottom:0; border:#e6e6e6 solid 1px;}
+.bs-wcy_orderdetailTab>thead>tr>th, .bs-wcy_orderdetailTab>tbody>tr>th, .bs-wcy_orderdetailTab>tfoot>tr>th, .bs-wcy_orderdetailTab>thead>tr>td, .bs-wcy_orderdetailTab>tbody>tr>td, .bs-wcy_orderdetailTab>tfoot>tr>td {padding:5px 30px;vertical-align:middle; border:none; border-bottom:#e6e6e6 solid 1px;}
+.bs-wcy_orderdetailTab>thead>tr>th {vertical-align:bottom; border:none; background:#dce3e3;}
+.bs-wcy_orderdetailTab>tbody>tr:nth-child(odd)>td, .bs-wcy_orderdetailTab>tbody>tr:nth-child(odd)>th {  background:#fff;}
+.bs-wcy_orderdetailTab a{color:#818181; padding-right:10px;}
+.bs-wcy_orderdetailTab a:hover{ color:#428bca; text-decoration:none;}
+.bs-wcy_orderdetailTab .pricebig{ font-size:22px; padding:0px 1px;}
+.bs-paybutton{color: #ef541e; background-color: #ffe0cc; border-color: #ff7212; margin-left:80px; padding:3px 30px; font-size:20px;}
+.bs-paybutton:hover, .bs-paybutton:focus, .bs-paybutton:active, .bs-paybutton.active {color: #ef541e; background-color:#ffede2; border-color: #ff7212;}
+
+.bs-wcy_payfail{background:#fff; padding:50px 30px 50px 300px; border:#e6e6e6 solid 1px;}
+.bs-wcy_payfail h1{ background:url(../images/wcy_wrong.png) no-repeat left 5px; padding-left:60px; height:50px; line-height:50px;}
+.bs-wcy_payfail h4{ color:#818181; padding-left:60px; padding-bottom:20px; font-size:16px;}
+.bs-wcy_payfail p{ padding-left:60px; color:#818181; font-size:14px; line-height:24px;}
+.bs-wcy_payfail .plink{ padding-top:20px;}
+.bs-wcy_payfail .plink a{color:#13d377;}
+.bs-wcy_payfail .plink a:hover{color:#13d377;}
+
+.bs-wcy_paysucceed{background:#fff; padding:50px 30px 50px 250px; border:#e6e6e6 solid 1px;}
+.bs-wcy_paysucceed h1{ background:url(../images/wcy_right.png) no-repeat left 5px; padding-left:60px; height:50px; line-height:50px;}
+.bs-wcy_paysucceed p{ padding-left:60px; color:#818181; font-size:14px; line-height:24px;}
+.bs-wcy_paysucceed .plink{ padding-top:20px;}
+.bs-wcy_paysucceed .plink a{color:#13d377;}
+.bs-wcy_paysucceed .plink a:hover{color:#13d377;}
+
+.bs-wcy-tickettop{ padding:50px 0 20px 0; margin:0 auto; width:600px;}
+.bs-wcy-tickettop .proBar01{ background:url(../images/wcy_Progress01.png) no-repeat top center; padding:40px 0 0 0; height:auto; overflow:hidden;}
+.bs-wcy-tickettop .proBar02{ background:url(../images/wcy_Progress02.png) no-repeat top center; padding:40px 0 0 0; height:auto; overflow:hidden;}
+.bs-wcy-tickettop .info{ float:left; width:200px; height:60px; line-height:60px; text-align:center; font-size:16px; color:#818181}
+.bs-wcy-tickettop .deepgreen{ color:#1abc89; }
+.bs-wcy-tickettop .lightgreen{color:#a8d9c9;}
+.bs-wcy-tickediv{ width:940px;}
+.bs-wcy-tickeBox{ background:#FFF; border:#e5e5e5 solid 1px;}
+.bs-wcy-tickeBox .tab td{ padding:10px 0;}
+.bs-wcy-tickeBox .price{ font-size:36px; padding-right:5px;}
+.bs-wcy-tickeBox .bs-wcy_orange{ font-size:16px;}
+.bs-wcy-tickeBox .num{float:left;  height:22px; line-height:22px; border:#dddddd solid 1px; color:#333333; text-align:center; width:46px;}
+.bs-wcy-tickeBox .subbt{ float:left; background:url(../images/wcy_sub.gif) no-repeat left top; border:none; width:15px; height:15px; cursor:pointer; outline:none; margin:4px 4px;}
+.bs-wcy-tickeBox .addbt{float:left; background:url(../images/wcy_add.gif) no-repeat left top; border:none; width:15px; height:15px; cursor:pointer; outline:none; margin:4px 4px;}
+.bs-wcy-tickeorderpad{padding:30px;}
+.bs-wcy-tickeBox .ticket{border-bottom:#e5e5e5 solid 1px;}
+.bs-wcy-tickeBox .guesttab{ margin-top:20px;}
+.bs-wcy-tickeBox .guesttab input[type=text]{ border:#dddddd solid 1px; height:22px; line-height:22px; color:#999999; padding:0px 10px;}
+.bs-ticketsubmit{color: #fff; background-color: #ef541e; border: solid 1px #ef541e; *border:none; margin:30px 0; padding:8px 40px; font-size:20px; float:right; border-radius:0;}
+.bs-ticketsubmit:hover, .ticketsubmit:focus, .ticketsubmit:active, .ticketsubmit.active {color: #fff; background-color:#df4a16; border: solid 1px #d0410f; *border:none}
+.bs-wcy-tickePayWay{ padding:10px 0px; height:auto; overflow:hidden;}
+.bs-wcy-tickePayWay .radio{ margin-top:20px;}
+
+.bs-wcy_aboutUs{ background:#FFFFFF; padding:20px 30px;}
+.bs-wcy_aboutUs h3{color:#333; line-height:1.5em; padding:10px 0;}
+.bs-wcy_aboutUs p{ padding-bottom:5px; text-indent:2em; font-size:15px; color:#818181; line-height:22px; text-align:justify}
+.bs-wcy_aboutUs .contact{ text-indent:0;}
+
+.bs-wcy_userinfo{ background:#fff; padding:40px 160px 40px 20px; color:#818181; }
+.bs-wcy_userinfo .radiopad{ padding-left:100px;}
+.bs-wcy_userinfo .newline{ padding-top:0;}
+.bs-wcy_userinfosubmit{color: #fff; background-color: #1abc89; border: solid 1px #1abc89; *border:none; padding:3px 30px; font-size:20px; border-radius:0; letter-spacing: 4px;}
+.bs-wcy_userinfosubmit:hover, .bs-wcy_userinfosubmit:focus, .bs-wcy_userinfosubmit:active, .bs-wcy_userinfosubmit.active {color: #fff; background-color:#12a275; border: solid 1px #17ae7f; *border:none}
+
+
+
+

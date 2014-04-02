@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="万车游">
+    <meta name="author" content="万车游">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <title>万车游</title>
+</head>
+<body>
+<div>
+    <input type="hidden" id="city" name="city" value="<%= city._id %>"/>
+    <form id="productsForm" method="get">
+        <input type="submit" />
+    </form>
+    <label><%= city.name %></label>
+
+    <% for(var i in city.images){ %>
+    <img src="<%= city.images[i].url %>" alt="<%= city.images[i].intro %>">
+    <% } %>
+</div>
+<div>
+    <ul>
+    </ul>
+</div>
+
+</body>
+</html>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+        $('#productsForm').submit(function(){
+            this.action = '/wap/products/'+$('#city').val();
+        });
+
+        $.ajax({
+            'url': '/wap/ajax/cityList',
+            'data': {'key': 's'},
+            'type': 'GET'
+        })
+        .done(function (data) {
+            console.log(data);
+        });
+
+        $.ajax({
+            'url': '/wap/ajax/hotProduct',
+            'data':{'city':$('#city').val()},
+            'type': 'GET'
+        })
+        .done(function (data) {
+            console.log(data);
+        });
+    });
+</script>

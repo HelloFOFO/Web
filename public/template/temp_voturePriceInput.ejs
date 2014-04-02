@@ -1,0 +1,56 @@
+<%data.forEach(function(obj){%>
+<tr id="<%=obj.product._id%>">
+    <td><%=obj.product.name%></td>
+    <td><%=new Date(obj.startDate).Format("yyyy-MM-dd")%></td>
+    <td><%=new Date(obj.endDate).Format("yyyy-MM-dd")%></td>
+    <td>
+        <%if(obj.cost===obj.costWeekend){%>
+        底价:<%=obj.cost%>
+        <%}else{%>
+        底价:<%=obj.cost%>/<%=obj.costWeekend%>
+        <%}%>
+        </br>
+        <%if(obj.price===obj.priceWeekend){%>
+        卖价:<%=obj.price%>
+        <%}else{%>
+        卖价:<%=obj.price%>/<%=obj.priceWeekend%>
+        <%}%>
+        </br>
+        <%if(obj.marketPrice===obj.marketPriceWeekend){%>
+        市场价:<%=obj.marketPrice%>
+        <%}else{%>
+        市场价:<%=obj.marketPrice%>/<%=obj.marketPriceWeekend%>
+        <%}%>
+        </br>
+        <%if(obj.packagePrice===obj.packagePriceWeekend){%>
+        打包价:<%=obj.packagePrice%>
+        <%}else{%>
+        打包价:<%=obj.packagePrice%>/<%=obj.packagePriceWeekend%>
+        <%}%>
+        </br>
+        <%if(obj.inventoryType===1){%>
+        库存: (<%=obj.inventory%>)
+        <%}else{%>
+        <%if(obj.inventory===obj.inventoryWeekend){%>
+        库存: <%=obj.inventory%>
+        <%}else{%>
+        库存: <%=obj.inventory%>/<%=obj.inventoryWeekend%>
+        <%}%>
+        <%}%>
+    </td>
+    <td><%=obj.weekend%></td>
+    <td><%=obj.operator?obj.operator.name:""%></td>
+    <%if(0===obj.status){ %>
+    <td>已拒绝</td>
+    <%}else if(1===obj.status){%>
+    <td>新录入</td>
+    <%}else if(2===obj.status){%>
+    <td>已通过</td>
+    <%}else if(3===obj.status){%>
+    <td>已禁用</td>
+    <%}else{%>
+    <td></td>
+    <%}%>
+    <td><%=new Date(obj.createTime).Format("yyyy-MM-dd")%></td>
+</tr>
+<%});%>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>Bootstrap 101 Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link href="/css/wcy.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="bs-wcy-nav">
+    <div class="container bs-wcy-headheight bs-wcy_headwidth">
+        <div class="bs-wcy-logo"></div>
+        <div class="bs-wcy-headword">完善信息，享自驾游专享价！</div>
+        <ul class="bs-wcy_navlist">
+            <li><a href="#">政府公告</a></li>
+            <li><a href="#">注册</a></li>
+            <li><a href="#">登录</a></li>
+        </ul>
+    </div>
+</div>
+<div class="container bs-wcy_citybox">
+    <div class="bs-wcy_citytitle">
+        <div class="city"><%= city.name %></div>
+    </div>
+    <div class="bs-wcy_cityimgbox">
+        <ul>
+            <%for(var i in products){%>
+            <li>
+                <a href="/web/productDetail/<%=products[i]._id%>"><img src="http://dd885.b0.upaiyun.com/<%=products[i].image.length>0?products[i].image[0].url:''%>" alt="<%=products[i].image.length>0?products[i].image[0].intro:''%>"></a>
+                <a href="/web/productDetail/<%=products[i]._id%>" class="cityinfo">
+                    <span class="price">￥<span class="pricebig"><%=products[i].price%></span>起</span>
+                    <span class="info"><%=products[i].name%></span>
+                </a>
+            </li>
+            <%}%>
+        </ul>
+    </div>
+</div>
+
+<div id="footer" class="bs-wcy_footer">
+    <div class="container bs-wcy_footerwidth">
+        <p class="Copyright">©Copyright 2011-2014 万车游 All Rights Reserved. 沪ICP备08026014号 </p>
+
+        <p class="link"><a href="#">关于万车游</a><a href="#">联系我们</a>客服电话 400-888-8888</p>
+    </div>
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/js/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/js/bootstrap.min.js"></script>
+</body>
+</html>

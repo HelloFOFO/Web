@@ -1,0 +1,65 @@
+<%data.forEach(function(obj){%>
+<tr id="<%=obj.product._id%>">
+    <td><%=obj.product.name%></td>
+    <td><%=new Date(obj.startDate).Format("yyyy-MM-dd")%></td>
+    <td><%=new Date(obj.endDate).Format("yyyy-MM-dd")%></td>
+    <td>
+        <%if(obj.cost===obj.costWeekend){%>
+        底价:<%=obj.cost%>
+        <%}else{%>
+        底价:<%=obj.cost%>/<%=obj.costWeekend%>
+        <%}%>
+        </br>
+        <%if(obj.price===obj.priceWeekend){%>
+        卖价:<%=obj.price%>
+        <%}else{%>
+        卖价:<%=obj.price%>/<%=obj.priceWeekend%>
+        <%}%>
+        </br>
+        <%if(obj.marketPrice===obj.marketPriceWeekend){%>
+        市场价:<%=obj.marketPrice%>
+        <%}else{%>
+        市场价:<%=obj.marketPrice%>/<%=obj.marketPriceWeekend%>
+        <%}%>
+        </br>
+        <%if(obj.packagePrice===obj.packagePriceWeekend){%>
+        打包价:<%=obj.packagePrice%>
+        <%}else{%>
+        打包价:<%=obj.packagePrice%>/<%=obj.packagePriceWeekend%>
+        <%}%>
+        </br>
+        <%if(obj.inventoryType===1){%>
+        库存: (<%=obj.inventory%>)
+        <%}else{%>
+        <%if(obj.inventory===obj.inventoryWeekend){%>
+        库存: <%=obj.inventory%>
+        <%}else{%>
+        库存: <%=obj.inventory%>/<%=obj.inventoryWeekend%>
+        <%}%>
+        <%}%>
+    </td>
+    <td><%=obj.weekend%></td>
+    <td><%=obj.operator?obj.operator.name:""%></td>
+    <%if(0===obj.status){ %>
+    <td>已拒绝</td>
+    <%}else if(1===obj.status){%>
+    <td>新录入</td>
+    <%}else if(2===obj.status){%>
+    <td>已通过</td>
+    <%}else if(3===obj.status){%>
+    <td>已禁用</td>
+    <%}else{%>
+    <td></td>
+    <%}%>
+    <td><%=new Date(obj.createTime).Format("yyyy-MM-dd")%></td>
+    <td><%=obj.operator?obj.operator.name:""%></td>
+    <!--返回状态说明:(1新录入 2 已通过  0已拒绝 3 已禁用) 这里注意一下如果返回的状态是1，则给出2 0两个按钮，
+    如果返回状态是2，则给出3按钮，如果返回状态是0,3，则不给出任何按钮-->
+    <%if(1===obj.status){%>
+    <td><button type="button" class="btn btn-primary" onclick="passAudit('<%=obj._id%>');">通过</button><br>
+        <button type="button" class="btn btn-danger" onclick="refuseAudit('<%=obj._id%>');">拒绝</button></td>
+    <%}else if(2===obj.status){%>
+    <td><button type="button" class="btn btn-danger" onclick="disableAudit('<%=obj._id%>');">禁用</button></td>
+    <%}%>
+</tr>
+<%});%>

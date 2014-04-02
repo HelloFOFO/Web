@@ -1,0 +1,13 @@
+.page-container{
+padding-top: 60px;
+}
+
+.nav-container{
+    margin-top: 20px;
+    padding-right: 20px;
+    border: 1px dashed darkblue;
+}
+
+.myTable .selected{
+    background: green;
+}

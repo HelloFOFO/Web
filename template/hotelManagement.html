@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="wucho" name="author" />
+    <title>ProjectName-moduleName</title>
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/bootstrap-switch.css" rel="stylesheet">
+    <link href="./css/jquery.fileupload.css" rel="stylesheet">
+    <link href="./css/main.css" rel="stylesheet">
+</head>
+<body>
+
+<!--！！！！！！！！！！！！！！这个头都是一样的，可以全部进行替换！！！！！！！！！！！！！！-->
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">RTA</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">修改密码</a></li>
+                <li><a href="#">退出</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--！！！！！！！！！！！！！！这个头都是一样的，可以全部进行替换！！！！！！！！！！！！！！-->
+
+
+<div class="page-container">
+    <div class="row">
+
+        <div class="col-md-2 ">
+            <!--！！！！！！！！！！！！！！这个导航都是一样的，可以全部进行替换！！！！！！！！！！！！！！-->
+            <div class="nav-container">
+                <ul class="nav nav-pills nav-stacked">
+                    <li>
+                        <a href="providerManagement.html">供应商管理</a>
+                    </li>
+                    <li>
+                        <a href="providerMemberManagement.html">供应商账号管理</a>
+                    </li>
+                    <li>
+                        <a href="ticketManagement.html">景点门票管理</a>
+                    </li>
+                    <li>
+                        <a href="hotelManagement.html">酒店信息管理</a>
+                    </li>
+                    <li>
+                        <a href="votureManagement.html">优惠券管理</a>
+                    </li>
+                    <li>
+                        <a href="packageManagement.html">打包产品管理</a>
+                    </li>
+                    <li>
+                        <a href="ticketPriceInput.html">门票价格录入</a>
+                    </li>
+                    <li>
+                        <a href="hotelPriceInput.html">酒店价格录入</a>
+                    </li>
+                    <li>
+                        <a href="voturePriceInput.html">优惠券价格录入</a>
+                    </li>
+                    <li>
+                        <a href="ticketPriceQuery.html">门票价格查询</a>
+                    </li>
+                    <li>
+                        <a href="hotelPriceQuery.html">酒店价格查询</a>
+                    </li>
+                    <li>
+                        <a href="voturePriceQuery.html">优惠券价格查询</a>
+                    </li>
+                    <li>
+                        <a href="packagePriceQuery.html">打包产品价格查询</a>
+                    </li>
+                    <li>
+                        <a href="ticketPriceAudit.html">门票价格审核</a>
+                    </li>
+                    <li>
+                        <a href="hotelPriceAudit.html">酒店价格审核</a>
+                    </li>
+                    <li>
+                        <a href="voturePriceAudit.html">优惠券价格审核</a>
+                    </li>
+                    <li>
+                        <a href="newsManagement.html">旅游咨询管理</a>
+                    </li>
+                </ul>
+            </div>
+           <!--！！！！！！！！！！！！！！这个导航都是一样的，可以全部进行替换！！！！！！！！！！！！！！-->
+    </div>
+
+     <div class="col-md-10">
+         <div class="row">
+             <!--这一部分为查询栏-->
+             <div class="col-md-12">
+                 <form class="form-horizontal" role="form">
+                     <div class="form-group">
+                         <label class="control-label col-md-1" for="searchCity">城市：</label>
+                         <div class="col-md-2">
+                             <input type="text" id="searchCity" class="form-control">
+                         </div>
+                         <label class="control-label col-md-1" for="searchName" >酒店名称：</label>
+                         <div class="col-md-2">
+                             <input type="text" id="searchName" class="form-control" placeholder="输入酒店名关键字">
+                         </div>
+                     </div>
+                     <div class="form-group">
+                         <label class="control-label col-md-1" for="searchEffect">有效期：</label>
+                         <div class="col-md-2">
+                             <input type="text" id="searchEffect" class="form-control">
+                         </div>
+                         <span class="col-md-1">~~</span>
+                         <div class="col-md-2">
+                             <input type="text" id="searchExpiry" class="form-control">
+                         </div>
+                     </div>
+                     <div class="form-group">
+                         <label class="control-label col-md-1" for="searchisEnable">是否有效：</label>
+                         <div class="col-md-2">
+                             <select id="searchisEnable" class="form-control" >
+                                 <option value="true">有效</option>
+                                 <option value="false">无效</option>
+                             </select>
+                         </div>
+                         <div class="col-md-1 col-md-offset-1">
+                             <button id="query" class="btn btn-danger form-control">查询</button>
+                         </div>
+                     </div>
+                 </form>
+             </div>
+         </div>
+         <div class="row">
+             <!--这一部分是按钮栏-->
+             <div class="col-md-12">
+                <button type="button" class="btn bg-primary" data-toggle="modal" data-target="#createHotelInfoModal">新增酒店信息</button>
+                <button type="button" class="btn bg-primary" data-toggle="modal" data-target="#updateHotelInfoModal">编辑酒店信息</button>
+             </div>
+         </div>
+         <div class="row">
+             <!--这一部分是分页栏 以及 表格栏-->
+             <div class="col-md-12">
+                <ul class="pagination">
+                 <li><a href="#">&laquo;</a></li>
+                 <li><a href="#"> 1</a></li>
+                 <li><a href="#">2</a></li>
+                 <li><a href="#">3</a></li>
+                 <li><a href="#">4</a></li>
+                 <li><a href="#">5</a></li>
+                 <li><a href="#">55</a></li>
+                 <li><a href="#">&raquo;</a></li>
+             </ul>
+                <table id="provider" class="table table-bordered table-hover" ="0" width="100%">
+                 <thead>
+                 <tr>
+                     <th>酒店名称</th>
+                     <th>城市</th>
+                     <th>星级</th>
+                     <th>有效期开始</th>
+                     <th>有效期结束</th>
+                     <th>创建时间</th>
+                     <th>产品子类</th>
+                     <th>是否有效</th>
+                 </tr>
+                 </thead>
+                 <tr>
+                     <td>北京希尔顿逸林</td>
+                     <td>北京</td>
+                     <td>3</td>
+                     <td>2012-01-01</td>
+                     <td>2012-02-01</td>
+                     <td>2010-01-01</td>
+                     <td>单酒店</td>
+                     <td>是</td>
+                 </tr>
+             </table>
+             </div>
+         </div>
+    </div>
+    </div>
+</div>
+
+</body>
+
+
+
+
+<div class="modal fade" id="createHotelInfoModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">新增酒店信息</h4>
+            </div>
+            <form role="form" class="form-horizontal">
+            <div class="modal-body">
+                   <div class="form-group">
+                        <label for="name" class="col-md-2 control-label">产品名称</label>
+                        <div class="col-md-10"><input type="text" class="form-control" placeholder="请输入产品名称" id="name"></div>
+                   </div>
+                    <div class="form-group">
+                        <label for="subType" class="col-md-2 control-label">产品子类</label>
+                        <div class="col-md-10"><input type="text" class="form-control" placeholder="请输入产品子类" id="subType"></div>
+                    </div>
+                   <div class="form-group">
+                       <label for="content" class="col-md-2 control-label">包含内容</label>
+                       <div class="col-md-10"><textarea row=3 class="form-control" placeholder="请输入产品所包含的内容" id="content"></textarea></div>
+                   </div>
+                   <div class="form-group">
+                       <label for="intro" class="col-md-2 control-label">产品简介</label>
+                       <div class="col-md-10">
+                           <textarea class="form-control" id="intro" rows="3" placeholder="请输入产品简介"></textarea>
+                       </div>
+                   </div>
+                   <div class="form-group">
+                       <label for="image" class="col-md-2 control-label">图片</label>
+                        <span class="col-md-2 btn btn-success fileinput-button">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            <span>Select files...</span>
+                    <!-- The file input field used as target for the file upload widget -->
+                            <input type="file" multiple="" name="files[]" id="fileupload">
+                        </span>
+                       <label for="image" class="col-md-2 control-label">图片名称</label>
+                       <div class="col-md-3"><input type="text" class="form-control" id="imgintro"></div>
+                   </div>
+                   <div class="form-group">
+                       <label for="city" class="col-md-2 control-label">所属城市</label>
+                       <div class="col-md-4">
+                           <select class="form-control"  id="city">
+                               <option value="shanghai">上海</option>
+                           </select>
+                       </div>
+                       <label for="level" class="col-md-2 control-label">产品级别</label>
+                       <div class="col-md-4"><input type="text" class="form-control" placeholder="请输入产品级别" id="level"></div>
+                   </div>
+                   <div class="form-group">
+                       <label for="openTime" class="col-md-2 control-label">入住时间</label>
+                       <div class="col-md-4"><input type="text" class="form-control" placeholder="请输入开园时间" id="openTime"></div>
+                   </div>
+                   <div class="form-group">
+                       <label for="addr" class="col-md-2 control-label">地址</label>
+                       <div class="col-md-10"><input type="text" class="form-control" placeholder="请输入详细地址" id="addr"></div>
+                   </div>
+                    <div class="form-group">
+                        <label for="lat" class="col-md-2 control-label">经度</label>
+                        <div class="col-md-4"><input type="text" class="form-control" placeholder="请输入地址经度" id="lat"></div>
+                        <label for="lon" class="col-md-2 control-label">纬度</label>
+                        <div class="col-md-4"><input type="text" class="form-control" placeholder="请输入地址纬度" id="lon"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookRule" class="col-md-2 control-label">兑换规则</label>
+                        <div class="col-md-10"><textarea row=3 class="form-control" placeholder="请输入兑换规则" id="bookRule"></textarea></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="useRule" class="col-md-2 control-label">使用规则</label>
+                        <div class="col-md-10"><textarea row=3 class="form-control" placeholder="请输入使用规则" id="useRule"></textarea></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cancelRule" class="col-md-2 control-label">取消规则</label>
+                        <div class="col-md-10"><textarea row=3 class="form-control" placeholder="请输入取消规则" id="cancelRule"></textarea></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="transportation" class="col-md-2 control-label">交通指南</label>
+                        <div class="col-md-10"><textarea row=3 class="form-control" placeholder="请输入交通指南" id="transportation"></textarea></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="effectDate" class="col-md-2 control-label">有效期</label>
+                        <div class="col-md-4"><input type="text" class="form-control" placeholder="有效期开始" id="effectDate"></div>
+                        <div class="col-md-1">~~</div>
+                        <div class="col-md-4"><input type="text" class="form-control" placeholder="有效期结束" id="expiryDate"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="providerInfo" class="col-md-2 control-label">所属供应商</label>
+                        <div class="col-md-10">
+                            <select class="form-control" id="providerInfo">
+                                <option value="providerID">providerName</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactName" class="col-md-2 control-label">联系人</label>
+                        <div class="col-md-10"><input type="text" class="form-control" placeholder="请输入产品联系人" id="contactName"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="tel" class="col-md-2 control-label">电话</label>
+                        <div class="col-md-4"><input type="text" class="form-control" placeholder="请输入联系人电话" id="tel"></div>
+                        <label for="fax" class="col-md-2 control-label">传真</label>
+                        <div class="col-md-4"><input type="text" class="form-control" placeholder="请输入联系人传真" id="fax"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="operatorName" class="col-md-2 control-label">操作员</label>
+                        <div class="col-md-10"><input type="text" class="form-control" id="operatorName" readonly></div>
+                    </div>
+                   <div class="form-group">
+                       <label for="isEnable" class="col-md-2 control-label">是否启用</label>
+                       <div class="col-md-10">
+                            <div class="switch switch-small">
+                                <input id="isEnable" type="checkbox" checked />
+                            </div>
+                       </div>
+                   </div>
+            </div>
+            </form>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="createProvider">保存</button>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+<script src="./js/jquery.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/bootstrap-switch.js"></script>
+<script src="./js/footer.js"></script>
+
+
+<script>
+    $(document).ready(function() {
+        $('#isEnable').bootstrapSwitch();
+    } );
+</script>
+
+</html>

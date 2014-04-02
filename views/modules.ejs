@@ -1,0 +1,18 @@
+<div class="col-md-2 ">
+    <!--！！！！！！！！！！！！！！这个导航都是一样的，可以全部进行替换！！！！！！！！！！！！！！-->
+    <div class="nav-container">
+        <ul class="nav nav-pills nav-stacked">
+            <%for(var i in userModules){ %>
+            <li>
+                <a data-toggle="collapse" href="#<%=i%>"><%=i%></a>
+                <ul id="<%=i%>" class="collapse MyNav">
+                    <%for(var j in userModules[i]){%>
+                    <li><a href="/<%=userModules[i][j].code%>"><%=userModules[i][j].name%></a></li>
+                    <%}%>
+                </ul>
+            </li>
+            <%}%>
+        </ul>
+    </div>
+    <!--！！！！！！！！！！！！！！这个导航都是一样的，可以全部进行替换！！！！！！！！！！！！！！-->
+</div>

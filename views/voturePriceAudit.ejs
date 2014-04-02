@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="wucho" name="author" />
+    <title><%=proName%>-<%=modName%></title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap-switch.css" rel="stylesheet">
+    <link href="../css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="../css/ui-lightness/jqueryui.min.css" rel="stylesheet">
+    <link href="../css/main.css" rel="stylesheet">
+</head>
+<body>
+
+<!--！！！！！！！！！！！！！！这个头都是一样的，可以全部进行替换！！！！！！！！！！！！！！-->
+<%include header%>
+<!--！！！！！！！！！！！！！！这个头都是一样的，可以全部进行替换！！！！！！！！！！！！！！-->
+
+
+<div class="page-container">
+    <div class="row">
+        <%include modules%>
+        <div class="col-md-10">
+            <div class="row">
+                <!--这一部分为查询栏-->
+                <div class="col-md-12">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="control-label col-md-1" for="searchCity">城市：</label>
+                            <div class="col-md-2">
+                                <select class="form-control" id="searchCity" name="searchCity">
+                                    <option value="">全部城市</option>
+                                    <%citys.forEach(function(obj){%>
+                                    <option value="<%=obj._id%>"><%=obj.name%></option>
+                                    <%});%>
+                                </select>
+                            </div>
+                            <label class="control-label col-md-1" for="searchProduct">酒店产品：</label>
+                            <div class="col-md-2">
+                                <input type="text" id="searchProduct" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-1" for="searchStartDate">有效期：</label>
+                            <div class="col-md-2">
+                                <div class="input-group date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="sDate" data-link-format="yyyy-mm-dd" id="searchStartDate" name="searchStartDate">
+                                    <input class="form-control" type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                </div>
+                            </div>
+                            <div class="col-md-1">~~</div>
+                            <div class="col-md-2">
+                                <div class="input-group date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="eDate" data-link-format="yyyy-mm-dd" id="searchEndDate" name="searchEndDate">
+                                    <input class="form-control" type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="control-label col-md-1" for="searchOperator">操作员：</label>
+                            <div class="col-md-2">
+                                <select id="searchOperator" name="searchOperator" class="form-control">
+                                    <option value="">
+                                        男一号
+                                    </option>
+                                    <option value="">
+                                        男二号
+                                    </option>
+                                </select>
+                            </div>
+                            <label class="control-label col-md-1" for="searchProvider">供应商：</label>
+                            <div class="col-md-2">
+                                <select id="searchProvider" name="searchProvider" class="form-control">
+                                    <option value="">全部供应商</option>
+                                    <%providerNames.forEach(function(p){%>
+                                    <option value="<%=p._id%>"><%=p.name%></option>
+                                    <%});%>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-1" for="searchStatus">状态：</label>
+                            <div class="col-md-2">
+                                <select id="searchStatus" name="searchStatus" class="form-control">
+                                    <option value="1">新录入</option>
+                                    <option value="2">已通过</option>
+                                    <option value="0">已拒绝</option>
+                                    <option value="3">已禁用</option>
+                                </select>
+                            </div>
+                            <div class="col-md-1 col-md-offset-1">
+                                <button id="query" type="button" class="btn btn-danger form-control" data-loading-text="查询中...请稍候">查询</button>
+                            </div>
+                        </div>
+                        <!-- hidden fields -->
+                        <input type="hidden" id="sDate" value="" />
+                        <input type="hidden" id="eDate" value="" />
+                        <input type="hidden" id="productId" value=""/>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <!--这一部分是分页栏 以及 表格栏-->
+                <div class="col-md-12">
+                    <ul id="pageDiv"></ul>
+                    <table id="tblList" class="table table-bordered table-hover" width="100%">
+                    <thead>
+                    <tr>
+                        <th>产品名称</th>
+                        <th>开始日期</th>
+                        <th>结束日期</th>
+                        <th>价格/库存</th>
+                        <th>周末定义</th>
+                        <th>录入员</th>
+                        <th>状态</th>
+                        <th>录入时间</th>
+                        <th>审核人</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                        <!--所有价格显示按照周中/周末形式显示，如果周中价格==周末价格 则仅显示一个价格-->
+                        <!--如果是大库存，仅显示 inventory,并用(总库存)标注， 如果是小库存，则显示周中/周末库存  ，如果周中价格==周末价格 则仅显示一个库存-->
+                        <tbody id="tblcontent">
+                        <%data.forEach(function(obj){%>
+                        <tr id="<%=obj.product._id%>">
+                            <td><%=obj.product.name%></td>
+                            <td><%=new Date(obj.startDate).Format("yyyy-MM-dd")%></td>
+                            <td><%=new Date(obj.endDate).Format("yyyy-MM-dd")%></td>
+                            <td>
+                                <%if(obj.cost===obj.costWeekend){%>
+                                底价:<%=obj.cost%>
+                                <%}else{%>
+                                底价:<%=obj.cost%>/<%=obj.costWeekend%>
+                                <%}%>
+                                </br>
+                                <%if(obj.price===obj.priceWeekend){%>
+                                卖价:<%=obj.price%>
+                                <%}else{%>
+                                卖价:<%=obj.price%>/<%=obj.priceWeekend%>
+                                <%}%>
+                                </br>
+                                <%if(obj.marketPrice===obj.marketPriceWeekend){%>
+                                市场价:<%=obj.marketPrice%>
+                                <%}else{%>
+                                市场价:<%=obj.marketPrice%>/<%=obj.marketPriceWeekend%>
+                                <%}%>
+                                </br>
+                                <%if(obj.packagePrice===obj.packagePriceWeekend){%>
+                                打包价:<%=obj.packagePrice%>
+                                <%}else{%>
+                                打包价:<%=obj.packagePrice%>/<%=obj.packagePriceWeekend%>
+                                <%}%>
+                                </br>
+                                <%if(obj.inventoryType===1){%>
+                                库存: (<%=obj.inventory%>)
+                                <%}else{%>
+                                <%if(obj.inventory===obj.inventoryWeekend){%>
+                                库存: <%=obj.inventory%>
+                                <%}else{%>
+                                库存: <%=obj.inventory%>/<%=obj.inventoryWeekend%>
+                                <%}%>
+                                <%}%>
+                            </td>
+                            <td><%=obj.weekend%></td>
+                            <td><%=obj.operator?obj.operator.name:""%></td>
+                            <%if(0===obj.status){ %>
+                            <td>已拒绝</td>
+                            <%}else if(1===obj.status){%>
+                            <td>新录入</td>
+                            <%}else if(2===obj.status){%>
+                            <td>已通过</td>
+                            <%}else if(3===obj.status){%>
+                            <td>已禁用</td>
+                            <%}else{%>
+                            <td></td>
+                            <%}%>
+                            <td><%=new Date(obj.createTime).Format("yyyy-MM-dd")%></td>
+                            <td><%=obj.auditor?obj.auditor.name:""%></td>
+                            <!--返回状态说明:(1新录入 2 已通过  0已拒绝 3 已禁用) 这里注意一下如果返回的状态是1，则给出2 0两个按钮，
+                            如果返回状态是2，则给出3按钮，如果返回状态是0,3，则不给出任何按钮-->
+                            <%if(1===obj.status){%>
+                               <td><button type="button" class="btn btn-primary" onclick="passAudit('<%=obj._id%>');">通过</button><br>
+                                <button type="button" class="btn btn-danger" onclick="refuseAudit('<%=obj._id%>');">拒绝</button></td>
+                            <%}else if(2===obj.status){%>
+                                <td><button type="button" class="btn btn-danger" onclick="disableAudit('<%=obj._id%>');">禁用</button></td>
+                            <%}%>
+                        </tr>
+                        <%});%>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- hidden fields -->
+<input type="hidden" id="uName" value=<%=user.mobile%> />
+<input type="hidden" id="operator" name="operator" value=<%=user._id%> />
+</body>
+
+
+
+
+
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-switch.js"></script>
+<script src="../js/bootstrap-paginator.min.js"></script>
+<script src="../js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+<script src="../js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script src="../js/jqueryui.min.js"></script>
+<script src="../js/common/voturePriceAudit.js"></script>
+<script src="../js/footer.js"></script>
+<script src="../js/ejs.js"></script>
+
+
+<script>
+    $(document).ready(function() {
+        $('#isEnable').bootstrapSwitch();
+    } );
+    var nowTime = new Date();
+    //search start Date
+    $('#searchStartDate').datetimepicker({
+        language:'zh-CN',
+        weekStart: 0,
+        todayBtn:  0,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+    //search end Date
+    $('#searchEndDate').datetimepicker({
+        language:'zh-CN',
+        weekStart: 0,
+        todayBtn:  0,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+    //set paginator
+    refreshPaginator(<%=currentPage%>,<%=totalPage%>);
+</script>
+
+</html>

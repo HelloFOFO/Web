@@ -1,0 +1,29 @@
+.page-container{
+padding-top: 60px;
+}
+
+.nav-container{
+    margin-top: 20px;
+    padding-right: 20px;
+    /*border-right: 1px dashed darkblue;*/
+    /*background: #428BCA;*/
+}
+
+.MyNav{
+       list-style: none outside none;
+       /*margin: 0;*/
+       /*padding: 0;*/
+    /*height: auto;*/
+}
+
+.MyNav a{
+    text-decoration: none;
+}
+
+.MyNav a {
+    text-decoration: none;
+}
+
+tr .rowSelected {
+   background: green;
+}
