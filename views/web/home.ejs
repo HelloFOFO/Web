@@ -1,0 +1,173 @@
+<% include header %>
+<!-- 滚动图 -->
+<div class="bs-wcy-banner">
+    <div class="main_visual">
+        <div class="main_image">
+            <ul>
+                <li><img src="images/wcy_bannner01.jpg"></li>
+                <li><img src="images/wcy_bannner02.jpg"></li>
+                <li><img src="images/wcy_bannner03.jpg"></li>
+            </ul>
+            <a href="javascript:;" id="btn_prev"></a>
+            <a href="javascript:;" id="btn_next"></a>
+        </div>
+    </div>
+</div>
+<!-- 图片列表  -->
+<div class="container bs-wcy-homewidth">
+    <div class="bs-wcy-homeSearchBox">
+        <div class="bs-wcy-homeSearchCenter">
+            <h5>&nbsp;</h5>
+            <h1 id="bigCity">杭州</h1>
+            <!--<h4>西子湖畔</h4>-->
+        </div>
+        <div class="bs-wcy-homeSearch">
+            <form method="get" id="searchForm">
+                <input type="text" class="searchInput" value="杭州">
+                <input type="hidden" id="cityId">
+                <input type="submit" value="" class="searchBt">
+            </form>
+
+        </div>
+        <div class="bs-wcy-homecitybox">
+
+        </div>
+    </div>
+    <div class="bs-wcy-hometitle"><img src="images/wcy_hometitle.gif" alt="大家都喜欢的"></div>
+    <div class="bs-wcy-homeImgList">
+        <ul>
+            <li>
+                <div class="imgbox"><img src="images/wcy_homeImg01.jpg" alt="杭州西湖自驾游"></div>
+                <div class="price">￥<span>199</span></div>
+                <div class="name">杭州西湖自驾游</div>
+            </li>
+            <li>
+                <div class="imgbox"><img src="images/wcy_homeImg01.jpg" alt="杭州西湖自驾游"></div>
+                <div class="price">￥<span>199</span></div>
+                <div class="name">杭州西湖自驾游</div>
+            </li>
+            <li>
+                <div class="imgbox"><img src="images/wcy_homeImg01.jpg" alt="杭州西湖自驾游"></div>
+                <div class="price">￥<span>199</span></div>
+                <div class="name">杭州西湖自驾游</div>
+            </li>
+            <li>
+                <div class="imgbox"><img src="images/wcy_homeImg01.jpg" alt="杭州西湖自驾游"></div>
+                <div class="price">￥<span>199</span></div>
+                <div class="name">杭州西湖自驾游</div>
+            </li>
+            <li>
+                <div class="imgbox"><img src="images/wcy_homeImg01.jpg" alt="杭州西湖自驾游"></div>
+                <div class="price">￥<span>199</span></div>
+                <div class="name">杭州西湖自驾游</div>
+            </li>
+            <li>
+                <div class="imgbox"><img src="images/wcy_homeImg01.jpg" alt="杭州西湖自驾游"></div>
+                <div class="price">￥<span>199</span></div>
+                <div class="name">杭州西湖自驾游</div>
+            </li>
+        </ul>
+    </div>
+    <div class="bs-wcy-hometitle"><img src="images/wcy_hometitle02.gif" alt="TA们是怎么自驾游的"></div>
+    <div class="bs-wcy-homePerList">
+        <ul>
+            <li class="bs-wcy-homePerbg01">
+                <div class="name">在路上</div>
+                <div class="talk">春城的冬天，每天都可以感受到阳光明媚，春暖花开。一件长袖，一件外套，足矣。
+                    加上坐拥的得天独厚的地理位置...
+                </div>
+            </li>
+            <li class="bs-wcy-homePerbg02">
+                <div class="name">西瓜汁</div>
+                <div class="talk">一直想来凤凰，一直想吃正宗的长沙臭豆腐，一直想来一场说走就走的旅行。 因为朋友的一句：“要不要一起旅游？年初八走，云南...南...</div>
+            </li>
+            <li class="bs-wcy-homePerbg03">
+                <div class="name">乐游游</div>
+                <div class="talk">2013年夏至，因为工作关系去了一趟漠河，而且是开着玛莎拉蒂跑车去的，在一年中白昼最长的那几天里，我们从满洲里开着玛莎拉...招...</div>
+            </li>
+        </ul>
+    </div>
+</div>
+<% include footer %>
+
+<script src="js/jquery.touchSlider.js"></script>
+<script>
+    $(document).ready(function () {
+        //加载城市列表
+        $.ajax({
+            'url':'/ajax/cityBox',
+            'type':'get'
+        }).done(function(data){
+            $('.bs-wcy-homecitybox').html(data);
+        });
+
+        //查询跳转
+        $('#searchForm').submit(function(){
+            var id = $('#cityId').val();
+            this.action = '/products/'+id;
+        });
+
+        $(".main_visual").hover(function () {
+            $("#btn_prev,#btn_next").fadeIn()
+        }, function () {
+            $("#btn_prev,#btn_next").fadeOut()
+        })
+        $dragBln = false;
+        $(".main_image").touchSlider({
+            flexible: true,
+            speed: 200,
+            btn_prev: $("#btn_prev"),
+            btn_next: $("#btn_next"),
+            paging: $(".flicking_con a"),
+            counter: function (e) {
+                $(".flicking_con a").removeClass("on").eq(e.current - 1).addClass("on");
+            }
+        });
+        $(".main_image").bind("mousedown", function () {
+            $dragBln = false;
+        })
+        $(".main_image").bind("dragstart", function () {
+            $dragBln = true;
+        })
+        $(".main_image a").click(function () {
+            if ($dragBln) {
+                return false;
+            }
+        })
+        timer = setInterval(function () {
+            $("#btn_next").click();
+        }, 5000);
+        $(".main_visual").hover(function () {
+            clearInterval(timer);
+        }, function () {
+            timer = setInterval(function () {
+                $("#btn_next").click();
+            }, 5000);
+        })
+        $(".main_image").bind("touchstart",function () {
+            clearInterval(timer);
+        }).bind("touchend", function () {
+                    timer = setInterval(function () {
+                        $("#btn_next").click();
+                    }, 5000);
+                })
+
+        /*搜索下拉*/
+
+        $(".searchInput").focus(function () {
+            $(".bs-wcy-homecitybox").show();
+        });
+
+        $(".bs-wcy-homecitybox").on('click','a',function () {
+            var city = $(this).text();
+            $('#cityId').val($(this).attr('href').replace('#',''));
+            $(".searchInput").val(city);
+            $('#bigCity').text(city);
+            $(".bs-wcy-homecitybox").hide();
+        });
+    });
+</script>
+
+
+
+

@@ -1,2 +1,2 @@
-[2014-03-28 16:48:26.255] [INFO] normal - 127.0.0.1 - - "GET /images/wcy_headbg.gif HTTP/1.1" 200 1161 "http://localhost:3000/css/wcy.css" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:28.0) Gecko/20100101 Firefox/28.0"
-[2014-03-28 16:48:26.255] [INFO] normal - 127.0.0.1 - - "GET /images/wcy_logo.png HTTP/1.1" 200 6926 "http://localhost:3000/css/wcy.css" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:28.0) Gecko/20100101 Firefox/28.0"
+[2014-04-11 16:25:08.425] [INFO] normal - 127.0.0.1 - - "GET /images/wcy_sub.gif HTTP/1.1" 200 1124 "http://localhost:3000/css/wcy.css" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:28.0) Gecko/20100101 Firefox/28.0"
+[2014-04-11 16:25:08.428] [INFO] normal - 127.0.0.1 - - "GET /images/wcy_add.gif HTTP/1.1" 200 1138 "http://localhost:3000/css/wcy.css" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:28.0) Gecko/20100101 Firefox/28.0"

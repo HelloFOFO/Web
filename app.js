@@ -3,7 +3,6 @@
  */
 
 var express = require('express');
-var index = require('./routes/index');
 var wap = require('./routes/wap');
 var web = require('./routes/web');
 var http = require('http');
@@ -43,17 +42,22 @@ app.use(express.bodyParser({
     uploadDir : './uploads'
 }));
 app.use(express.methodOverride());
-app.use(express.cookieParser())
+app.use(express.cookieParser('rta'))
 app.use(express.session({
     secret : 'rta',
     store : store,
     cookie : {
-        maxAge : 90000000000
+        maxAge : 60*60*1000
     }
 }));
 app.use(log4js.connectLogger(logger, {
     level : log4js.levels.INFO
 }));
+
+app.use(function(request,response,next){
+    response.locals.user = request.session.user;
+    next();
+});
 
 //app.use(function(request,response,next){
 //    if(request.session.user){
@@ -63,10 +67,10 @@ app.use(log4js.connectLogger(logger, {
 //    }
 //    next();
 //});
-
-app.use(app.router);
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(app.router);
+
 
 
 
@@ -76,9 +80,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 //  app.use(express.errorHandler());
 //}
 
-index(app);
 wap(app);
 web(app);
+
+app.get('*',function(request,response){
+    response.send(404,'fuck not found');
+});
+
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

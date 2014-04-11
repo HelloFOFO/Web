@@ -27,7 +27,7 @@ exports.getProducts = function(request,response){
             var httpClient = new HttpClient({
                 'host':Config.inf.host,
                 'port':Config.inf.port,
-                'path':'/wap/product/webList/'+city,
+                'path':'/web/product/webList/'+city,
                 'method':"GET"
             });
             httpClient.getReq(function(err,res){

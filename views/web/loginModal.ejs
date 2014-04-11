@@ -1,0 +1,41 @@
+<!--登录弹出框-->
+<div class="modal fade loginModal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog homemodal-dialog">
+        <div class="modal-content">
+            <div class="modal-header homemodal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title homemodal-title" id="myModalLabel">登录<span class="green">万车游</span></h4>
+            </div>
+            <div class="modal-body homemodal-body">
+                <form role="form" id="form_login" method="post">
+                    <div class="form-group">
+                        <input type="phone" class="form-control text" id="l_mobile" name="mobile" placeholder="手机号">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control text" id="l_passwd" name="passwd" placeholder="密码">
+                    </div>
+                    <div class="form-group hidden" id="l_error">
+                        <label style="color: #ff0000" id="l_errorMsg">用户名或密码错误！</label>
+                    </div>
+                    <div class="checkbox">
+                        <div class="homemodal-fogetpw">
+                            <a href="#" data-toggle="modal" data-target=".findPWModal" data-dismiss="modal">忘记密码？</a>
+                        </div>
+                        <label>
+                            <input type="checkbox" id="l_autoLogin" name="autoLogin">自动登录
+                        </label>
+                    </div>
+
+                    <button type="submit" id="btn_login" class="btn btn-lg btn-block homemodal-submit" >登录</button>
+                </form>
+                <div class="homemodal-logindiv">还没有账号？
+                    <button type="button" class="btn bt" data-dismiss="modal" data-toggle="modal"
+                            data-target=".registerModal">注册
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

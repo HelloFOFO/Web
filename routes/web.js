@@ -2,14 +2,25 @@
  * Created by zzy on 3/26/14.
  */
 
-var HomePageAction = require('./../action/wap/HomePageAction');
+var HomePageAction = require('./../action/web/HomePageAction');
 var ProductPageAction = require('./../action/web/ProductPageAction');
 var NoticeAction = require('./../action/web/NoticeAction');
-var MemberPageAction = require('./../action/wap/MemberPageAction');
+var MemberAction = require('./../action/web/MemberAction');
+var OrderAction = require('./../action/web/OrderAction');
 module.exports = function(app){
-    app.all('/web/*',function(request,response,next){
+    app.post('/login',MemberAction.login);
+    app.all('/*',function(request,response,next){
         response.charset = 'utf-8';
-        next();
+        if(request.session.autoLogin&&!request.session.user&&request.cookies.m&&request.cookies.p){
+            console.log('---------------listen--------------------');
+            MemberAction.autoLogin(request,function(){
+                console.log(request.session.user);
+                console.log('---------------listen end--------------------');
+                next()
+            });
+        } else {
+            next();
+        }
     })
 
 //    app.get('/web/register',MemberPageAction.register);
@@ -23,12 +34,29 @@ module.exports = function(app){
 //        }
 //    })
 //    app.get('/web/',HomePageAction.getHomePage);
-    app.get('/web/products/:id',ProductPageAction.getProducts);
-    app.get('/web/productDetail/:id',ProductPageAction.getDetail);
-    app.get('/web/govNotice',NoticeAction.noticeList);
-    app.get('/web/noticeDetail/:id',NoticeAction.detail);
+
+    app.get('/',HomePageAction.home);
+    app.post('/register',MemberAction.register);
+    app.post('/forgetPasswd',MemberAction.forgetPasswd);
+    app.post('/logout',MemberAction.logout);
+    app.get('/aboutUs',function(request,response){
+        response.render('web/aboutUs');
+    });
+
+    app.get('/userInfo/:id',MemberAction.userInfo);
+
+    app.get('/myOrder/:id',MemberAction.userOrder);
+
+    app.get('/products/:id',ProductPageAction.getProducts);
+    app.get('/productDetail/:id',ProductPageAction.getDetail);
+    app.get('/govNotice',NoticeAction.noticeList);
+    app.get('/noticeDetail/:id',NoticeAction.detail);
+    app.post('/saveUserInfo',MemberAction.saveUserInfo);
+    app.post('/order',OrderAction.order);
+
 
     //ajax
+    app.get('/ajax/cityBox',HomePageAction.cityBox);
 //    app.get('/web/ajax/cityList',HomePageAction.cityList);
 //
 //    app.get('/web/ajax/hotProduct',HomePageAction.hotProduct);

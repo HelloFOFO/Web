@@ -1,0 +1,10 @@
+<%for(var i in cities){%>
+    <div class="citybox cityHot">
+    <div class="rightcity">
+    <%for(var j in cities[i]){%>
+    <a href="#<%=cities[i][j]._id%>"><%=cities[i][j].name%></a>
+    <%}%>
+    </div>
+    <div class="leftcity"><%=i%></div>
+    </div>
+<%}%>

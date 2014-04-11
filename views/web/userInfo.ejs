@@ -1,0 +1,146 @@
+<% include header %>
+<!--
+    mobile: {type: 'String', unique: true},                     //会员手机号
+    name: String,                                               //会员姓名
+    passwd: String,                                             //会员登录密码
+    email: String,                                              //会员邮箱
+    tel:String,                                                 //会员电话 仅供应商分销商使用
+    gender: String,                                             //会员性别
+    birthYear:String,                                           //出生年份 仅会员
+    favouriteCity:String,                                       //最近喜爱的目的地 仅会员
+    lastDestCity:String,                                        //最近一次出游的城市 仅会员
+    lisencePlate:String,                                        //车牌号 仅会员
+    intentCity:String,                                          //希望再次出游的城市 仅会员
+    idCard: String,                                             //会员身份证
+    postAddr: String,                                           //会员家庭住址 仅会员
+    signUpDate: { type: Number, default: Date.now },            //会员注册时间
+    provider: {type:Schema.Types.ObjectId,ref:'Ent'},           //供应商ID
+    operator: {type:Schema.Types.ObjectId,ref:'Member'},        //操作员
+    isEnable: Boolean                                           //会员状态
+-->
+<div class="container bs-wcy_citybox">
+    <div class="bs-wcy_govnoticetitle">个人信息</div>
+    <div class="bs-wcy_userinfo">
+        <form class="form-horizontal" role="form" method="post" action="/saveUserInfo">
+            <div class="form-group">
+                <label for="name" class="col-sm-4 control-label">姓名</label>
+
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="name" name="name" value="<%=u.name%>">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="city" class="col-sm-4 control-label">所在城市</label>
+
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="city" name="city">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="sex" class="col-sm-4 control-label">性别</label>
+
+                <div class="col-sm-8">
+                    <label class="radio-inline">
+                        <%if(u.gender=='M'){%>
+                        <input type="radio" name="gender" value="M" checked>男
+                        <%} else { %>
+                        <input type="radio" name="gender" value="M">男
+                        <%}%>
+                    </label>
+                    <label class="radio-inline radiopad">
+                        <%if(u.gender=='F'){%>
+                        <input type="radio" name="gender" value="F" checked>女
+                        <%} else { %>
+                        <input type="radio" name="gender" value="F">女
+                        <%}%>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="carnum" class="col-sm-4 control-label">车牌号</label>
+
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="lisencePlate" name="lisencePlate" value="<%=u.lisencePlate?u.lisencePlate:''%>">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="age" class="col-sm-4 control-label">年龄</label>
+
+                <div class="col-sm-8">
+                    <select class="form-control" name="birthYear">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="partner" class="col-sm-4 control-label">同行对象</label>
+
+                <div class="col-sm-8">
+                    <select class="form-control">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastpoint" class="col-sm-4 control-label">最近一次自驾游目的地</label>
+
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="lastDestCity" name="lastDestCity" value="<%=u.lastDestCity?u.lastDestCity:''%>">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lovepoint" class="col-sm-4 control-label">最喜欢的自驾游目的地</label>
+
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="favouriteCity" name="favouriteCity" value="<%=u.favouriteCity?u.favouriteCity:''%>">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lovepoint" class="col-sm-4 control-label newline">一年内自驾游去过并且<br>愿意再去的目的地</label>
+
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="intentCity" name="intentCity" value="<%=u.intentCity?u.intentCity:''%>">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <button type="submit" class="btn bs-wcy_userinfosubmit">保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<% include footer %>
+<script src="js/jquery-1.11.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#add").click(function () {
+            var n = $("#num").val();
+            var num = parseInt(n) + 1;
+            if (num == 0) {
+                alert("cc");
+            }
+            $("#num").val(num);
+        });
+
+        $("#sub").click(function () {
+            var n = $("#num").val();
+            var num = parseInt(n) - 1;
+            if (num == 0) {
+                alert("不能为0!");
+                return
+            }
+            $("#num").val(num);
+        });
+
+    });
+</script>

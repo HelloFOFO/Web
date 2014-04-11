@@ -1,0 +1,249 @@
+<% include header %>
+<!--
+relatedProductID: [                                                 //关联产品
+{
+'product': {'type':Schema.Types.ObjectId,'ref':'Product'},  //关联产品ID
+'day': Number,                                              //第几天
+'qty': Number                                               //数量
+}
+],
+name: {type: 'String', unique: true},                               //产品名称
+content: String,                                                    //产品内容
+intro: String,                                                      //产品简介
+image: [                                                            //产品图片
+{
+url: String,                                                //产品图片地址
+intro: String                                               //产品图片简介
+}
+],
+city: {'type':Schema.Types.ObjectId,'ref':'City'},                  //产品所在城市ID
+addr: String,                                                       //产品地址（文字)
+gps: {                                                              //产品地址(经纬度)
+lat: Number,                                                    //产品地址维度
+lon: Number                                                     //产品地址经度
+},
+level: Number,                                                      //产品级别
+openTime: String,                                                   //产品使用时间
+bookRule: String,                                                   //预定须知
+useRule: String,                                                    //使用须知
+cancelRule: String,                                                 //退改规则
+transportation: String,                                             //交通指南
+effectDate: Number,                                                 //有效期开始
+expiryDate: Number,                                                 //有效期结束
+isEnable: Boolean,                                                  //产品状态
+contactName: String,                                                //产品联系人
+tel: String,                                                        //产品联系电话
+fax: String,                                                        //产品联系传真
+type: Number,                                                       //产品大类 ticket:1,hotel:2,voture:3,package:4,ticketPackage:5
+subType: Number,                                                    //产品子类 PACKAGE 1 电子票 2 实体票
+status: {'type': Number, 'default': 1},                             //产品状态
+operator: {'type':Schema.Types.ObjectId,'ref':'Member'},            //操作员
+createTime: {type: Number, default: Date.now},                      //产品创建时间
+updateTime: Number,                                                 //产品修改时间
+isHot:Boolean                                                       //热门推荐
+-->
+
+<div class="bs-wcy_htbox container">
+    <div class="bs-wcy_htTitle">
+        <a href="#">首页</a> > <a href="/products/<%=product.city._id%>"><%=product.city.name%></a> > <%=product.name%>
+    </div>
+</div>
+<div class="bs-wcy_htBanbgcolor">
+    <div class="bs-wcy_htBanbg">
+        <!--大广告图切换位置-->
+        <div class="bs-wcy_htBanbox">
+            <!--大图列表-->
+            <div id="slider" class="nivoSlider">
+                <img src="/images/wcy_hotelbanner01.jpg" data-thumb="/images/wcy_hotelbanner01_90x60.jpg" alt="西湖"/>
+                <img src="/images/wcy_hotelbanner02.jpg" data-thumb="/images/wcy_hotelbanner02_90x60.jpg" alt="西湖"/>
+                <img src="/images/wcy_hotelbanner03.jpg" data-thumb="/images/wcy_hotelbanner03_90x60.jpg" alt="西湖"/>
+                <!--
+                <%for(var i=0;i<(product.image.length>3?3:product.image.length);i++){%>
+                <img src="http://dd885.b0.upaiyun.com/<%=product.image[i].url%>" data-thumb="/images/wcy_hotelbanner02_90x60.jpg" alt="<%=product.image[i].intro%>"/>
+                <%}%>
+
+                -->
+            </div>
+            <!--浮层日期信息-->
+            <div class="bs-wcy_htBanInfo">
+                <h1><%=product.name%></h1>
+
+                <form class="tab" role="form" method="post" id="form_order" action="/order">
+                    <div class="form-group">
+                        <label for="date" class="col-sm-4 control-label">入住日期</label>
+
+                        <div class="input-group date form_datetime col-md-8" data-date="1979-09-16T05:25:07Z"
+                             data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+                            <input class="form-control" size="16" type="text" value="2014-04-11" readonly name="startDate" >
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPrice" class="col-sm-4 control-label">价格</label>
+
+                        <div class="col-sm-8 price">￥<span>800</span>起</div>
+                    </div>
+                    <div class="form-group">
+                        <div class="btdiv">
+                            <input type="hidden" name="product" value="<%=product._id%>">
+                            <button type="submit" class="btn btn-block bs-wcy_htBanInfosubmit">立即购买</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 图片列表  -->
+<div class="bs-wcy_htbox container">
+    <div class="bs-wcy_htimglistbox">
+        <div class="bs-wcy_htimglisttitle"><img src="/images/wcy_hotelTictitle01.gif" alt="相关商品"></div>
+        <ul>
+            <li>
+                <a href="#"><img src="/images/wcy_img01.jpg" alt="西湖门票"></a>
+                <a href="#" class="cityinfo">
+                    <span class="price">￥<span class="pricebig">800</span>起</span>
+                    <span class="info">西湖门票+希尔顿高级客房1晚</span>
+                </a>
+            </li>
+            <li>
+                <a href="#"><img src="/images/wcy_img01.jpg" alt="西湖门票"></a>
+                <a href="#" class="cityinfo">
+                    <span class="price">￥<span class="pricebig">200</span>起</span>
+                    <span class="info">西湖门票+龙井门票联票</span>
+                </a>
+            </li>
+            <li>
+                <a href="#"><img src="/images/wcy_img01.jpg" alt="西湖门票"></a>
+                <a href="#" class="cityinfo">
+                    <span class="price">￥<span class="pricebig">100</span>起</span>
+                    <span class="info">龙井门票</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!--  产品信息 -->
+<div class="bs-wcy_htbox container">
+    <ul class="nav nav-tabs bs-wcy_htProNav">
+        <li class="active"><a href="#">产品简介</a></li>
+        <li><a href="#prodetail">产品详情</a></li>
+        <li><a href="#ydxz">预定须知</a></li>
+    </ul>
+    <div class="bs-wcy_htProbox">
+        <div class="title"><img src="/images/wcy_hotelTictitle02.gif" alt="产品简介"></div>
+        <div class="graybox">
+            <%-product.content.replace(/\n/g, '<br/>')%>
+        </div>
+        <div class="title" id="prodetail"><img src="/images/wcy_hotelTictitle03.gif" alt="产品详情"></div>
+        <div class="blackbox">
+            <p>产品名称：<%=product.name%></p>
+
+            <p>产品等级：<%=product.level%></p>
+
+            <p>产品地址：<%=product.addr%> <a href="#">地图</a></p>
+
+            <p>营业时间：<%=product.openTime%> </p>
+        </div>
+
+        <div class="graybox">
+            <img src="http://dd885.b0.upaiyun.com/<%=product.image[0].url%>" class="imgfloat">
+            <p><%-product.intro.replace(/\n/g, '<br/>')%></p>
+            <img src="http://dd885.b0.upaiyun.com/<%=product.image[1].url%>">
+        </div>
+        <!--
+        <div class="blackbox">
+            <p>景点名称：西湖
+
+            <p>景点等级：AAAAA级景区
+
+            <p>景点地址：浙江省杭州市西湖风景名胜区 <a href="#">地图</a>
+
+            <p>营业时间：7:00~18:00
+        </div>
+        <div class="graybox">
+            <img src="/images/wcy_hotelTicket03.jpg" class="imgfloat">
+
+            <p>宋代大文豪苏东坡曾写道：“天下西湖三十六，就中最好是杭州”。西湖拥有三面云山，一水抱城的自然风光，以“欲把西湖比西子，淡妆浓抹总相宜”的山水秀色，点缀杭州.</p>
+
+            <p>西湖旧称武林水、钱塘湖、西子湖，宋代始称西湖。西湖位于杭州城西，三面环山，东面濒临市区，是一个湖泊型的国家级风景名胜区。</p>
+        </div>
+        -->
+        <div class="title" id="ydxz"><img src="/images/wcy_hotelTictitle04.gif" alt="预定须知"></div>
+        <div class="YDlist">
+            <ul>
+                <li>
+                    <p class="black">预订规则</p>
+
+                    <p><%-product.bookRule.replace(/\n/g, '<br/>')%></p>
+                </li>
+                <li>
+                    <p class="black">使用规则</p>
+
+                    <p><%-product.useRule.replace(/\n/g, '<br/>')%></p>
+                </li>
+                <li>
+                    <p class="black">取消规则</p>
+
+                    <p><%-product.cancelRule.replace(/\n/g, '<br/>')%></p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<% include footer %>
+<script type="text/javascript" src="/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/js/jquery.nivo.slider.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#form_order').submit(function(event){
+            if($('#nav_logined').hasClass('hidden')){
+                event.preventDefault();
+                $('.loginModal').modal('show');
+            } else {
+            }
+
+        });
+
+        $('#slider').nivoSlider({
+            effect: 'fade', //Specify sets like: 'fold,fade,sliceDown'
+            slices: 15,
+            animSpeed: 200, //Slide transition speed
+            pauseTime: 3000,
+            startSlide: 0, //Set starting Slide (0 index)
+            directionNav: false, //Next & Prev
+            directionNavHide: true, //Only show on hover
+            controlNav: true, //1,2,3...
+            controlNavThumbs: true, //Use thumbnails for Control Nav
+            controlNavThumbsFromRel: true, //Use image rel for thumbs
+            controlNavThumbsSearch: '.jpg', //Replace this with...
+            controlNavThumbsReplace: '_thumb.jpg', //...this in thumb Image src
+            keyboardNav: true, //Use left & right arrows
+            pauseOnHover: true, //Stop animation while hovering
+            manualAdvance: false, //Force manual transitions
+            captionOpacity: 0.3, //Universal caption opacity
+            beforeChange: function () {
+            },
+            afterChange: function () {
+            },
+            slideshowEnd: function () {
+            } //Triggers after all slides have been shown
+        });
+
+        $('.form_datetime').datetimepicker({
+            language: 'zh-CN',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1
+        });
+    });
+
+
+</script>

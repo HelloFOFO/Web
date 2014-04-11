@@ -1,0 +1,88 @@
+<% include header %>
+<%console.log(price);%>
+<form name="form1" method="post" action="">
+    <div class="container bs-wcy-tickediv">
+        <div class="bs-wcy-tickettop">
+            <div class="proBar01">
+                <p class="info deepgreen">填写预订信息</p>
+
+                <p class="info">在线支付</p>
+
+                <p class="info">预定成功</p>
+            </div>
+        </div>
+        <div class="bs-wcy-tickeBox">
+            <div class="bs-wcy-tickeorderpad ticket">
+                <h3><%=product.name%></h3>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab">
+                    <tr>
+                        <td width="35%" height="80" align="left" valign="middle">有效期:<%=new Date(price.inventoryID.startDate).Format('yyyy-MM-dd')+'-'+new Date(price.inventoryID.endDate).Format('yyyy-MM-dd')%></td>
+                        <td width="43%" align="left" valign="middle">
+                            <input type="button" id="sub" value="" class="subbt">
+                            <input type="text" class="num" readonly id="num" value="1" >
+                            <input type="button" id="add" value="" class="addbt">
+                        </td>
+                        <td width="22%" align="left" valign="middle" class="bs-wcy_orange">
+                            <input type="hidden" id="perPrice" value="<%=price.price%>" class="addbt">
+                            <span class="price" id="totalPrice"><%=price.price%></span>元
+                        </td>
+                    </tr>
+                    <tr class="bs-wcy_gray">
+                        <td align="left" valign="top">
+                            <p>产品包含</p>
+                            <p><%-product.content.replace(/\n/g, '<br/>')%></p>
+                        </td>
+                        <td align="left" valign="top">
+                            <p>预订须知</p>
+
+                            <p><%-product.bookRule.replace(/\n/g, '<br/>')%></p>
+                        </td>
+                        <td align="left" valign="middle">&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="bs-wcy-tickeorderpad">
+                <h3>旅客信息</h3>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="guesttab">
+                    <tr>
+                        <td width="13%" height="30" align="left" valign="middle">使用人姓名</td>
+                        <td width="87%" align="left" valign="middle">
+                            <input type="text" name="textfield" id="textfield"></td>
+                    </tr>
+                    <tr>
+                        <td height="30" align="left" valign="middle">手机号</td>
+                        <td align="left" valign="middle"><input type="text" name="textfield2" id="textfield2"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <input name="Submit" type="submit" class="btn bs-ticketsubmit btn-lg" value="提交">
+    </div>
+</form>
+</div>
+<% include footer %>
+<script>
+    $(document).ready(function () {
+        var max = <%=price.inventoryID?price.inventoryID.inventory:price.inventory%>;
+        $("#add").click(function () {
+            var n = $("#num").val();
+            var num = parseInt(n) + 1;
+            if (num == 0 || num>max ||num>99) {
+                return
+            }
+            $('#totalPrice').text(parseInt($('#perPrice').val())*num);
+            $("#num").val(num);
+        });
+
+        $("#sub").click(function () {
+            var n = $("#num").val();
+            var num = parseInt(n) - 1;
+            if (num == 0) {
+                return
+            }
+            $('#totalPrice').text(parseInt($('#perPrice').val())*num);
+            $("#num").val(num);
+        });
+
+    });
+</script>

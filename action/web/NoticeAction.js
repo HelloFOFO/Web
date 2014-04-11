@@ -12,7 +12,6 @@ exports.noticeList = function(request,response){
         'method':"GET"
     });
     httpClient.getReq(function(err,res){
-        console.log(err,res.data);
         response.render('web/goverNotice',{'newses':res.data});
     });
 };
@@ -25,7 +24,6 @@ exports.detail = function(request,response){
         'method':"GET"
     });
     httpClient.getReq(function(err,res){
-        console.log(err,res.data);
         response.render('web/noticeDetail',{'news':res.data});
     });
 };

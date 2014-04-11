@@ -1,0 +1,60 @@
+<!--忘记密码弹出框-->
+<!-- /.modal -->
+<div class="modal fade findPWModal" id="" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog homemodal-dialog">
+        <div class="modal-content">
+            <div class="modal-header homemodal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title homemodal-title" id="myModalLabel">找回密码</h4>
+            </div>
+            <div class="modal-body homemodal-body">
+                <form role="form"  method="post" id="form_forget">
+                    <div class="form-group">
+                        <input type="phone" class="form-control text" id="f_mobile" name="mobile" placeholder="手机号">
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-8">
+                            <input type="phone" class="form-control text" id="f_code" name="code" placeholder="手机验证码">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="button" class="btn homemodal-codebt btn-block" id="pwfsyzm"
+                                   onclick="pwtimedCount()" value="发送验证码">
+
+                            <script type="text/javascript">
+                                var pwTime = 60;
+                                var pwc = pwTime;
+                                function pwtimedCount() {
+                                    document.getElementById('pwfsyzm').value = "请稍等(" + pwc + ")";
+                                    document.getElementById('pwfsyzm').disabled = "disabled";
+                                    pwc = pwc - 1;
+                                    pwt = setTimeout("timedCount()", 1000)
+                                    if (pwc < 0) {
+                                        pwc = Time;
+                                        stopCount();
+                                        document.getElementById('pwfsyzm').value = "再次发送校验码";
+                                        document.getElementById('pwfsyzm').removeAttribute("disabled");
+                                    }
+                                }
+                                function stopCount() {
+                                    clearTimeout(pwt);
+                                }
+                            </script>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control text" id="f_passwd" name="passwd" placeholder="密码">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control text" id="f_repasswd" name="repasswd" placeholder="确认密码">
+                    </div>
+                    <div class="form-group hidden" id="f_error">
+                        <label style="color: #ff0000" id="f_errorMsg"></label>
+                    </div>
+                    <button type="submit" class="btn btn-lg btn-block homemodal-submit">修改</button>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
