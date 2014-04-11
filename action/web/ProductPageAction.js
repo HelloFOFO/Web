@@ -99,7 +99,12 @@ exports.getDetail = function(request,response){
                     }
                 }
                 product.level=level;
-                response.render('web/packageDetail',{'product':product});
+                if(product.type==4){
+                    response.render('web/packageDetail',{'product':product});
+                } else {
+                    response.render('web/ticketDetail',{'product':product});
+                }
+
             } else {
                 response.send(404,'fuck 404');
             }
