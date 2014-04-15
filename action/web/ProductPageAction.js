@@ -102,7 +102,8 @@ exports.getDetail = function(request,response){
                 if(product.type==4){
                     response.render('web/packageDetail',{'product':product});
                 } else {
-                    response.render('web/ticketDetail',{'product':product});
+                    response.render('web/packageDetail',{'product':product});
+//                    response.render('web/ticketDetail',{'product':product});
                 }
 
             } else {

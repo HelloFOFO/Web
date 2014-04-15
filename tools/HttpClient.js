@@ -11,7 +11,7 @@ var HttpClient = function(options) {
 
 HttpClient.prototype.getReq = function(cb) {
 	var req = http.request(this.options, function(res) {
-		equal(200, res.statusCode);
+//		equal(200, res.statusCode);
 		res.setEncoding('utf8');
 		
 		var _data="";
