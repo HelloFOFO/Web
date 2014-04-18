@@ -1,0 +1,109 @@
+<%include header%>
+    <div id="wrap">
+     <div class="container bs-wcy_citybox">
+     		<div class="bs-wcy_govnoticetitle"><a class="rightlink" href="/orders">返回我的订单</a>订单详情</div>
+            <div class="bs-wcy_orderdetail">
+       		  <div class="OrdStatus"><h2>订单状态：<%=order.status%>
+                      <%if("未支付"===order.status){%>
+                      <a href="/web/reqTrade/<%=order._id%>/<%=order.oid%>" class="btn bs-paybutton">付款</a>
+                      <%}%></h2></div>
+              <div class="tabtop"><p>订单编号：<%=order.oid%></p><p>下单时间：<%=order.orderDate%></p></div>
+              <table class="table table-striped bs-wcy_orderdetailTab">
+                        <thead>
+                          <tr>
+                            <th width="32%" height="35">项目</th>
+                            <th width="30%">类型</th>
+                            <th width="13%">单价</th>
+                            <th width="12%">数量</th>
+                            <th width="13%">金额</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td height="40"><a href="#"><%=order.name%></a></td>
+                            <%if(4===order.pType){%>
+                              <td>使用日期：<%=order.date%></td>
+                            <%}else{%>
+                              <td>有效期：<%=order.date%></td>
+                            <%}%>
+                            <td>¥<%=order.totalPrice/order.quantity%></td>
+                            <td><%=order.quantity%></td>
+                            <td  class="bs-wcy_orange">¥<span class="pricebig"><%=order.totalPrice%></span></td>
+                          </tr>
+                        </tbody>
+                      </table>
+					 <div class="clientinfo">
+                    		<div class="halfbox">
+                                    <p>产品包含</p>
+                                    <p class="lightgray"><%-order.content.replace(/\n/g, '<br/>')%></p>
+                            </div>
+                      <div class="halfbox">
+                        <p>预订须知</p>
+                                <p class="lightgray">预订规则：</p>
+                                <p><%-order.bookRule.replace(/\n/g, '<br/>')%></p>
+                                <p class="lightgray">使用规则：</p>
+                                <p><%-order.useRule.replace(/\n/g, '<br/>')%></p>
+                                <p class="lightgray">取消规则：</p>
+                                <p><%-order.cancelRule.replace(/\n/g, '<br/>')%></p>
+                        </div>
+                    </div>
+              		<div class="clientinfo">
+                    		<p>姓名：<%=order.person%></p>
+                            <p>手机号：<%=order.mobile%></p>
+                    </div>
+                    <%if(order.type){%>
+              		<div class="clientinfo">
+                    		<p>发票类型：<%=order.type%></p>
+                            <p>发票抬头：<%=order.title%></p>
+                            <p>邮寄地址：<%=order.address%></p>
+                    </div>
+                    <%}%>
+                    <%if("已支付"===order.status){%>
+                    <div class="QRCodeTitle">电子票凭证</div>
+                    <div class="QRCodeDiv">
+                    	<div class="QRCode" id="qrCode"></div>
+                        <div class="QRCodePhone">
+                        <form action="" method="get">
+                        		<input  type="text" class="mobileNum"   placeholder="接收二维码凭证的手机号">
+                                <button type="button" class="btn btn-warning QRCodePhoneBt">发送至手机</button>
+                        </form>
+                        </div>
+                    </div>
+                <%}%>
+       </div>
+             
+     </div>
+     </div>
+<%include footer%>
+<script src="./../../js/jquery.qrcode.min.js"></script>
+<script>
+    //if need chinese use this function
+    function toUtf8(str) {
+        var out, i, len, c;
+        out = "";
+        len = str.length;
+        for(i = 0; i < len; i++) {
+            c = str.charCodeAt(i);
+            if ((c >= 0x0001) && (c <= 0x007F)) {
+                out += str.charAt(i);
+            } else if (c > 0x07FF) {
+                out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
+                out += String.fromCharCode(0x80 | ((c >>  6) & 0x3F));
+                out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));
+            } else {
+                out += String.fromCharCode(0xC0 | ((c >>  6) & 0x1F));
+                out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));
+            }
+        }
+        return out;
+    }
+
+    $(document).ready(function () {
+        $('#qrCode').qrcode({
+            render:"table",
+            width:177,
+            height:177,
+            text:'<%=order._id%>'
+        });
+    });
+</script>

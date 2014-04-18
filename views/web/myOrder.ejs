@@ -12,82 +12,22 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td height="55">西湖门票</td>
-            <td>2</td>
-            <td>¥160</td>
-            <td><span class="bs-wcy_orange">待付款</span></td>
-            <td><a href="#"><span class="bs-wcy_red">付款</span></a><a href="#"><span class="bs-wcy_green">查看详情</span></a>
-            </td>
-        </tr>
-        <tr>
-            <td height="55">西湖门票＋龙井门票联票</td>
-            <td>1</td>
-            <td>¥100</td>
-            <td><span class="bs-wcy_darkgreen">已预订</span></td>
-            <td><a href="#"><span class="bs-wcy_green">查看详情</span></a></td>
-        </tr>
-        <tr>
-            <td height="55">西湖门票＋希尔顿大床房1晚套票</td>
-            <td>1</td>
-            <td>¥800</td>
-            <td>交易成功</td>
-            <td><a href="#"><span class="bs-wcy_green">查看详情</span></a></td>
-        </tr>
-        <tr>
-            <td height="55">西湖门票＋希尔顿大床房1晚套票</td>
-            <td>1</td>
-            <td>¥800</td>
-            <td>交易成功</td>
-            <td><a href="#"><span class="bs-wcy_green">查看详情</span></a></td>
-        </tr>
-        <tr>
-            <td height="55">西湖门票＋希尔顿大床房1晚套票</td>
-            <td>1</td>
-            <td>¥800</td>
-            <td>交易成功</td>
-            <td><a href="#"><span class="bs-wcy_green">查看详情</span></a></td>
-        </tr>
-        <tr>
-            <td height="55">西湖门票＋希尔顿大床房1晚套票</td>
-            <td>1</td>
-            <td>¥800</td>
-            <td>交易成功</td>
-            <td><a href="#"><span class="bs-wcy_green">查看详情</span></a></td>
-        </tr>
-        <tr>
-            <td height="55">西湖门票＋希尔顿大床房1晚套票</td>
-            <td>1</td>
-            <td>¥800</td>
-            <td>交易成功</td>
-            <td><a href="#"><span class="bs-wcy_green">查看详情</span></a></td>
-        </tr>
-        <tr>
-            <td height="55">西湖门票＋希尔顿大床房1晚套票</td>
-            <td>1</td>
-            <td>¥800</td>
-            <td>交易成功</td>
-            <td><a href="#"><span class="bs-wcy_green">查看详情</span></a></td>
-        </tr>
-        <tr>
-            <td height="55">西湖门票＋希尔顿大床房1晚套票</td>
-            <td>1</td>
-            <td>¥800</td>
-            <td>交易成功</td>
-            <td><a href="#"><span class="bs-wcy_green">查看详情</span></a></td>
-        </tr>
-        <tr>
-            <td height="55">西湖门票＋希尔顿大床房1晚套票</td>
-            <td>1</td>
-            <td>¥800</td>
-            <td>交易成功</td>
-            <td><a href="#"><span class="bs-wcy_green">查看详情</span></a></td>
-        </tr>
+        <%console.log(orders.list.length);%>
+        <%orders.list.forEach(function(o){%>
+            <tr>
+                <td height="55"><%=o.name%></td>
+                <td><%=o.quantity%></td>
+                <td>¥<%=o.totalPrice%></td>
+                <td><span class="bs-wcy_orange"><%=o.status%></span></td>
+                <td>
+                    <%if('未支付'=== o.status){%>
+                    <a href="/web/reqTrade/<%=o._id%>/<%=o.oid%>"><span class="bs-wcy_red">付款</span></a>
+                    <%}%>
+                    <a href="/orderDetail/<%=o._id%>"><span class="bs-wcy_green">查看详情</span></a>
+                </td>
+            </tr>
+        <%});%>
         </tbody>
     </table>
-    <div class="bs-wcy_govnoticePage">
-        <div class="quotes"><span class="current">1</span><a href="#?page=2">2</a><a href="#?page=next">下一页</a><a
-                    href="#?page=end">尾页</a></div>
-    </div>
 </div>
 <% include footer %>

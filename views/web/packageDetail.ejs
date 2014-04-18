@@ -22,7 +22,7 @@
                 <div class="hotelname">
                     <h1><%=product.name%></h1>
                 </div>
-                <form class="formtab" >
+                <form class="formtab" name="form_order" action="/package/fill" method="POST">
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <td width="30%" height="50" align="left" valign="middle"><label>入住日期</label></td>
@@ -82,9 +82,9 @@
             <p>营业时间：<%=product.openTime%> </p>
         </div>
         <div class="graybox">
-            <img src="http://dd885.b0.upaiyun.com/<%=product.image[0].url%>" class="imgfloat">
+            <img src="http://dd885.b0.upaiyun.com/<%product.image[0]?product.image[0].url:""%>" class="imgfloat">
             <p><%-product.intro.replace(/\n/g, '<br/>')%></p>
-            <img src="http://dd885.b0.upaiyun.com/<%=product.image[1].url%>">
+            <img src="http://dd885.b0.upaiyun.com/<%product.image[1]?product.image[1].url:""%>">
         </div>
         <!--
         <div class="blackbox">
@@ -126,6 +126,16 @@
 <script src="/js/jquery.nivo.slider.js"></script>
 <script >
     $(document).ready(function () {
+        //submit
+        $('#form_order').submit(function(event){
+            if($('#nav_logined').hasClass('hidden')){
+                event.preventDefault();
+                $('.loginModal').modal('show');
+            } else {
+
+            }
+        });
+
         $('#cal').calender({
             'target':'packageDate',
             'data':{'2014-04-17':350,'2014-04-25':200,'2014-04-16':22}

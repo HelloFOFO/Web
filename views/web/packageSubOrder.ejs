@@ -1,0 +1,166 @@
+<%include header%>
+  <div id="wrap">
+      <form name="form1" id="form1" method="post" action="/package/submitOrder">
+     	<div class="container bs-wcy-tickediv">
+        		<div class="bs-wcy-tickettop">
+                		<div class="proBar01">
+                        		<p class="info deepgreen">填写预订信息</p>
+                                <p class="info">在线支付</p>
+                                <p class="info">预定成功</p>
+                        </div>
+                </div>
+          <div class="bs-wcy-tickeBox">
+       		<div class="bs-wcy-tickeorderpad ticket">
+                        		<h3><%=product.name%></h3>
+                        		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab">
+                                      <tr>
+                                        <td width="35%" height="80" align="left" valign="middle">使用日期：<%=product.time%></td>
+                                        <td width="43%" align="left" valign="middle">
+                                          <input type="button"  id="sub" value="" class="subbt">
+                                       	  <input type="text" class="num" id="num" name="num" value="1">
+                                          <input type="button"  id="add" value="" class="addbt">
+                                        </td>
+                                        <td width="22%" align="left" valign="middle" class="bs-wcy_orange">
+                                        	<span class="price" id="display"><%=product.price%></span>元
+                                        </td>
+                                  </tr>
+                                      <tr class="bs-wcy_gray">
+                                        <td align="left" valign="top">
+                                        	<p><%-product.content.replace(/\n/g, '<br/>')%></p>
+                                        </td>
+                                        <td align="left" valign="top">
+                                          	<p>预订须知</p>
+                                          	<p>预订规则：</p>
+                                            <p><%-product.bookRule.replace(/\n/g, '<br/>')%></p>
+                                          	<p>使用规则：</p>
+                                            <p><%-product.useRule.replace(/\n/g, '<br/>')%></p>
+                                          	<p>取消规则：</p>
+                                            <p><%-product.cancelRule.replace(/\n/g, '<br/>')%></p>
+                                         </td>
+                                        <td align="left" valign="middle">&nbsp;</td>
+                                  </tr>
+                          </table>
+                <!-- hidden fields -->
+                <input type="hidden" id="sp" value=<%=product.price%>/>
+                <input type="hidden" id="pName" name="pName" value="<%=product.name%>"/>
+                <input type="hidden" id="time" name="time" value="<%=product.time%>"/>
+                <input type="hidden" id="orderType" name="orderType" value="p"/>
+                <input type="hidden" id="pid" name="pid" value="<%=product.id%>"/>
+       		</div>
+            <div class="bs-wcy-tickeorderpad ticket">
+   		      <h3>旅客信息</h3>
+                         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="guesttab">
+                            <tr>
+                                <td width="13%" height="30" align="left" valign="middle">入住人姓名</td>
+                                <td width="87%" align="left" valign="middle">
+                                <input type="text" name="person" id="person"></td>
+                            </tr>
+                            <tr>
+                                <td height="30" align="left" valign="middle">手机号</td>
+                                <td align="left" valign="middle"><input type="text" name="mobile" id="mobile"></td>
+                            </tr>
+                        </table>
+                    </div>
+            <div class="bs-wcy-tickeorderpad">
+   		      <h3>发票信息</h3>
+                         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="guesttab">
+                                <tr>
+                                  <td width="13%" height="30" align="left" valign="middle">是否需要</td>
+                                  <td width="87%" align="left" valign="middle">
+                                  	<label class="radio-inline">
+                                              <input name="isNeed" type="radio" value="n" checked> 不需要
+                                    </label>
+                                    <label class="radio-inline">
+                                              <input type="radio" name="isNeed"value="y"> 需要
+                                    </label>
+                                  </td>
+                           </tr>
+                                      <tr>
+                                        <td height="30" align="left" valign="middle">发票类型</td>
+                                        <td align="left" valign="middle">
+                                  			<label class="radio-inline">
+                                              <input type="radio" name="invoiceType" value="p"  checked> 个人
+                                            </label>
+                                            <label class="radio-inline">
+                                              <input type="radio" name="invoiceType" value="e"> 公司
+                                            </label>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td height="30" align="left" valign="middle">发票抬头</td>
+                                        <td align="left" valign="middle"><input type="text" name="invoiceTitle" id="invoiceTitle"></td>
+                                      </tr>
+                                      <tr>
+                                        <td height="30" align="left" valign="middle">邮寄地址</td>
+                                        <td align="left" valign="middle"><input type="text" name="invoiceAdd" id="invoiceAdd"></td>
+                                      </tr>
+                        </table>
+                    </div>
+                </div>
+                <input type="submit" class="btn bs-ticketsubmit btn-lg" value="提交">
+    	 </div>
+       </form>
+ </div>
+<%include footer%>
+    <script src="./../../js/underscore.min.js"></script>
+    <script>
+	$(document).ready(function(){
+        var us = _.noConflict();
+        $("#add").click(function(){
+            var n=$("#num").val();
+            var num=parseInt(n)+1;
+            if(num==0){num = 1;}
+            $("#num").val(num);
+            $('#display').html(parseInt($('#sp').val())*num);
+            $('#total').val(parseInt($('#sp').val())*num);
+        });
+
+        $("#sub").click(function(){
+         var n=$("#num").val();
+          var num=parseInt(n)-1;
+           if(num==0){alert("不能为0!"); return;}
+            $("#num").val(num);
+            $('#display').html(parseInt($('#sp').val())*num);
+            $('#total').val(parseInt($('#sp').val())*num);
+        });
+
+       $('#num').keyup(function(){
+           var n = $('#num').val();
+           if(n<=0){
+               alert('数字不能小于等于0!');
+               $('#num').val(1);
+           }
+           $('#display').html(parseInt($('#sp').val())*$('#num').val());
+           $('#total').val(parseInt($('#sp').val())*$('#num').val());
+       });
+
+        //submit check
+        $('#form1').submit(function(e){
+//            e.preventDefault();
+            if(us.isEmpty($('#person').val())){
+                alert('入住人姓名不能为空!');
+                return false;
+            }
+            if(us.isEmpty($('#mobile').val())){
+                alert('手机号不能为空!');
+                return false;
+            }
+            if(!/^1\d{10}$/gi.test($('#mobile').val())){
+                alert('手机号码格式不正确!');
+                return false;
+            }
+            var isNeed = $("input[name='isNeed']:checked").val();
+            if("y"===isNeed){
+                if(us.isEmpty($('#invoiceTitle').val())){
+                    alert('发票抬头不能为空!');
+                    return false;
+                }
+                if(us.isEmpty($('#invoiceAdd').val())){
+                    alert('发票地址不能为空!');
+                    return false;
+                }
+            }
+            return true;
+        });
+	});
+	</script>

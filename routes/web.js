@@ -7,6 +7,7 @@ var ProductPageAction = require('./../action/web/ProductPageAction');
 var NoticeAction = require('./../action/web/NoticeAction');
 var MemberAction = require('./../action/web/MemberAction');
 var OrderAction = require('./../action/web/OrderAction');
+var AlipayWebAction = require('./../action/web/AlipayWebAction');
 module.exports = function(app){
     app.post('/login',MemberAction.login);
     app.all('/*',function(request,response,next){
@@ -44,16 +45,24 @@ module.exports = function(app){
     });
 
     app.get('/userInfo/:id',MemberAction.userInfo);
-
-    app.get('/myOrder/:id',MemberAction.userOrder);
-
     app.get('/products/:id',ProductPageAction.getProducts);
     app.get('/productDetail/:id',ProductPageAction.getDetail);
+    app.post('/package/fill',ProductPageAction.toPkgOrder);
+    app.post('/package/submitOrder',ProductPageAction.toConfirm);
+    app.post('/ticket/fill',ProductPageAction.toTktOrder);
+    app.post('/ticket/submitOrder',ProductPageAction.toConfirm);
+
     app.get('/govNotice',NoticeAction.noticeList);
     app.get('/noticeDetail/:id',NoticeAction.detail);
     app.post('/saveUserInfo',MemberAction.saveUserInfo);
-    app.post('/order',OrderAction.order);
+    app.get('/orders',OrderAction.orders);
+    app.get('/orderDetail/:id',OrderAction.detail);
 
+    //alipay for web
+    app.get('/web/reqTrade/:_id/:oid',AlipayWebAction.getReqTrade);
+    app.post('/web/reqTrade',AlipayWebAction.reqTrade);
+    app.post('/web/notify/:id',AlipayWebAction.notify);
+    app.get('/web/callback/:id',AlipayWebAction.callBack);
 
     //ajax
     app.get('/ajax/cityBox',HomePageAction.cityBox);

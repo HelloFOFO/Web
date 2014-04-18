@@ -1,0 +1,56 @@
+<%include header%>
+  <div id="wrap">
+      <form name="form1" method="post" action="/web/reqTrade">
+     	<div class="container bs-wcy-tickediv">
+        		<div class="bs-wcy-tickettop">
+                		<div class="proBar02">
+                        		<p class="info lightgreen">填写预订信息</p>
+                                <p class="info deepgreen">在线支付</p>
+                                <p class="info">预定成功</p>
+                        </div>
+                </div>
+          <div class="bs-wcy-tickeBox">
+       		<div class="bs-wcy-tickeorderpad ticket">
+                        		<h4>订单信息</h4>
+                        		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab">
+                                      <tr>
+                                        <td width="41%" height="60" align="left" valign="middle"><%=info.name%></td>
+                                        <%if("p"===info.orderType){%>
+                                            <td width="28%" align="left" valign="middle">使用日期：<%=info.time%></td>
+                                        <%}else{%>
+                                            <td width="28%" align="left" valign="middle">有效期：<%=info.time%></td>
+                                        <%}%>
+                                        <td width="15%" align="left" valign="middle"><%=info.num%>张</td>
+                                        <td width="16%" align="left" valign="middle" class="bs-wcy_orange">¥<span class="price"><%=info.total%></span></td>
+                                  </tr>
+                                      <tr>
+                                        <td height="60" align="left" valign="middle"><p>姓名：<%=info.person%></p>
+                                        <p>手机号：<%=info.mobile%></p>
+                                        <%if("y"===info.isNeed){%>
+                                            <p>&nbsp;</p>
+                                            <p>发票类型：<%"p"===info.invoiceType?"个人":"企业"%></p>
+                                            <p>发票抬头：<%=info.invoiceTitle%></p>
+                                            <p>邮寄地址：<%=info.invoiceAdd%></p>
+                                        <%}%>
+                                        </td>
+                                        <td align="left" valign="middle">&nbsp;</td>
+                                        <td align="left" valign="middle">&nbsp;</td>
+                                        <td align="left" valign="middle" class="bs-wcy_orange">&nbsp;</td>
+                                  </tr>
+                          </table>
+       		</div>
+            <div class="bs-wcy-tickeorderpad">
+   		      <h3>支付方式</h3>
+              <div class="bs-wcy-tickePayWay">
+              		<label  class="radio-inline"><input type="radio"  id="inlinepay" value="alipay" class="radio" checked><img src="/images/wcy_alipay.png" alt="支付宝"> </label>
+              </div>
+            </div>
+                </div>
+                <input type="submit" class="btn bs-ticketsubmit btn-lg" value="去付款">
+    	 </div>
+          <!-- hidden fields -->
+          <input type="hidden" name="oid" value="<%=info.oid%>"/>
+          <input type="hidden" name="_id" value="<%=info._id%>"/>
+       </form>
+ </div>
+<%include footer%>
