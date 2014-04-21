@@ -5,6 +5,7 @@
 var express = require('express');
 var wap = require('./routes/wap');
 var web = require('./routes/web');
+var weixin = require('./routes/weixin');
 var http = require('http');
 var path = require('path');
 var log4js = require('log4js');
@@ -82,6 +83,7 @@ app.use(app.router);
 
 wap(app);
 web(app);
+weixin(app);
 
 app.get('*',function(request,response){
     response.send(404,'fuck not found');
