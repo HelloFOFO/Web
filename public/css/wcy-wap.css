@@ -1,0 +1,145 @@
+@charset "UTF-8";
+/* CSS Document */
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,a,code,em,img,q,small,strong,dd,dl,dt,li,ol,ul,fieldset,form,label,tbody,tr,th,td,input {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-size: 12px;
+  font-family: "Microsoft Yahei", "微软雅黑", SimHei,Tahoma, Arial, Helvetica, STHeiti;
+  _font-family: Tahoma,Arial,Helvetica,STHeiti;
+  cursor: default;
+  color:#333333;
+  background:#ecf5f5;
+}
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+
+a img,
+:link img,
+:visited img {
+  border: 0;
+}
+table {
+  border-collapse: collapse;
+  word-wrap:break-word;
+}
+ul {
+  list-style: none;
+}
+
+a{color:#1abc89;  text-decoration:none;}
+a:visited {text-decoration: none;}
+a:hover{ color:#199b72; text-decoration:none;}
+a:active { text-decoration: none;}
+
+/* headnav */
+#wrap {
+  min-height: 100%;
+  height: auto;
+  /* Negative indent footer by its height */
+  margin: 0 auto -120px;
+  /* Pad bottom by footer height */
+  padding: 0 0 120px;
+}
+
+.head{ height:44px; background:#1abc89; line-height:44px; color:#FFF;}
+.head h1{ line-height:44px; color:#FFF; text-align:center; font-size:22px;  padding:0px 10px 0 10px;}
+.head a.leftlink{ float:left; display:block; width:20px; height:44px; font-size:18px; font-weight:lighter; color:#FFFFFF; background:url(../images/arrow01.png) no-repeat left center; background-size:18px 18px; }
+.head a.righthome{ float:right; display:block; width:20px; height:44px; font-size:18px; font-weight:lighter; color:#FFFFFF; background:url(../images/ico-headhome.png) no-repeat left center; background-size:18px 18px; }
+
+.col-xs-6{padding-right: 5px;padding-left: 5px;}
+
+.wap-green{color:#1abc89;}
+.wap-orange{color:#ff7212}
+
+/*listPro*/
+.listProCity{ margin:20px 10px 10px; color:#1abc89; clear:both; height:auto; overflow:hidden;}
+.listProCity h1{ float:left; font-size:22px; background:url(../images/wcy_titlelinebg.png) no-repeat right bottom; padding:2px 20px 2px 0; line-height:35px;}
+.listProBox{background:#FFFFFF; height:100px; margin:5px 0; position:relative;}
+.listProBox .imgbox{ background:#d9d9d9; height:100px; overflow:hidden;}
+.listProBox .imgbox img{ width:100%; height:100%;}
+.listProBox .probox{ position:absolute; bottom:0; height:30px; width:100%; background:url(../images/wcy_imggray.png);}
+.listProBox .hotelName{ float:left; font-size:14px; height:30px; line-height:30px; overflow:hidden; color:#fff;white-space:nowrap;  text-overflow:ellipsis; box-sizing:border-box; width:60%;}
+.listProBox .hotelName a{color:#fff; padding-left:5px;}
+.listProBox .hotelPrice{float:left;  font-size:12px; height:30px; line-height:30px; overflow:hidden; color:#ff7212; white-space:nowrap; text-overflow:ellipsis;box-sizing:border-box; width:40%; text-align:right;}
+.listProBox .hotelPrice span{ font-size:16px}
+.listProBox .hotelPrice a{color:#ff7212; padding-right:5px;}
+
+/*prodetail*/
+.wcy-prodetail{ background:#fff; margin-top:15px;}
+.wcy-Prodetailbox{ background:#fff; clear:both; font-size:14px; color:#818181; height:auto; overflow:hidden;}
+.wcy-Prodetailbox p{line-height:24px;}
+.wcy-Prodetailbox a{ color:#13d377;}
+.wcy-Prodetailbox .graybox, .wcy-Prodetailbox  .blackbox{ padding:5px 0px}
+.wcy-Prodetailbox .graybox p{  color:#818181; padding-bottom:5px;}
+.wcy-Prodetailbox .blackbox p{ color:#333333;}
+.wcy-Prodetailbox .black{color:#333333;}
+.wcy-Prodetailbox img{ max-height:200px; padding:10px 0;}
+
+/*about us*/
+.wcy-aboutUs{ color:#033333; font-size:14px; line-height:22px;}
+.wcy-aboutUs h4{ font-size:16px; color:#818181; padding-top:10px; line-height:30px;}
+
+/*login*/
+.wap-loginbox{ height:auto; overflow:hidden; padding:0px 0px 20px;}
+.wap-logincheck{ float:left; color:#aaaaaa; font-size:14px;}
+.wap-logincheck span{ padding:0 5px;}
+.wap-loginFogerPW{ float:right; color:#aaaaaa;  font-size:14px;}
+.wap-loginFogerPW a{ color:#aaaaaa;}
+
+/*forgetPw*/
+.wap-forgetPw{ padding:15px 0px;}
+.wap-forgetPw .Captcha{width:95%;}
+.wap-forgetPw .yzInput{ float:left; width:60%; box-sizing:border-box;}
+.wap-forgetPw .yzInputBt{  float:left; width:40%; box-sizing:border-box; }
+.wap-forgetPw .yzminfo{ color:#ef541e; clear:both; line-height:22px;}
+.wap-CaptchaBt{color: #ef541e; background-color: #ffe0cc; border-color: #ff7212; }
+.wap-CaptchaBt:hover, .wap-CaptchaBt, .wap-CaptchaBt:active, .wap-CaptchaBt.active {color: #ef541e; background-color:#ffede2; border-color: #ff7212;}
+.wap-CaptchaUnlinkBt{color: #818181; background-color: #e5e5e5; border-color: #c4c4c4; }
+.wap-submitBt{color: #fff; background-color: #ef541e; border: solid 1px #ef541e; *border:none; border-radius:0; font-size:16px;}
+.wap-submitBt:hover, .wap-submitBt:focus, .wap-submitBt:active, .wap-submitBt.active {color: #fff; background-color:#df4a16; border: solid 1px #d0410f; *border:none}
+.wap-already{ color:#aaaaaa; font-size:14px; line-height:20px;}
+
+/*orderdetail*/
+.wcy-orderdetail{ background:#fff; margin-top:15px;  border-top:#e6e6e6 solid 1px;  border-bottom:#e6e6e6 solid 1px; color:#333333; font-size:14px; padding:10px 0;}
+.wcy-orderdetail .list{ border-bottom:#e6e6e6 solid 1px; padding-top:10px; font-size:14px;}
+.wcy-orderdetail .listnoborder{ border:none; padding-top:10px; font-size:14px;}
+.wcy-orderdetailTitle{ padding:10px 0px 0; line-height:24px; font-size:14px; color:#818181;}
+
+/*hotelTicketPay*/
+.wcy-hotelTicketPay{ background:#fff; border-top:#e6e6e6 solid 1px;  border-bottom:#e6e6e6 solid 1px; color:#333333; font-size:14px; padding:10px 0;}
+.wcy-hotelTicketPay .infoTab td{border-bottom:#e6e6e6 solid 1px; padding:10px 0; font-size:14px;}
+.wcy-hotelTicketPay .infoTab .gray{ color:#818181}
+.wcy-hotelTicketPay .infoTab .tdend td{ border:none;}
+.wcy-hotelTicketPayTitle{ padding:15px 0px 10px; line-height:24px; font-size:14px; color:#818181;}
+.hotelTicketPayBox li{ border-bottom:#ccc solid 1px; font-size:18px;}
+.hotelTicketPayBox li:last-child{ border:none;}
+.hotelTicketPayBox li .checkbox, .radio { padding:0;}
+.hotelTicketPayBox li .radio .icon, .hotelTicketPayBox li .checkbox .icon {right: 10px;}
+.hotelTicketPayBox li .radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"] {float:none;margin-left: -20px;}
+.wcy-hotelTicketPayBt{ padding:20px 0;}
+
+/*noInvoice*/
+.wcy-hTNoInvoice{background:#fff; border-top:#e6e6e6 solid 1px;  border-bottom:#e6e6e6 solid 1px; color:#333333; font-size:14px; padding:10px 0;}
+.wcy-hTNoInvoice .infoTab td{border-bottom:#e6e6e6 solid 1px; padding:10px 0; font-size:14px;}
+.wcy-hTNoInvoice .infoTab .gray{ color:#818181}
+.wcy-f12{ font-size:12px;}
+.wcy-hTNoInvoice .infoTab .tdend td{ border:none;}
+.wcy-hTNoInvoiceTitle{ padding:15px 0px 10px; line-height:24px; font-size:12px; color:#818181;}
+.wcy-hTnumberbox{ width:120px;}
+
+/*footer*/
+.wcy-wapfooter{ height:auto; overflow:hidden; clear:both;}
+.footlogin{ padding:15px; height:auto; overflow:hidden; color:#1abc89; font-size:14px; text-align:right; line-height:20px;}
+.footlogin .navlist{ float:left; padding-right:10px; line-height:20px;}
+.footlogin .navlist li{ float:left; padding-right:10px;}
+.wcy-wap-footerwidth{ background:#1abc89; padding:10px 20px; text-align:center; line-height:25px;}
+.footerAbout{ color:#fff; height:auto; overflow:hidden;}
+.footerAbout div{ float:left; box-sizing:border-box; width:50%;}
+.footerAbout div a{ color:#fff; padding-right:10px;}
+.footerAbout div a:hover{ color:#dafff3;}
+.wcy-wap-footerwidth .Copyright{ color:#0d8f66;} 

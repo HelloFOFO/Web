@@ -33,3 +33,18 @@ exports.hotProduct = function(request,response){
         response.json(res);
     });
 };
+
+//go to login
+exports.toLogin =  function(request,response){
+    response.render('wap/login',{titleName:'登录'});
+}
+
+//go to register
+exports.register = function(request,response){
+    response.render('wap/register',{titleName:'注册'});
+};
+
+//go to aboutUs
+exports.aboutUs = function(request,response){
+    response.render('wap/aboutUs',{titleName:'关于我们'});
+}

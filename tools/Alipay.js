@@ -62,9 +62,15 @@ Alipay.bulidReqParam = function(arrays){
         key:"sign",
         value:Alipay.buildSign(str)
     });
-    newParam.push({
-        key:"sign_type",
-        value:config.alipay.sign_type
+    newParam.forEach(function(obj){
+        if("service"===obj.key){
+            if("alipay.wap.trade.create.direct"!==obj.value&&"alipay.wap.auth.authAndExecute"!==obj.value){
+                newParam.push({
+                    key:"sign_type",
+                    value:config.alipay.sign_type
+                });
+            }
+        }
     });
     return newParam;
 };
@@ -83,7 +89,7 @@ Alipay.buildSign = function(s){
 //授权请求
 //traderNo 订单号
 //subject 订单名称
-Alipay.wap.reqAuth = function(tradeNo,subject,total_fee){
+Alipay.wap.reqAuth = function(tradeNo,subject,total_fee,cb){
     var returnResult = "";
     var req_id = new Date().getTime();
     var req_dataToken = "<direct_trade_create_req><notify_url>" + config.alipay.notify_url
@@ -91,8 +97,8 @@ Alipay.wap.reqAuth = function(tradeNo,subject,total_fee){
         + "</call_back_url><seller_account_name>"
         + config.alipay.seller + "</seller_account_name><out_trade_no>"
         + tradeNo + "</out_trade_no><subject>" + subject
-        + "</subject><total_fee>" + total_fee + "</total_fee><merchant_url>"
-        + config.alipay.merchant_url + "</merchant_url></direct_trade_create_req>";
+        + "</subject><total_fee>" + total_fee + "</total_fee>"
+        + "</direct_trade_create_req>";
     var reqParams = [
         {
             key:"service",
@@ -121,17 +127,10 @@ Alipay.wap.reqAuth = function(tradeNo,subject,total_fee){
         }
     ];
     var newParams = Alipay.bulidReqParam(reqParams);
-    var isFirst = true;
-    var reqJson = "{";
+    var reqJson = {};
     newParams.forEach(function(param){
-        if(isFirst){
-            reqJson = reqJson + param.key + ":" + param.value;
-            isFirst = false;
-        }else{
-            reqJson = reqJson + "," + param.key + ":" + param.value;
-        }
+        reqJson[param.key] = param.value;
     });
-    reqJson = "}";
     var opt = {
         hostname:config.alipay.alipay_gateway,
         port:config.alipay.port,
@@ -139,26 +138,28 @@ Alipay.wap.reqAuth = function(tradeNo,subject,total_fee){
         method:"POST"
     };
     try{
-        new httpClient(opt).postReq(reqJson,function(err,res){
-            console.log("undecode==="+resParams);
-            var resParams = qs.unescape(res);
-            console.log("encode==="+resParams);
-            var resData = "";
-            //todo need param name is res_data
-            var parseString = require('xml2js').parseString;
-            parseString(resData, function (err, result) {
-                returnResult = result.direct_trade_create_res.request_token[0];
-            });
+        new httpClient(opt).alipayPost(reqJson,function(err,res){
+            if(err){
+                console.log('wap alipay auth error '+err);
+                cb(err, err);
+            }else{
+                var resData = qs.parse(qs.unescape(res));
+                var parseString = require('xml2js').parseString;
+                parseString(resData.res_data, function (err, result) {
+                    returnResult = result.direct_trade_create_res.request_token[0];
+                    cb(null,returnResult);
+                });
+            }
         });
     }catch(e){
         console.log(e.message);
+        cb(e, e.message);
     }
-    return returnResult;
+
 };
 
 //业务请求
 Alipay.wap.reqTrade = function(reqToken){
-    var req_id = new Date().getTime();
     var reqParams = [
         {
             key:"service",
@@ -179,15 +180,12 @@ Alipay.wap.reqTrade = function(reqToken){
             key:"v",
             value:config.alipay.v
         },{
-            key:"req_id",
-            value:req_id
-        },{
             key:"req_data",
             value:"<auth_and_execute_req><request_token>" + reqToken + "</request_token></auth_and_execute_req>"
         }
     ];
     var newParams = Alipay.bulidReqParam(reqParams);
-    var html = "<form id=\"alipaysubmit\" name=\"alipaysubmit\" action=\"" + config.alipay.alipay_gateway
+    var html = "<form id=\"alipaysubmit\" name=\"alipaysubmit\" action=\"https:\/\/" + config.alipay.alipay_gateway
         + config.alipay.path + "_input_charset=" + config.alipay.input_charset + "\" method=\"GET\">";
     newParams.forEach(function(obj){
         html += "<input type=\"hidden\" name=\"" + obj.key + "\" value=\"" + obj.value + "\"/>";
@@ -209,11 +207,11 @@ Alipay.wap.verify = function(arrays,sign){
     }
 }
 //wap 异步回调验证
-Alipay.wap.verify_notify = function(service,v,sec_id,notify_data,sign){
+Alipay.wap.verify_notify = function(service,v,sec_id,notify_data,sign,cb){
     var str = Alipay.wap.createRegularLinkString(service,v,sec_id,notify_data);
-    var bulidSign = Alipay.buildSign(str);
+    var bs = Alipay.buildSign(str);
     var isSign = false;
-    if(sign===buildSign){
+    if(sign===bs){
         isSign = true;
     }
     var verifyATN = false;
@@ -223,16 +221,16 @@ Alipay.wap.verify_notify = function(service,v,sec_id,notify_data,sign){
             var notifyId = result.notify.notify_id[0];
             Alipay.reqATN(notifyId,function(err,res){
                 verifyATN = res;
+                if(isSign&&verifyATN){
+                    cb(null, true);
+                }else{
+                    cb('error', 'verify is error');
+                }
             });
         });
-        if(isSign&&verifyATN){
-            return true;
-        }else{
-            return false;
-        }
     }catch(e){
         console.log("net work is wrong:" + e.message);
-        return false;
+        cb(e, e.message);
     }
 }
 

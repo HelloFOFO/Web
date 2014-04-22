@@ -1,30 +1,67 @@
-<!DOCTYPE html>
-<html lang="zh-cn">
-<head>
-    <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="万车游">
-    <meta name="author" content="万车游">
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <title>万车游</title>
-</head>
-<body>
-<div>
-    <form id="loginForm" action="/wap/doRegister" method="post">
-        <input type="text" name="mobile" />
-        <input type="password" id="passwd" name="passwd" />
-        <input type="password" id="repasswd" name="repasswd" />
-        <input type="submit" value="注册" />
-    </form>
-    <a href="/wap/">登录</a>
-</div>
-</body>
-</html>
-<script src="/js/jquery.min.js"></script>
+<%include header%>
+    <div class="container">
+        <form role="form" class="wap-forgetPw">
+            <div class="form-group">
+                <input type="mobile" class="form-control"  placeholder="手机号" id="telnum">
+                <div id="yzminfo" class="yzminfo"></div>
+            </div>
+            <div class="form-group">
+                <div class="yzInput"><input type="Captcha" class="form-control Captcha" id="Captcha" placeholder="手机验证码">&nbsp;</div>
+                <div class="yzInputBt"><input type="button" value="获取验证码" class="btn btn-block wap-CaptchaBt"   id="fsyzm"  onclick="getTelnum()"  ></div>
+                <script type="text/javascript">
+                    var Time=60;
+                    var c=Time;
+                    function timedCount(){
+                        document.getElementById('fsyzm').value="重新获取(" + c + ")";
+                        document.getElementById('fsyzm').disabled="disabled";
+                        document.getElementById('fsyzm').className = "btn btn-block wap-CaptchaUnlinkBt";
+                        c=c-1;
+                        t=setTimeout("timedCount()",1000)
+                        if(c<0){
+                            c=Time;
+                            stopCount();
+                            document.getElementById('fsyzm').value="重获验证码";
+                            document.getElementById('fsyzm').removeAttribute("disabled");
+                            document.getElementById('fsyzm').className = "btn btn-block wap-CaptchaBt";
+                        }
+                    }
+                    function stopCount(){
+                        clearTimeout(t);
+                    }
+                    function getTelnum(){
+                        var telnum=document.getElementById('telnum').value;
+                        if(telnum==null || telnum=="" ){
+                            /*alert("空");*/
+                            document.getElementById('yzminfo').innerHTML="请输入手机号";
+                            return;
+                        }else{
+                            var reg =/^((\+86)|(86))?(1)\d{10}$/;
+                            if(!telnum.match(reg))
+                            {
+                                document.getElementById('yzminfo').innerHTML="请输入正确有效的手机号码！";
+                                return false;
+                            }else{
+                                telnum.toString();
+                                var telnumpw=telnum.substring(0,3)+"****"+telnum.substring(7);
+                                document.getElementById('yzminfo').innerHTML="验证码短信已发送到(" + telnumpw + ")";
+                                timedCount();
+                            }
+                        }
+                    }
+                </script>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" id="password" placeholder="密码">
+            </div>
+            <div class="form-group">
+                <input type="confirmPW" class="form-control" id="confirmPW" placeholder="确认密码">
+            </div>
+            <button type="submit" class="btn wap-submitBt btn-block">注册</button>
+        </form>
+        <div class="wap-already">已是万车游会员？<a href="#">登录</a></div>
+    </div>
+<%include footer%>
 <script src="/js/md5.js"></script>
-<script src="/js/bootstrap.min.js"></script>
 <script>
     $(function () {
         $("#loginForm").submit(function(event){

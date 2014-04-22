@@ -140,13 +140,6 @@
             'target':'packageDate',
             'data':{'2014-04-17':350,'2014-04-25':200,'2014-04-16':22}
         });
-        $('#form_order').submit(function(event){
-            if($('#nav_logined').hasClass('hidden')){
-                event.preventDefault();
-                $('.loginModal').modal('show');
-            } else {
-            }
-        });
 
         $('#slider').nivoSlider({
             effect: 'fade', //Specify sets like: 'fold,fade,sliceDown'

@@ -4,10 +4,18 @@
 var alipay = require('./../../tools/Alipay.js');
 
 //请求交易
-exports.reqTrade = function(req,res){
+exports.getReqTrade = function(req,res){
     //todo 参数取值
-    var token = alipay.wap.reqAuth(tradeNo,subject,total_fee);
-    res.send(alipay.wap.reqTrade(token));
+    var tradeNo = 100038;
+    var subject = 'test';
+    var total_fee = "0.01";
+    alipay.wap.reqAuth(tradeNo,subject,total_fee,function(error,token){
+        if(""===token){
+            res.send(404,'token is null');
+        }else{
+            res.send(alipay.wap.reqTrade(token));
+        }
+    });
 }
 
 //同步回调
@@ -28,32 +36,36 @@ exports.callBack = function(req,res){
             value : req.query.trade_no
         },{
             key : "request_token",
-            value : request_token
+            value : req.query.request_token
         }
     ];
-    var result = alipay.verify(params,req.query.sign);
-    console.log(result);
+    var result = alipay.wap.verify(params,req.query.sign);
     if(result){
-
+        res.send('success');
     }else{
-
+        res.send('failed');
     }
 };
 
 //异步回调
 exports.notify = function(req,res){
-    var isPass = alipay.wap.verify_notify(req.query.service,req.query.v,req.query.sec_id,req.query.notify_data,req.query.sign);
-    var parseString = require('xml2js').parseString;
-    if(isPass){
-        var status = "";
-        parseString(req.query.notify_data, function (err, result) {
-            status = result.notify.trade_status[0];
-        });
-        if("TRADE_FINISHED"===status||"TRADE_SUCCESS"===status){
+    alipay.wap.verify_notify(req.body.service,req.body.v,req.body.sec_id,req.body.notify_data,req.body.sign,function(err,result){
+        var parseString = require('xml2js').parseString;
+        if(err){
+            res.send("fail"+err);
+        }else{
+            if(result){
+                var status = "";
+                parseString(req.body.notify_data, function (err, result) {
+                    status = result.notify.trade_status[0];
+                });
+                if("TRADE_FINISHED"===status||"TRADE_SUCCESS"===status){
 
+                }
+                res.send("success");
+            }else{
+                res.send("fail");
+            }
         }
-        res.send("success");
-    }else{
-        res.send("fail");
-    }
+    });
 }
