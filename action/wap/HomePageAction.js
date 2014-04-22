@@ -36,7 +36,11 @@ exports.hotProduct = function(request,response){
 
 //go to login
 exports.toLogin =  function(request,response){
-    response.render('wap/login',{titleName:'登录'});
+    if(request.session.user){
+       response.redirect('/wap/');
+    }else{
+        response.render('wap/login',{titleName:'登录'});
+    }
 }
 
 //go to register
@@ -47,4 +51,9 @@ exports.register = function(request,response){
 //go to aboutUs
 exports.aboutUs = function(request,response){
     response.render('wap/aboutUs',{titleName:'关于我们'});
+}
+
+//go to forget
+exports.forget = function(request,response){
+    response.render('wap/forgetPw',{titleName:'忘记密码'});
 }

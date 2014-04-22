@@ -8,10 +8,10 @@
             <input type="password" name="password" id="password" class="form-control" id="password" placeholder="密码">
         </div>
         <div class="form-group hidden" id="f_error">
-            <label style="color: #ff0000" id="f_errorMsg">用户名或密码错误！</label>
+            <label style="color: #ff0000" id="f_errorMsg"></label>
         </div>
         <div class="wap-loginbox">
-            <div class="wap-loginFogerPW"><a href="#">忘记密码？</a></div>
+            <div class="wap-loginFogerPW"><a href="/wap/forget">忘记密码？</a></div>
             <div class="wap-logincheck"><input type="checkbox" id="autoLogin" checked><span>自动登录</span></div>
         </div>
         <button type="submit" class="btn wap-submitBt btn-block" data-loading-text="登录中...请稍候" id="btnLogin">登录</button>
@@ -24,6 +24,7 @@
 <script>
     $(document).ready(function () {
         //init
+        $('#btnLogin').button("reset");
         $('#f_error').addClass('hidden');
         $('#f_errorMsg').text();
         var us = _.noConflict();
@@ -62,7 +63,7 @@
                 }
             }).done(function(data){
                 if(data=='success'){
-                    window.location.reload();
+                    document.location.href = '/wap/';
                 } else {
                     $('#f_error').removeClass('hidden');
                     $('#f_errorMsg').text('用户名或密码不正确!');

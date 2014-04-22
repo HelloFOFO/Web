@@ -1,0 +1,122 @@
+<%include header%>
+<div class="container">
+        <form role="form" class="wap-forgetPw" id="forgetForm">
+                  <div class="form-group">
+                         <input type="mobile" class="form-control"  placeholder="手机号" id="mobile">
+                         <div id="yzminfo" class="yzminfo"></div>
+                  </div>
+                  <div class="form-group  wap-clear">
+                                <div class="yzInput"><input type="Captcha" class="form-control Captcha" id="Captcha" placeholder="手机验证码">&nbsp;</div>
+                                <div class="yzInputBt"><input type="button" value="获取验证码" class="btn btn-block wap-CaptchaBt"   id="fsyzm"  onclick="getmobile()"  ></div>
+                                <script type="text/javascript">
+                                      var Time=60;
+                                      var c=Time;
+                                      function timedCount(){
+                                          document.getElementById('fsyzm').value="重新获取(" + c + ")";
+                                          document.getElementById('fsyzm').disabled="disabled";
+                                          document.getElementById('fsyzm').className = "btn btn-block wap-CaptchaUnlinkBt";
+                                          c=c-1;
+                                          t=setTimeout("timedCount()",1000)
+                                          if(c<0){
+                                              c=Time;
+                                              stopCount();
+                                              document.getElementById('fsyzm').value="重获验证码";
+                                              document.getElementById('fsyzm').removeAttribute("disabled");
+                                              document.getElementById('fsyzm').className = "btn btn-block wap-CaptchaBt";
+                                          }
+                                      }
+                                      function stopCount(){
+                                          clearTimeout(t);
+                                      }
+                                      function getmobile(){
+                                            var mobile=document.getElementById('mobile').value;
+                                            if(mobile==null || mobile=="" ){
+                                                /*alert("空");*/
+                                                 document.getElementById('yzminfo').innerHTML="请输入手机号";
+                                                 return;
+                                                }else{
+                                                var reg =/^((\+86)|(86))?(1)\d{10}$/;
+                                                 if(!mobile.match(reg))
+                                                     {
+                                                            document.getElementById('yzminfo').innerHTML="请输入正确有效的手机号码！";
+                                                            return false;
+                                                     }else{
+                                                    mobile.toString();
+                                                    var mobilepw=mobile.substring(0,3)+"****"+mobile.substring(7);
+                                                    document.getElementById('yzminfo').innerHTML="验证码短信已发送到(" + mobilepw + ")";
+                                                    timedCount();
+                                                        }
+                                                }
+                                          }
+                                  </script>
+                  </div>
+                  <div class="form-group  wap-clear">
+                         <input type="password" class="form-control" id="password" placeholder="新密码">
+                  </div>
+                  <div class="form-group">
+                         <input type="password" class="form-control" id="confirmPW" placeholder="确认密码">
+                  </div>
+                  <div class="form-group hidden" id="f_error">
+                         <label style="color: #ff0000" id="f_errorMsg"></label>
+                  </div>
+                  <button type="submit" class="btn wap-submitBt btn-block" data-loading-text="修改中...请稍候" id="btnForget">修改</button>
+        </form>
+</div>
+<%include footer%>
+<script src="./../js/md5.js"></script>
+<script src="./../js/underscore.min.js"></script>
+<script>
+    $(document).ready(function (){
+        //init
+        $('#btnForget').button("reset");
+        $('#f_error').addClass('hidden');
+        $('#f_errorMsg').text();
+        var us = _.noConflict();
+        $('#forgetForm').submit(function(e){
+            e.preventDefault();
+            if(us.isEmpty($('#mobile').val())){
+                $('#f_error').removeClass('hidden');
+                $('#f_errorMsg').text('手机号不能为空!');
+                return false;
+            }
+            if(us.isEmpty($('#Captcha').val())){
+                $('#f_error').removeClass('hidden');
+                $('#f_errorMsg').text('验证码不能为空!');
+                return false;
+            }
+            if(us.isEmpty($('#password').val())){
+                $('#f_error').removeClass('hidden');
+                $('#f_errorMsg').text('新密码不能为空!');
+                return false;
+            }
+            if(us.isEmpty($('#confirmPW').val())){
+                $('#f_error').removeClass('hidden');
+                $('#f_errorMsg').text('确认密码不能为空!');
+                return false;
+            }
+            if($('#password').val()!==$('#confirmPW').val()){
+                $('#f_error').removeClass('hidden');
+                $('#f_errorMsg').text('新密码和确认密码不一致!');
+                return false;
+            }
+            $('#btnForget').button("loading");
+            $.ajax({
+                'url':'/wap/doForget',
+                'type':'post',
+                'data':{
+                    'mobile':$('#mobile').val(),
+                    'passwd':faultylabs.MD5($('#password').val()).toLowerCase(),
+                    'code':$('#Captcha').val()
+                }
+            }).done(function(data){
+                        if(data=='success'){
+                            document.location.href = '/wap/';
+                        } else {
+                            $('#f_error').removeClass('hidden');
+                            $('#f_errorMsg').text(data);
+                        }
+                        $('#btnForget').button("reset");
+            });
+        });
+    });
+</script>

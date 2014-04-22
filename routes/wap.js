@@ -9,7 +9,16 @@ var AlipayWapAction = require('./../action/wap/AlipayWapAction');
 module.exports = function(app){
     app.all('/wap/*',function(request,response,next){
         response.charset = 'utf-8';
-        next();
+        if(request.session.autoLogin&&!request.session.user&&request.cookies.m&&request.cookies.p){
+            console.log('---------------autoLogin--------------------');
+            MemberPageAction.autoLogin(request,function(){
+                console.log(request.session.user);
+                console.log('---------------autoLogin end--------------------');
+                next()
+            });
+        } else {
+            next();
+        }
     })
 //    app.all('/wap/*',function(request,response,next){
 //        if(request.session.user==null){
@@ -18,15 +27,16 @@ module.exports = function(app){
 //            next();
 //        }
 //    });
-
+    //home go
     app.get('/wap/',HomePageAction.getHomePage);
     app.all('/wap/login',HomePageAction.toLogin);
     app.get('/wap/about',HomePageAction.aboutUs);
-
-    //member
     app.get('/wap/register',HomePageAction.register);
-    app.all('/wap/doLogin',MemberPageAction.login);
+    app.get('/wap/forget',HomePageAction.forget);
+    //member
+    app.all('/wap/doLogin',MemberPageAction.doLogin);
     app.post('/wap/doRegister',MemberPageAction.doRegister);
+    app.post('/wap/doForget',MemberPageAction.forgetPasswd);
 
     app.get('/wap/products/:id',ProductPageAction.getProducts);
     app.get('/wap/productDetail/:id',ProductPageAction.getDetail);

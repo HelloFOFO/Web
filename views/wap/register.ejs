@@ -1,13 +1,13 @@
 <%include header%>
     <div class="container">
-        <form role="form" class="wap-forgetPw">
+        <form role="form" class="wap-forgetPw" id="registerForm">
             <div class="form-group">
-                <input type="mobile" class="form-control"  placeholder="手机号" id="telnum">
+                <input type="mobile" class="form-control"  placeholder="手机号" id="mobile">
                 <div id="yzminfo" class="yzminfo"></div>
             </div>
-            <div class="form-group">
+            <div class="form-group wap-clear">
                 <div class="yzInput"><input type="Captcha" class="form-control Captcha" id="Captcha" placeholder="手机验证码">&nbsp;</div>
-                <div class="yzInputBt"><input type="button" value="获取验证码" class="btn btn-block wap-CaptchaBt"   id="fsyzm"  onclick="getTelnum()"  ></div>
+                <div class="yzInputBt"><input type="button" value="获取验证码" class="btn btn-block wap-CaptchaBt"   id="fsyzm"  onclick="getmobile()"  ></div>
                 <script type="text/javascript">
                     var Time=60;
                     var c=Time;
@@ -28,49 +28,96 @@
                     function stopCount(){
                         clearTimeout(t);
                     }
-                    function getTelnum(){
-                        var telnum=document.getElementById('telnum').value;
-                        if(telnum==null || telnum=="" ){
+                    function getmobile(){
+                        var mobile=document.getElementById('mobile').value;
+                        if(mobile==null || mobile=="" ){
                             /*alert("空");*/
                             document.getElementById('yzminfo').innerHTML="请输入手机号";
                             return;
                         }else{
                             var reg =/^((\+86)|(86))?(1)\d{10}$/;
-                            if(!telnum.match(reg))
+                            if(!mobile.match(reg))
                             {
                                 document.getElementById('yzminfo').innerHTML="请输入正确有效的手机号码！";
                                 return false;
                             }else{
-                                telnum.toString();
-                                var telnumpw=telnum.substring(0,3)+"****"+telnum.substring(7);
-                                document.getElementById('yzminfo').innerHTML="验证码短信已发送到(" + telnumpw + ")";
+                                mobile.toString();
+                                var mobilepw=mobile.substring(0,3)+"****"+mobile.substring(7);
+                                document.getElementById('yzminfo').innerHTML="验证码短信已发送到(" + mobilepw + ")";
                                 timedCount();
                             }
                         }
                     }
                 </script>
             </div>
-            <div class="form-group">
+            <div class="form-group wap-clear">
                 <input type="password" class="form-control" id="password" placeholder="密码">
             </div>
             <div class="form-group">
-                <input type="confirmPW" class="form-control" id="confirmPW" placeholder="确认密码">
+                <input type="password" class="form-control" id="confirmPW" placeholder="确认密码">
             </div>
-            <button type="submit" class="btn wap-submitBt btn-block">注册</button>
+            <div class="form-group hidden" id="f_error">
+                <label style="color: #ff0000" id="f_errorMsg"></label>
+            </div>
+            <button type="submit" class="btn wap-submitBt btn-block" id="btnRegister" data-loading-text="注册中...请稍候" >注册</button>
         </form>
-        <div class="wap-already">已是万车游会员？<a href="#">登录</a></div>
+        <div class="wap-already">已是万车游会员？<a href="/wap/login">登录</a></div>
     </div>
 <%include footer%>
 <script src="/js/md5.js"></script>
+<script src="./../js/underscore.min.js"></script>
 <script>
     $(function () {
-        $("#loginForm").submit(function(event){
-            if($('#passwd').val()!=$('#repasswd').val()){
-                event.preventDefault();
-            } else {
-                $('#passwd').val(faultylabs.MD5($('#passwd').val()).toLowerCase());
-                $('#repasswd').val(faultylabs.MD5($('#repasswd').val()).toLowerCase());
+        //init
+        $('#btnRegister').button("reset");
+        $('#f_error').addClass('hidden');
+        $('#f_errorMsg').text();
+        var us = _.noConflict();
+        $("#registerForm").submit(function(event){
+            event.preventDefault();
+            if(us.isEmpty($('#mobile').val())){
+                $('#f_error').removeClass('hidden');
+                $('#f_errorMsg').text('手机号不能为空!');
+                return false;
             }
+            if(us.isEmpty($('#Captcha').val())){
+                $('#f_error').removeClass('hidden');
+                $('#f_errorMsg').text('验证码不能为空!');
+                return false;
+            }
+            if(us.isEmpty($('#password').val())){
+                $('#f_error').removeClass('hidden');
+                $('#f_errorMsg').text('新密码不能为空!');
+                return false;
+            }
+            if(us.isEmpty($('#confirmPW').val())){
+                $('#f_error').removeClass('hidden');
+                $('#f_errorMsg').text('确认密码不能为空!');
+                return false;
+            }
+            if($('#password').val()!==$('#confirmPW').val()){
+                $('#f_error').removeClass('hidden');
+                $('#f_errorMsg').text('新密码和确认密码不一致!');
+                return false;
+            }
+            $('#btnRegister').button("loading");
+            $.ajax({
+                'url':'/wap/doRegister',
+                'type':'post',
+                'data':{
+                    'mobile':$('#mobile').val(),
+                    'passwd':faultylabs.MD5($('#password').val()).toLowerCase(),
+                    'code':$('#Captcha').val()
+                }
+            }).done(function(data){
+                        if(data=='success'){
+                            document.location.href = '/wap/';
+                        } else {
+                            $('#f_error').removeClass('hidden');
+                            $('#f_errorMsg').text(data);
+                        }
+                        $('#btnRegister').button("reset");
+            });
         });
     });
 </script>

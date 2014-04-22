@@ -130,6 +130,7 @@ exports.forgetPasswd = function(request,response){
             if(res.error==0){
                 request.session.user=res.data;
                 request.session.autoLogin = true;
+                response.cookie('p',passwd,{'maxAge':7*24*3600*1000});
                 response.send('success');
             } else {
                 response.send(res.errorMsg);

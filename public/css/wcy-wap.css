@@ -55,6 +55,7 @@ a:active { text-decoration: none;}
 
 .wap-green{color:#1abc89;}
 .wap-orange{color:#ff7212}
+.wap-clear{clear:both;}
 
 /*listPro*/
 .listProCity{ margin:20px 10px 10px; color:#1abc89; clear:both; height:auto; overflow:hidden;}

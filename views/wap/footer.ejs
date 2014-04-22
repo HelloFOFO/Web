@@ -1,15 +1,26 @@
 </div>
 <div id="footer" class="wcy-wapfooter">
+    <%if(!user){%>
     <div class="footlogin">
         <ul class="navlist">
-            <li><a href="#">登录</a></li>
-            <li><a href="#">注册</a></li>
+            <li><a href="/wap/login">登录</a></li>
+            <li><a href="/wap/register">注册</a></li>
         </ul>
         完善信息，享自驾游专享价！
     </div>
+    <%}else{%>
+    <div class="footlogin">
+        <ul class="navlist">
+            <li>您好，<%=user.name%></li>
+            <li><a href="#">我的订单</a></li>
+            <li><a href="#">个人信息</a></li>
+        </ul>
+        完善信息，享自驾游专享价！
+    </div>
+    <%}%>
     <div class="wcy-wap-footerwidth">
         <div class="footerAbout">
-            <div><a href="#">关于万车游</a></div>
+            <div><a href="/wap/about">关于万车游</a></div>
             <div>客服电话 400-888-8888</div>
         </div>
         <p class="Copyright">©2014 万车游 沪ICP备08026014号 </p>

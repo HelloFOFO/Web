@@ -4,7 +4,7 @@
 var HttpClient = require('./../../tools/HttpClient.js');
 var Config = require('./../../tools/Config');
 
-exports.login = function(request,response){
+exports.doLogin = function(request,response){
     var mobile = request.body.mobile?request.body.mobile:request.cookies.m;
     var passwd = request.body.password?request.body.password:request.cookies.p;
     var autoLogin = request.body.autoLogin==='true';
@@ -24,7 +24,9 @@ exports.login = function(request,response){
         } else {
             if(res.data){
                 request.session.user=res.data;
-                request.session.autoLogin = true;
+                if(autoLogin){
+                    request.session.autoLogin = true;
+                }
                 response.send('success');
             } else {
                 response.send('failed');
@@ -34,6 +36,22 @@ exports.login = function(request,response){
     });
 };
 
+exports.autoLogin = function(request,fn){
+    var mobile = request.cookies.m;
+    var passwd = request.cookies.p;
+    var httpClient = new HttpClient({
+        'host':Config.inf.host,
+        'port':Config.inf.port,
+        'path':'/member/login',
+        'method':"POST"
+    });
+    httpClient.postReq({'mobile':mobile,'passwd':passwd},function(err,res){
+        if(!err){
+            request.session.user=res.data;
+        }
+        fn();
+    });
+};
 
 exports.doRegister = function(request,response){
     var mobile =request.body.mobile;
@@ -45,12 +63,47 @@ exports.doRegister = function(request,response){
         'method':"POST"
     });
     httpClient.postReq({'mobile':mobile,'passwd':passwd},function(err,res){
-        console.log(err,res);
         if(!err){
-            if(res.data!=null){
+            if(0===res.error){
                 request.session.user = res.data;
+                request.session.autoLogin = true;
+                response.cookie('m',mobile,{'maxAge':7*24*3600*1000});
+                response.cookie('p',passwd,{'maxAge':7*24*3600*1000});
+                response.send('success');
+            }else{
+                response.send(res.errMsg);
+            }
+        }else{
+            response.send('系统异常，请重试!');
+        }
+    });
+};
+
+//forget
+exports.forgetPasswd = function(request,response){
+    var mobile = request.body.mobile;
+    var passwd = request.body.passwd;
+    var code = request.body.code;
+    console.log(mobile,passwd,code);
+    var httpClient = new HttpClient({
+        'host':Config.inf.host,
+        'port':Config.inf.port,
+        'path':'/member/password/change',
+        'method':"POST"
+    });
+    httpClient.postReq({'mobile':mobile,'passwd':passwd},function(err,res){
+        if(err){
+            response.send('系统异常，请重试!');
+        } else {
+            if(res.error==0){
+                request.session.user=res.data;
+                request.session.autoLogin = true;
+                response.cookie('m',mobile,{'maxAge':7*24*3600*1000});
+                response.cookie('p',passwd,{'maxAge':7*24*3600*1000});
+                response.send('success');
+            } else {
+                response.send(res.errMsg);
             }
         }
-        response.redirect('/wap/');
     });
 };
