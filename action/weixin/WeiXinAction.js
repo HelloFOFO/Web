@@ -11,7 +11,7 @@ exports.verify = function(req,res){
         if(null==echostr){
 
         }else{
-            res.seend(echostr);
+            res.send(echostr);
         }
     }else{
         res.send('error');
