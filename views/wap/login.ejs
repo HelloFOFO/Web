@@ -58,7 +58,7 @@
                 'type':'post',
                 'data':{
                     'mobile':$('#mobile').val(),
-                    'passwd':faultylabs.MD5($('#mobile').val()).toLowerCase(),
+                    'passwd':faultylabs.MD5($('#password').val()).toLowerCase(),
                     'autoLogin':$('#autoLogin').prop('checked')
                 }
             }).done(function(data){

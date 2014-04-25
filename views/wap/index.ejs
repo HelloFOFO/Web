@@ -1,41 +1,12 @@
 <%include header%>
 <div>
-    <input type="hidden" id="city" name="city" value="<%= city._id %>"/>
-    <form id="productsForm" method="get">
-        <input type="submit" />
-    </form>
-    <label><%= city.name %></label>
-
-    <% for(var i in city.images){ %>
-    <img src="<%= city.images[i].url %>" alt="<%= city.images[i].intro %>">
-    <% } %>
-</div>
-<div>
-    <ul>
-    </ul>
+<%console.log(city);%>
+    <% city.热门.forEach(function(o){%>
+    <label><a href="/wap/products/<%=o._id%>"><%=o.name%></a></label>
+    <%}); %>
 </div>
 <%include footer%>
 <script>
-    $(function () {
-        $('#productsForm').submit(function(){
-            this.action = '/wap/products/'+$('#city').val();
-        });
-        $.ajax({
-            'url': '/wap/ajax/cityList',
-            'data': {'key': 's'},
-            'type': 'GET'
-        })
-        .done(function (data) {
-            console.log(data);
-        });
-
-        $.ajax({
-            'url': '/wap/ajax/hotProduct',
-            'data':{'city':$('#city').val()},
-            'type': 'GET'
-        })
-        .done(function (data) {
-            console.log(data);
-        });
+    $(document).ready(function () {
     });
 </script>

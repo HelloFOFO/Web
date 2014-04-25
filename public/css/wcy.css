@@ -251,11 +251,12 @@ body {
 .table-calendar td{ text-align:center; padding:5px 2px; width: 34px; height: 34px; border: none; vertical-align:top; }
 .table-calendar td span{font-size:12px;}
 .table-calendar td.onday span{ color:#ff9955}
+.table-calendar tr td.disabledday { color:#cccccc}
 .table-calendar .arrow-left{display: inline-block; width: 16px; height: 16px; margin-top: 1px; line-height: 16px; vertical-align: text-top; background-image:url(../images/wcy_calendarArrow.png); background-position: 0px 0px; background-repeat: no-repeat; cursor: pointer;}
 .table-calendar .arrow-right{display: inline-block; width: 16px; height: 16px; margin-top: 1px; line-height: 16px; vertical-align: text-top; background-image:url(../images/wcy_calendarArrow.png); background-position: 0px -34px; background-repeat: no-repeat; cursor: pointer;}
 .table-calendar tr td i{ font-style:normal;}
 .table-calendar tr td.day{ cursor:pointer;}
-.table-calendar tr td.old, .table-calendar tr td.today, .table-calendar tr td.new {color: #999999;}
+.table-calendar tr td.old, .table-calendar tr td.today, .table-calendar tr td.new {color: #ff0000;}
 .table-calendar tr td.active{ background:#1abc89; color:#fff;}
 .table-calendar tr td.active span{color:#fff;}
 .bs-wcy_htBanInfo .formtab .price{ color:#ff7212; font-size:14px;}

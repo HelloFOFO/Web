@@ -101,7 +101,35 @@ exports.getDetail = function(request,response){
                 product.level=level;
                 if(product.type==4){
                     //get price list
-                    response.render('web/packageDetail',{'product':product});
+                    //get server now time
+                    var now = new Date();
+                    var sd = now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDate()+timeZone;
+                    now.setMonth(now.getMonth()+3);
+                    var ed = now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDate()+timeZone;
+                    var opt = {
+                        'host':Config.inf.host,
+                        'port':Config.inf.port,
+                        'path':'/product/package/price/list/'+ product._id + '?effectDate='+new Date(sd).getTime() + '&expiryDate='+new Date(ed).getTime(),
+                        'method':"GET"
+                    };
+                    var hc = new HttpClient(opt);
+                    hc.getReq(function(e,r){
+                        if(e){
+                            response.send(404,e);
+                        }else{
+                            if(0===r.error){
+                                var prices = {};
+                                r.data.forEach(function(p){
+                                    var now = new Date(p.date).Format("yyyy-MM-dd");
+                                    prices[now] = p.packagePrice;
+                                });
+                                product.prices = JSON.stringify(prices);
+                                response.render('web/packageDetail',{'product':product});
+                            }else{
+                                response.send(404,r.errorMsg);
+                            }
+                        }
+                    });
                 } else {
                     //get price log list
                     var hc = new HttpClient({
@@ -118,10 +146,8 @@ exports.getDetail = function(request,response){
                                 var pls = [];
                                 r.data.forEach(function(obj){
                                     var pl = {};
-                                    var time = new Date(obj.startDate);
-                                    var sd = time.getFullYear()+"-"+(time.getMonth()+1)+"-"+time.getDate();
-                                    time = new Date(obj.endDate);
-                                    var ed = time.getFullYear()+"-"+(time.getMonth()+1)+"-"+time.getDate();
+                                    var sd = new Date(obj.startDate).Format("yyyy-MM-dd");
+                                    var ed = new Date(obj.endDate).Format("yyyy-MM-dd");
                                     pl.name = sd + '~' + ed;
                                     pl._id = obj._id;
                                     pl.price = obj.price;
@@ -131,13 +157,13 @@ exports.getDetail = function(request,response){
                                 product.pls = pls;
                                 response.render('web/ticketDetail',{'product':product});
                             }else{
-                                response.send(404, r.errMsg);
+                                response.send(404, r.errorMsg);
                             }
                         }
                     });
                 }
             } else {
-                response.send(404,'fuck 404');
+                response.send(404,res.errorMsg);
             }
         }
     });
@@ -159,8 +185,8 @@ exports.getPrices = function(productId,path,cb){
 //go to fill package order
 exports.toPkgOrder = function(request,response){
     //todo get calendar time and get price
-    var time = "2014-04-18";
-    var price = 200;
+    var time = request.body.selDate;
+    var price = request.body.price;
     var id = request.body.product;
     var httpClient = new HttpClient({
         'host':Config.inf.host,
@@ -194,7 +220,7 @@ exports.toPkgOrder = function(request,response){
 exports.toConfirm = function(request,response){
     var data = {};
     var flag = true;
-    var errMsg = "";
+    var errorMsg = "";
     var id = "";
     data.source = "534de2e3309199c11f233cf4";
     data.payWay = "1";
@@ -202,13 +228,13 @@ exports.toConfirm = function(request,response){
     if(!us.isEmpty(request.session.user._id)){
         data.member = request.session.user._id;
     }else{
-        errMsg = "请先登录";
+        errorMsg = "请先登录";
         flag = false;
     }
     if(!us.isEmpty(request.body.pid)){
         data.product = request.body.pid;
     }else{
-        errMsg = "产品ID为空";
+        errorMsg = "产品ID为空";
         flag = false;
     }
     if(!us.isEmpty(request.body.orderType)){
@@ -222,55 +248,55 @@ exports.toConfirm = function(request,response){
             if(!us.isEmpty(request.body.isWeekend)){
                 data.priceLogisWeeknd = "y"===request.body.isWeekend?true:false;
             }else{
-                errMsg = "是否周末不能为空";
+                errorMsg = "是否周末不能为空";
                 flag = false;
             }
             if(!us.isEmpty(request.body.lid)){
                 data.priceLog = request.body.lid;
             }else{
-                errMsg = "是否周末不能为空";
+                errorMsg = "是否周末不能为空";
                 flag = false;
             }
         }
     }else{
-        errMsg = "订单类型为空";
+        errorMsg = "订单类型为空";
         flag = false;
     }
     if(!us.isEmpty(request.body.num)){
         data.quantity = request.body.num;
     }else{
-        errMsg = "产品数量不能为空或为0";
+        errorMsg = "产品数量不能为空或为0";
         flag = false;
     }
     if(!us.isEmpty(request.body.person)){
         data.liveName = request.body.person;
     }else{
-        errMsg = "入住人姓名不能为空";
+        errorMsg = "入住人姓名不能为空";
         flag = false;
     }
     if(!us.isEmpty(request.body.mobile)){
         data.contactPhone = request.body.mobile;
     }else{
-        errMsg = "联系手机号不能为空";
+        errorMsg = "联系手机号不能为空";
         flag = false;
     }
     if(!us.isEmpty(request.body.isNeed)&&"y"===request.body.isNeed){
         if(!us.isEmpty(request.body.invoiceType)){
             data.invoiceType = request.body.invoiceType;
         }else{
-            errMsg = "发票类型不能为空";
+            errorMsg = "发票类型不能为空";
             flag = false;
         }
         if(!us.isEmpty(request.body.invoiceTitle)){
             data.invoiceTitle = request.body.invoiceTitle;
         }else{
-            errMsg = "发票抬头不能为空";
+            errorMsg = "发票抬头不能为空";
             flag = false;
         }
         if(!us.isEmpty(request.body.invoiceAdd)){
             data.invoiceAdd = request.body.invoiceAdd;
         }else{
-            errMsg = "发票地址不能为空";
+            errorMsg = "发票地址不能为空";
             flag = false;
         }
     }
@@ -292,13 +318,10 @@ exports.toConfirm = function(request,response){
                     res._id = result.data._id;
                     res.oid = result.data.orderID;
                     if("p"===request.body.orderType){
-                        var time = new Date(result.data.startDate);
-                        res.time = time.getFullYear()+"-"+(time.getMonth()+1)+"-"+time.getDate();
+                        res.time = new Date(result.data.startDate).Format("yyyy-MM-dd");
                     }else{
-                        var time = new Date(result.data.startDate);
-                        var sd = time.getFullYear()+"-"+(time.getMonth()+1)+"-"+time.getDate();
-                        time = new Date(result.data.endDate);
-                        var ed = time.getFullYear()+"-"+(time.getMonth()+1)+"-"+time.getDate();
+                        var sd = new Date(result.data.startDate).Format("yyyy-MM-dd");
+                        var ed = new Date(result.data.endDate).Format("yyyy-MM-dd");
                         res.time = sd + '~' + ed;
                     }
                     res.num = result.data.quantity;
@@ -315,15 +338,15 @@ exports.toConfirm = function(request,response){
                     }
                     response.render('web/orderConfirm',{info:res});
                 }else{
-                    console.log(result.errMsg);
-                    response.send(404,result.errMsg);
+                    console.log(result.errorMsg);
+                    response.send(404,result.errorMsg);
                 }
             }
         });
 
     }else{
-        console.log(errMsg);
-        response.send(404,errMsg);
+        console.log(errorMsg);
+        response.send(404,errorMsg);
     }
 };
 

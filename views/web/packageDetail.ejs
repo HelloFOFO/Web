@@ -22,17 +22,17 @@
                 <div class="hotelname">
                     <h1><%=product.name%></h1>
                 </div>
-                <form class="formtab" name="form_order" action="/package/fill" method="POST">
+                <form class="formtab" name="form_order" id="form_order" action="/package/fill" method="POST">
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <td width="30%" height="50" align="left" valign="middle"><label>入住日期</label></td>
                             <td align="left" valign="middle">
-                                <input class="inputcalendar" size="16" type="text" value="2014-04-18" id="packageDate">
+                                <input class="inputcalendar" size="16" type="text" value="" id="packageDate">
                             </td>
                         </tr>
                         <tr>
                             <td width="30%" height="50" align="left" valign="middle"><label>价格</label></td>
-                            <td align="left" valign="middle" class="price" id="formprice">￥<span>800</span>起 </td>
+                            <td align="left" valign="middle" class="price" id="showPrice"></td>
                         </tr>
                         <tr>
                             <td height="70" colspan="2" align="left" valign="bottom">
@@ -41,6 +41,10 @@
                             </td>
                         </tr>
                     </table>
+                    <!-- hidden fields -->
+                    <input type="hidden" id="price" name="price" value="">
+                    <input type="hidden" id="selDate" name="selDate" value="">
+                    <input type="hidden" id="prices" value=<%-product.prices%>>
                 </form>
             </div>
             <div id="cal">
@@ -122,23 +126,45 @@
 </div>
 
 <% include footer %>
+<script src="/js/json2.js"></script>
 <script src="/js/jquery.calendar.js"></script>
 <script src="/js/jquery.nivo.slider.js"></script>
 <script >
     $(document).ready(function () {
+        //init
+        $('#packageDate').val("");
+        $('#price').val("");
+        $('#selDate').val("");
+        $('#showPrice').html("");
         //submit
         $('#form_order').submit(function(event){
             if($('#nav_logined').hasClass('hidden')){
                 event.preventDefault();
                 $('.loginModal').modal('show');
             } else {
-
+                if(""===$('#selDate').val()){
+                    alert("请选择日期!");
+                    return false;
+                }
+                if(""===$('#price').val()){
+                    alert("选择的日期没有价格，请重新选择!");
+                    return false;
+                }
             }
         });
-
+        //cal select
         $('#cal').calender({
             'target':'packageDate',
-            'data':{'2014-04-17':350,'2014-04-25':200,'2014-04-16':22}
+            'data':<%-product.prices.replace(/"/g, '\'')%>,
+            'onSelect':function(data){
+                $('#price').val(data.price);
+                $('#selDate').val(data.date);
+                if(0<parseInt(data.price)){
+                    $('#showPrice').html("￥<span>"+data.price+"</span>起");
+                }else{
+                    $('#showPrice').html("");
+                }
+            }
         });
 
         $('#slider').nivoSlider({

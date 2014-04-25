@@ -158,7 +158,7 @@ exports.callBack = function(req,res){
                                                 order.total = req.query.total_fee;
                                                 res.render('web/trade_success',{order:order});
                                             }else{
-                                                res.send(404, r.errMsg);
+                                                res.send(404, r.errorMsg);
                                             }
                                         }
                                     });
@@ -172,7 +172,7 @@ exports.callBack = function(req,res){
                                 res.render('web/trade_success',{order:order});
                             }
                         }else{
-                            res.send(404,result.errMsg);
+                            res.send(404,result.errorMsg);
                         }
                     }
                 });

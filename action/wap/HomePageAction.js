@@ -5,7 +5,25 @@ var HttpClient = require('./../../tools/HttpClient.js');
 var Config = require('./../../tools/Config');
 
 exports.getHomePage = function(request,response){
-    response.render('wap/index',{'city':{'name':'上海','_id':'5326a195b8d99d2f7b504229','images':[]}});
+    var key = request.query.key;
+    var httpClient = new HttpClient({
+        'host':Config.inf.host,
+        'port':Config.inf.port,
+        'path':key?'/web/city/list?key='+key:'/web/city/list',
+        'method':"GET"
+    });
+    httpClient.getReq(function(err,res){
+        if(err){
+            response.send(err);
+        }else{
+            if(0===res.error){
+                response.render('wap/index',{titleName:'首页',city:res.data});
+            }else{
+                response.send(res.errorMsg);
+            }
+        }
+    });
+
 };
 
 exports.cityList = function(request,response){
