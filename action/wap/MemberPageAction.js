@@ -71,7 +71,7 @@ exports.doRegister = function(request,response){
                 response.cookie('p',passwd,{'maxAge':7*24*3600*1000});
                 response.send('success');
             }else{
-                response.send(res.errMsg);
+                response.send(res.errorMsg);
             }
         }else{
             response.send('系统异常，请重试!');
@@ -102,7 +102,7 @@ exports.forgetPasswd = function(request,response){
                 response.cookie('p',passwd,{'maxAge':7*24*3600*1000});
                 response.send('success');
             } else {
-                response.send(res.errMsg);
+                response.send(res.errorMsg);
             }
         }
     });

@@ -37,10 +37,10 @@ module.exports = function(app){
     app.all('/wap/doLogin',MemberPageAction.doLogin);
     app.post('/wap/doRegister',MemberPageAction.doRegister);
     app.post('/wap/doForget',MemberPageAction.forgetPasswd);
-
+    //products
     app.get('/wap/products/:id',ProductPageAction.getProducts);
-    app.get('/wap/productDetail/:id',ProductPageAction.getDetail);
-
+    app.get('/wap/productDetail/:id/:type',ProductPageAction.getDetail);
+    app.post('/wap/subOrder',ProductPageAction.toSubOrder);
 
     //ajax
     app.get('/wap/ajax/cityList',HomePageAction.cityList);

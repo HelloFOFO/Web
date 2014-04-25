@@ -11,176 +11,157 @@
         var $opts = $.extend({}, $.fn.calender.defaults, options);
         var cal = new Calender($opts,$(this));
         cal.init();
-//        $cal=$(this);
-//        $(this).addClass("calendarbox");
-//        $('#'+$opts.target).focus(function(){
-//            $cal.show();
-//        });
-//        _init();
     };
 
     $.fn.calender.defaults = {
     };
 
     var Calender = function($opts,$this){
+        //that is Calender instance
+        //$this is Calender Div
         var that = this;
-        $this.addClass("calendarbox");
-        $this.append(Calender.template.table);
-
         this.today = new Date();
-        this.currMonth = this.today.getMonth();
+        this.minMonth = new Date(this.today.getFullYear(),this.today.getMonth(),1);
+        this.maxMonth = new Date(this.today.getFullYear(),this.today.getMonth(),1);
+        this.maxMonth.setMonth(this.maxMonth.getMonth()+2);
+        this.currMonth = new Date(this.today.getFullYear(),this.today.getMonth(),1);
         this.target = $opts.target;
         this.onSelect = $opts.onSelect;
         this.defaultOnSelect = function(el){
             $('#'+that.target).val($(el).data('dfm'));
             $this.hide();
         }
+
+        $this.addClass("calendarbox");
+
+        this.cleanDiv = function(){
+            $this.empty();
+        };
         this.init = function(){
+            var table = $("<table class='table-calendar' width='100%'></table>");
+            var body = $("<tbody></tbody>");
+            var header = $("<thead>" +
+                "<tr>" +
+                "<th class='prev' style='visibility: visible;'>" +
+                "<i class='arrow-left'></i>" +
+                "</th>" +
+                "<th colspan='5' id='calendarMonth'>"+this.currMonth.Format('yyyy-MM')+"</th>" +
+                "<th class='next' style='visibility: visible;'>" +
+                "<i class='arrow-right'></i>" +
+                "</th>" +
+                "</tr>" +
+                "<tr>" +
+                "<th class='dow'>S</th>" +
+                "<th class='dow'>M</th>" +
+                "<th class='dow'>T</th>" +
+                "<th class='dow'>W</th>" +
+                "<th class='dow'>T</th>" +
+                "<th class='dow'>F</th>" +
+                "<th class='dow'>S</th>" +
+                "</tr>" +
+                "</thead>");
+            var footer = $("<tfoot><tr><th colspan='7' class='today' style='display: none;'>Today</th></tr></tfoot>");
+            $this.append(table);
             var tr=$("<tr></tr>");
-            var month = new Date(this.today.getFullYear(),this.today.getMonth(),1);
-;            var currDay = month.getDay();
+            var month = new Date(this.currMonth.getFullYear(),this.currMonth.getMonth(),1);
+;           var currDay = month.getDay();
             for(var i=0;i<currDay;i++){
                 tr.append("<td class='day old'></td>");
             }
-            while(this.currMonth==month.getMonth()){
-
+            while(this.currMonth.getMonth()==month.getMonth()){
                 if(month.getDay()<currDay){
-                    Calender.template.body.append(tr);
+                    body.append(tr);
                     tr=$("<tr></tr>");
                 }
-                if(month.getDate()==this.today.getDate()){
-                    var td = $("<td class='day today'><i>"+month.getDate()+"</i><br></td>");
-                    td.data('dfm',month.Format('yyyy-MM-dd'));
+                if(month.getDate()==this.today.getDate()&&month.getMonth()==this.today.getMonth()&&month.getFullYear()==this.today.getFullYear()){
                     if($opts.data[month.Format('yyyy-MM-dd')]){
+                        var td = $("<td class='day today'><i>"+month.getDate()+"</i><br></td>");
+                        td.data('dfm',month.Format('yyyy-MM-dd'));
                         var span = $("<span>￥"+$opts.data[month.Format('yyyy-MM-dd')]+"</span>");
+                        td.data('price',$opts.data[month.Format('yyyy-MM-dd')]);
+                        td.append(span);
+                    } else {
+                        var td = $("<td class='day today'><i>"+month.getDate()+"</i><br></td>");
+                        td.data('dfm',month.Format('yyyy-MM-dd'));
+                        var span = $("<span>&nbsp;</span>");
+                        td.data('disable',true);
                         td.append(span);
                     }
                     td.click(function(){
+                        if($(this).data('disable')){
+                            return;
+                        }
                         that.defaultOnSelect(this);
+                        that.onSelect({
+                            'date':$(this).data('dfm'),
+                            'price':$(this).data('price')
+                        });
                     });
                     tr.append(td);
                 } else {
-                    var td = $("<td class='day onday'><i>"+month.getDate()+"</i><br></td>");
-                    td.data('dfm',month.Format('yyyy-MM-dd'));
                     if($opts.data[month.Format('yyyy-MM-dd')]){
+                        var td = $("<td class='day onday'><i>"+month.getDate()+"</i><br></td>");
+                        td.data('dfm',month.Format('yyyy-MM-dd'));
                         var span = $("<span>￥"+$opts.data[month.Format('yyyy-MM-dd')]+"</span>");
+                        td.data('price',$opts.data[month.Format('yyyy-MM-dd')]);
+                        td.append(span);
+                    } else {
+                        var td = $("<td class='day disabledday'><i>"+month.getDate()+"</i><br></td>");
+                        td.data('dfm',month.Format('yyyy-MM-dd'));
+                        var span = $("<span>&nbsp;</span>");
+                        td.data('disable',true);
                         td.append(span);
                     }
                     td.click(function(){
+                        if($(this).data('disable')){
+                            return;
+                        }
                         that.defaultOnSelect(this);
+                        that.onSelect({
+                            'date':$(this).data('dfm'),
+                            'price':$(this).data('price')
+                        });
                     });
                     tr.append(td);
                 }
                 currDay=month.getDay();
                 month.setDate(month.getDate()+1);
             }
-            Calender.template.body.append(tr);
+            body.append(tr);
 
-            Calender.template.table.append(Calender.template.header);
-            Calender.template.table.append(Calender.template.body);
-            Calender.template.table.append(Calender.template.footer);
-
+            table.append(header);
+            table.append(body);
+            table.append(footer);
+            $('.prev').click(function(){
+                that.prevClick();
+            });
+            $('.next').click(function(){
+                that.nextClick();
+            });
             $('#'+that.target).focus(function(){
                 $this.show();
             });
         }
+
+        this.prevClick = function(){
+            this.currMonth.setMonth(this.currMonth.getMonth()-1);
+            if(this.currMonth.getTime()<this.minMonth.getTime()){
+                this.currMonth.setMonth(this.currMonth.getMonth()+1);
+                return;
+            }
+            this.cleanDiv();
+            this.init();
+        };
+        this.nextClick = function(){
+            this.currMonth.setMonth(this.currMonth.getMonth()+1);
+            if(this.currMonth.getTime()>this.maxMonth.getTime()){
+                this.currMonth.setMonth(this.currMonth.getMonth()-1);
+                return;
+            }
+            this.cleanDiv();
+            this.init();
+        };
     }
-
-    Calender.template={
-        "table":$("<table class='table-calendar' width='100%'></table>"),
-        "header" : $("<thead>" +
-            "<tr>" +
-            "<th class='prev' style='visibility: hidden;'>" +
-            "<i class='arrow-left'></i>" +
-            "</th>" +
-            "<th colspan='5' id='calendarMonth'><!--month--></th>" +
-            "<th class='next' style='visibility: visible;'>" +
-            "<i class='arrow-right'></i>" +
-            "</th>" +
-            "</tr>" +
-            "<tr>" +
-            "<th class='dow'>S</th>" +
-            "<th class='dow'>M</th>" +
-            "<th class='dow'>T</th>" +
-            "<th class='dow'>W</th>" +
-            "<th class='dow'>T</th>" +
-            "<th class='dow'>F</th>" +
-            "<th class='dow'>S</th>" +
-            "</tr>" +
-            "</thead>"),
-        'body':$("<tbody></tbody>"),
-        'footer':$("<tfoot><tr><th colspan='7' class='today' style='display: none;'>Today</th></tr></tfoot>")
-    };
-
-//    function _init(){
-//        var table = $("<table class='table-calendar' width='100%'></table>");
-//        $cal.append(table);
-//
-//        var thead = $(
-//            "<thead>" +
-//                "<tr>" +
-//                "<th class='prev' style='visibility: hidden;'>" +
-//                "<i class='arrow-left'></i>" +
-//                "</th>" +
-//                "<th colspan='5' id='calendarMonth'>"+today.getFullYear()+"年"+(today.getMonth()+1)+"月"+"</th>" +
-//                "<th class='next' style='visibility: visible;'>" +
-//                "<i class='arrow-right'></i>" +
-//                "</th>" +
-//                "</tr>" +
-//                "<tr>" +
-//                "<th class='dow'>S</th>" +
-//                "<th class='dow'>M</th>" +
-//                "<th class='dow'>T</th>" +
-//                "<th class='dow'>W</th>" +
-//                "<th class='dow'>T</th>" +
-//                "<th class='dow'>F</th>" +
-//                "<th class='dow'>S</th>" +
-//                "</tr>" +
-//                "</thead>"
-//        );
-//        var tbody = $("<tbody></tbody>");
-//        var tfoot = $("<tfoot><tr><th colspan='7' class='today' style='display: none;'>Today</th></tr></tfoot>");
-//
-//        var tr=$("<tr></tr>");
-//        var month = new Date(today.getFullYear(),today.getMonth(),1);
-//        var currDay = month.getDay();
-//        for(var i=0;i<currDay;i++){
-//            tr.append("<td class='day old'></td>");
-//        }
-//        while(currMonth==month.getMonth()){
-//            if(month.getDay()<currDay){
-//                tbody.append(tr);
-//                tr=$("<tr></tr>");
-//            }
-//            if(month.getDate()==today.getDate()){
-//                var td = $("<td class='day today'><i>"+month.getDate()+"</i><br></td>");
-//                td.data('dfm',month.Format('yyyy-MM-dd'));
-//                if($opts.data[month.Format('yyyy-MM-dd')]){
-//                    var span = $("<span>￥"+$opts.data[month.Format('yyyy-MM-dd')]+"</span>");
-//                    td.append(span);
-//                }
-//                td.click($opts.onSelect);
-//                tr.append(td);
-//            } else {
-//                var td = $("<td class='day onday'><i>"+month.getDate()+"</i><br></td>");
-//                td.data('dfm',month.Format('yyyy-MM-dd'));
-//                if($opts.data[month.Format('yyyy-MM-dd')]){
-//                    var span = $("<span>￥"+$opts.data[month.Format('yyyy-MM-dd')]+"</span>");
-//                    td.append(span);
-//                }
-//                td.click($opts.onSelect);
-//                tr.append(td);
-//            }
-//            currDay=month.getDay();
-//            month.setDate(month.getDate()+1);
-//        }
-//        tbody.append(tr);
-//
-//        table.append(thead);
-//        table.append(tbody);
-//        table.append(tfoot);
-//    }
-
     Date.prototype.Format = function (fmt) {
         var o = {
             "M+": this.getMonth() + 1, //月份

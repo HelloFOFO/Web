@@ -1,0 +1,29 @@
+<%include header%>
+<div class="wcy-prodetail">
+	<div class="container">
+    		<div class="wcy-Prodetailbox">
+                    <div class="blackbox">
+                      <p>景点名称：西湖
+                      <p>景点等级：AAAAA级景区
+                      <p>景点地址：浙江省杭州市西湖风景名胜区 <a href="#">地图</a>
+                      <p>营业时间：7:00~18:00 
+                    </div>
+                    <div class="graybox">
+                    	<img src="images/wcy_hotelTicket01.jpg" class="imgfloat">
+                      <p>西湖,现今《世界遗产名录》中少数几个、中国唯一一处湖泊类文化遗产。</p>
+                      <p>杭州西湖位于浙江省杭州市的西南方，它以其秀丽的湖光山色和众多的名胜古迹而成为闻名中外的旅游胜地并被世人赋予“人间天堂”的美誉。</p>
+                      <p>宋代大文豪苏东坡曾写道：“天下西湖三十六，就中最好是杭州”。</p>
+                      <img src="images/wcy_hotelTicket02.jpg">
+                       <p>西湖,现今《世界遗产名录》中少数几个、中国唯一一处湖泊类文化遗产。</p>
+                      <p>杭州西湖位于浙江省杭州市的西南方，它以其秀丽的湖光山色和众多的名胜古迹而成为闻名中外的旅游胜地并被世人赋予“人间天堂”的美誉。</p>
+                      <p>宋代大文豪苏东坡曾写道：“天下西湖三十六，就中最好是杭州”。</p>
+                       </div>
+                <form action="/wap/subOrder" method="post">
+                    <input type="submit" value="提交"/>
+                    <input type="hidden" id="product" name="product" value="<%=product._id%>"/>
+                </form>
+            </div>
+    </div>
+</div>
+</div>
+<%include footer%>

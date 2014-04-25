@@ -1,39 +1,19 @@
-<!DOCTYPE html>
-<html lang="zh-cn">
-<head>
-    <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="万车游">
-    <meta name="author" content="万车游">
-    <title>万车游</title>
-</head>
-<body>
-<div>
-    <label><%= city.name %></label>
+<%include header%>
+<div class="container">
+		<div class="row">
+        <div class="listProCity"><h1><%=city.name%></h1></div>
+            <%products.forEach(function(p){%>
+                <div class="col-xs-6">
+                    <div class="listProBox">
+                        <div class="imgbox"><a href="/wap/productDetail/<%=p._id%>/<%=p.type%>"><img src="http://dd885.b0.upaiyun.com/<%=p.image[0].url%>" alt="<%=p.image[0].intro%>"/></a></div>
+                        <a href="/wap/productDetail/<%=p._id%>/<%=p.type%>"><div class="probox">
+                            <div class="hotelName"><%=p.name%></div>
+                            <div class="hotelPrice">￥<span><%=p.price%></span></div>
+                        </div></a>
+                    </div>
+                </div>
+            <%});%>
+        </div>
 </div>
-<div>
-    <ul>
-        <%products.forEach(function(product){%>
-        <li>
-            <a href="/wap/productDetail/<%=product._id%>">
-            <%if(product.image.length>0){%>
-                <img src="http://dd885.b0.upaiyun.com/<%=product.image[0].url%>" width="100" />
-            <%}%>
-            <label><%=product.name%></label>
-            <label><%=product.price%></label>
-            </a>
-        </li>
-        <%});%>
-    </ul>
-</div>
+<%include footer%>
 
-</body>
-</html>
-<script src="/js/jquery.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script>
-    $(function () {
-    });
-</script>

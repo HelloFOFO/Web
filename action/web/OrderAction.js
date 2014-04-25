@@ -34,7 +34,7 @@ exports.orders = function(request,response){
                     console.log(orders.list.length);
                     response.render('web/myOrder',{orders:orders});
                 }else{
-                    response.send(404,res.errMsg);
+                    response.send(404,res.errorMsg);
                 }
             }
         });
@@ -99,12 +99,12 @@ exports.detail = function(request,response){
                             order.cancelRule = r.data.cancelRule;
                             response.render('web/orderDetail',{order:order});
                         }else{
-                            response.send(404,r.errMsg);
+                            response.send(404,r.errorMsg);
                         }
                     }
                 });
             }else{
-                response.send(404,res.errMsg);
+                response.send(404,res.errorMsg);
             }
         }
     });
