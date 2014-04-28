@@ -6,7 +6,7 @@ var Config = require('./../../tools/Config');
 
 exports.doLogin = function(request,response){
     var mobile = request.body.mobile?request.body.mobile:request.cookies.m;
-    var passwd = request.body.password?request.body.password:request.cookies.p;
+    var passwd = request.body.passwd?request.body.passwd:request.cookies.p;
     var autoLogin = request.body.autoLogin==='true';
     if(autoLogin){
         response.cookie('m',mobile,{'maxAge':7*24*3600*1000});
@@ -22,6 +22,7 @@ exports.doLogin = function(request,response){
         if(err){
             response.send('系统异常，请重试!');
         } else {
+            console.log(mobile,passwd);
             if(res.data){
                 request.session.user=res.data;
                 if(autoLogin){

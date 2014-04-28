@@ -20,19 +20,20 @@ module.exports = function(app){
             next();
         }
     })
-//    app.all('/wap/*',function(request,response,next){
-//        if(request.session.user==null){
-//            response.render('wap/login');
-//        } else {
-//            next();
-//        }
-//    });
+    app.all('/wap/*',function(request,response,next){
+        if(request.session.user==null&&!request.url.indexOf('/wap/forget')&&!request.url.indexOf('/wap/doForget')&&!request.url.indexOf('/wap/register')&&!request.url.indexOf('/wap/doRegister')){
+            response.render('wap/login',{titleName:'登录'});
+        } else {
+            next();
+        }
+    });
     //home go
     app.get('/wap/',HomePageAction.getHomePage);
     app.all('/wap/login',HomePageAction.toLogin);
     app.get('/wap/about',HomePageAction.aboutUs);
     app.get('/wap/register',HomePageAction.register);
     app.get('/wap/forget',HomePageAction.forget);
+    app.get('/wap/logout',HomePageAction.logOut);
     //member
     app.all('/wap/doLogin',MemberPageAction.doLogin);
     app.post('/wap/doRegister',MemberPageAction.doRegister);
@@ -41,7 +42,7 @@ module.exports = function(app){
     app.get('/wap/products/:id',ProductPageAction.getProducts);
     app.get('/wap/productDetail/:id/:type',ProductPageAction.getDetail);
     app.post('/wap/subOrder',ProductPageAction.toSubOrder);
-
+    app.post('/wap/confirm',ProductPageAction.saveOrder);
     //ajax
     app.get('/wap/ajax/cityList',HomePageAction.cityList);
 
@@ -49,7 +50,8 @@ module.exports = function(app){
     //alipay for web
 //    app.get('/wap/reqTrade/:_id/:oid',AlipayWapAction.getReqTrade);
 //    app.post('/wap/reqTrade',AlipayWapAction.reqTrade);
-    app.get('/wap/reqTrade',AlipayWapAction.getReqTrade);
+    app.get('/wap/reqTrade/:id/:orderID',AlipayWapAction.getReqTrade);
+    app.post('/wap/reqTrade',AlipayWapAction.getReqTrade);
     app.post('/wap/notify/:id',AlipayWapAction.notify);
     app.get('/wap/callback/:id',AlipayWapAction.callBack);
 };

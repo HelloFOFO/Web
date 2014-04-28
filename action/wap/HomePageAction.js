@@ -75,3 +75,12 @@ exports.aboutUs = function(request,response){
 exports.forget = function(request,response){
     response.render('wap/forgetPw',{titleName:'忘记密码'});
 }
+
+//logout
+exports.logOut = function(request,response){
+    request.session.user=null;
+    request.session.autoLogin = false;
+    response.cookie('m',null);
+    response.cookie('p',null);
+    response.redirect('/wap/login');
+}

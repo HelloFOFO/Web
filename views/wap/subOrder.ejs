@@ -1,5 +1,5 @@
 <% include header %>
-<form action="/wap/confirm" method="get" id="formConfirm">
+<form action="/wap/confirm" method="post" id="formConfirm">
 <div class="container">
     <div class="wcy-hTNoInvoiceTitle"><%=product.name%></div>
 </div>
@@ -72,6 +72,7 @@
         </table>
     </div>
 </div>
+<%if(4===product.type){%>
 <div class="container">
     <div class="wcy-hotelTicketPayTitle">发票信息</div>
 </div>
@@ -90,12 +91,12 @@
             <tr>
                 <td width="30%" height="30" align="left" valign="middle" class="gray">发票类型</td>
                 <td width="70%" align="right" valign="top">
-                    <input name="radio" type="radio" id="fptype" value="p" checked>
+                    <input name="radio" type="radio" id="inType" name="inType" value="p" checked>
                     个人&nbsp;&nbsp;&nbsp;
-                    <label for="fptype"></label>
-                    <input type="radio" name="radio" id="fptype2" value="e">
+                    <label for="inType"></label>
+                    <input type="radio" name="radio" id="inType2" name="inType" value="e">
                     公司
-                    <label for="fptype2"></label>
+                    <label for="inType2"></label>
                 </td>
             </tr>
             <tr>
@@ -114,6 +115,7 @@
         </table>
     </div>
 </div>
+<%}%>
 <div class="container">
     <div class="wcy-hotelTicketPayBt">
         <button type="submit" class="btn wap-submitBt btn-block">提交订单</button>
@@ -124,6 +126,7 @@
     <input type="hidden" id="type" name="type" value="<%=product.type%>" />
     <input type="hidden" id="pid" name="pid" value="<%=product.id%>"/>
     <input type="hidden" id="time" name="time" value="<%=product.time%>"/>
+    <input type="hidden" id="pName" name="pName" value="<%=product.name%>"/>
 </form>
 <%include footer%>
 <link href="/css/bootstrap-switch.css" rel="stylesheet">
@@ -165,7 +168,6 @@
         });
         //submit
         $('#formConfirm').submit(function(e){
-            e.preventDefault();
             if(us.isEmpty($('#name').val().trim())){
                 alert('姓名不能为空!');
                 return false;
@@ -174,6 +176,7 @@
                 alert('手机号不能为空!');
                 return false;
             }
+            <%if(4===product.type){%>
             if($('#isNeed').prop('checked')){
                 if(us.isEmpty($('#title').val().trim())){
                     alert('发票抬头不能为空!');
@@ -184,6 +187,7 @@
                     return false;
                 }
             }
+           <%}%>
         });
     });
 </script>

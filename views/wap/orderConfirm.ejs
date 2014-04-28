@@ -1,0 +1,79 @@
+<%include header%>
+<link href="css/flat-ui.css" rel="stylesheet">
+<div class="container">
+        <div class="wcy-hotelTicketPayTitle">订单信息</div>
+</div>
+<div class="wcy-hotelTicketPay">
+    <div class="container">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" class="infoTab">
+                      <tr>
+                        <td width="30%" height="30" align="left" valign="top" class="gray">名称</td>
+                        <td width="70%" align="right" valign="top"><%=info.name%></td>
+                      </tr>
+                      <tr>
+                        <%if(4===info.orderType){%>
+                            <td height="30" align="left" valign="top" class="gray">入住日期</td>
+                        <%}else{%>
+                            <td height="30" align="left" valign="top" class="gray">使用日期</td>
+                        <%}%>
+                        <td align="right" valign="top"><%=info.time%></td>
+                      </tr>
+                      <tr>
+                        <td height="30" align="left" valign="top" class="gray">数量</td>
+                        <td align="right" valign="top"><%=info.num%></td>
+                      </tr>
+                      <tr>
+                        <td height="30" align="left" valign="top" class="gray">总价</td>
+                        <td align="right" valign="top"><span class="wap-orange">¥<%=info.total%></span></td>
+                      </tr>
+                      <tr>
+                        <td height="30" align="left" valign="top" class="gray">姓名</td>
+                        <td align="right" valign="top"><%=info.person%></td>
+                      </tr>
+                      <tr>
+                        <td height="30" align="left" valign="top" class="gray">手机号</td>
+                        <td align="right" valign="top"><%=info.mobile%></td>
+                      </tr>
+                    <%if("y"===info.isNeed){%>
+                      <tr>
+                        <td height="30" align="left" valign="top" class="gray">发票类型</td>
+                        <td align="right" valign="top"><%="p"===info.invoiceType?"个人":"公司"%></td>
+                      </tr>
+                      <tr>
+                        <td height="30" align="left" valign="top" class="gray">发票抬头</td>
+                        <td align="right" valign="top"><%=info.invoiceTitle%></td>
+                      </tr>
+                      <tr class="tdend">
+                        <td height="30" align="left" valign="top" class="gray">邮寄地址</td>
+                        <td align="right" valign="top"><%=info.invoiceAdd%></td>
+                      </tr>
+                    <%}%>
+                    </table>
+    </div>
+</div>
+<div class="container">
+        <div class="wcy-hotelTicketPayTitle">支付方式</div>
+</div>
+<div class="wcy-hotelTicketPay">
+        <div class="container">
+                    <ul class="hotelTicketPayBox">
+                              <li>
+                                      <label class="checkbox checked">
+                                      支付宝
+                                        <input type="checkbox" name="optionscheckbox" id="optionscheckbox" value="checkbox">
+                                      </label>
+                              </li>
+                    </ul>
+        </div>
+</div>
+<div class="container">
+        <div class="wcy-hotelTicketPayBt">
+        <form action="/wap/reqTrade" method="post">
+        <!-- hidden fields -->
+        <input type="hidden" name="oid" value="<%=info.oid%>"/>
+        <input type="hidden" name="_id" value="<%=info._id%>"/>
+        <button type="submit" class="btn wap-submitBt btn-block">去付款</button>
+        </form>
+        </div>
+</div>
+<%include footer%>
