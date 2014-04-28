@@ -20,13 +20,15 @@ var store = new SessionStore({
 log4js.configure({
     appenders : [ {
         type : 'console'
-    }, {
-        type : 'file',
-        filename : 'logs/access.log',
-        maxLogSize : 1024,
-        backups : 4,
-        category : 'normal'
-    } ],
+    }
+//        , {
+//        type : 'file',
+//        filename : 'logs/access.log',
+//        maxLogSize : 1024,
+//        backups : 4,
+//        category : 'normal'
+//    } 
+    ],
     replaceConsole : true
 });
 var logger = log4js.getLogger('normal');
