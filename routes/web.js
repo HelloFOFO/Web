@@ -22,7 +22,7 @@ module.exports = function(app){
         } else {
             next();
         }
-    })
+    });
 
 //    app.get('/web/register',MemberPageAction.register);
 //    app.post('/web/login',MemberPageAction.login);
