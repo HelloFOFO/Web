@@ -21,10 +21,10 @@
             <tr>
                 <td width="30%" height="30" align="left" valign="middle" class="gray">数量</td>
                 <td width="70%" align="right" valign="top">
-                    <div class="wcy-hTnumberbox">
-                        <input type="button"  id="sub" value="" class="subbt">
+                    <div class="wcy-tickeBox floatRt">
+                        <input type="button"  id="sub" value="-" class="subbt">
                         <input type="text" class="num" id="num" name="num" value="1">
-                        <input type="button"  id="add" value="" class="addbt">
+                        <input type="button"  id="add" value="+" class="addbt">
                     </div>
                 </td>
             </tr>
@@ -127,6 +127,10 @@
     <input type="hidden" id="pid" name="pid" value="<%=product.id%>"/>
     <input type="hidden" id="time" name="time" value="<%=product.time%>"/>
     <input type="hidden" id="pName" name="pName" value="<%=product.name%>"/>
+    <%if(4!==product.type){%>
+    <input type="hidden" id="isWeekend" name="isWeekend" value="<%=product.isWeekend%>"/>
+    <input type="hidden" id="lid" name="lid" value="<%=product.lid%>"/>
+    <%}%>
 </form>
 <%include footer%>
 <link href="/css/bootstrap-switch.css" rel="stylesheet">

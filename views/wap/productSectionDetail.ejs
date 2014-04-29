@@ -13,9 +13,9 @@
                 <p>营业时间：<%=info.openTime%>
             </div>
             <div class="graybox">
-                <img src="http://dd885.b0.upaiyun.com/<%=info.image[0].url%>" class="imgfloat">
+                <img src="http://dd885.b0.upaiyun.com/<%=info.image.url%>" class="imgfloat">
                 <p><%-info.intro.replace(/\n/g, '<br/>')%></p>
-                <img src="http://dd885.b0.upaiyun.com/<%=info.image[1].url%>">
+                <img src="http://dd885.b0.upaiyun.com/<%=info.image2.url%>">
             </div>
         </div>
     </div>
@@ -26,7 +26,7 @@
         <%info.relate.forEach(function(p){%>
         <div class="col-xs-6">
             <div class="listProBox">
-                <div class="imgbox"><a href="/wap/productDetail/<%=p._id%>/<%=p.type%>"><img src="http://dd885.b0.upaiyun.com/<%=p.image[0].url%>" alt="<%=p.image[0].intro%>"/></a></div>
+                <div class="imgbox"><a href="/wap/productDetail/<%=p._id%>/<%=p.type%>"><img src="http://dd885.b0.upaiyun.com/<%=p.image[0].url?p.image[0].url:""%>" alt="<%=p.image[0].intro?p.image[0].intro:""%>"/></a></div>
                 <a href="/wap/productDetail/<%=p._id%>/<%=p.type%>"><div class="probox">
                         <div class="hotelName"><%=p.name%></div>
                         <div class="hotelPrice">￥<span><%=p.price%></span></div>

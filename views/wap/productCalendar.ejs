@@ -3,19 +3,19 @@
     <div class="container">
         <div class="wcy-Prodetailbox">
             <div id="cal"></div>
+            <input type="hidden" id="id" value="<%=product.id%>"/>
         </div>
     </div>
 </div>
 <% include footer %>
-<script type="text/javascript" src="/js/wap/jquery.q_calendar.js"></script>
-<script type="text/javascript">
+<link rel="stylesheet" href="/css/q_calendar.css">
+<script src="/js/wap/jquery.q_calendar.js"></script>
+<script>
     $(document).ready(function() {
-        console.log("aaa");
-        var id = "<%=product.id%>";
         var prices = [<%=product.prices%>];
-        var time = new Date();
-//        time.setTime(<%=product.time%);
+        var pTime = new Date();
+        pTime.setTime(<%=product.time%>);
 //        console.log(time);
-        $('#cal').qc({roomQty:prices,nowTime:time});
+        $('#cal').qc({roomQty:prices,nowTime:pTime});
     });
 </script>

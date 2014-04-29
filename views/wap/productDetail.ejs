@@ -77,6 +77,7 @@
             <input type="hidden" name="product" value="<%= product._id %>">
             <input type="hidden" name="exDate" id="exDate"/>
             <input type="hidden" name="sPrice" id="sPrice"/>
+            <input type="hidden" name="type" value="<%=product.type%>">
             <%if(4!==product.type){%>
             <input type="hidden" name="isWeekend" id="isWeekend"/>
             <input type="hidden" name="lid" id="lid"/>
@@ -173,6 +174,29 @@
         });
     });
     <%}else{%>
-
+    //init
+    $('#divPrice').html("");
+    $('#sPrice').val("");
+    $('#selDate').text("");
+    $('#exDate').val("");
+    var selectDate = <%=product.date%>;
+    if(selectDate){
+        var d = new Date();
+        d.setTime(selectDate);
+        $('#selDate').text(d.Format('yyyy-MM-dd'));
+        $('#exDate').val(d.Format('yyyy-MM-dd'));
+    }
+    var p = <%=product.price%>;
+    if(p){
+        $('#divPrice').html(p);
+        $('#sPrice').val(p);
+    }
+    //submit
+    $('#form_order').submit(function (event) {
+        if ("" === $('#selDate').text()) {
+            alert('请选择入住效期!');
+            event.preventDefault();
+        }
+    });
     <%}%>
 </script>

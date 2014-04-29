@@ -23,7 +23,7 @@ exports.getReqTrade = function(req,res){
             }else{
                 var subject = result.data.product.name;
 //                total_fee = result.data.totalPrice+"";
-                alipay.wap.reqAuth(tradeNo,subject,total_fee,function(error,token){
+                alipay.wap.reqAuth(_id,tradeNo,subject,total_fee,function(error,token){
                     if(""===token){
                         res.send(404,'token is null');
                     }else{
@@ -58,32 +58,136 @@ exports.callBack = function(req,res){
             value : req.query.request_token
         }
     ];
-    var result = alipay.wap.verify(params,req.query.sign);
-    if(result){
-        res.send('success');
+    var isSuccess = alipay.wap.verify(params,req.query.sign);
+    if(isSuccess){
+        var httpClient = new HttpClient({
+            'host':Config.inf.host,
+            'port':Config.inf.port,
+            'path':'/order/detail/'+req.params.id,
+            'method':"GET"
+        });
+        try{
+            httpClient.getReq(function(err,result){
+                if(err){
+                    res.send(404,err);
+                }else{
+                    if(0===result.error){
+                        if(0===result.data.status){
+                            if("success"===req.query.result){
+                                var hc = new HttpClient({
+                                    'host':Config.inf.host,
+                                    'port':Config.inf.port,
+                                    'path':'/order/update/'+req.params.id,
+                                    'method':"POST"
+                                });
+                                hc.postReq({status:1,operator:'5320ffb06532aa00951ff5e1'},function(e,r){
+                                    if(e){
+                                        res.send(404, e);
+                                    }else{
+                                        if(0===r.error){
+                                            console.log("order "+req.params.id+" is update status success");
+                                        }else{
+                                            res.send(404, r.errorMsg);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                        var order = {};
+                        order.oid = result.data.orderID;
+                        order._id = result.data._id;
+                        order.pName = result.data.product.name;
+                        order.total = result.data.totalPrice;
+                        res.render('wap/trade_success',{titleName:'交易成功',order:order});
+                    }else{
+                        res.send(404,result.errorMsg);
+                    }
+                }
+            });
+
+        }catch(e){
+            res.send(404, e.message);
+        }
     }else{
-        res.send('failed');
+        res.send(404,'验证错误');
     }
 };
 
 //异步回调
 exports.notify = function(req,res){
-    alipay.wap.verify_notify(req.body.service,req.body.v,req.body.sec_id,req.body.notify_data,req.body.sign,function(err,result){
+    console.log("notify success");
+    alipay.wap.verify_notify(req.body.service,req.body.v,req.body.sec_id,req.body.notify_data,req.body.sign,function(error,isSuccess){
         var parseString = require('xml2js').parseString;
-        if(err){
-            res.send("fail"+err);
+        if(error){
+            res.send("fail"+error);
         }else{
-            if(result){
-                var status = "";
-                parseString(req.body.notify_data, function (err, result) {
-                    status = result.notify.trade_status[0];
+            if(isSuccess){
+                var httpClient = new HttpClient({
+                    'host':Config.inf.host,
+                    'port':Config.inf.port,
+                    'path':'/order/detail/'+req.params.id,
+                    'method':"GET"
                 });
-                if("TRADE_FINISHED"===status||"TRADE_SUCCESS"===status){
-
+                try{
+                    httpClient.getReq(function(err,result){
+                        if(err){
+                            console.log("notify verify fail",err);
+                            res.writeHead(200, {"Content-Type": "text/html"});
+                            res.write("fail");
+                            res.end();
+                        }else{
+                            if(0===result.error){
+                                if(0===result.data.status){
+                                    var status = "";
+                                    parseString(req.body.notify_data, function (er, rlt) {
+                                        status = rlt.notify.trade_status[0];
+                                    });
+                                    if("TRADE_FINISHED"===status||"TRADE_SUCCESS"===status){
+                                        var hc = new HttpClient({
+                                            'host':Config.inf.host,
+                                            'port':Config.inf.port,
+                                            'path':'/order/update/'+req.params.id,
+                                            'method':"POST"
+                                        });
+                                        hc.postReq({status:1,operator:'5320ffb06532aa00951ff5e1'},function(e,r){
+                                            if(e){
+                                                console.log("e",e);
+                                                res.writeHead(200, {"Content-Type": "text/html"});
+                                                res.write("fail");
+                                                res.end();
+                                            }else{
+                                                if(0===r.error){
+                                                    res.writeHead(200, {"Content-Type": "text/html"});
+                                                    res.write("success");
+                                                    res.end();
+                                                }else{
+                                                    console.log("r.error", r.errorMsg);
+                                                    res.writeHead(200, {"Content-Type": "text/html"});
+                                                    res.write("fail");
+                                                    res.end();
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }else{
+                                console.log("notify verify fail");
+                                res.writeHead(200, {"Content-Type": "text/html"});
+                                res.write("fail");
+                                res.end();
+                            }
+                        }
+                    });
+                }catch(e){
+                    console.log(e.message);
+                    res.writeHead(200, {"Content-Type": "text/html"});
+                    res.write("fail");
+                    res.end();
                 }
-                res.send("success");
             }else{
-                res.send("fail");
+                res.writeHead(200, {"Content-Type": "text/html"});
+                res.write("fail");
+                res.end();
             }
         }
     });
