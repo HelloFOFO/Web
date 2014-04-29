@@ -58,7 +58,7 @@ exports.detail = function(request,response){
                 var hc = new HttpClient({
                     'host':Config.inf.host,
                     'port':Config.inf.port,
-                    'path':'/web/product/detail/'+res.data.product._id,
+                    'path':'/product/ticket/detail/'+res.data.product._id,
                     'method':"GET"
                 });
                 hc.getReq(function(e,r){

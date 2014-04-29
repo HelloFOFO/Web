@@ -38,10 +38,10 @@ exports.hotProduct = function(req,res){
         var httpClient = new HttpClient({
             'host':Config.inf.host,
             'port':Config.inf.port,
-            'path':'/web/product/webList/'+city+'?isHot=true',
+            'path':'/product/webList/'+city+'?hot=true',
             'method':"GET"
         });
-        console.log('/web/product/webList/'+city+'isHot=true');
+        console.log('/product/webList/'+city+'?hot=true');
         httpClient.getReq(function(err,data){
             if(err){
                 res.json({error:1,errorMsg: err});

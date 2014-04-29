@@ -18,7 +18,7 @@ exports.getProducts = function(request,response){
                 'method':"GET"
             });
             httpClient.getReq(function(err,res){
-                if(err){
+                if(err || res.error!=0){
                     cb(err,null);
                 } else {
                     cb(null,res.data);
@@ -33,7 +33,7 @@ exports.getProducts = function(request,response){
                 'method':"GET"
             });
             httpClient.getReq(function(err,res){
-                if(err){
+                if(err||res.error!=0){
                     cb(err,null);
                 } else {
                     cb(null,res.data);
@@ -41,7 +41,11 @@ exports.getProducts = function(request,response){
             });
         }
     ],function(err,res){
-        response.render('web/products',{'products':res[1],'city':{'name':res[0].name}});
+        if(err){
+            response.redirect('/errorPage');
+        }else{
+            response.render('web/products',{'products':res[1],'city':{'name':res[0].name}});
+        }
     });
 };
 
@@ -58,7 +62,7 @@ exports.getDetail = function(request,response){
     var httpClient = new HttpClient({
         'host':Config.inf.host,
         'port':Config.inf.port,
-        'path':'/web/product/detail/'+id,
+        'path':'/product/ticket/detail/'+id,
         'method':"GET"
     });
     httpClient.getReq(function(err,res){
@@ -176,7 +180,7 @@ exports.toPkgOrder = function(request,response){
     var httpClient = new HttpClient({
         'host':Config.inf.host,
         'port':Config.inf.port,
-        'path':'/web/product/detail/'+id,
+        'path':'/product/ticket/detail/'+id,
         'method':"GET"
     });
     httpClient.getReq(function(err,res){
@@ -348,7 +352,7 @@ exports.toTktOrder = function(request,response){
         var httpClient = new HttpClient({
             'host':Config.inf.host,
             'port':Config.inf.port,
-            'path':'/web/product/detail/'+id,
+            'path':'/product/ticket/detail/'+id,
             'method':"GET"
         });
         httpClient.getReq(function(err,res){
