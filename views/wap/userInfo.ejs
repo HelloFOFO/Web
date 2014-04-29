@@ -1,0 +1,94 @@
+<%include header%>
+      <form name="form1" method="post" action="/wap/updateUser">
+        <div class="wcy-userinfo">
+            <div class="container">
+                      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="infoTab">
+                              <tr>
+                                <td width="35%" height="30" align="left" valign="middle" >姓名</td>
+                                <td width="65%" align="right" valign="middle" ><span class="wap-orange">
+                                  <input type="newly-SelfDriving" class="form-control" id="name" name="name" value="<%=u.name?u.name:""%>">
+                                </span></td>
+                              </tr>
+                              <tr>
+                                <td height="30" align="left" valign="middle">所在城市</td>
+                                <td align="right" valign="middle" class="wap-orange">
+                                    <input type="newly-SelfDriving" class="form-control" id="city" name="city" value="">
+                                </td>
+                              </tr>
+                              <tr>
+                                <td height="30" align="left" valign="middle">性别</td>
+                                <td align="right" valign="middle">
+                                <%if(u.gender=='M'){%>
+                                <input type="radio" name="gender" value="M" checked><label for="radio" class="sexlabel">男</label>
+                                <%} else { %>
+                                <input type="radio" name="gender" value="M"><label for="radio" class="sexlabel">男</label>
+                                <%}%>
+                                <%if(u.gender=='F'){%>
+                                <input type="radio" name="gender" value="F" checked><label for="sex">女</label>
+                                <%} else { %>
+                                <input type="radio" name="gender" value="F"><label for="sex">女</label>
+                                <%}%>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td height="30" align="left" valign="middle" >车牌号</td>
+                                <td align="right" valign="middle"  class="wap-orange">
+                                    <input type="newly-SelfDriving" class="form-control" id="lisencePlate" name="lisencePlate" value="<%=u.lisencePlate?u.lisencePlate:''%>">
+                                </td>
+                              </tr>
+                              <tr>
+                                <td height="30" align="left" valign="middle">年龄</td>
+                                <td align="right" valign="middle"  class="wap-orange">
+                                      <select class="form-control">
+                                        <option value="20-30">20-30</option>
+                                        <option value="30-35">30-35</option>
+                                        <option value="35-40">35-40</option>
+                                        <option value="40-50">40-50</option>
+                                        <option value="50-60">50-60</option>
+                                      </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td height="30" align="left" valign="middle">同行对象</td>
+                                <td align="right" valign="middle"  class="wap-orange">
+                                      <select class="form-control">
+                                        <option value="全家">全家</option>
+                                        <option value="朋友">朋友</option>
+                                        <option value="恋人">恋人</option>
+                                        <option value="同事">同事</option>
+                                      </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td height="30" align="left" valign="middle">最近一次自<br>
+                                  驾游目的地</td>
+                                <td align="right" valign="middle"  class="wap-orange">
+                                    <input type="newly-SelfDriving" class="form-control" id="lastDestCity" name="lastDestCity" value="<%=u.lastDestCity?u.lastDestCity:''%>">
+                                </td>
+                              </tr>
+                              <tr>
+                                <td height="30" align="left" valign="middle">最喜欢的自<br>
+                                  驾游目的地</td>
+                                <td align="right" valign="middle"  class="wap-orange">
+                                    <input type="Favorites-SelfDriving" class="form-control" id="favouriteCity" name="favouriteCity" value="<%=u.favouriteCity?u.favouriteCity:''%>">
+                                </td>
+                              </tr>
+                              <tr class="tdend">
+                                <td height="30" align="left" valign="middle">一年内自驾游<br>
+                                  去过并愿意再<br>
+                                去的目的地</td>
+                                <td align="right" valign="middle"  class="wap-orange">
+                                    <input type="oneYear-SelfDriving" class="form-control"  id="intentCity" name="intentCity" value="<%=u.intentCity?u.intentCity:''%>">
+                                </td>
+                              </tr>
+                            </table>
+            </div>
+        </div>
+
+        <div class="container">
+        		<div class="wcy-hotelTicketPayBt">
+        		<button type="submit" class="btn wap-submitBt btn-block">保存</button>
+                </div>
+        </div>
+        </form>
+<%include footer%>

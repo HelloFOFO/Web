@@ -1,29 +1,178 @@
-<%include header%>
-<div class="wcy-prodetail">
-	<div class="container">
-    		<div class="wcy-Prodetailbox">
-                    <div class="blackbox">
-                      <p>景点名称：西湖
-                      <p>景点等级：AAAAA级景区
-                      <p>景点地址：浙江省杭州市西湖风景名胜区 <a href="#">地图</a>
-                      <p>营业时间：7:00~18:00 
-                    </div>
-                    <div class="graybox">
-                    	<img src="images/wcy_hotelTicket01.jpg" class="imgfloat">
-                      <p>西湖,现今《世界遗产名录》中少数几个、中国唯一一处湖泊类文化遗产。</p>
-                      <p>杭州西湖位于浙江省杭州市的西南方，它以其秀丽的湖光山色和众多的名胜古迹而成为闻名中外的旅游胜地并被世人赋予“人间天堂”的美誉。</p>
-                      <p>宋代大文豪苏东坡曾写道：“天下西湖三十六，就中最好是杭州”。</p>
-                      <img src="images/wcy_hotelTicket02.jpg">
-                       <p>西湖,现今《世界遗产名录》中少数几个、中国唯一一处湖泊类文化遗产。</p>
-                      <p>杭州西湖位于浙江省杭州市的西南方，它以其秀丽的湖光山色和众多的名胜古迹而成为闻名中外的旅游胜地并被世人赋予“人间天堂”的美誉。</p>
-                      <p>宋代大文豪苏东坡曾写道：“天下西湖三十六，就中最好是杭州”。</p>
-                       </div>
-                <form action="/wap/subOrder" method="post">
-                    <input type="submit" value="提交"/>
-                    <input type="hidden" id="product" name="product" value="<%=product._id%>"/>
-                </form>
+<% include header %>
+<!--轮播-->
+<% if(product.image&&product.image.length>0){ %>
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <%for(var i=0;i<product.image.length;i++){%>
+        <li data-target="#carousel-example-generic" data-slide-to="<%=i%>" <%if(0===i){%>class="active"<%}%>></li>
+        <%}%>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+        <% for(var i in product.image){ %>
+        <% if("0" === i){ %>
+        <div class="item active">
+            <% }else{ %>
+            <div class="item">
+                <% } %>
+                <img src="http://dd885.b0.upaiyun.com/<%= product.image[i].url %>" data-src="holder.js/100%x300">
             </div>
+            <% } %>
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+    </div>
+<% } %>
+<!--购票-->
+<div class="wap-onlyTicketbox">
+    <div class="container">
+        <div class="title"><%= product.name %></div>
+        <form name="form_order" method="post" id="form_order" action="/wap/subOrder">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="Ticket">
+                <%if(4!==parseInt(product.type)){%>
+                <tr>
+                    <td width="20%" height="30">有效期</td>
+                    <td width="80%">
+                        <select id="dateSelect" class="inputSelect">
+                            <option value="">请选择有效期</option>
+                            <% product.pls.forEach(function(pl){ %>
+                            <option value="<%= pl.price %>,<%= pl.priceWeekend %>,<%= pl._id %>"><%= pl.name %></option>
+                            <% }); %>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td height="30">门票类型</td>
+                    <td align="left" valign="middle">
+                        <input name="weekend" id="wk" type="radio" isWk="y" checked>&nbsp;周末&nbsp;&nbsp;&nbsp;
+                        <input name="weekend" id="nor" isWk="n" type="radio">&nbsp;平日
+                    </td>
+                </tr>
+                <%}else{%>
+                <tr>
+                    <td width="20%" height="30">入住日期</td>
+                    <td width="80%">
+                        <a class="wap-calendarBt  btn-block" href="/wap/calendar/<%= product._id %>" id="selDate">选择日期</a>
+                    </td>
+                </tr>
+                <%}%>
+                <tr>
+                    <td height="30">价格</td>
+                    <td class="wap-orange" id="formprice"><span class="wcy-f18" id="divPrice"></span>
+                    </td>
+                </tr>
+            </table>
+            <div class="wcy-onlyTicketBt">
+                <button type="submit" class="btn wap-submitBt btn-block">立即购买</button>
+            </div>
+            <!--hidden fields-->
+            <input type="hidden" name="product" value="<%= product._id %>">
+            <input type="hidden" name="exDate" id="exDate"/>
+            <input type="hidden" name="sPrice" id="sPrice"/>
+            <%if(4!==product.type){%>
+            <input type="hidden" name="isWeekend" id="isWeekend"/>
+            <input type="hidden" name="lid" id="lid"/>
+            <%}%>
+        </form>
     </div>
 </div>
+<!--商品信息-->
+<div class="wap-onlyTicketLinkbox">
+    <div class="container">
+        <div class="title">商品简介</div>
+        <div class="info">
+            <p><%- product.content.replace(/\n/g, '<br/>') %></p>
+        </div>
+    </div>
 </div>
-<%include footer%>
+<!--链接-->
+<div class="wap-onlyTicketLinkbox">
+    <form method="get" action="/wap/productDetailInfo">
+        <input type="hidden" name="type" value="relate">
+        <input type="hidden" name="_id" value=<%=product._id%> />
+        <button type="submit" class="wap-TicketLinkBt btn-block">相关商品</button>
+    </form>
+</div>
+<div class="wap-onlyTicketLinkbox">
+    <form method="get" action="/wap/productDetailInfo">
+        <input type="hidden" name="type" value="detail">
+        <input type="hidden" name="name" value="<%=product.name%>">
+        <input type="hidden" name="level" value="<%=product.level%>">
+        <input type="hidden" name="address" value="<%=product.addr%>">
+        <input type="hidden" name="openTime" value="<%=product.openTime%>">
+        <input type="hidden" name="image" value="<%=product.image[0]?product.image[0].url:""%>">
+        <input type="hidden" name="image2" value="<%=product.image[1]?product.image[1].url:""%>">
+        <input type="hidden" name="intro" value="<%=product.intro%>">
+        <button type="submit" class="wap-TicketLinkBt btn-block">商品详情</button>
+    </form>
+</div>
+<div class="wap-onlyTicketLinkbox">
+    <form method="get" action="/wap/productDetailInfo">
+        <input type="hidden" name="type" value="notice">
+        <input type="hidden" name="bookRule" value="<%=product.bookRule%>">
+        <input type="hidden" name="useRule" value="<%=product.useRule%>">
+        <input type="hidden" name="cancelRule" value="<%=product.cancelRule%>">
+        <button type="submit" class="wap-TicketLinkBt btn-block">预定须知</button>
+    </form>
+</div>
+<% include footer %>
+<script>
+    <%if(4!==product.type){%>
+    function setShowData() {
+        if ("" === $('#dateSelect').val() || undefined === $('#dateSelect').val()) {
+            $('#exDate').val("");
+            var array = $('#dateSelect').val().split(',');
+            $('#wk').val("");
+            $('#nor').val("");
+            $('#divPrice').html("");
+            $('#sPrice').val("");
+            $('#isWeekend').val("");
+            $('#lid').val("");
+        } else {
+            $('#exDate').val($('#dateSelect :checked').text());
+            var array = $('#dateSelect').val().split(',');
+            $('#wk').val(array[1]);
+            $('#nor').val(array[0]);
+            $('#divPrice').html("￥" + $("input[name='weekend']:checked").val() + "起");
+            $('#sPrice').val($("input[name='weekend']:checked").val());
+            $('#isWeekend').val($("input[name='weekend']:checked").attr('isWk'));
+            $('#lid').val(array[2]);
+        }
+    }
+    $(document).ready(function () {
+        //inits
+        setShowData();
+        //submit
+        $('#form_order').submit(function (event) {
+            if ("" === $('#dateSelect').val()) {
+                alert('请选择有效期!');
+                event.preventDefault();
+            }
+        });
+
+        //date select event
+        $('#dateSelect').change(function () {
+            setShowData();
+        });
+
+        //radio select
+        $("input[name='weekend']").click(function () {
+            if ("" !== $("input[name='weekend']:checked").val() && undefined !== $("input[name='weekend']:checked").val() && "on" !== $("input[name='weekend']:checked").val()) {
+                $('#divPrice').html("￥" + $("input[name='weekend']:checked").val() + "起");
+                $('#sPrice').val($("input[name='weekend']:checked").val());
+                $('#isWeekend').val($("input[name='weekend']:checked").attr('isWk'));
+            }
+        });
+    });
+    <%}else{%>
+
+    <%}%>
+</script>

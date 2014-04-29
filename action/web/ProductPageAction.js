@@ -13,7 +13,7 @@ exports.getProducts = function(request,response){
             var httpClient = new HttpClient({
                 'host':Config.inf.host,
                 'port':Config.inf.port,
-                'path':'/wap/city/name/'+city,
+                'path':'/city/name/'+city,
                 'method':"GET"
             });
             httpClient.getReq(function(err,res){
@@ -28,7 +28,7 @@ exports.getProducts = function(request,response){
             var httpClient = new HttpClient({
                 'host':Config.inf.host,
                 'port':Config.inf.port,
-                'path':'/web/product/webList/'+city,
+                'path':'/product/webList/'+city,
                 'method':"GET"
             });
             httpClient.getReq(function(err,res){

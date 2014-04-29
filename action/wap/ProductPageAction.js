@@ -4,6 +4,7 @@
 var HttpClient = require('./../../tools/HttpClient.js');
 var Config = require('./../../tools/Config');
 var async = require('async');
+var us = require('underscore');
 var timeZone = ' 00:00:00 +08:00';
 exports.getProducts = function(request,response){
     var city = request.params.id;
@@ -12,7 +13,7 @@ exports.getProducts = function(request,response){
             var httpClient = new HttpClient({
                 'host':Config.inf.host,
                 'port':Config.inf.port,
-                'path':'/wap/city/name/'+city,
+                'path':'/city/name/'+city,
                 'method':"GET"
             });
             httpClient.getReq(function(err,res){
@@ -27,7 +28,7 @@ exports.getProducts = function(request,response){
             var httpClient = new HttpClient({
                 'host':Config.inf.host,
                 'port':Config.inf.port,
-                'path':'/web/product/webList/'+city,
+                'path':'/product/webList/'+city,
                 'method':"GET"
             });
             httpClient.getReq(function(err,res){
@@ -47,10 +48,17 @@ exports.getProducts = function(request,response){
 exports.getDetail = function(request,response){
     var id = request.params.id;
     var type = request.params.type;
+
+    var path = "";
+    if(4===type){
+        path = "/product/package/detail/"+id;
+    }else{
+        path = "/product/ticket/detail/"+id;
+    }
     var httpClient = new HttpClient({
         'host':Config.inf.host,
         'port':Config.inf.port,
-        'path':'/web/product/detail/'+id,
+        'path':path,
         'method':"GET"
     });
     httpClient.getReq(function(err,res){
@@ -58,7 +66,6 @@ exports.getDetail = function(request,response){
             response.send(404,err);
         }else{
             if(0===res.error){
-                console.log(res.data);
                 var product = res.data;
                 var level = "";
                 if(product.type==1){
@@ -99,7 +106,40 @@ exports.getDetail = function(request,response){
                     }
                 }
                 product.level=level;
-                response.render('wap/productDetail',{'titleName':'商品详情',product:product});
+                if(4===product.type){
+                    response.render('wap/productDetail',{'titleName':'商品详情','product':product});
+                }else{
+                    //get price log list
+                    var hc = new HttpClient({
+                        'host':Config.inf.host,
+                        'port':Config.inf.port,
+                        'path':'/product/ticket/priceLog/list?product='+ product._id + "&status=2",
+                        'method':"GET"
+                    });
+                    hc.getReq(function(error,result){
+                        if(error){
+                            response.send(404,error);
+                        }else{
+                            if(0===result.error){
+                                var pls = [];
+                                result.data.forEach(function(obj){
+                                    var pl = {};
+                                    var sd = new Date(obj.startDate).Format("yyyy-MM-dd");
+                                    var ed = new Date(obj.endDate).Format("yyyy-MM-dd");
+                                    pl.name = sd + '~' + ed;
+                                    pl._id = obj._id;
+                                    pl.price = obj.price;
+                                    pl.priceWeekend = obj.priceWeekend;
+                                    pls.push(pl);
+                                });
+                                product.pls = pls;
+                                response.render('wap/productDetail',{'titleName':'商品详情','product':product});
+                            }else{
+                                response.send(404,result.errorMsg);
+                            }
+                        }
+                    });
+                }
             }else{
                 response.send(res.errorMsg);
             }
@@ -107,9 +147,93 @@ exports.getDetail = function(request,response){
     });
 };
 
+exports.productCalendar = function(request,response){
+    //get price list
+    var id = request.params.id;
+    //get server now time
+    var now = new Date();
+    var sd = now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDate()+timeZone;
+    now.setMonth(now.getMonth()+3);
+    var ed = now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDate()+timeZone;
+    var opt = {
+        'host':Config.inf.host,
+        'port':Config.inf.port,
+        'path':'/product/package/price/list/'+ id + '?effectDate='+new Date(sd).getTime() + '&expiryDate='+new Date(ed).getTime(),
+        'method':"GET"
+    };
+    var hc = new HttpClient(opt);
+    hc.getReq(function(e,r){
+        if(e){
+            response.send(404,e);
+        }else{
+            console.log("bbbbb",r);
+//            if(0=== r.error){
+                console.log("cccc");
+                var prices = [];
+//                r.data.forEach(function(p){
+//                    prices.push(p.packagePrice);
+//                    console.log(p.packagePrice);
+//                });
+                var result = {};
+                result.id = id;
+                result.prices = prices;
+                result.time = new Date(sd).getTime();
+
+                response.render('wap/productCalendar',{'titleName':'选择日期','product':result});
+//            }else{
+//                console.log("ddddd");
+//                response.send(404,r.errorMsg);
+//            }
+        }
+    });
+}
+
+exports.detailInfo = function(request,response){
+    var flag = true;
+    var type = request.query.type;
+    var res = {};
+    res.type = type;
+    if("detail"===type){
+        res.name = !us.isEmpty(request.query.name)?request.query.name:"";
+        res.level = !us.isEmpty(request.query.level)?request.query.level:"";
+        res.address = !us.isEmpty(request.query.address)?request.query.address:"";
+        res.openTime = !us.isEmpty(request.query.openTime)?request.query.openTime:"";
+        res.image = !us.isEmpty(request.query.image)?request.query.image:"";
+        res.image2 = !us.isEmpty(request.query.image2)?request.query.image2:"";
+        res.intro = !us.isEmpty(request.query.intro)?request.query.intro:"";
+        response.render('wap/productSectionDetail',{titleName:'商品详情',info:res});
+    }else if("relate"===type){
+        var id = request.query._id;
+        var hc = new HttpClient({
+            'host':Config.inf.host,
+            'port':Config.inf.port,
+            'path':'/product/relevance/'+ id,
+            'method':"GET"
+        });
+        hc.getReq(function(error,result){
+            if(error){
+                response.send(404,error);
+            }else{
+                if(0===result.error){
+                    res.relate = result.data;
+                    response.render('wap/productSectionDetail',{titleName:'相关商品',info:res});
+                }else{
+                    response.send(404,result.errorMsg);
+                }
+            }
+        });
+    }else if("notice"===type){
+        res.bookRule = !us.isEmpty(request.query.bookRule)?request.query.bookRule:"";
+        res.useRule = !us.isEmpty(request.query.useRule)?request.query.useRule:"";
+        res.cancelRule = !us.isEmpty(request.query.cancelRule)?request.query.cancelRule:"";
+        response.render('wap/productSectionDetail',{titleName:'预定须知',info:res});
+    }else{
+        response.send(404,"没有这种类型");
+    }
+};
 exports.toSubOrder = function(request,response){
-    var time = "2014-04-18";
-    var price = 200;
+    var time = request.body.exDate;
+    var price = request.body.sPrice;
     var id = request.body.product;
     var httpClient = new HttpClient({
         'host':Config.inf.host,
@@ -141,7 +265,6 @@ exports.toSubOrder = function(request,response){
 }
 
 exports.saveOrder = function(request,response){
-    var us = require('underscore');
     var data = {};
     var flag = true;
     var errorMsg = "";

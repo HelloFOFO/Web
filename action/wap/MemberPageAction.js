@@ -108,3 +108,34 @@ exports.forgetPasswd = function(request,response){
         }
     });
 };
+
+exports.userInfo = function(request,response){
+    var id = "";
+    if(request.session.user){
+        id = request.session.user._id;
+        var httpClient = new HttpClient({
+            'host':Config.inf.host,
+            'port':Config.inf.port,
+            'path':'/ent/agent/member/detail/'+id,
+            'method':"GET"
+        });
+        httpClient.getReq(function(err,res){
+            if(err){
+                response.send(404,err);
+            } else {
+                if(0===res.error){
+                    console.log(res.data);
+                    response.render('wap/userInfo',{titleName:'个人信息','u':res.data});
+                }else{
+                    response.send(404,res.errorMsg);
+                }
+            }
+        });
+    }else{
+        response.render('wap/login',{titleName:'登录'});
+    }
+}
+
+exports.updateUser = function(request,response){
+    response.send('/wap/');
+}

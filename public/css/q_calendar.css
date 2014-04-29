@@ -1,0 +1,50 @@
+@charset "UTF-8";
+/* CSS Document */
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,a,code,em,img,q,small,strong,dd,dl,dt,li,ol,ul,fieldset,form,label,tbody,tr,th,td,input {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-size: 12px;
+  font-family: "Microsoft Yahei", "微软雅黑", SimHei,Tahoma, Arial, Helvetica, STHeiti;
+  _font-family: Tahoma,Arial,Helvetica,STHeiti;
+  cursor: default;
+  color:#333333;
+  background:#FFFFFF;
+}
+
+
+a img,
+:link img,
+:visited img {
+  border: 0;
+}
+table {
+  border-collapse: collapse;
+  word-wrap:break-word;
+}
+ul {
+  list-style: none;
+}
+
+a{color:#372e27;  text-decoration:none;}
+a:visited {text-decoration: none;}
+a:hover{ color:#372e27; text-decoration:none;}
+a:active { text-decoration: none;}
+
+
+
+/* hotel Calendar*/
+.hotelCalendar h2{ height:40px; line-height:40px; font-size:22px; font-weight:lighter; text-align:center; color:#ff5c01; padding-top:10px;}
+.CalendarTable{ font-size:14px; color:#414141; }
+.CalendarTable th{ border-bottom:1px solid #CCC; border-collapse:collapse; font-size:12px;}
+.CalendarTd{ padding:10px 5px 0px; cursor: pointer;}
+.CalendarTd p{ padding:0; margin:0; height:25px; line-height:25px; padding-top:5px;}
+.dateOut{color:#9d8b7f; cursor:default;}
+.dateUnkown{color:#D2D2D2; cursor:default;}
+.datered{ color:#ff5c01; font-size:12px;}
+.dateToday{ background:url(../images/datebg.png) no-repeat center 5px; background-size:25px 25px; color:#fff;}
+.dateless{ background:url(../images/datebg.png) no-repeat center top; background-size:5px 5px;}
+.datefull{ background:url(../images/datebgray.png) no-repeat center top; background-size:5px 5px; font-size:12px;}
+.prevMonth{ float:left; display:block; cursor:pointer; width:25px; height:40px; background:url(../images/arrow_left.png) no-repeat left center; background-size:20px 20px; margin-left:10px;}
+.nextMonth{ float:right; display:block; cursor:pointer; width:25px; height:40px; background:url(../images/arrow_right.png) no-repeat left center; background-size:20px 20px; margin-left:10px;}

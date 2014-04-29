@@ -1,0 +1,55 @@
+<% include header %>
+<%if("detail"===info.type){%>
+<div class="wcy-prodetail">
+    <div class="container">
+        <div class="wcy-Prodetailbox">
+            <div class="blackbox">
+                <p>景点名称：<%=info.name%>
+
+                <p>景点等级：<%=info.level%>
+
+                <p>景点地址：<%=info.address%> <a href="#">地图</a>
+
+                <p>营业时间：<%=info.openTime%>
+            </div>
+            <div class="graybox">
+                <img src="http://dd885.b0.upaiyun.com/<%=info.image[0].url%>" class="imgfloat">
+                <p><%-info.intro.replace(/\n/g, '<br/>')%></p>
+                <img src="http://dd885.b0.upaiyun.com/<%=info.image[1].url%>">
+            </div>
+        </div>
+    </div>
+</div>
+<%}else if("relate"===info.type){%>
+<div class="container">
+    <div class="row">
+        <%info.relate.forEach(function(p){%>
+        <div class="col-xs-6">
+            <div class="listProBox">
+                <div class="imgbox"><a href="/wap/productDetail/<%=p._id%>/<%=p.type%>"><img src="http://dd885.b0.upaiyun.com/<%=p.image[0].url%>" alt="<%=p.image[0].intro%>"/></a></div>
+                <a href="/wap/productDetail/<%=p._id%>/<%=p.type%>"><div class="probox">
+                        <div class="hotelName"><%=p.name%></div>
+                        <div class="hotelPrice">￥<span><%=p.price%></span></div>
+                    </div></a>
+            </div>
+        </div>
+        <%});%>
+    </div>
+</div>
+<%}else{%>
+<div class="wcy-prodetail">
+    <div class="container">
+        <div class="wcy-Prodetailbox">
+            <div class="graybox">
+                <p><span class="black">兑换规则</span></br>
+                    <%-info.bookRule.replace(/\n/g, '<br/>')%></p>
+                <p><span class="black">使用规则</span></br>
+                    <%-info.useRule.replace(/\n/g, '<br/>')%></p>
+                <p><span class="black">取消规则</span></br>
+                    <%-info.cancelRule.replace(/\n/g, '<br/>')%></p>
+            </div>
+        </div>
+    </div>
+</div>
+<%}%>
+<% include footer %>

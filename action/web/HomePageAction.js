@@ -8,7 +8,7 @@ exports.cityBox = function(request,response){
     var httpClient = new HttpClient({
         'host':Config.inf.host,
         'port':Config.inf.port,
-        'path':'/web/city/list',
+        'path':'/city/list',
         'method':"GET"
     });
     httpClient.getReq(function(err,res){

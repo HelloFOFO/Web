@@ -27,6 +27,7 @@
                 </div>
                 <form class="formtab" role="form" method="post" id="form_order" action="/ticket/fill">
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <%if(4!==parseInt(product.type)){%>
                         <tr>
                             <td width="30%" height="50" align="left" valign="middle"><label>有效期</label></td>
                             <td align="left" valign="middle">
@@ -48,6 +49,8 @@
                             <td width="30%" height="50" align="left" valign="middle"><label>价格</label></td>
                             <td align="left" valign="middle" class="price" id="formprice"><span id="divPrice"></span></td>
                         </tr>
+                        <%}else{%>
+                        <%}%>
                         <tr>
                             <td height="50" colspan="2" align="left" valign="bottom">
                                 <input type="hidden" name="product" value="<%=product._id%>">

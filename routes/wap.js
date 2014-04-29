@@ -38,11 +38,15 @@ module.exports = function(app){
     app.all('/wap/doLogin',MemberPageAction.doLogin);
     app.post('/wap/doRegister',MemberPageAction.doRegister);
     app.post('/wap/doForget',MemberPageAction.forgetPasswd);
+    app.get('/wap/userInfo',MemberPageAction.userInfo);
+    app.get('/wap/updateUser',MemberPageAction.updateUser);
     //products
     app.get('/wap/products/:id',ProductPageAction.getProducts);
     app.get('/wap/productDetail/:id/:type',ProductPageAction.getDetail);
     app.post('/wap/subOrder',ProductPageAction.toSubOrder);
     app.post('/wap/confirm',ProductPageAction.saveOrder);
+    app.get('/wap/productDetailInfo',ProductPageAction.detailInfo);
+    app.get('/wap/calendar/:id',ProductPageAction.productCalendar);
     //ajax
     app.get('/wap/ajax/cityList',HomePageAction.cityList);
 

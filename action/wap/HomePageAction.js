@@ -9,7 +9,7 @@ exports.getHomePage = function(request,response){
     var httpClient = new HttpClient({
         'host':Config.inf.host,
         'port':Config.inf.port,
-        'path':key?'/web/city/list?key='+key:'/web/city/list',
+        'path':key?'/city/list?key='+key:'/city/list',
         'method':"GET"
     });
     httpClient.getReq(function(err,res){
@@ -31,7 +31,7 @@ exports.cityList = function(request,response){
     var httpClient = new HttpClient({
         'host':Config.inf.host,
         'port':Config.inf.port,
-        'path':key?'/wap/city/list?key='+key:'/wap/city/list',
+        'path':key?'/city/list?key='+key:'/city/list',
         'method':"GET"
     });
     httpClient.getReq(function(err,res){
