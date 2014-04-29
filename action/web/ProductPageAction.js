@@ -18,7 +18,7 @@ exports.getProducts = function(request,response){
                 'method':"GET"
             });
             httpClient.getReq(function(err,res){
-                if(err){
+                if(err || res.error!=0){
                     cb(err,null);
                 } else {
                     cb(null,res.data);
@@ -33,7 +33,7 @@ exports.getProducts = function(request,response){
                 'method':"GET"
             });
             httpClient.getReq(function(err,res){
-                if(err){
+                if(err||res.error!=0){
                     cb(err,null);
                 } else {
                     cb(null,res.data);
