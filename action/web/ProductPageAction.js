@@ -58,7 +58,7 @@ exports.getDetail = function(request,response){
     var httpClient = new HttpClient({
         'host':Config.inf.host,
         'port':Config.inf.port,
-        'path':'/web/product/detail/'+id,
+        'path':'/product/ticket/detail/'+id,
         'method':"GET"
     });
     httpClient.getReq(function(err,res){
@@ -176,7 +176,7 @@ exports.toPkgOrder = function(request,response){
     var httpClient = new HttpClient({
         'host':Config.inf.host,
         'port':Config.inf.port,
-        'path':'/web/product/detail/'+id,
+        'path':'/product/ticket/detail/'+id,
         'method':"GET"
     });
     httpClient.getReq(function(err,res){
@@ -348,7 +348,7 @@ exports.toTktOrder = function(request,response){
         var httpClient = new HttpClient({
             'host':Config.inf.host,
             'port':Config.inf.port,
-            'path':'/web/product/detail/'+id,
+            'path':'/product/ticket/detail/'+id,
             'method':"GET"
         });
         httpClient.getReq(function(err,res){
