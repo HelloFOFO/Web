@@ -41,7 +41,11 @@ exports.getProducts = function(request,response){
             });
         }
     ],function(err,res){
-        response.render('web/products',{'products':res[1],'city':{'name':res[0].name}});
+        if(err){
+            response.redirect('/errorPage');
+        }else{
+            response.render('web/products',{'products':res[1],'city':{'name':res[0].name}});
+        }
     });
 };
 

@@ -138,13 +138,13 @@
 
 
         $(".bs-wcy-homecitybox").on('click','a',function (e) {
-            console.log("fuck");
+
             var city = $(this).text();
             $('#cityId').val($(this).attr('href').replace('#',''));
             $(".searchInput").val(city);
             $('#bigCity').text(city);
             $(".bs-wcy-homecitybox").hide();
-            console.log('i am clicked',e);
+
             e.preventDefault();
         });
         //刷新热门产品列表
@@ -163,7 +163,7 @@
             }).done(function(data){
                         var hotProductListStr = "";
                         $.each(data.data,function(index,data){
-                            console.log(data.image);
+
                             hotProductListStr += proudctStr.replace(/__imageurl__/,data.image.url)
                                                            .replace(/__imagename__/,data.image.intro)
                                                            .replace(/__price__/,data.price)
