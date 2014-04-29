@@ -22,7 +22,7 @@ module.exports = function(app){
         } else {
             next();
         }
-    })
+    });
 
 //    app.get('/web/register',MemberPageAction.register);
 //    app.post('/web/login',MemberPageAction.login);
@@ -43,10 +43,13 @@ module.exports = function(app){
     app.get('/aboutUs',function(request,response){
         response.render('web/aboutUs');
     });
+    app.get('/hotProductListByCity',HomePageAction.hotProduct);
 
     app.get('/userInfo/:id',MemberAction.userInfo);
     app.get('/products/:id',ProductPageAction.getProducts);
     app.get('/productDetail/:id',ProductPageAction.getDetail);
+    app.get('/product/relevance/:productID',ProductPageAction.getRelevanceProduct);
+
     app.post('/package/fill',ProductPageAction.toPkgOrder);
     app.post('/package/submitOrder',ProductPageAction.toConfirm);
     app.post('/ticket/fill',ProductPageAction.toTktOrder);

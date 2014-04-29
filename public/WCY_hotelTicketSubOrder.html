@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  	<meta charset="utf-8">
+    <title>万车游 填写酒店预定信息 提交表单</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/wcy.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.min.js"></script>
+        <script src="http://cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  <div id="wrap">
+    	<div class="bs-wcy-nav">
+              <div class="container bs-wcy-headheight bs-wcy_headwidth">
+                        <a class="bs-wcy-logo" href="#"></a>
+                        <div class="bs-wcy-headword">完善信息，享自驾游专享价！</div>
+                        <ul class="bs-wcy_navlist">
+                            <li><a href="#">政府公告</a></li>
+                            <li><a href="#">注册</a></li>
+                            <li><a href="#">登录</a></li>
+                         </ul>
+              </div>
+     </div>
+      <form name="form1" method="post" action="">
+     	<div class="container bs-wcy-tickediv">
+        		<div class="bs-wcy-tickettop">
+                		<div class="proBar01">
+                        		<p class="info deepgreen">填写预订信息</p>
+                                <p class="info">在线支付</p>
+                                <p class="info">预定成功</p>
+                        </div>
+                </div>
+          <div class="bs-wcy-tickeBox">
+       		<div class="bs-wcy-tickeorderpad ticket">
+                        		<h3>希尔顿高级客房1晚＋西湖单日门票＋大礼包</h3>
+                        		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab">
+                                      <tr>
+                                        <td width="35%" height="80" align="left" valign="middle">使用日期：2014年03月7日</td>
+                                        <td width="43%" align="left" valign="middle">
+                                          <input type="button"  id="sub" value="" class="subbt">
+                                       	  <input type="text" class="num" id="num" value="1">
+                                          <input type="button"  id="add" value="" class="addbt">
+                                        </td>
+                                        <td width="22%" align="left" valign="middle" class="bs-wcy_orange">
+                                        	<span class="price">1200</span>元
+                                        </td>
+                                  </tr>
+                                      <tr class="bs-wcy_gray">
+                                        <td align="left" valign="top">
+                                        	<p>产品包含</p>
+                                        	<p>希尔顿高级大床房1晚，含2份早餐</p>
+                                        	<p>西湖门票一张</p>
+                                        </td>
+                                        <td align="left" valign="top">
+                                          	<p>预订须知</p>
+                                          	<p>兑换规则：请在有效期内至景区售票处兑换。</p>
+                                          	<p>使用规则：当天只能购买第二天及以后使用的门票。</p>
+                                          	<p>取消规则：不能取消。</p>
+                                         </td>
+                                        <td align="left" valign="middle">&nbsp;</td>
+                                  </tr>
+                          </table>
+       		</div>
+            <div class="bs-wcy-tickeorderpad ticket">
+   		      <h3>发票信息</h3>
+                         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="guesttab">
+                                <tr>
+                                  <td width="13%" height="30" align="left" valign="middle">入住人姓名1</td>
+                                  <td width="87%" align="left" valign="middle">
+                                  <input type="text" name="textfield" id="textfield"></td>
+                           </tr>
+                                      <tr>
+                                        <td height="30" align="left" valign="middle">入住人姓名2</td>
+                                        <td align="left" valign="middle"><input type="text" name="textfield2" id="textfield2"></td>
+                                      </tr>
+                                      <tr>
+                                        <td height="30" align="left" valign="middle">手机号</td>
+                                        <td align="left" valign="middle"><input type="text" name="textfield3" id="textfield3"></td>
+                                      </tr>
+                        </table>
+                    </div>
+            <div class="bs-wcy-tickeorderpad">
+   		      <h3>旅客信息</h3>
+                         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="guesttab">
+                                <tr>
+                                  <td width="13%" height="30" align="left" valign="middle">是否需要</td>
+                                  <td width="87%" align="left" valign="middle">
+                                  			<label class="radio-inline">
+                                              <input name="optionsRadios" type="radio" value="option1" checked> 不需要
+                                            </label>
+                                    <label class="radio-inline">
+                                              <input type="radio" name="optionsRadios"value="option2"> 需要
+                                            </label>
+                                  </td>
+                           </tr>
+                                      <tr>
+                                        <td height="30" align="left" valign="middle">发票类型</td>
+                                        <td align="left" valign="middle">
+                                  			<label class="radio-inline">
+                                              <input type="radio" name="optionsRadios02" value="option1"  checked> 个人
+                                            </label>
+                                            <label class="radio-inline">
+                                              <input type="radio" name="optionsRadios02"value="option2"> 公司
+                                            </label>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td height="30" align="left" valign="middle">发票抬头</td>
+                                        <td align="left" valign="middle"><input type="text" name="textfield3" id="textfield3"></td>
+                                      </tr>
+                                      <tr>
+                                        <td height="30" align="left" valign="middle">邮寄地址</td>
+                                        <td align="left" valign="middle"><input type="text" name="textfield4" id="textfield4"></td>
+                                      </tr>
+                        </table>
+                    </div>
+                </div>
+                <input name="Submit" type="submit" class="btn bs-ticketsubmit btn-lg" value="提交">
+    	 </div>
+       </form>
+ </div>
+     
+	<div id="footer" class="bs-wcy_footer">
+      <div class="container bs-wcy_footerwidth">
+        <p class="Copyright">©Copyright 2011-2014 万车游 All Rights Reserved. 沪ICP备08026014号 </p>
+        <p class="link"><a href="#">关于万车游</a><a href="#">联系我们</a>客服电话 400-888-8888</p>
+      </div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+	$(document).ready(function(){
+	$("#add").click(function(){
+		var n=$("#num").val();
+       var num=parseInt(n)+1;
+	   if(num==0){alert("cc");}
+       $("#num").val(num);
+    });
+
+	$("#sub").click(function(){
+	 var n=$("#num").val();
+      var num=parseInt(n)-1;
+	   if(num==0){alert("不能为0!"); return}
+      $("#num").val(num);
+      });
+
+	});
+	</script>
+  </body>
+</html>

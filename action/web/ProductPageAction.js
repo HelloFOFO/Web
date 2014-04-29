@@ -6,6 +6,7 @@ var Config = require('./../../tools/Config');
 var async = require('async');
 var us = require('underscore');
 var timeZone = ' 00:00:00 +08:00';
+
 exports.getProducts = function(request,response){
     var city = request.params.id;
     async.series([
@@ -44,6 +45,12 @@ exports.getProducts = function(request,response){
     });
 };
 
+var productLevelConvert = function(productLevel,productType){
+    if(productType==1){
+       return productLevel.toString()+'A级景区';
+    }
+};
+
 exports.getDetail = function(request,response){
     var id = request.params.id;
 
@@ -61,45 +68,15 @@ exports.getDetail = function(request,response){
             if(res.error==0){
                 var level;
                 var product = res.data;
-                if(product.type==1){
-                    switch(product.level){
-                        case 1:
-                            level='1A景区'
-                            break;
-                        case 2:
-                            level='2A景区'
-                            break;
-                        case 3:
-                            level='3A景区'
-                            break;
-                        case 4:
-                            level='4A景区'
-                            break;
-                        case 5:
-                            level='5A景区'
-                            break;
-                    }
-                } else if(product.type==2) {
-                    switch(product.level){
-                        case 1:
-                            level='经济型酒店'
-                            break;
-                        case 2:
-                            level='经济型酒店'
-                            break;
-                        case 3:
-                            level='三星级酒店'
-                            break;
-                        case 4:
-                            level='四星级酒店'
-                            break;
-                        case 5:
-                            level='五星级酒店'
-                            break;
-                    }
+
+                if(!us.isEmpty(product.relatedProductID)){
+                    product.relatedProductID.forEach(function(p){
+                        product.image.push(p.product.image[0]);
+                        product.image.push(p.product.image[1]);
+                    });
                 }
-                product.level=level;
-                if(product.type==4){
+                product.level=productLevelConvert(product.level,product.type);
+                if(parseInt(product.type)==4){
                     //get price list
                     //get server now time
                     var now = new Date();
@@ -132,12 +109,18 @@ exports.getDetail = function(request,response){
                     });
                 } else {
                     //get price log list
-                    var hc = new HttpClient({
+                    var o = {
                         'host':Config.inf.host,
                         'port':Config.inf.port,
-                        'path':'/product/ticket/priceLog/list?product='+ product._id + "&status=2",
                         'method':"GET"
-                    });
+                    };
+                    if(product.type==1){
+                        o.path='/product/ticket/priceLog/list?product='+ product._id + "&status=2";
+                    }else{
+                        o.path='/product/ticketPackage/priceLog/list?product='+ product._id + "&status=2";
+                    }
+                    var hc = new HttpClient(o);
+
                     hc.getReq(function(e,r){
                         if(e){
                             response.send(404,e);
@@ -155,7 +138,9 @@ exports.getDetail = function(request,response){
                                     pls.push(pl);
                                 });
                                 product.pls = pls;
+                                console.log(product);
                                 response.render('web/ticketDetail',{'product':product});
+
                             }else{
                                 response.send(404, r.errorMsg);
                             }
@@ -388,5 +373,41 @@ exports.toTktOrder = function(request,response){
                 }
             }
         });
+    }
+};
+
+
+var truncProductName = function(productName){
+    return productName.length>7?productName.substr(0,7)+'...':productName;
+};
+
+exports.getRelevanceProduct = function(req,res){
+    try{
+        var opt={
+            'host':Config.inf.host,
+            'port':Config.inf.port,
+            'path':'/product/relevance/'+req.params.productID,
+            'method':"GET"
+        };
+        console.log(opt.path);
+        var http = new HttpClient(opt);
+        http.getReq(function(error,result){
+            if(error){
+                res.json({error:1,errorMsg: error,data:[]});
+            }else{
+                if(result.error==0){
+                    result.data.forEach(function(d){
+                        d.image= d.image[0];
+                        d.image.url=   'http://dd885.b0.upaiyun.com/'+d.image.url+"!productListPreview";
+                        d.shortName= truncProductName(d.name);
+                    });
+                    res.json(result);
+                }else{
+                    res.json({error:1,errorMsg: error,data:[]});
+                }
+            }
+        });
+    }catch(e){
+        res.json({error:1,errorMsg: e.message});
     }
 };

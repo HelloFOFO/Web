@@ -11,14 +11,11 @@
         <div class="bs-wcy_htBanbox">
             <!--大图列表-->
             <div id="slider" class="nivoSlider">
-                <img src="/images/wcy_hotelbanner01.jpg" data-thumb="/images/wcy_hotelbanner01_90x60.jpg" alt="西湖"/>
-                <img src="/images/wcy_hotelbanner02.jpg" data-thumb="/images/wcy_hotelbanner02_90x60.jpg" alt="西湖"/>
-                <img src="/images/wcy_hotelbanner03.jpg" data-thumb="/images/wcy_hotelbanner03_90x60.jpg" alt="西湖"/>
-                <!--
+
                 <%for(var i=0;i<(product.image.length>3?3:product.image.length);i++){%>
-                <img src="http://dd885.b0.upaiyun.com/<%=product.image[i].url%>" data-thumb="/images/wcy_hotelbanner02_90x60.jpg" alt="<%=product.image[i].intro%>"/>
+                <img src="http://dd885.b0.upaiyun.com/<%=product.image[i].url%>!productDetailHead" data-thumb="http://dd885.b0.upaiyun.com/<%=product.image[i].url%>!productDetailBanner" alt="<%=product.image[i].intro%>"/>
                 <%}%>
-                -->
+
             </div>
             <!--浮层日期信息-->
             <div class="bs-wcy_htBanInfo">
@@ -53,7 +50,7 @@
                         <%}%>
                         <tr>
                             <td height="50" colspan="2" align="left" valign="bottom">
-                                <input type="hidden" name="product" value="<%=product._id%>">
+                                <input type="hidden" name="product" id="productID" value="<%=product._id%>">
                                 <button type="submit" class="btn btn-block bs-wcy_htBanInfosubmit">立即购买</button>
                             </td>
                         </tr>
@@ -70,19 +67,8 @@
 </div>
 <!-- 图片列表  -->
 <div class="bs-wcy_htbox container">
-    <div class="bs-wcy_htimglistbox">
-        <div class="bs-wcy_htimglisttitle"><img src="/images/wcy_hotelTictitle01.gif" alt="相关商品"></div>
-        <ul>
-            <li><a href="#"><img src="/images/wcy_img01.jpg" alt="西湖门票"></a> <a href="#" class="cityinfo"> <span
-                            class="price">￥<span class="pricebig">800</span>起</span> <span
-                            class="info">西湖门票+希尔顿高级客房1晚</span> </a></li>
-            <li><a href="#"><img src="/images/wcy_img01.jpg" alt="西湖门票"></a> <a href="#" class="cityinfo"> <span
-                            class="price">￥<span class="pricebig">200</span>起</span> <span
-                            class="info">西湖门票+龙井门票联票</span> </a></li>
-            <li><a href="#"><img src="/images/wcy_img01.jpg" alt="西湖门票"></a> <a href="#" class="cityinfo"> <span
-                            class="price">￥<span class="pricebig">100</span>起</span> <span class="info">龙井门票</span> </a>
-            </li>
-        </ul>
+    <div class="bs-wcy_htimglistbox" id="relevantProduct">
+
     </div>
 </div>
 <!--  产品信息 -->
@@ -98,20 +84,49 @@
             <p><%-product.content.replace(/\n/g, '<br/>')%></p>
         </div>
         <div class="title" id="prodetail"><img src="/images/wcy_hotelTictitle03.gif" alt="产品详情"></div>
+
+
+
+       <%if(product.type==5){%>
+        <%product.relatedProductID.forEach(function(product){%>
         <div class="blackbox">
-            <p>产品名称：<%=product.name%></p>
+            <p>产品名称：<%=product.product.name%></p>
 
-            <p>产品等级：<%=product.level%></p>
+            <p>产品等级：<%=product.product.level%></p>
 
-            <p>产品地址：<%=product.addr%> <a href="#">地图</a></p>
+            <p>产品地址：<%=product.product.addr%> <a href="#">地图</a></p>
 
-            <p>营业时间：<%=product.openTime%> </p>
+            <p>营业时间：<%=product.product.openTime%> </p>
         </div>
-        <div class="graybox"><img src="/images/wcy_hotelTicket01.jpg" class="imgfloat">
-            <img src="http://dd885.b0.upaiyun.com/<%=product.image[0].url%>" class="imgfloat">
-            <p><%-product.intro.replace(/\n/g, '<br/>')%></p>
-            <img src="http://dd885.b0.upaiyun.com/<%=product.image[1].url%>">
+        <div class="graybox">
+            <img src="http://dd885.b0.upaiyun.com/<%=product.product.image[0]?product.product.image[0].url:""%>" class="imgfloat">
+            <p><%-product.product.intro.replace(/\n/g, '<br/>')%></p>
+            <img src="http://dd885.b0.upaiyun.com/<%=product.product.image[1]?product.product.image[1].url:""%>">
         </div>
+        <% });%>
+
+       <%}else{%>
+            <div class="blackbox">
+                <p>产品名称：<%=product.name%></p>
+
+                <p>产品等级：<%=product.level%></p>
+
+                <p>产品地址：<%=product.addr%> <a href="#">地图</a></p>
+
+                <p>营业时间：<%=product.openTime%> </p>
+            </div>
+            <div class="graybox"><img src="/images/wcy_hotelTicket01.jpg" class="imgfloat">
+                <img src="http://dd885.b0.upaiyun.com/<%=product.image[0].url%>" class="imgfloat">
+                <p><%-product.intro.replace(/\n/g, '<br/>')%></p>
+                <img src="http://dd885.b0.upaiyun.com/<%=product.image[1].url%>">
+            </div>
+        <%}%>
+
+
+
+
+
+
         <!--
         <div class="graybox"><img src="/images/wcy_hotelTicket03.jpg" class="imgfloat">
 
@@ -222,5 +237,40 @@
                 $('#isWeekend').val($("input[name='weekend']:checked").attr('isWk'));
             }
         });
+
+        var refreshRelevanceProduct = function(productid){
+          var productStr = '<li>'+
+                                '<a href="/productDetail/__productid__"><img src="__imageurl__" alt="__imagename__"></a>'+
+                                '<a href="/productDetail/__productid__" class="cityinfo">'+
+                                    '<span class="price">￥<span class="pricebig">__price__</span>起</span>'+
+                                    '<span class="info" title="__productname__">__productshortname__</span>'+
+                                '</a>'+
+                            '</li>';
+            $.ajax({
+                 url:'/product/relevance/'+productid
+                ,method:"GET"
+            }).done(function(data){
+                        if(data.data.length==0){
+                            $('#relevantProduct').removeClass("bs-wcy_htimglistbox");
+                            console.log("no relevant products");
+                            return;
+                        }else{
+                            var relevanceProductListStr = "";
+                            $.each(data.data,function(index,data){
+                                relevanceProductListStr += productStr.replace(/__imageurl__/,data.image.url)
+                                        .replace(/__imagename__/,data.image.intro)
+                                        .replace(/__price__/,data.price)
+                                        .replace(/__productshortname__/,data.shortName)
+                                        .replace(/__productname__/,data.name)
+                                        .replace(/__productid__/g,data._id);
+                            });
+                            var header='<div class="bs-wcy_htimglisttitle"><img src="/images/wcy_hotelTictitle01.gif" alt="相关商品"></div>';
+                            $('#relevantProduct').append(header+"<ul>"+relevanceProductListStr+"</ul>");
+                        }
+                    });
+        };
+        setTimeout(function(){
+            refreshRelevanceProduct($('#productID').val());
+        },1000);
     });
 </script>
