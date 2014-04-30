@@ -24,18 +24,23 @@
                                 var pwTime = 60;
                                 var pwc = pwTime;
                                 function pwtimedCount() {
+                                    var mobile = document.getElementById('f_mobile').value;
+                                    if(/\d{11,11}/.test(mobile) && mobile.length==11){
                                     document.getElementById('pwfsyzm').value = "请稍等(" + pwc + ")";
                                     document.getElementById('pwfsyzm').disabled = "disabled";
                                     pwc = pwc - 1;
-                                    pwt = setTimeout("timedCount()", 1000)
+                                    pwt = setTimeout("pwtimedCount()", 1000);
                                     if (pwc < 0) {
                                         pwc = Time;
-                                        stopCount();
+                                        stopPWTCount();
                                         document.getElementById('pwfsyzm').value = "再次发送校验码";
                                         document.getElementById('pwfsyzm').removeAttribute("disabled");
                                     }
+                                    }else{
+                                        return;
+                                    }
                                 }
-                                function stopCount() {
+                                function stopPWTCount() {
                                     clearTimeout(pwt);
                                 }
                             </script>

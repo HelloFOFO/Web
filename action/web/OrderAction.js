@@ -9,7 +9,7 @@ var us = require('underscore');
 exports.orders = function(request,response){
     var orders = {};
     orders.list = [];
-    if(!us.isEmpty(request.session.user._id)){
+    if(request.session && !us.isEmpty(request.session.user) && !us.isEmpty(request.session.user._id)){
         var httpClient = new HttpClient({
             'host':Config.inf.host,
             'port':Config.inf.port,
@@ -17,10 +17,7 @@ exports.orders = function(request,response){
             'method':"GET"
         });
         httpClient.getReq(function(err,res){
-            if(err){
-                response.send(404,err);
-            }else{
-                if(0===res.error){
+                if(!err || 0===res.error){
                     res.data.forEach(function(o){
                         var order = {};
                         order.name = o.product.name;
@@ -31,15 +28,13 @@ exports.orders = function(request,response){
                         order.oid = o.orderID;
                         orders.list.push(order);
                     });
-                    console.log(orders.list.length);
                     response.render('web/myOrder',{orders:orders});
                 }else{
-                    response.send(404,res.errorMsg);
+                    response.redirect('errorPage');
                 }
-            }
         });
     }else{
-        response.send(404,'请先登录');
+        response.redirect('/');
     }
 };
 
