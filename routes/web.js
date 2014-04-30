@@ -14,6 +14,7 @@ module.exports = function(app){
     app.post('/getVerifyCode',MemberAction.getVerifyCode);
     app.post('/login',MemberAction.login);
     app.get('/errorPage',function(req,res){res.render('./web/errorPage')});
+
     app.all('/*',function(request,response,next){
         response.charset = 'utf-8';
         if(request.session.autoLogin&&!request.session.user&&request.cookies.m&&request.cookies.p){

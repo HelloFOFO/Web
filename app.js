@@ -88,7 +88,7 @@ web(app);
 weixin(app);
 
 app.get('*',function(request,response){
-    response.send(404,'fuck not found');
+    response.redirect("/errorPage");
 });
 
 
