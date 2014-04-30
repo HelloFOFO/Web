@@ -3,6 +3,8 @@
  */
 var HttpClient = require('./../../tools/HttpClient.js');
 var Config = require('./../../tools/Config');
+var async = require('async');
+var _ = require('underscore');
 
 exports.saveUserInfo = function(request,response){
     response.redirect('/');
@@ -96,18 +98,13 @@ exports.register = function(request,response){
         'path':'/member/web/register',
         'method':"POST"
     });
-    httpClient.postReq({'mobile':mobile,'passwd':passwd},function(err,res){
-        if(err){
-            response.send(404,'fuck 404');
+    httpClient.postReq({'mobile':mobile,'passwd':passwd,'code':code},function(err,res){
+        if(err || res.error!=0 ){
+            response.send('注册失败');
         } else {
-            if(res.error==0){
-                request.session.user=res.data;
-                request.session.autoLogin = true;
-                response.send('success');
-            } else {
-                response.send(res.errorMsg);
-            }
-
+            request.session.user=res.data;
+            request.session.autoLogin = true;
+            response.send('success');
         }
     });
 };
@@ -115,7 +112,7 @@ exports.register = function(request,response){
 exports.forgetPasswd = function(request,response){
     var mobile = request.body.mobile;
     var passwd = request.body.passwd;
-    var code = request.body.code;
+    var code   = request.body.code;
     console.log(mobile,passwd,code);
     var httpClient = new HttpClient({
         'host':Config.inf.host,
@@ -123,11 +120,8 @@ exports.forgetPasswd = function(request,response){
         'path':'/member/password/change',
         'method':"POST"
     });
-    httpClient.postReq({'mobile':mobile,'passwd':passwd},function(err,res){
-        if(err){
-            response.send(404,'fuck 404');
-        } else {
-            if(res.error==0){
+    httpClient.postReq({'mobile':mobile,'passwd':passwd,'code':code},function(err,res){
+            if(err || res.error!=0 ){
                 request.session.user=res.data;
                 request.session.autoLogin = true;
                 response.cookie('p',passwd,{'maxAge':7*24*3600*1000});
@@ -135,7 +129,72 @@ exports.forgetPasswd = function(request,response){
             } else {
                 response.send(res.errorMsg);
             }
-        }
     });
 };
 
+
+exports.getVerifyCode = function(req,res){
+    async.waterfall([function(cb){
+        var mobile = req.body.mobile;
+        var type   = req.body.type;
+//        console.log('1');
+        if( _.isEmpty(mobile) || !/\d{11,11}/.test(mobile) || mobile.length!=11 ){
+//            console.log('6');
+            cb('mobileError',null);
+        }else if(type!='register' && type != 'forget'){
+//            console.log('5');
+            cb('typeError',null);
+        }else{
+//            console.log('2');
+            var http = new HttpClient({
+                'host':Config.inf.host,
+                'port':Config.inf.port,
+                'path':"/member/exists/"+mobile,
+                'method':"GET"
+            });
+            http.getReq(function(error,result){
+                if(error || result.error != 0){
+                    cb('other',null);
+                }else{
+                    if(type=="register" && result.data==true){
+                         cb('doubleRegisterError',null);
+                    }else if(type=="forget" && result.data==false){
+                         cb('noRegisterError',null);
+                    }else{
+                        cb(null,{mobile:mobile});
+                    }
+                }
+            });
+        }
+    },function(result,cb){
+        console.log('3');
+        var http = new HttpClient({
+            'host':Config.inf.host,
+            'port':Config.inf.port,
+            'path':'/member/code',
+            'method':"POST"
+        });
+        console.log({mobile:result.mobile,ip:""});
+        http.postReq({mobile:result.mobile,ip:""},function(error,result){
+            if(error || result.error != 0 ){
+                console.log("获取验证码失败",error,result);
+                cb('getCodeError',null);
+            }else{
+                cb(null,result);
+            }
+        });
+    }],function(error,result){
+            var result=result;
+            if(error){
+                switch (error){
+                    case "mobileError":          result = {error:1,errorMsg:"手机号格式错误！"};break;
+                    case "typeError":            result = {error:2,errorMsg:"异常！"};break;
+                    case "doubleRegisterError": result = {error:3,errorMsg:"此号码已经注册！"};break;
+                    case "noRegisterError":     result = {error:4,errorMsg:"次号码尚未注册！"};break;
+                    case "getCodeError":        result = {error:5,errorMsg:"获取验证码异常！"};break;
+                    default :result = error;
+                }
+            }
+            res.json(result);
+    });
+};

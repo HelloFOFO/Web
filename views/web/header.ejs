@@ -156,6 +156,7 @@
                 }
             }).done(function(data){
                 if(data=='success'){
+                    $('#f_error').addClass('hidden');
                     window.location.reload();
                 } else {
                     $('#f_error').removeClass('hidden');
@@ -163,5 +164,6 @@
                 }
             });
         });
+
     });
 </script>

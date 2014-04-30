@@ -10,6 +10,8 @@ var OrderAction = require('./../action/web/OrderAction');
 var AlipayWebAction = require('./../action/web/AlipayWebAction');
 
 module.exports = function(app){
+    //获取手机验证码
+    app.post('/getVerifyCode',MemberAction.getVerifyCode);
     app.post('/login',MemberAction.login);
     app.get('/errorPage',function(req,res){res.render('./web/errorPage')});
     app.all('/*',function(request,response,next){
