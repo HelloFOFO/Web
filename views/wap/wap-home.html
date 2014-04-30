@@ -42,7 +42,7 @@
             </div>
         <!--搜索-->
         	<div class="home-searchbox">
-            		<input type="text" class="search" value="杭州">
+            	    <input type="button" class="search" value="杭州" data-toggle="modal" data-target="#myModal">
                     <input type="button" class="searchBt" value="立即查询">
             </div>
          <!--大家都喜欢的-->
@@ -125,9 +125,77 @@
         </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body home-modalBody">
+      		<div  id="home-city">
+                <div class="home-modalMain">
+                        <input type="button" class="home-modalBt btn-block home-modalBtMainRight" data-toggle="collapse"  data-parent="#home-city"  data-target="#hotcity" value="热门">
+                 </div>
+                 <div class="home-modalSub collapse in" id="hotcity">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="昆山">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="湖州">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="安吉">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="苏州">
+                 </div>
+                <div class="home-modalMain">
+                        <input type="button" class="home-modalBt btn-block home-modalBtMainRight" data-toggle="collapse"  data-parent="#home-city"  data-target="#zhejiang" value="浙江">
+                 </div>
+                 <div class="home-modalSub collapse" id="zhejiang">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="杭州市">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="宁波">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="温州">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="嘉兴">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="湖州">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="绍兴">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="金华">
+                 </div>
+                <div class="home-modalMain">
+                        <input type="button" class="home-modalBt btn-block home-modalBtMainRight" data-toggle="collapse"  data-parent="#home-city"  data-target="#Shanghai" value="上海">
+                 </div>
+                 <div class="home-modalSub collapse" id="Shanghai">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="徐汇区">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="长宁区">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="闵行区">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="静安区">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="浦东区">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="宝山区">
+                 </div>
+                <div class="home-modalMain">
+                        <input type="button" class="home-modalBt btn-block home-modalBtMainRight" data-toggle="collapse"  data-parent="#home-city"  data-target="#anhui" value="安徽">
+                 </div>
+                 <div class="home-modalSub collapse" id="anhui">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="合肥">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="芜湖">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="蚌埠">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="淮南">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="马鞍山">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="铜陵">
+                 </div>
+                <div class="home-modalMain">
+                        <input type="button" class="home-modalBt btn-block home-modalBtMainRight" data-toggle="collapse"  data-parent="#home-city"  data-target="#jiangsu" value="江苏">
+                 </div>
+                 <div class="home-modalSub collapse" id="jiangsu">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="南京">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="苏州">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="无锡">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="常州">
+                        <input type="button" class="home-modalBt btn-block home-modalBtSub"  value="镇江">
+                 </div>
+             </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="js/jquery-1.11.0.min.js"></script> 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+    <script>
+
+    </script>
 </body>
 </html>

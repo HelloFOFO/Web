@@ -55,9 +55,7 @@ module.exports = function(app){
     app.get('/wap/ajax/cityList',HomePageAction.cityList);
 
     app.get('/wap/ajax/hotProduct',HomePageAction.hotProduct);
-    //alipay for web
-//    app.get('/wap/reqTrade/:_id/:oid',AlipayWapAction.getReqTrade);
-//    app.post('/wap/reqTrade',AlipayWapAction.reqTrade);
+    //alipay for wap
     app.get('/wap/reqTrade/:id/:orderID',AlipayWapAction.getReqTrade);
     app.post('/wap/reqTrade',AlipayWapAction.getReqTrade);
     app.post('/wap/notify/:id',AlipayWapAction.notify);

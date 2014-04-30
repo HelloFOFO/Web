@@ -63,7 +63,7 @@ a:active { text-decoration: none;}
 .home-headlogin{ float:right; height:44px; line-height:44px; text-align:right;}
 .home-headlogin a{ color:#fff; font-size:14px; margin-right:15px;}
 .home-searchbox{ margin:0 auto; width:204px; padding-top:25px; position:relative; text-align:center;}
-.home-searchbox .search{ width:200px; height:34px; position:absolute; left:0; top:-17px; border:#13d377 solid 2px; padding:0px 10px;  background:url(../images/wap-arrow.png) no-repeat right; background-color:#fff; background-size:20px 20px; color:#818181; font-size:14px;}
+.home-searchbox .search{ width:200px; height:34px; position:absolute; left:0; top:-17px; border:#13d377 solid 2px; padding:0px 10px;  background:url(../images/wap-arrow.png) no-repeat right; background-color:#fff; background-size:20px 20px; color:#818181; font-size:14px; text-align:left;}
 .home-searchbox .searchBt{ background:#13d377; height:35px; line-height:35px; padding:0px 15px; color:#FFF; font-size:14px; border:none;}
 .home-title01{ height:40px; background:url(../images/wap-hometitle01.png) no-repeat center bottom; background-size:108px 20px; margin-bottom:5px; clear:both;}
 .home-title02{height:40px;  background:url(../images/wap-hometitle02.png) no-repeat center bottom; background-size:158px 20px; clear:both; margin-bottom:15px;}
@@ -73,6 +73,13 @@ a:active { text-decoration: none;}
 .home-listimg01{ background:url(../images/wap-home01.png) no-repeat left top; background-size:80px 80px;}
 .home-listimg02{ background:url(../images/wap-home02.png) no-repeat left top; background-size:80px 80px;}
 .home-listimg03{ background:url(../images/wap-home03.png) no-repeat left top; background-size:80px 80px;}
+.home-modalBody{ padding:0;}
+.home-modalMain{ background:#e6e6e6; border-bottom:#cccccc solid 1px; padding:0 10px;}
+.home-modalBt{ border:none; height:40px; line-height:40px; color:#333; text-align:left; font-size:16px; outline:none;}
+.home-modalBtMainRight{ background:url(../images/wap-arrowRight.png) no-repeat right center; background-size:16px 16px; }
+.home-modalBtMainDown{ background:url(../images/wap-arrowDown.png) no-repeat right center; background-size:16px 16px; }
+.home-modalSub{}
+.home-modalBtSub{line-height:30px; padding-left:10px;  background:#fff; border-bottom:#cccccc solid 1px; outline:none;}
 
 /*listPro*/
 .listProCity{ margin:20px 10px 10px; color:#1abc89; clear:both; height:auto; overflow:hidden;}

@@ -3,28 +3,86 @@
  */
 var HttpClient = require('./../../tools/HttpClient.js');
 var Config = require('./../../tools/Config');
-
+var async = require('async');
+var action = this;
 exports.getHomePage = function(request,response){
-    var key = request.query.key;
+    async.waterfall([
+        function(cb){
+            var httpClient = new HttpClient({
+                'host':Config.inf.host,
+                'port':Config.inf.port,
+                'path':'/city/default',
+                'method':"GET"
+            });
+            httpClient.getReq(function(err,res){
+                if(err){
+                    cb('error',err);
+                }else{
+                    if(0===res.error){
+                        cb(null,res.data);
+                    }else{
+                        cb('error',res.errorMsg);
+                    }
+                }
+            });
+        },
+        function(pre,cb){
+            action.getRelateHotProducts(pre._id,function(err,res){
+                res.default = pre;
+                cb(err,res);
+            });
+        },
+        function(pre,cb){
+            var key = request.query.key;
+            var httpClient = new HttpClient({
+                'host':Config.inf.host,
+                'port':Config.inf.port,
+                'path':key?'/city/list?key='+key:'/city/list',
+                'method':"GET"
+            });
+            httpClient.getReq(function(err,res){
+                if(err){
+                    cb('error',err);
+                }else{
+                    if(0===res.error){
+                        res.default = pre.default;
+                        res.relate = pre.data;
+                        cb(null,res);
+                    }else{
+                        cb('error',res.errorMsg);
+                    }
+                }
+            });
+        }
+    ],function(e,r){
+        if(e){
+            response.send(r);
+        }else{
+            response.render('wap/home',{titleName:'首页',data: r});
+        }
+    });
+};
+
+//get city relate hot products list
+this.getRelateHotProducts = function(cityId,fn){
     var httpClient = new HttpClient({
         'host':Config.inf.host,
         'port':Config.inf.port,
-        'path':key?'/city/list?key='+key:'/city/list',
+        'path':'/product/webList/'+cityId+'?isHot=true',
         'method':"GET"
     });
     httpClient.getReq(function(err,res){
         if(err){
-            response.send(err);
+            fn('error',err);
         }else{
             if(0===res.error){
-                response.render('wap/index',{titleName:'首页',city:res.data});
+                fn(null,res);
             }else{
-                response.send(res.errorMsg);
+                fn('error',res.errorMsg);
             }
         }
     });
-
-};
+}
 
 exports.cityList = function(request,response){
     var key = request.query.key;

@@ -43,5 +43,9 @@
 <body>
 <div id="wrap">
     <header class="head">
+        <%if("首页"===titleName){%>
+        <div class="home-headlogo"></div>
+        <%}else{%>
         <h1><a class="leftlink" href="javascript:history.back()"></a><%=titleName%></h1>
+        <%}%>
     </header>
