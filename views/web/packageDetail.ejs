@@ -57,9 +57,9 @@
     <div class="bs-wcy_htimglistbox" id="relevantProduct">
         <!--<div class="bs-wcy_htimglisttitle"><img src="/images/wcy_hotelTictitle01.gif" alt="相关商品"></div>-->
         <!--<ul>-->
-            <!--<li> <a href="#"><img src="/images/wcy_img01.jpg" alt="西湖门票"></a> <a href="#" class="cityinfo"> <span class="price">￥<span class="pricebig">800</span>起</span> <span class="info">西湖门票+希尔顿高级客房1晚</span> </a> </li>-->
-            <!--<li> <a href="#"><img src="/images/wcy_img01.jpg" alt="西湖门票"></a> <a href="#" class="cityinfo"> <span class="price">￥<span class="pricebig">200</span>起</span> <span class="info">西湖门票+龙井门票联票</span> </a> </li>-->
-            <!--<li> <a href="#"><img src="/images/wcy_img01.jpg" alt="西湖门票"></a> <a href="#" class="cityinfo"> <span class="price">￥<span class="pricebig">100</span>起</span> <span class="info">龙井门票</span> </a> </li>-->
+        <!--<li> <a href="#"><img src="/images/wcy_img01.jpg" alt="西湖门票"></a> <a href="#" class="cityinfo"> <span class="price">￥<span class="pricebig">800</span>起</span> <span class="info">西湖门票+希尔顿高级客房1晚</span> </a> </li>-->
+        <!--<li> <a href="#"><img src="/images/wcy_img01.jpg" alt="西湖门票"></a> <a href="#" class="cityinfo"> <span class="price">￥<span class="pricebig">200</span>起</span> <span class="info">西湖门票+龙井门票联票</span> </a> </li>-->
+        <!--<li> <a href="#"><img src="/images/wcy_img01.jpg" alt="西湖门票"></a> <a href="#" class="cityinfo"> <span class="price">￥<span class="pricebig">100</span>起</span> <span class="info">龙井门票</span> </a> </li>-->
         <!--</ul>-->
     </div>
 </div>
@@ -77,20 +77,20 @@
         </div>
         <div class="title" id="prodetail"><img src="/images/wcy_hotelTictitle03.gif"  alt="产品详情"></div>
         <%product.relatedProductID.forEach(function(product){%>
-            <div class="blackbox">
-                <p>产品名称：<%=product.product.name%></p>
+        <div class="blackbox">
+            <p>产品名称：<%=product.product.name%></p>
 
-                <p>产品等级：<%=product.product.level%></p>
+            <p>产品等级：<%=product.product.level%></p>
 
-                <p>产品地址：<%=product.product.addr%> <a href="#">地图</a></p>
+            <p>产品地址：<%=product.product.addr%> <a href="#">地图</a></p>
 
-                <p>营业时间：<%=product.product.openTime%> </p>
-            </div>
-            <div class="graybox">
-                <img src="http://dd885.b0.upaiyun.com/<%=product.product.image[0]?product.product.image[0].url:""%>" class="imgfloat">
-                <p><%-product.product.intro.replace(/\n/g, '<br/>')%></p>
-                <img src="http://dd885.b0.upaiyun.com/<%=product.product.image[1]?product.product.image[1].url:""%>">
-            </div>
+            <p>营业时间：<%=product.product.openTime%> </p>
+        </div>
+        <div class="graybox">
+            <img src="http://dd885.b0.upaiyun.com/<%=product.product.image[0]?product.product.image[0].url:""%>" class="imgfloat">
+            <p><%-product.product.intro.replace(/\n/g, '<br/>')%></p>
+            <img src="http://dd885.b0.upaiyun.com/<%=product.product.image[1]?product.product.image[1].url:""%>">
+        </div>
         <% });%>
 
 

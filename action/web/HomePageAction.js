@@ -59,7 +59,47 @@ exports.hotProduct = function(req,res){
     }catch(e){
         res.json({error:1,errorMsg: e.message});
     }
-}
+};
+
+exports.getCityDetail = function(req,res){
+    try{
+        var city = req.query.city;
+        if(_.isEmpty(city)){
+            city = "5343757bd8d3efb068465b1f";
+        }
+        var httpClient = new HttpClient({
+            'host':Config.inf.host,
+            'port':Config.inf.port,
+            'path':"/city/detail/"+city ,
+            'method':"GET"
+        });
+        httpClient.getReq(function(error,result){
+            if(error || result.error != 0){
+                res.json({error:0,errorMsg:error});
+            }else{
+                if(_.isArray(result.data.image)){
+                    console.log('aaaaaaaaa');
+                    var newImage=[];
+                    result.data.image.forEach(function(i){
+                        i.url = Config.inf.imageHost+ i.url;
+//                        newImage.push({url:Config.inf.imageHost+ i.url});
+//                        console.log(Config.inf.imageHost,newImage.url);
+                    });
+//                    result.image=newImage;
+                }else{
+                    console.log(Config.inf.imageHost);
+                    result.image=[];
+                }
+                res.json(result);
+            }
+        });
+
+    }catch(e){
+        res.json({error:3,errorMsg: e.message});
+    }
+
+
+};
 
 //exports.hotProduct = function(request,response){
 //    var city = request.query.city;

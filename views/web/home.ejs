@@ -3,10 +3,8 @@
 <div class="bs-wcy-banner">
     <div class="main_visual">
         <div class="main_image">
-            <ul>
-                <li><img src="images/wcy_bannner01.jpg"></li>
-                <li><img src="images/wcy_bannner02.jpg"></li>
-                <li><img src="images/wcy_bannner03.jpg"></li>
+            <ul id="homeBanner">
+
             </ul>
             <a href="javascript:;" id="btn_prev"></a>
             <a href="javascript:;" id="btn_next"></a>
@@ -84,49 +82,19 @@
             $("#btn_prev,#btn_next").fadeIn()
         }, function () {
             $("#btn_prev,#btn_next").fadeOut()
-        })
-        $dragBln = false;
-        $(".main_image").touchSlider({
-            flexible: true,
-            speed: 200,
-            btn_prev: $("#btn_prev"),
-            btn_next: $("#btn_next"),
-            paging: $(".flicking_con a"),
-            counter: function (e) {
-                $(".flicking_con a").removeClass("on").eq(e.current - 1).addClass("on");
-            }
         });
-        $(".main_image").bind("mousedown", function () {
-            $dragBln = false;
-        })
-        $(".main_image").bind("dragstart", function () {
-            $dragBln = true;
-        })
-        $(".main_image a").click(function () {
-            if ($dragBln) {
-                return false;
-            }
-        })
-        timer = setInterval(function () {
-            $("#btn_next").click();
-        }, 5000);
-        $(".main_visual").hover(function () {
-            clearInterval(timer);
-        }, function () {
-            timer = setInterval(function () {
-                $("#btn_next").click();
-            }, 5000);
-        })
-        $(".main_image").bind("touchstart",function () {
-            clearInterval(timer);
-        }).bind("touchend", function () {
-                    timer = setInterval(function () {
-                        $("#btn_next").click();
-                    }, 5000);
-                })
+
+        var initSlider = function(){
+            $(".main_image").touchSlider({
+                 flexible : true
+                ,speed: 200
+                ,btn_prev: $("#btn_prev")
+                ,btn_next: $("#btn_next")
+                ,paging: $(".touchslider-nav-item")
+            });
+        };
 
         /*搜索下拉*/
-
         $(".searchInput").focus(function () {
             $(".bs-wcy-homecitybox").show();
         }).blur(function(){
@@ -136,17 +104,17 @@
                 });
 
 
-
         $(".bs-wcy-homecitybox").on('click','a',function (e) {
-
             var city = $(this).text();
-            $('#cityId').val($(this).attr('href').replace('#',''));
+            var cityID = $(this).attr('href').replace('#','');
+            $('#cityId').val(cityID);
             $(".searchInput").val(city);
             $('#bigCity').text(city);
             $(".bs-wcy-homecitybox").hide();
-
+            refreshHomeBanner(cityID);
             e.preventDefault();
         });
+
         //刷新热门产品列表
         var refreshHotProduct = function(city){
             var proudctStr =    '<li>'+
@@ -176,6 +144,23 @@
         };
 
         refreshHotProduct();
+
+        var refreshHomeBanner = function(city){
+            $.ajax({
+                 url:'/getCityDetail'
+                ,method:"GET"
+                ,data:{city:city}
+            }).done(function(data){
+                        var str = '<li class="touchslider-nav-item"><img src="__imageurl__"></li>';
+                        var imageList = "";
+                        $.each(data.data.image,function(index,data){
+                            imageList += str.replace(/__imageurl__/,data.url);
+                        });
+                        $('#homeBanner').empty().append(imageList);
+                        initSlider();
+                    });
+        };
+        refreshHomeBanner();
 
     });
 </script>

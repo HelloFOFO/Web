@@ -32,7 +32,7 @@ log4js.configure({
     replaceConsole : true
 });
 var logger = log4js.getLogger('normal');
-logger.setLevel('INFO');
+logger.setLevel('WARN');
 
 var app = express();
 // all environments

@@ -7,6 +7,7 @@ exports.inf = {
     host:'172.16.0.15'
     ,port:3333
     ,pageSize:10
+    ,imageHost:"http://dd885.b0.upaiyun.com/"
 };
 
 exports.errorPage= {

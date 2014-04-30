@@ -25,7 +25,11 @@ exports.userInfo = function(request,response){
             response.render('web/userInfo',{'u':res.data});
         }
     });
-}
+};
+
+exports.saveUserInfo = function(req,res){
+
+};
 
 exports.userOrder = function(request,response){
     var id = request.params.id;
@@ -33,11 +37,9 @@ exports.userOrder = function(request,response){
 }
 
 exports.logout = function(request,response){
-    var url = require('url');
     request.session.user=null;
     request.session.autoLogin = false;
-    var referer = url.parse(request.get('Referer'));
-    response.redirect(referer.pathname);
+    response.redirect("/");
 };
 
 exports.autoLogin = function(request,fn){
@@ -87,7 +89,6 @@ exports.login = function(request,response){
     });
 };
 
-
 exports.register = function(request,response){
     var mobile = request.body.mobile;
     var passwd = request.body.passwd;
@@ -95,11 +96,12 @@ exports.register = function(request,response){
     var httpClient = new HttpClient({
         'host':Config.inf.host,
         'port':Config.inf.port,
-        'path':'/member/web/register',
+        'path':'/member/534de2e3309199c11f233cf4/register',
         'method':"POST"
     });
-    httpClient.postReq({'mobile':mobile,'passwd':passwd,'code':code},function(err,res){
+    httpClient.postReq({'mobile':mobile,'passwd':passwd,'code':code,'operator':"534f9b073b4fec3f208952e0"},function(err,res){
         if(err || res.error!=0 ){
+            console.log(err,res);
             response.send('注册失败');
         } else {
             request.session.user=res.data;
@@ -180,6 +182,7 @@ exports.getVerifyCode = function(req,res){
                 console.log("获取验证码失败",error,result);
                 cb('getCodeError',null);
             }else{
+                console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',result);
                 cb(null,result);
             }
         });
@@ -190,7 +193,7 @@ exports.getVerifyCode = function(req,res){
                     case "mobileError":          result = {error:1,errorMsg:"手机号格式错误！"};break;
                     case "typeError":            result = {error:2,errorMsg:"异常！"};break;
                     case "doubleRegisterError": result = {error:3,errorMsg:"此号码已经注册！"};break;
-                    case "noRegisterError":     result = {error:4,errorMsg:"次号码尚未注册！"};break;
+                    case "noRegisterError":     result = {error:4,errorMsg:"此号码尚未注册！"};break;
                     case "getCodeError":        result = {error:5,errorMsg:"获取验证码异常！"};break;
                     default :result = error;
                 }

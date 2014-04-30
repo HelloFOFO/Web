@@ -27,7 +27,7 @@
             <%if(user){%>
             <ul class="bs-wcy_navlist " id="nav_logined" >
                 <li><a href="/govNotice">政府公告</a></li>
-                <li><a href="javascript:void(0)">您好,<%=user.name%></a></li>
+                <li><a href="javascript:void(0)">您好,<%=user.name?user.name:"自驾游会员"%></a></li>
                 <li><a href="/orders">我的订单</a></li>
                 <li><a href="/userInfo/<%=user._id%>">个人信息</a></li>
                 <li><a href="javascript:void(0)" id="btn_logout">退出</a></li>

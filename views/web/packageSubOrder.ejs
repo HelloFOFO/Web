@@ -94,6 +94,9 @@
                                         <td height="30" align="left" valign="middle">邮寄地址</td>
                                         <td align="left" valign="middle"><input type="text" name="invoiceAdd" id="invoiceAdd"></td>
                                       </tr>
+                                      <tr id="errorBox">
+                                          <td colspan="2" id="errorMsg" style="color: #ff0000"></td>
+                                      </tr>
                         </table>
                     </div>
                 </div>
@@ -130,7 +133,10 @@
            }
            $('#display').html(parseInt($('#sp').val())*$('#num').val());
        });
-
+        var errorMsg = function(msg){
+          $('#errorBox').show();
+          $('#errorMsg').empty().append(msg);
+        };
         //submit check
         $('#form1').submit(function(e){
             if($('#nav_logined').hasClass('hidden')){
@@ -138,7 +144,8 @@
                 $('.loginModal').modal('show');
             }else{
                 if(us.isEmpty($('#person').val())){
-                    alert('入住人姓名不能为空!');
+//                    alert('入住人姓名不能为空!');
+                    errorMsg('入住人姓名不能为空!');
                     return false;
                 }
                 if(us.isEmpty($('#mobile').val())){

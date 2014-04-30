@@ -73,6 +73,7 @@ module.exports = function(app){
 
     //ajax
     app.get('/ajax/cityBox',HomePageAction.cityBox);
+    app.get('/getCityDetail',HomePageAction.getCityDetail);
 //    app.get('/web/ajax/cityList',HomePageAction.cityList);
 //
 //    app.get('/web/ajax/hotProduct',HomePageAction.hotProduct);

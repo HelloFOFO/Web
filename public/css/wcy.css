@@ -243,7 +243,7 @@ body {
 .bs-wcy_htBanInfo h1{display:table-cell; font-size:28px; line-height:35px; vertical-align:middle; font-weight:lighter; color:#fff; height:120px; overflow:hidden;}
 .bs-wcy_htBanInfo .formtab{ padding:10px 20px;  color:#fff; }
 .bs-wcy_htBanInfo .formtab label{font-size:16px; font-weight:lighter;}
-.bs-wcy_htBanInfo .formtab .inputcalendar{ width:220px; *width:180px;  height:26px; line-height:26px; padding:0 30px 0 10px; background:url(../images/wcy_calendar.png) #fff no-repeat 190px 2px; color:#818181; border:none;}
+.bs-wcy_htBanInfo .formtab .inputcalendar{ width:220px; *width:180px;  height:26px; line-height:26px; padding:0 30px 0 10px; background:url(../images/wcy_calendar.png) #fff no-repeat scroll 187px -6px; color:#818181; border:none;}
 .bs-wcy_htBanInfo .formtab .inputSelect {width:220px; *width:180px;  height:26px; line-height:26px;  color:#818181; border:none;}
 .calendarbox{ position:absolute; width:310px; height:auto; overflow:hidden; top:205px; right:17px; background:#fff; z-index:9999; border:#CCCCCC solid 1px; display:none;}
 .table-calendar thead{ color:#fff; background:#1abc89; }

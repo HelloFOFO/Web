@@ -13,9 +13,10 @@ exports.orders = function(request,response){
         var httpClient = new HttpClient({
             'host':Config.inf.host,
             'port':Config.inf.port,
-            'path':'/order/list?member='+ request.session.user._id,
+            'path':'/order/list?pageSize=99999&member='+ request.session.user._id,
             'method':"GET"
         });
+        console.log('/order/list?member='+ request.session.user._id);
         httpClient.getReq(function(err,res){
                 if(!err || 0===res.error){
                     res.data.forEach(function(o){
