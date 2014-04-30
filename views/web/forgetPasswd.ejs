@@ -28,15 +28,18 @@
                                     if(/\d{11,11}/.test(mobile) && mobile.length==11){
                                     document.getElementById('pwfsyzm').value = "请稍等(" + pwc + ")";
                                     document.getElementById('pwfsyzm').disabled = "disabled";
+                                    if(pwc==60){getSMSCode('forget');}//第一次循环的时候才调获取短信验证码接口
                                     pwc = pwc - 1;
                                     pwt = setTimeout("pwtimedCount()", 1000);
                                     if (pwc < 0) {
-                                        pwc = Time;
+                                        pwc = pwTime;
                                         stopPWTCount();
-                                        document.getElementById('pwfsyzm').value = "再次发送校验码";
+                                        document.getElementById('pwfsyzm').value = "再次发送验证码";
                                         document.getElementById('pwfsyzm').removeAttribute("disabled");
                                     }
                                     }else{
+                                        $('#f_error').removeClass('hidden');
+                                        $('#f_errorMsg').text("手机号码格式错误！");
                                         return;
                                     }
                                 }

@@ -27,10 +27,6 @@ exports.userInfo = function(request,response){
     });
 };
 
-exports.saveUserInfo = function(req,res){
-
-};
-
 exports.userOrder = function(request,response){
     var id = request.params.id;
     response.render('web/myOrder');
@@ -124,12 +120,13 @@ exports.forgetPasswd = function(request,response){
     });
     httpClient.postReq({'mobile':mobile,'passwd':passwd,'code':code},function(err,res){
             if(err || res.error!=0 ){
+                console.log("修改密码错误！",res,err);
+                response.send(res.errorMsg);
+            } else {
                 request.session.user=res.data;
                 request.session.autoLogin = true;
                 response.cookie('p',passwd,{'maxAge':7*24*3600*1000});
                 response.send('success');
-            } else {
-                response.send(res.errorMsg);
             }
     });
 };

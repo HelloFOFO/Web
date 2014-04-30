@@ -52,7 +52,17 @@
                                 //发送验证码
                                 var getSMSCode = function(type){
                                     //传入参数为 string:'register | forget '
-                                    var mobile = document.getElementById('r_mobile').value;
+                                    var mobile = "";
+                                    var errorBox,errorMsg;
+                                    if(type=="register"){
+                                        mobile=document.getElementById('r_mobile').value;
+                                        errorBox=$('#r_error');
+                                        errorMsg=$('#r_errorMsg');
+                                    }else if(type="forget"){
+                                        mobile=document.getElementById('f_mobile').value;
+                                        errorBox=$('#f_error');
+                                        errorMsg=$('#f_errorMsg');
+                                    }
                                     $.ajax({
                                         url:"/getVerifyCode"
                                         ,method:"POST"
@@ -60,24 +70,36 @@
                                     }).done(function(data){
                                                 if(data.error!=0){
                                                     //后台判断的错误信息展示
-                                                    $('#r_error').removeClass('hidden');
-                                                    $('#r_errorMsg').text(data.errorMsg);
-                                                    document.getElementById('fsyzm').value = "发送验证码";
-                                                    document.getElementById('fsyzm').removeAttribute("disabled");
-                                                    c=60;
-                                                    clearTimeout(t);
+                                                    errorBox.removeClass('hidden');
+                                                    errorMsg.text(data.errorMsg);
+                                                    if(type=='register'){
+                                                        document.getElementById('fsyzm').value = "发送验证码";
+                                                        document.getElementById('fsyzm').removeAttribute("disabled");
+                                                        c=60;
+                                                        clearTimeout(t);
+                                                    }else{
+                                                        pwc=60;
+                                                        clearTimeout(pwt);
+                                                        document.getElementById('pwfsyzm').value = "发送验证码";
+                                                        document.getElementById('pwfsyzm').removeAttribute("disabled");
+                                                    }
                                                 }else{
                                                     //发成功了就隐藏掉
-                                                    $('#r_error').addClass('hidden');
+                                                    errorBox.addClass('hidden');
                                                 }
                                             }).fail(function(data){
                                                 //发失败的报错
-                                                $('#r_error').removeClass('hidden');
-                                                $('#r_errorMsg').text('获取验证码失败！');
+                                                errorBox.removeClass('hidden');
+                                                errorMsg.text('获取验证码失败！');
                                                 document.getElementById('fsyzm').value = "发送验证码";
                                                 document.getElementById('fsyzm').removeAttribute("disabled");
-                                                c=60;
-                                                clearTimeout(t);
+                                                if(type=='register'){
+                                                    c=60;
+                                                    clearTimeout(t);
+                                                }else{
+                                                    pwc=60;
+                                                    clearTimeout(pwt);
+                                                }
                                             });
                                 };
                             </script>

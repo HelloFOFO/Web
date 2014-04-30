@@ -21,8 +21,8 @@
         </div>
         <div class="bs-wcy-homeSearch">
             <form method="get" id="searchForm">
-                <input type="text" class="searchInput" value="宁波">
-                <input type="hidden" id="cityId" value="5343757bd8d3efb068465b1f">
+                <input type="text" class="searchInput" value="">
+                <input type="hidden" id="cityId" value="">
                 <input type="submit" value="" class="searchBt">
             </form>
 
@@ -151,6 +151,13 @@
                 ,method:"GET"
                 ,data:{city:city}
             }).done(function(data){
+                        if(!city){
+                            //页面初次加载的时候
+                            $('.searchInput').val(data.data.name);
+                            $('#cityId').val(data._id);
+                        }
+//                        $('.searchInput').val(data.name);
+//                        $('#cityId').val(data._id);
                         var str = '<li class="touchslider-nav-item"><img src="__imageurl__"></li>';
                         var imageList = "";
                         $.each(data.data.image,function(index,data){
