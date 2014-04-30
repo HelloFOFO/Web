@@ -1,85 +1,157 @@
-<%include header%>
-        <!--轮播-->
-            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">    
-              <!-- Wrapper for slides -->
-              <div class="carousel-inner">
-                <div class="item active"><img src="images/wap-item01.jpg" data-src="holder.js/100%x300"></div>
-                <div class="item"><img src="images/wap-item02.jpg" data-src="holder.js/100%x300"></div>
-                <div class="item"><img src="images/wap-item03.jpg" data-src="holder.js/100%x300"></div>
-                <div class="item"><img src="images/wap-item04.jpg" data-src="holder.js/100%x300"></div>
-              </div>
-              <!-- Controls -->
-              <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left"></span>
-              </a>
-              <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right"></span>
-              </a>
-            </div>
-        <!--搜索-->
-        	<div class="home-searchbox">
-            		<input type="text" class="search" value="杭州">
-                    <input type="button" class="searchBt" value="立即查询">
-            </div>
-         <!--大家都喜欢的-->
-         	<div class="home-title01"></div>
-            <div class="container">
-              <div class="row">
-                <div class="col-xs-6">
-                        <div class="listProBox">
-                                        <div class="imgbox"><a href="#"><img src="images/wap-cityimg01.jpg"></a></div>
-                                        <div class="probox">
-                                                <div class="hotelName"><a href="#">杭州西湖自驾游</a></div>
-                                                <div class="hotelPrice"><a href="#">￥<span>199</span></a></div>
-                                        </div>
-                  </div>
+<% include header %>
+<!--轮播-->
+<% if(data.default.image && data.default.image.length > 0){ %>
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators" id="showPicsNum">
+        <% for(var i = 0;i < data.default.image.length;i++){ %>
+        <li data-target="#carousel-example-generic" data-slide-to="<%= i %>" <% if(0 === i){ %>class="active"<% } %>></li>
+        <% } %>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" id="showPics">
+            <% for(var i in data.default.image){ %>
+            <% if("0" === i){ %>
+            <div class="item active">
+                <% }else{ %>
+                <div class="item">
+                    <% } %>
+                    <img src="http://dd885.b0.upaiyun.com/<%= data.default.image[i].url %>"
+                         data-src="holder.js/100%x300">
                 </div>
-                            <div class="col-xs-6">
-                                    <div class="listProBox">
-                                        <div class="imgbox"><a href="#"><img src="images/wap-cityimg01.jpg"></a></div>
-                                        <div class="probox">
-                                                <div class="hotelName"><a href="#">杭州西湖自驾游</a></div>
-                                                <div class="hotelPrice"><a href="#">￥<span>199</span></a></div>
-                                        </div>
-                                    </div>
-                            </div>
-                            <div class="col-xs-6">
-                                    <div class="listProBox">
-                                        <div class="imgbox"><a href="#"><img src="images/wap-cityimg01.jpg"></a></div>
-                                        <div class="probox">
-                                                <div class="hotelName"><a href="#">杭州西湖自驾游</a></div>
-                                                <div class="hotelPrice"><a href="#">￥<span>199</span></a></div>
-                                        </div>
-                                    </div>
-                            </div>
-                <div class="col-xs-6">
-                                    <div class="listProBox">
-                                        <div class="imgbox"><a href="#"><img src="images/wap-cityimg01.jpg"></a></div>
-                                        <div class="probox">
-                                                <div class="hotelName"><a href="#">杭州西湖自驾游</a></div>
-                                                <div class="hotelPrice"><a href="#">￥<span>199</span></a></div>
-                                        </div>
-                                    </div>
+                <% } %>
+    </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+    </div>
+    <% } %>
+    <!--搜索-->
+    <div class="home-searchbox">
+        <input type="button" class="search" value="<%= data.default.name %>" data-toggle="modal" data-target="#myModal">
+        <input type="hidden" id="id" value="<%= data.default._id %>">
+        <input type="button" id="btnSrh" class="searchBt" value="立即查询">
+    </div>
+    <!--大家都喜欢的-->
+    <div class="home-title01"></div>
+    <div class="container">
+        <div class="row">
+
+            <% data.relate.forEach(function(p){ %>
+            <div class="col-xs-6">
+                <div class="listProBox">
+                    <div class="imgbox"><a href="#"><img src="http://dd885.b0.upaiyun.com/<%= p.image[0].url %>"></a>
+                    </div>
+                    <div class="probox">
+                        <a href="/wap/productDetail/<%= p._id %>/<%= p.type %>">
+                            <div class="hotelName"><%= p.name %></div>
+                            <div class="hotelPrice">￥<span><%= p.price %></span></div>
+                        </a>
+                    </div>
                 </div>
-              </div>
-            
             </div>
-         <!--TA们是怎么自驾游的-->
-         	<div class="home-title02"></div>
-            <div class="container">
-                        <div class="home-list home-listimg01">
-                                <div class="title">在路上</div>
-                                <p>春城的冬天，每天都可以感受到阳光明媚，春暖花开。一件长袖，一件外套，足矣。加上坐拥的得天独厚的地理位置，这样的日子怎么能不出去旅行呢...</p>
-                        </div>
-                        <div class="home-list home-listimg02">
-                                <div class="title">西瓜子</div>
-                                <p>春城的冬天，每天都可以感受到阳光明媚，春暖花开。一件长袖，一件外套，足矣。
-            加上坐拥的得天独厚的地理位置，这样的日子怎么能不出去旅行呢...</p>
-                        </div>
-                        <div class="home-list home-listimg03">
-                                <div class="title">乐游游</div>
-                                <p>春城的冬天，每天都可以感受到阳光明媚，春暖花开。一件长袖，一件外套，足矣。
-            加上坐拥的得天独厚的地理位置，这样的日子怎么能不出去旅行呢...</p>
-                        </div>
+            <% }); %>
+
+        </div>
+    </div>
+    <!--TA们是怎么自驾游的-->
+    <div class="home-title02"></div>
+    <div class="container">
+        <div class="home-list home-listimg01">
+            <div class="title">在路上</div>
+            <p>春城的冬天，每天都可以感受到阳光明媚，春暖花开。一件长袖，一件外套，足矣。加上坐拥的得天独厚的地理位置，这样的日子怎么能不出去旅行呢...</p>
+        </div>
+        <div class="home-list home-listimg02">
+            <div class="title">西瓜子</div>
+            <p>春城的冬天，每天都可以感受到阳光明媚，春暖花开。一件长袖，一件外套，足矣。
+                加上坐拥的得天独厚的地理位置，这样的日子怎么能不出去旅行呢...</p>
+        </div>
+        <div class="home-list home-listimg03">
+            <div class="title">乐游游</div>
+            <p>春城的冬天，每天都可以感受到阳光明媚，春暖花开。一件长袖，一件外套，足矣。
+                加上坐拥的得天独厚的地理位置，这样的日子怎么能不出去旅行呢...</p>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body home-modalBody">
+                    <div id="home-city">
+                        <%var isFirst = true;%>
+                        <%for(var key in data.data){%>
+                            <%if(isFirst){%>
+                            <div class="home-modalMain">
+                                <input type="button" class="title home-modalBt btn-block home-modalBtMainDown"
+                                       data-toggle="collapse" data-parent="#home-city" data-target="#<%=key%>" value="<%=key%>">
+                            </div>
+                            <div class="home-modalSub collapse in" id="<%=key%>">
+                                <%data.data[key].forEach(function(c){%>
+                                <input type="button" class="content home-modalBt btn-block home-modalBtSub" value="<%=c.name%>" cityId="<%=c._id%>" pics=<%-c.image%> />
+                                <%});%>
+                            </div>
+                            <%isFirst = false;}else{%>
+                                <div class="home-modalMain">
+                                    <input type="button" class="title home-modalBt btn-block home-modalBtMainRight"
+                                           data-toggle="collapse" data-parent="#home-city" data-target="#<%=key%>" value="<%=key%>">
+                                </div>
+                                <div class="home-modalSub collapse" id="<%=key%>">
+                                    <%data.data[key].forEach(function(c){%>
+                                    <input type="button" class="content home-modalBt btn-block home-modalBtSub" value="<%=c.name%>" cityId="<%=c._id%>" pics=<%c.image%> />
+                                    <%});%>
+                                </div>
+                            <%}%>
+                        <%}%>
+                    </div>
+                </div>
             </div>
-<%include footer%>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <% include footer %>
+    <script>
+        $(document).ready(function () {
+            $('#btnSrh').click(function () {
+                document.location.href = "/wap/products/" + $('#id').val();
+            });
+            $('.title').click(function () {
+                if($(this).hasClass('home-modalBtMainRight')){
+                    $(this).removeClass('home-modalBtMainRight');
+                    $(this).addClass('home-modalBtMainDown');
+                }else{
+                    $(this).removeClass('home-modalBtMainDown');
+                    $(this).addClass('home-modalBtMainRight');
+                }
+            });
+            $('.content').click(function(){
+                console.log($(this));
+                $('#showPics').html("");
+                $('#showPicsNum').html("");
+                $('#id').val("");
+                var picsHtml = "";
+                var picsNumHtml = "";
+                var pics = $(this).attr('pics');
+                for (var i = 0; i < pics.length; i++) {
+                    if (0 === i) {
+                        picsHtml += "<div class='item active'>";
+                        picsNumHtml += "<li data-target='#carousel-example-generic' data-slide-to='" + i + "' class='active'></li>";
+                    } else {
+                        picsHtml += "<div class='item'>";
+                        picsNumHtml += "<li data-target='#carousel-example-generic' data-slide-to='" + i + "'></li>";
+                    }
+                    picsHtml = "<img src='http://dd885.b0.upaiyun.com/" + pics[i] + "' data-src='holder.js/100%x300'></div>";
+                }
+                $('#id').val($(this).attr('cityId'));
+                $('#showPics').html(picsHtml);
+                $('#showPicsNum').html(picsNumHtml);
+            });
+        });
+    </script>

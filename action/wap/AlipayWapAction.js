@@ -85,7 +85,7 @@ exports.callBack = function(req,res){
                                         res.send(404, e);
                                     }else{
                                         if(0===r.error){
-                                            console.log("order "+req.params.id+" is update status success");
+                                            console.log("order "+req.query.out_trade_no+" is update status success");
                                         }else{
                                             res.send(404, r.errorMsg);
                                         }
