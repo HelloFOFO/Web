@@ -53,12 +53,12 @@
             //set last month days
             html += "<tr>";
             for(var i=firstDay.getDay();i>0;i--){
-                html += getDayModual(new Date(firstDay-i*86400000),false,-1);
+                html += getPastDayModual(new Date(firstDay-i*86400000),false,-1);
             }
             var qtyCur = 0; //init cursor for the qtys
             for(var i=1;i<=thisMonthDays;i++){
                 var dateObj = new Date(year,month,i);
-                if(!(qtyCur>qtys.length)){
+                if(qtyCur<qtys.length&&0!==qtys.length){
                     html += getDayModual(dateObj,false,qtys[qtyCur]);
                     qtyCur++;
                 }else{
@@ -72,8 +72,7 @@
             year = nowTime.getFullYear();
             month = nowTime.getMonth();
             var date = nowTime.getDate();
-//            var thisMonthDays = new Date(year, month+1, 0).getDate();
-            var thisMonthDays = roomQty.length;
+            var thisMonthDays =  new Date(year, month+1, 0).getDate();
 //            if(qtys.length>thisMonthDays){
 //                alert("[roomQty] length is more than days of this month");
 //                return;
@@ -96,7 +95,7 @@
             for(var i=1;i<=thisMonthDays;i++){
                 var dateObj = new Date(year,month,i);
                 if(date!=i){
-                    if(flag&&!(qtyCur>qtys.length)){
+                    if(flag&&qtyCur<qtys.length){
                         html += getDayModual(dateObj,false,qtys[qtyCur]);
                     }else{
                         html += getDayModual(dateObj,false,-1);
@@ -116,7 +115,7 @@
         function getCalHeadModual(year,month){
             var head = "<section class='hotelCalendar'>";
             head += "<input type='hidden' id='d_selected'/>";
-            head += "<h2><a class='prevMonth'  href='#'/>"+year+"年"+(month+1)+"月<a class='nextMonth'   href='#'/></h2>";
+            head += "<h2><button class='prevMonth'/>"+year+"年"+(month+1)+"月<button class='nextMonth''/></h2>";
             head +="<table width='100%' border='0' cellspacing='0' cellpadding='0' class='CalendarTable'>";
             head +="<tr>";
             head +="<th width='14%' height='40' align='center' valign='middle'>日</th>";
@@ -129,13 +128,35 @@
             head +="</tr>";
             return head;
         }
+        //get past day modual of html
+        function getPastDayModual(dateObj,isToDay,roomQty){
+            if(d==0){
+                text += "<tr>";
+            }
+            var text = "<td align='center' valign='middle'>";
+            text += "<div class='CalendarTd "+getQualityCss(roomQty)+"' id='"+dateObj.getTime()+"'>";
+            if(isToDay){
+                text += "<p class='dateToday'>";
+            }else{
+                text += "<p>";
+            }
+            text += "</p>";
+            text += getQualityText(roomQty);
+            text += "</div>";
+            text += "</td>";
+            var d = dateObj.getDay();
+            if(d==6){
+                text += "</tr>";
+            }
+            return text;
+        }
         //get day modual of html
         function getDayModual(dateObj,isToDay,roomQty){
             if(d==0){
                 text += "<tr>";
             }
             var text = "<td align='center' valign='middle'>";
-            text += "<div class='CalendarTd "+getQualityCss(roomQty)+"' id='"+dateObj.getTime()+"'>";
+            text += "<div class='CalendarTd "+getQualityCss(roomQty)+"' id='"+dateObj.getTime()+"' rq='"+roomQty+"'>";
             if(isToDay){
                 text += "<p class='dateToday'>";
             }else{
@@ -162,7 +183,7 @@
                     status = "<p class='datefull'>满</p>";
                     break;
                 default :
-                    status = "<p class='datefull'>roomQty</p>";
+                    status = "<p class='datefull'>"+roomQty+"</p>";
                     break;
             }
             return status;
@@ -187,12 +208,10 @@
         function bindClick(){
             //select day click
             $(".datered").bind("click",function(event){
-                $("#d_selected").val("");
-               $("#d_selected").val(event.currentTarget.id);
+                selectDo(event.currentTarget);
             });
             $(".dateOrder").bind("click",function(event){
-                $("#d_selected").val("");
-                $("#d_selected").val(event.currentTarget.id);
+                selectDo(event.currentTarget);
             });
             //select month click
             $(".prevMonth").bind("click",function(event){
@@ -202,6 +221,12 @@
                 selectMonth(1);
             });
         }
+
+        //click
+        function selectDo(e){
+            document.location.href = '/wap/productDetail/'+$('#id').val()+'/4?price='+$(e).attr('rq')+'&date='+e.id;
+        }
+
       //select month
       function selectMonth(goNumber){
         month = month + goNumber;
@@ -217,12 +242,8 @@
         }else{
             var newQty = [];
             var diff = parseInt((new Date(year,month,1).getTime() - nowTime.getTime())/86400000)+1;
-            console.log(diff+","+roomQty.length);
             if(diff>0&&diff<roomQty.length){
-                var newQty = roomQty.slice(diff,roomQty.length);
-            }
-            for(var i=0;i<newQty.length;i++){
-                console.log(newQty[i]);
+                var newQty = roomQty.slice(diff-1,roomQty.length);
             }
             drawOtherMonth(year,month,newQty);
         }

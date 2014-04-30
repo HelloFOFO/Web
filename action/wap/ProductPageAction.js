@@ -35,7 +35,6 @@ exports.getProducts = function(request,response){
                 if(err){
                     cb(err,null);
                 } else {
-                    console.log(JSON.stringify(res.data));
                     cb(null,res.data);
                 }
             });
@@ -107,6 +106,13 @@ exports.getDetail = function(request,response){
                 }
                 product.level=level;
                 if(4===product.type){
+                    //if from productCalendar then can get select date and price
+                    if(!us.isEmpty(request.query.date)){
+                        product.date = request.query.date;
+                    }
+                    if(!us.isEmpty(request.query.price)){
+                        product.price = request.query.price;
+                    }
                     response.render('wap/productDetail',{'titleName':'商品详情','product':product});
                 }else{
                     //get price log list
@@ -167,23 +173,20 @@ exports.productCalendar = function(request,response){
             response.send(404,e);
         }else{
             console.log("bbbbb",r);
-//            if(0=== r.error){
-                console.log("cccc");
+            if(0=== r.error){
                 var prices = [];
-//                r.data.forEach(function(p){
-//                    prices.push(p.packagePrice);
-//                    console.log(p.packagePrice);
-//                });
+                r.data.forEach(function(p){
+                    prices.push(p.packagePrice);
+                });
                 var result = {};
                 result.id = id;
                 result.prices = prices;
                 result.time = new Date(sd).getTime();
-
                 response.render('wap/productCalendar',{'titleName':'选择日期','product':result});
-//            }else{
-//                console.log("ddddd");
-//                response.send(404,r.errorMsg);
-//            }
+            }else{
+                console.log("ddddd");
+                response.send(404,r.errorMsg);
+            }
         }
     });
 }
@@ -234,11 +237,22 @@ exports.detailInfo = function(request,response){
 exports.toSubOrder = function(request,response){
     var time = request.body.exDate;
     var price = request.body.sPrice;
+    var type = request.body.type;
     var id = request.body.product;
+    var path = "";
+    var isWeekend = "n";
+    var lid = "";
+    if("4"===type){
+        path = '/product/package/detail/'+id;
+    }else{
+        isWeekend = request.body.isWeekend;
+        lid = request.body.lid;
+        path = '/product/ticket/detail/'+id;
+    }
     var httpClient = new HttpClient({
         'host':Config.inf.host,
         'port':Config.inf.port,
-        'path':'/web/product/detail/'+id,
+        'path':path,
         'method':"GET"
     });
     httpClient.getReq(function(err,res){
@@ -256,6 +270,10 @@ exports.toSubOrder = function(request,response){
                 ret.type = res.data.type;
                 ret.time = time;
                 ret.price = price;
+                if(4!==type){
+                    ret.isWeekend = isWeekend;
+                    ret.lid = lid;
+                }
                 response.render('wap/subOrder',{titleName:'填写订单',product:ret});
             }else{
                 response.send(404,'error message is '+res.errorMsg);
@@ -385,14 +403,12 @@ exports.saveOrder = function(request,response){
                     }
                     response.render('wap/orderConfirm',{titleName:'支付订单',info:res});
                 }else{
-                    console.log(result.errorMsg);
                     response.send(404,result.errorMsg);
                 }
             }
         });
 
     }else{
-        console.log(errorMsg);
         response.send(404,errorMsg);
     }
 }

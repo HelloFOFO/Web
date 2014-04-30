@@ -22,7 +22,6 @@ exports.doLogin = function(request,response){
         if(err){
             response.send('系统异常，请重试!');
         } else {
-            console.log(mobile,passwd);
             if(res.data){
                 request.session.user=res.data;
                 if(autoLogin){
@@ -49,6 +48,7 @@ exports.autoLogin = function(request,fn){
     httpClient.postReq({'mobile':mobile,'passwd':passwd},function(err,res){
         if(!err){
             request.session.user=res.data;
+            request.session.autoLogin=true;
         }
         fn();
     });
@@ -124,7 +124,6 @@ exports.userInfo = function(request,response){
                 response.send(404,err);
             } else {
                 if(0===res.error){
-                    console.log(res.data);
                     response.render('wap/userInfo',{titleName:'个人信息','u':res.data});
                 }else{
                     response.send(404,res.errorMsg);

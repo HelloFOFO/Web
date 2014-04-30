@@ -89,11 +89,11 @@ Alipay.buildSign = function(s){
 //授权请求
 //traderNo 订单号
 //subject 订单名称
-Alipay.wap.reqAuth = function(tradeNo,subject,total_fee,cb){
+Alipay.wap.reqAuth = function(_id,tradeNo,subject,total_fee,cb){
     var returnResult = "";
     var req_id = new Date().getTime();
-    var req_dataToken = "<direct_trade_create_req><notify_url>" + config.alipay.notify_url
-        + "</notify_url><call_back_url>" + config.alipay.call_back_url
+    var req_dataToken = "<direct_trade_create_req><notify_url>" + config.alipay.notify_url + _id
+        + "</notify_url><call_back_url>" + config.alipay.call_back_url + _id
         + "</call_back_url><seller_account_name>"
         + config.alipay.seller + "</seller_account_name><out_trade_no>"
         + tradeNo + "</out_trade_no><subject>" + subject

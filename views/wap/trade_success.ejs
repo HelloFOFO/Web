@@ -1,0 +1,17 @@
+<%include header%>
+<div class="container wcy_paysucceedbox">
+    <div class="wcy_paysucceed">
+        <h1>恭喜您，交易成功！</h1>
+
+        <p>&nbsp;</p>
+
+        <p>订单号：<span class="bs-wcy_orange"><%=order.oid%></span></p>
+
+        <p>产品名称：<%=order.pName%></p>
+
+        <p>金额：<span class="bs-wcy_orange">￥<%=order.total%></span></p>
+
+        <p class="plink"><a href="/wap/orderDetail/"+<%=order._id%>>查看订单</a></p>
+    </div>
+</div>
+<%include footer%>

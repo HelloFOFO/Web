@@ -6,6 +6,8 @@ var HomePageAction = require('./../action/wap/HomePageAction');
 var ProductPageAction = require('./../action/wap/ProductPageAction');
 var MemberPageAction = require('./../action/wap/MemberPageAction');
 var AlipayWapAction = require('./../action/wap/AlipayWapAction');
+var OrderAction = require('./../action/wap/OrderAction');
+var us = require('underscore');
 module.exports = function(app){
     app.all('/wap/*',function(request,response,next){
         response.charset = 'utf-8';
@@ -21,8 +23,8 @@ module.exports = function(app){
         }
     })
     app.all('/wap/*',function(request,response,next){
-        if(request.session.user==null&&!request.url.indexOf('/wap/forget')&&!request.url.indexOf('/wap/doForget')&&!request.url.indexOf('/wap/register')&&!request.url.indexOf('/wap/doRegister')){
-            response.render('wap/login',{titleName:'登录'});
+        if(us.isEmpty(request.session.user)&&0>request.url.indexOf('login')&&0>request.url.indexOf('doLogin')&&0>request.url.indexOf('forget')&&0>request.url.indexOf('doForget')&&0>request.url.indexOf('register')&&0>request.url.indexOf('doRegister')&&0>request.url.indexOf('notify')){
+            response.redirect('/wap/login');
         } else {
             next();
         }
@@ -47,6 +49,8 @@ module.exports = function(app){
     app.post('/wap/confirm',ProductPageAction.saveOrder);
     app.get('/wap/productDetailInfo',ProductPageAction.detailInfo);
     app.get('/wap/calendar/:id',ProductPageAction.productCalendar);
+    //order
+    app.get('/wap/orderDetail/:id',OrderAction.detail);
     //ajax
     app.get('/wap/ajax/cityList',HomePageAction.cityList);
 

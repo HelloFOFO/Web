@@ -1,5 +1,4 @@
 <%include header%>
-<link href="css/flat-ui.css" rel="stylesheet">
 <div class="container">
         <div class="wcy-hotelTicketPayTitle">订单信息</div>
 </div>
@@ -60,7 +59,7 @@
                               <li>
                                       <label class="checkbox checked">
                                       支付宝
-                                        <input type="checkbox" name="optionscheckbox" id="optionscheckbox" value="checkbox">
+                                        <input type="checkbox" name="optionscheckbox" id="optionscheckbox" value="checkbox" checked>
                                       </label>
                               </li>
                     </ul>
@@ -68,7 +67,7 @@
 </div>
 <div class="container">
         <div class="wcy-hotelTicketPayBt">
-        <form action="/wap/reqTrade" method="post">
+        <form action="/wap/reqTrade" id="formPay" method="post">
         <!-- hidden fields -->
         <input type="hidden" name="oid" value="<%=info.oid%>"/>
         <input type="hidden" name="_id" value="<%=info._id%>"/>
@@ -77,3 +76,13 @@
         </div>
 </div>
 <%include footer%>
+<script>
+    $(document).ready(function(){
+        $('#formPay').submit(function(e){
+            if(true!==$('#optionscheckbox').prop('checked')){
+                alert('请选择支付方式!');
+                return false;
+            }
+        });
+    });
+</script>
