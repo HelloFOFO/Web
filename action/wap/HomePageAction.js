@@ -58,6 +58,7 @@ exports.getHomePage = function(request,response){
         if(e){
             response.send(r);
         }else{
+//            console.log(r);
             response.render('wap/home',{titleName:'首页',data: r});
         }
     });

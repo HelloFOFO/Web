@@ -78,10 +78,12 @@ exports.getCityDetail = function(req,res){
                 res.json({error:0,errorMsg:error});
             }else{
                 if(_.isArray(result.data.image)){
-                    console.log('aaaaaaaaa');
+//                    console.log('aaaaaaaaa',result);
                     var newImage=[];
                     result.data.image.forEach(function(i){
-                        i.url = Config.inf.imageHost+ i.url;
+                        var tmpURL = i.url;
+                        i.url = Config.inf.imageHost+ tmpURL;
+                        i.wapURL = Config.inf.imageHost+ tmpURL;
 //                        newImage.push({url:Config.inf.imageHost+ i.url});
 //                        console.log(Config.inf.imageHost,newImage.url);
                     });

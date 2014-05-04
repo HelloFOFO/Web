@@ -1,28 +1,9 @@
 <% include header %>
-<!--轮播-->
-<% if(data.default.image && data.default.image.length > 0){ %>
-<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-    <!-- Indicators -->
-    <ol class="carousel-indicators" id="showPicsNum">
-        <% for(var i = 0;i < data.default.image.length;i++){ %>
-        <li data-target="#carousel-example-generic" data-slide-to="<%= i %>" <% if(0 === i){ %>class="active"<% } %>></li>
-        <% } %>
-    </ol>
-
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner" id="showPics">
-            <% for(var i in data.default.image){ %>
-            <% if("0" === i){ %>
-            <div class="item active">
-                <% }else{ %>
-                <div class="item">
-                    <% } %>
-                    <img src="http://dd885.b0.upaiyun.com/<%= data.default.image[i].url %>"
-                         data-src="holder.js/100%x300">
-                </div>
-                <% } %>
-    </div>
-
+    <!--轮播-->
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" id="homeBanner">
+        </div>
         <!-- Controls -->
         <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
             <span class="glyphicon glyphicon-chevron-left"></span>
@@ -31,11 +12,10 @@
             <span class="glyphicon glyphicon-chevron-right"></span>
         </a>
     </div>
-    <% } %>
     <!--搜索-->
     <div class="home-searchbox">
-        <input type="button" class="search" value="<%= data.default.name %>" data-toggle="modal" data-target="#myModal">
-        <input type="hidden" id="id" value="<%= data.default._id %>">
+        <input type="button" class="search" id="cityName" value="" data-toggle="modal" data-target="#myModal">
+        <input type="hidden" id="cityID" value="">
         <input type="button" id="btnSrh" class="searchBt" value="立即查询">
     </div>
     <!--大家都喜欢的-->
@@ -46,7 +26,7 @@
             <% data.relate.forEach(function(p){ %>
             <div class="col-xs-6">
                 <div class="listProBox">
-                    <div class="imgbox"><a href="#"><img src="http://dd885.b0.upaiyun.com/<%= p.image[0].url %>"></a>
+                    <div class="imgbox"><a href="/wap/productDetail/<%=p._id%>/<%=p._type%>"><img src="http://dd885.b0.upaiyun.com/<%= p.image[0].url %>"></a>
                     </div>
                     <div class="probox">
                         <a href="/wap/productDetail/<%= p._id %>/<%= p.type %>">
@@ -120,7 +100,7 @@
     <script>
         $(document).ready(function () {
             $('#btnSrh').click(function () {
-                document.location.href = "/wap/products/" + $('#id').val();
+                document.location.href = "/wap/products/" + $('#cityID').val();
             });
             $('.title').click(function () {
                 if($(this).hasClass('home-modalBtMainRight')){
@@ -132,26 +112,35 @@
                 }
             });
             $('.content').click(function(){
-                console.log($(this));
-                $('#showPics').html("");
-                $('#showPicsNum').html("");
-                $('#id').val("");
-                var picsHtml = "";
-                var picsNumHtml = "";
-                var pics = $(this).attr('pics');
-                for (var i = 0; i < pics.length; i++) {
-                    if (0 === i) {
-                        picsHtml += "<div class='item active'>";
-                        picsNumHtml += "<li data-target='#carousel-example-generic' data-slide-to='" + i + "' class='active'></li>";
-                    } else {
-                        picsHtml += "<div class='item'>";
-                        picsNumHtml += "<li data-target='#carousel-example-generic' data-slide-to='" + i + "'></li>";
-                    }
-                    picsHtml = "<img src='http://dd885.b0.upaiyun.com/" + pics[i] + "' data-src='holder.js/100%x300'></div>";
-                }
-                $('#id').val($(this).attr('cityId'));
-                $('#showPics').html(picsHtml);
-                $('#showPicsNum').html(picsNumHtml);
+                $('#cityID').val($(this).attr('cityId'));
+                $('#cityName').val($(this).val());
+                $('#myModal').modal('toggle');
+                refreshHomeBanner($(this).attr('cityId'));
             });
+            var refreshHomeBanner = function(city){
+                $.ajax({
+                    url:'/getCityDetail'
+                    ,method:"GET"
+                    ,data:{city:city}
+                }).done(function(data){
+                            if(!city){
+                                //页面初次加载的时候
+                                $('#cityName').val(data.data.name);
+                                $('#cityID').val(data.data._id);
+                            }
+                            var str = '<div class="item __isactive__"><img src="__imageurl__"></div>';
+                            var imageList = "";
+                            $.each(data.data.image,function(index,data){
+                                if(index==0){
+                                    imageList += str.replace(/__imageurl__/,data.wapURL).replace(/__isactive__/,"active");
+                                }else{
+                                    imageList += str.replace(/__imageurl__/,data.wapURL);
+                                }
+                            });
+                            $('#homeBanner').empty().append(imageList);
+//                            initSlider();
+                        });
+            };
+            refreshHomeBanner();
         });
     </script>

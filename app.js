@@ -9,11 +9,13 @@ var weixin = require('./routes/weixin');
 var http = require('http');
 var path = require('path');
 var log4js = require('log4js');
-var SessionStore = require("session-mongoose")(express);
+var RedisStore = require('connect-redis')(express);
 
-var store = new SessionStore({
-    url : "mongodb://172.16.0.15/session",
-    interval : 120000
+var store = new RedisStore({
+    host: process.env.REDISSEVER||'172.16.0.15',
+    port: process.env.REDISPORT||6379,
+    db: 1,
+    pass: process.env.REDISPASS||'rtadd885'
 });
 
 //log4js config

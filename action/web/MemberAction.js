@@ -184,7 +184,8 @@ exports.getVerifyCode = function(req,res){
             }
         });
     }],function(error,result){
-            var result=result;
+            console.log(result);
+            var result={};
             if(error){
                 switch (error){
                     case "mobileError":          result = {error:1,errorMsg:"手机号格式错误！"};break;
@@ -195,6 +196,6 @@ exports.getVerifyCode = function(req,res){
                     default :result = error;
                 }
             }
-            res.json(result);
+            res.json({error:0,errorMsg:""});
     });
 };

@@ -2,52 +2,137 @@
     <div class="container">
         <form role="form" class="wap-forgetPw" id="registerForm">
             <div class="form-group">
-                <input type="mobile" class="form-control"  placeholder="手机号" id="mobile">
+                <input type="mobile" class="form-control"  placeholder="手机号" id="r_mobile">
                 <div id="yzminfo" class="yzminfo"></div>
             </div>
             <div class="form-group wap-clear">
                 <div class="yzInput"><input type="Captcha" class="form-control Captcha" id="Captcha" placeholder="手机验证码">&nbsp;</div>
-                <div class="yzInputBt"><input type="button" value="获取验证码" class="btn btn-block wap-CaptchaBt"   id="fsyzm"  onclick="getmobile()"  ></div>
+                <div class="yzInputBt"><input type="button" value="获取验证码" class="btn btn-block wap-CaptchaBt"   id="fsyzm"  onclick="timedCount()"  ></div>
                 <script type="text/javascript">
-                    var Time=60;
-                    var c=Time;
-                    function timedCount(){
-                        document.getElementById('fsyzm').value="重新获取(" + c + ")";
-                        document.getElementById('fsyzm').disabled="disabled";
-                        document.getElementById('fsyzm').className = "btn btn-block wap-CaptchaUnlinkBt";
-                        c=c-1;
-                        t=setTimeout("timedCount()",1000)
-                        if(c<0){
-                            c=Time;
-                            stopCount();
-                            document.getElementById('fsyzm').value="重获验证码";
-                            document.getElementById('fsyzm').removeAttribute("disabled");
-                            document.getElementById('fsyzm').className = "btn btn-block wap-CaptchaBt";
-                        }
-                    }
-                    function stopCount(){
-                        clearTimeout(t);
-                    }
-                    function getmobile(){
-                        var mobile=document.getElementById('mobile').value;
-                        if(mobile==null || mobile=="" ){
-                            /*alert("空");*/
-                            document.getElementById('yzminfo').innerHTML="请输入手机号";
-                            return;
-                        }else{
-                            var reg =/^((\+86)|(86))?(1)\d{10}$/;
-                            if(!mobile.match(reg))
-                            {
-                                document.getElementById('yzminfo').innerHTML="请输入正确有效的手机号码！";
-                                return false;
-                            }else{
-                                mobile.toString();
-                                var mobilepw=mobile.substring(0,3)+"****"+mobile.substring(7);
-                                document.getElementById('yzminfo').innerHTML="验证码短信已发送到(" + mobilepw + ")";
-                                timedCount();
+                    document.getElementById('fsyzm').value = "发送验证码";
+                    document.getElementById('fsyzm').removeAttribute("disabled");
+                    var Time = 60;
+                    var c = Time;
+                    var t;
+                    var timedCount = function(){
+                        var mobile = document.getElementById('r_mobile').value;
+                        if(/\d{11,11}/.test(mobile) && mobile.length==11){
+                            document.getElementById('fsyzm').value = "请稍等(" + c + ")";
+                            document.getElementById('fsyzm').disabled = "disabled";
+                            document.getElementById('fsyzm').className = "btn btn-block wap-CaptchaUnlinkBt";
+                            if(c==60){getSMSCode('register');}//第一次循环的时候才调获取短信验证码接口
+                            c = c - 1;
+                            t = setTimeout("timedCount()", 1000);
+                            if (c < 0) {
+                                c = Time;
+                                stopCount();
+                                document.getElementById('fsyzm').value = "再次发送验证码";
+                                document.getElementById('fsyzm').removeAttribute("disabled");
+                                document.getElementById('fsyzm').className = "btn btn-block wap-CaptchaBt";
                             }
+                        }else{
+                            $('#r_error').removeClass('hidden');
+                            $('#r_errorMsg').text("手机号码格式错误！");
+                            return;
                         }
-                    }
+                    };
+                    var stopCount = function(){
+                        clearTimeout(t);
+                    };
+                    //发送验证码
+                    var getSMSCode = function(type){
+                        //传入参数为 string:'register | forget '
+                        var mobile = "";
+                        var errorBox,errorMsg;
+                        if(type=="register"){
+                            mobile=document.getElementById('r_mobile').value;
+                            errorBox=$('#r_error');
+                            errorMsg=$('#r_errorMsg');
+                        }else if(type="forget"){
+                            mobile=document.getElementById('f_mobile').value;
+                            errorBox=$('#r_error');
+                            errorMsg=$('#r_errorMsg');
+                        }
+                        $.ajax({
+                            url:"/getVerifyCode"
+                            ,method:"POST"
+                            ,data:{mobile:mobile,type:type}
+                        }).done(function(data){
+                                    if(data.error!=0){
+                                        //后台判断的错误信息展示
+                                        errorBox.removeClass('hidden');
+                                        errorMsg.text(data.errorMsg);
+                                        if(type=='register'){
+                                            document.getElementById('fsyzm').value = "发送验证码";
+                                            document.getElementById('fsyzm').removeAttribute("disabled");
+                                            c=60;
+                                            clearTimeout(t);
+                                        }else{
+                                            pwc=60;
+                                            clearTimeout(pwt);
+                                            document.getElementById('pwfsyzm').value = "发送验证码";
+                                            document.getElementById('pwfsyzm').removeAttribute("disabled");
+                                        }
+                                    }else{
+                                        //发成功了就隐藏掉
+                                        errorBox.addClass('hidden');
+                                    }
+                                }).fail(function(data){
+                                    //发失败的报错
+                                    errorBox.removeClass('hidden');
+                                    errorMsg.text('获取验证码失败！');
+                                    document.getElementById('fsyzm').value = "发送验证码";
+                                    document.getElementById('fsyzm').removeAttribute("disabled");
+                                    if(type=='register'){
+                                        c=60;
+                                        clearTimeout(t);
+                                    }else{
+                                        pwc=60;
+                                        clearTimeout(pwt);
+                                    }
+                                });
+                    };
+                </script>
+                <script type="text/javascript">
+//                    var Time=60;
+//                    var c=Time;
+//                    function timedCount(){
+//                        document.getElementById('fsyzm').value="重新获取(" + c + ")";
+//                        document.getElementById('fsyzm').disabled="disabled";
+//                        document.getElementById('fsyzm').className = "btn btn-block wap-CaptchaUnlinkBt";
+//                        c=c-1;
+//                        t=setTimeout("timedCount()",1000)
+//                        if(c<0){
+//                            c=Time;
+//                            stopCount();
+//                            document.getElementById('fsyzm').value="重获验证码";
+//                            document.getElementById('fsyzm').removeAttribute("disabled");
+//                            document.getElementById('fsyzm').className = "btn btn-block wap-CaptchaBt";
+//                        }
+//                    }
+//                    function stopCount(){
+//                        clearTimeout(t);
+//                    }
+//                    function getmobile(){
+//                        var mobile=document.getElementById('mobile').value;
+//                        if(mobile==null || mobile=="" ){
+//                            /*alert("空");*/
+//                            document.getElementById('yzminfo').innerHTML="请输入手机号";
+//                            return;
+//                        }else{
+//                            var reg =/^((\+86)|(86))?(1)\d{10}$/;
+//                            if(!mobile.match(reg))
+//                            {
+//                                document.getElementById('yzminfo').innerHTML="请输入正确有效的手机号码！";
+//                                return false;
+//                            }else{
+//                                mobile.toString();
+//                                var mobilepw=mobile.substring(0,3)+"****"+mobile.substring(7);
+//                                document.getElementById('yzminfo').innerHTML="验证码短信已发送到(" + mobilepw + ")";
+//                                timedCount();
+//                            }
+//                        }
+//                    }
                 </script>
             </div>
             <div class="form-group wap-clear">
@@ -56,8 +141,8 @@
             <div class="form-group">
                 <input type="password" class="form-control" id="confirmPW" placeholder="确认密码">
             </div>
-            <div class="form-group hidden" id="f_error">
-                <label style="color: #ff0000" id="f_errorMsg"></label>
+            <div class="form-group hidden" id="r_error">
+                <label style="color: #ff0000" id="r_errorMsg"></label>
             </div>
             <button type="submit" class="btn wap-submitBt btn-block" id="btnRegister" data-loading-text="注册中...请稍候" >注册</button>
         </form>
@@ -70,42 +155,42 @@
     $(document).ready(function () {
         //init
         $('#btnRegister').button("reset");
-        $('#f_error').addClass('hidden');
-        $('#f_errorMsg').text();
+        $('#r_error').addClass('hidden');
+        $('#r_errorMsg').text();
         var us = _.noConflict();
         $("#registerForm").submit(function(event){
             event.preventDefault();
-            if(us.isEmpty($('#mobile').val())){
-                $('#f_error').removeClass('hidden');
-                $('#f_errorMsg').text('手机号不能为空!');
+            if(us.isEmpty($('#r_mobile').val())){
+                $('#r_error').removeClass('hidden');
+                $('#r_errorMsg').text('手机号不能为空!');
                 return false;
             }
             if(us.isEmpty($('#Captcha').val())){
-                $('#f_error').removeClass('hidden');
-                $('#f_errorMsg').text('验证码不能为空!');
+                $('#r_error').removeClass('hidden');
+                $('#r_errorMsg').text('验证码不能为空!');
                 return false;
             }
             if(us.isEmpty($('#password').val())){
-                $('#f_error').removeClass('hidden');
-                $('#f_errorMsg').text('新密码不能为空!');
+                $('#r_error').removeClass('hidden');
+                $('#r_errorMsg').text('新密码不能为空!');
                 return false;
             }
             if(us.isEmpty($('#confirmPW').val())){
-                $('#f_error').removeClass('hidden');
-                $('#f_errorMsg').text('确认密码不能为空!');
+                $('#r_error').removeClass('hidden');
+                $('#r_errorMsg').text('确认密码不能为空!');
                 return false;
             }
             if($('#password').val()!==$('#confirmPW').val()){
-                $('#f_error').removeClass('hidden');
-                $('#f_errorMsg').text('新密码和确认密码不一致!');
+                $('#r_error').removeClass('hidden');
+                $('#r_errorMsg').text('新密码和确认密码不一致!');
                 return false;
             }
             $('#btnRegister').button("loading");
             $.ajax({
-                'url':'/wap/doRegister',
+                'url':'/register',
                 'type':'post',
                 'data':{
-                    'mobile':$('#mobile').val(),
+                    'mobile':$('#r_mobile').val(),
                     'passwd':faultylabs.MD5($('#password').val()).toLowerCase(),
                     'code':$('#Captcha').val()
                 }
@@ -113,8 +198,8 @@
                         if(data=='success'){
                             document.location.href = '/wap/';
                         } else {
-                            $('#f_error').removeClass('hidden');
-                            $('#f_errorMsg').text(data);
+                            $('#r_error').removeClass('hidden');
+                            $('#r_errorMsg').text(data);
                         }
                         $('#btnRegister').button("reset");
             });
