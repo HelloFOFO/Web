@@ -1,3 +1,0 @@
-[2014-04-15 09:00:21.664] [INFO] normal - 127.0.0.1 - - "GET /images/wcy_hotelbanner01_90x60.jpg HTTP/1.1" 200 5725 "http://localhost:3000/productDetail/53460c0950317a500e401633" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:28.0) Gecko/20100101 Firefox/28.0"
-[2014-04-15 09:00:21.683] [INFO] normal - 127.0.0.1 - - "GET /images/wcy_hotelbanner02_90x60.jpg HTTP/1.1" 200 5707 "http://localhost:3000/productDetail/53460c0950317a500e401633" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:28.0) Gecko/20100101 Firefox/28.0"
-[2014-04-15 09:00:21.687] [INFO] normal - 127.0.0.1 - - "GET /images/wcy_hotelbanner03_90x60.jpg HTTP/1.1" 200 4485 "http://localhost:3000/productDetail/53460c0950317a500e401633" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:28.0) Gecko/20100101 Firefox/28.0"
