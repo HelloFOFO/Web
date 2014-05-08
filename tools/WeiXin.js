@@ -142,7 +142,7 @@ WeiXin.createMenu = function (fn) {
                     {
                         "type": "view",
                         "name": "门票",
-                        "url": "http://cloud.bingdian.com/wap/productList/ticket"
+                        "url": "http://dd885.com/wap/productList/ticket"
                     },
                     {
                         "type": "view",
