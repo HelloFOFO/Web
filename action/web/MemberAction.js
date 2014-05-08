@@ -7,7 +7,28 @@ var async = require('async');
 var _ = require('underscore');
 
 exports.saveUserInfo = function(request,response){
-    response.redirect('/');
+//    console.log(request.body);
+//    console.log('/ent/provider/member/update/:id');
+    try{
+        var memberId = request.session.user._id;
+        console.log(request.session.user);
+        var httpClient = new HttpClient({
+            'host':Config.inf.host,
+            'port':Config.inf.port,
+            'path':'/ent/agent/member/update/'+memberId,
+            'method':"POST"
+        });
+
+        httpClient.postReq(request.body,function(err,result){
+            if(err || result.error != 0){
+                console.log("saveUserInfo Error",err,result);
+            }
+            response.redirect("/");
+        });
+    }catch(e){
+        console.log("saveUserInfo Error2", e.message);
+        response.redirect("/");
+    }
 };
 
 exports.userInfo = function(request,response){
@@ -173,13 +194,13 @@ exports.getVerifyCode = function(req,res){
             'path':'/member/code',
             'method':"POST"
         });
-        console.log({mobile:result.mobile,ip:""});
-        http.postReq({mobile:result.mobile,ip:""},function(error,result){
+        console.log({mobile:result.mobile,ip:req.ip});
+        http.postReq({mobile:result.mobile,ip:req.ip},function(error,result){
             if(error || result.error != 0 ){
                 console.log("获取验证码失败",error,result);
                 cb('getCodeError',null);
             }else{
-                console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',result);
+                console.log('debug /member/code',result);
                 cb(null,result);
             }
         });

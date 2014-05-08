@@ -77,7 +77,6 @@ a:active { text-decoration: none;}
 .home-modalMain{ background:#e6e6e6; border-bottom:#cccccc solid 1px; padding:0 10px;}
 .home-modalBt{ border:none; height:40px; line-height:40px; color:#333; text-align:left; font-size:16px; outline:none;}
 .home-modalBtMainRight{ background:url(../images/wap-arrowRight.png) no-repeat right center; background-size:16px 16px; }
-.home-modalBtMainDown{ background:url(../images/wap-arrowDown.png) no-repeat right center; background-size:16px 16px; }
 .home-modalSub{}
 .home-modalBtSub{line-height:30px; padding-left:10px;  background:#fff; border-bottom:#cccccc solid 1px; outline:none;}
 

@@ -11,17 +11,22 @@ var us = require('underscore');
 module.exports = function(app){
     app.all('/wap/*',function(request,response,next){
         response.charset = 'utf-8';
-        if(request.session.autoLogin&&!request.session.user&&request.cookies.m&&request.cookies.p){
-            console.log('---------------autoLogin--------------------');
-            MemberPageAction.autoLogin(request,function(){
-                console.log(request.session.user);
-                console.log('---------------autoLogin end--------------------');
-                next()
-            });
-        } else {
+        if(request.session && request.cookies){
+            if(request.session.autoLogin&&!request.session.user&&request.cookies.m&&request.cookies.p){
+                console.log('---------------autoLogin--------------------');
+                MemberPageAction.autoLogin(request,function(){
+                    console.log(request.session.user);
+                    console.log('---------------autoLogin end--------------------');
+                    next()
+                });
+            } else {
+                next();
+            }
+        }else{
             next();
         }
-    })
+    });
+
     app.all('/wap/*',function(request,response,next){
         if(us.isEmpty(request.session.user)&&0>request.url.indexOf('login')&&0>request.url.indexOf('doLogin')&&0>request.url.indexOf('forget')&&0>request.url.indexOf('doForget')&&0>request.url.indexOf('register')&&0>request.url.indexOf('doRegister')&&0>request.url.indexOf('notify')){
             response.redirect('/wap/login');
@@ -45,12 +50,17 @@ module.exports = function(app){
     //products
     app.get('/wap/products/:id',ProductPageAction.getProducts);
     app.get('/wap/productDetail/:id/:type',ProductPageAction.getDetail);
+
+    app.get('/wap/productDetails/:id',ProductPageAction.productDetail);
+
     app.post('/wap/subOrder',ProductPageAction.toSubOrder);
     app.post('/wap/confirm',ProductPageAction.saveOrder);
     app.get('/wap/productDetailInfo',ProductPageAction.detailInfo);
     app.get('/wap/calendar/:id',ProductPageAction.productCalendar);
     //order
     app.get('/wap/orderDetail/:id',OrderAction.detail);
+    app.get('/wap/orders/:type',OrderAction.orders);//unpaid or all
+
     //ajax
     app.get('/wap/ajax/cityList',HomePageAction.cityList);
 

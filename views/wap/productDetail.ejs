@@ -17,7 +17,7 @@
             <% }else{ %>
             <div class="item">
                 <% } %>
-                <img src="http://dd885.b0.upaiyun.com/<%= product.image[i].url %>" data-src="holder.js/100%x300">
+                <img src="http://dd885.b0.upaiyun.com/<%= product.image[i].url %>!WapDetailHead">
             </div>
             <% } %>
         </div>
@@ -103,15 +103,15 @@
     </form>
 </div>
 <div class="wap-onlyTicketLinkbox">
-    <form method="get" action="/wap/productDetailInfo">
-        <input type="hidden" name="type" value="detail">
-        <input type="hidden" name="name" value="<%=product.name%>">
-        <input type="hidden" name="level" value="<%=product.level%>">
-        <input type="hidden" name="address" value="<%=product.addr%>">
-        <input type="hidden" name="openTime" value="<%=product.openTime%>">
-        <input type="hidden" name="image" value="<%=product.image[0]?product.image[0].url:""%>">
-        <input type="hidden" name="image2" value="<%=product.image[1]?product.image[1].url:""%>">
-        <input type="hidden" name="intro" value="<%=product.intro%>">
+    <form method="get" action="/wap/productDetails/<%=product._id%>">
+        <!--<input type="hidden" name="type" value="detail">-->
+        <!--<input type="hidden" name="name" value="<%=product.name%>">-->
+        <!--<input type="hidden" name="level" value="<%=product.level%>">-->
+        <!--<input type="hidden" name="address" value="<%=product.addr%>">-->
+        <!--<input type="hidden" name="openTime" value="<%=product.openTime%>">-->
+        <!--<input type="hidden" name="image" value="<%=product.image[0]?product.image[0].url:""%>">-->
+        <!--<input type="hidden" name="image2" value="<%=product.image[1]?product.image[1].url:""%>">-->
+        <!--<input type="hidden" name="intro" value="<%=product.intro%>">-->
         <button type="submit" class="wap-TicketLinkBt btn-block">商品详情</button>
     </form>
 </div>

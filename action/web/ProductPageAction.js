@@ -51,7 +51,18 @@ exports.getProducts = function(request,response){
 
 var productLevelConvert = function(productLevel,productType){
     if(productType==1){
-       return productLevel.toString()+'A级景区';
+        if(productLevel==0){
+            return "";
+        }else{
+            return "<p>产品等级："+productLevel.toString()+'A级景区'+"</p>";
+        }
+
+    }else if(productType == 2){
+        if(productLevel<3){
+            return "经济型酒店";
+        }else{
+            return productLevel.toString()+'星级酒店';
+        }
     }
 };
 
@@ -77,6 +88,7 @@ exports.getDetail = function(request,response){
                     product.relatedProductID.forEach(function(p){
                         product.image.push(p.product.image[0]);
                         product.image.push(p.product.image[1]);
+                        p.product.level = productLevelConvert(p.product.level,p.product.type);
                     });
                 }
                 product.level=productLevelConvert(product.level,product.type);
@@ -327,14 +339,14 @@ exports.toConfirm = function(request,response){
                     }
                     response.render('web/orderConfirm',{info:res});
                 }else{
-                    console.log(result.errorMsg);
+                    console.log("api error /order/save","post data",data,"return data",result);
                     response.send(404,result.errorMsg);
                 }
             }
         });
 
     }else{
-        console.log(errorMsg);
+        console.log("http error /order/save",errorMsg);
         response.send(404,errorMsg);
     }
 };

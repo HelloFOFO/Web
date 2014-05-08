@@ -7,6 +7,7 @@ var HttpClient = require('./../../tools/HttpClient.js');
 //请求交易
 exports.getReqTrade = function(req,res){
     //todo 参数取值
+    console.log(Config.alipay);
     var _id = req.body._id;
     var tradeNo = req.body.oid;
     var total_fee = "0.01";
