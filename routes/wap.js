@@ -41,6 +41,9 @@ module.exports = function(app){
     app.get('/wap/register',HomePageAction.register);
     app.get('/wap/forget',HomePageAction.forget);
     app.get('/wap/logout',HomePageAction.logOut);
+
+
+    app.get('/wap/errorPage',function(req,res){res.render('wap/errorPage')});
     //member
     app.all('/wap/doLogin',MemberPageAction.doLogin);
     app.post('/wap/doRegister',MemberPageAction.doRegister);
@@ -49,6 +52,8 @@ module.exports = function(app){
     app.get('/wap/updateUser',MemberPageAction.updateUser);
     //products
     app.get('/wap/products/:id',ProductPageAction.getProducts);
+    //微信专用
+    app.get('/wap/productList/:type',ProductPageAction.getProductList);
     app.get('/wap/productDetail/:id/:type',ProductPageAction.getDetail);
 
     app.get('/wap/productDetails/:id',ProductPageAction.productDetail);
@@ -66,7 +71,7 @@ module.exports = function(app){
 
     app.get('/wap/ajax/hotProduct',HomePageAction.hotProduct);
     //alipay for wap
-    app.get('/wap/reqTrade/:id/:orderID',AlipayWapAction.getReqTrade);
+    app.get('/wap/reqTrade/:_id/:oid',AlipayWapAction.getReqTrade);
     app.post('/wap/reqTrade',AlipayWapAction.getReqTrade);
     app.post('/wap/notify/:id',AlipayWapAction.notify);
     app.get('/wap/callback/:id',AlipayWapAction.callBack);

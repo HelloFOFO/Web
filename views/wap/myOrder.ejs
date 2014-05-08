@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <div class="paybt">
-                        <button type="submit" class="btn <%if (o.status == "付款") {%> wap-submitBt <% } else {%> disable <%}%>"><%=o.status%></button>
+                        <a href="/wap/reqTrade/<%=o._id%>/<%=o.oid%>" class="btn <%if (o.status == "付款") {%> wap-submitBt <% } else {%> disable <%}%>"><%=o.status%></a>
                     </div>
             </div>
         </div>

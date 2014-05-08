@@ -43,6 +43,32 @@ exports.getProducts = function(request,response){
         response.render('wap/products',{'titleName':'商品列表','products':res[1],'city':{'name':res[0].name}});
     });
 };
+//微信页面中需要用到的产品列表 传进来 ticket ticketPackage package三个字段
+exports.getProductList = function(request,response){
+    var productType = request.params.type;
+    if( productType == 'ticket' || productType == 'ticketPackage' || productType == 'package三个字段'){
+        try{
+            var httpClient = new HttpClient({
+                'host':Config.inf.host,
+                'port':Config.inf.port,
+                'path':'/product/'+productType+'/webList',
+                'method':"GET"
+            });
+            httpClient.getReq(function(err,res){
+                if(err || res.error != 0 ){
+                    console.log('wap getProductList',err,res);
+                    response.redirect('wap/errorPage');
+                } else {
+                    response.render('wap/productList',{'titleName':'商品列表','products':res.data});
+                }
+            });
+        }catch(e){
+            response.redirect('wap/errorPage');
+        }
+    }else{
+        response.redirect('wap/errorPage');
+    }
+};
 
 var productLevelConvert = function(productLevel,productType){
     if(productType==1){

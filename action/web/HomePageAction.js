@@ -22,6 +22,7 @@ exports.cityBox = function(request,response){
 };
 
 exports.home = function(request,response){
+    console.info('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
     response.render('web/home');
 };
 

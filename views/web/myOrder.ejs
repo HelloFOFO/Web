@@ -20,7 +20,7 @@
                 <td><span class="bs-wcy_orange"><%=o.status%></span></td>
                 <td>
                     <%if('未支付'=== o.status){%>
-                    <a href="/web/reqTrade/<%=o._id%>/<%=o.oid%>"><span class="bs-wcy_red">付款</span></a>
+                    <a href="/web/reqTrade/<%=o._id%>/<%=o.oid%>" target="_blank"><span class="bs-wcy_red">付款</span></a>
                     <%}%>
                     <a href="/orderDetail/<%=o._id%>"><span class="bs-wcy_green">查看详情</span></a>
                 </td>
