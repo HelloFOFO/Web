@@ -5,7 +5,7 @@
             <div class="bs-wcy_orderdetail">
        		  <div class="OrdStatus"><h2>订单状态：<%=order.status%>
                       <%if("未支付"===order.status){%>
-                      <a href="/web/reqTrade/<%=order._id%>/<%=order.oid%>" class="btn bs-paybutton">付款</a>
+                      <a href="/web/reqTrade/<%=order._id%>/<%=order.oid%>" target="_blank" class="btn bs-paybutton">付款</a>
                       <%}%></h2></div>
               <div class="tabtop"><p>订单编号：<%=order.oid%></p><p>下单时间：<%=order.orderDate%></p></div>
               <table class="table table-striped bs-wcy_orderdetailTab">

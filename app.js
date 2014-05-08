@@ -23,24 +23,18 @@ log4js.configure({
     appenders : [ {
         type : 'console'
     }
-//        , {
-//        type : 'file',
-//        filename : 'logs/access.log',
-//        maxLogSize : 1024,
-//        backups : 4,
-//        category : 'normal'
-//    } 
     ],
     replaceConsole : true
 });
-var logger = log4js.getLogger('normal');
-logger.setLevel('WARN');
+var logger = log4js.getLogger();
+//logger.setLevel('ERROR');
 
 var app = express();
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.enable('trust proxy');
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser({
@@ -55,12 +49,16 @@ app.use(express.session({
         maxAge : 60*60*1000
     }
 }));
-app.use(log4js.connectLogger(logger, {
-    level : log4js.levels.INFO
-}));
+
+app.use(log4js.connectLogger(logger, { level: 'auto' }));
+//app.use(log4js.connectLogger(logger, {
+//    level : log4js.levels.INFO
+//}));
 
 app.use(function(request,response,next){
-    response.locals.user = request.session.user;
+    if(request.session){
+        response.locals.user = request.session.user;
+    }
     next();
 });
 

@@ -7,13 +7,25 @@ var async = require('async');
 var timeZone = ' 00:00:00 +08:00';
 var us = require('underscore');
 exports.orders = function(request,response){
+    var viewData={};
     var orders = {};
+    var orderStatus=0;
     orders.list = [];
     if(!us.isEmpty(request.session.user._id)){
+        //unpaid or all
+        if(request.params.type == "unpaid"){
+            viewData.unpaidStatus="btOn";
+            viewData.allStatus="";
+            orderStatus="&status=0";
+        }else{
+            viewData.unpaidStatus="";
+            viewData.allStatus="btOn";
+            orderStatus="";
+        }
         var httpClient = new HttpClient({
             'host':Config.inf.host,
             'port':Config.inf.port,
-            'path':'/order/list?member='+ request.session.user._id,
+            'path':'/order/list?member='+ request.session.user._id+orderStatus,
             'method':"GET"
         });
         httpClient.getReq(function(err,res){
@@ -21,6 +33,7 @@ exports.orders = function(request,response){
                 response.send(404,err);
             }else{
                 if(0===res.error){
+                    console.log(res.data);
                     res.data.forEach(function(o){
                         var order = {};
                         order.name = o.product.name;
@@ -31,8 +44,12 @@ exports.orders = function(request,response){
                         order.oid = o.orderID;
                         orders.list.push(order);
                     });
-                    console.log(orders.list.length);
-                    response.render('web/myOrder',{orders:orders});
+                    console.log({orders:orders});
+//
+                      viewData.orders=orders;
+                      viewData.titleName="订单详情页";
+//                      response.json(viewData);
+                    response.render('wap/myOrder',viewData);
                 }else{
                     response.send(404,res.errMsg);
                 }
@@ -58,7 +75,7 @@ exports.detail = function(request,response){
                 var hc = new HttpClient({
                     'host':Config.inf.host,
                     'port':Config.inf.port,
-                    'path':'/web/product/detail/'+res.data.product._id,
+                    'path':'/product/ticket/detail/'+res.data.product._id,
                     'method':"GET"
                 });
                 hc.getReq(function(e,r){
@@ -97,7 +114,7 @@ exports.detail = function(request,response){
                             order.bookRule = r.data.bookRule? r.data.bookRule:"";
                             order.useRule = r.data.useRule? r.data.useRule:"";
                             order.cancelRule = r.data.cancelRule? r.data.cancelRule:"";
-                            response.render('wap/orderDetail',{order:order});
+                            response.render('wap/orderDetail',{order:order,titleName:"订单详情"});
                         }else{
                             response.send(404,r.errMsg);
                         }
@@ -113,7 +130,7 @@ exports.detail = function(request,response){
 function getStsName(status){
     switch (status){
         case 0:
-            return "未支付";break;
+            return "付款";break;
         case 1:
             return "已支付";break;
         case 2:

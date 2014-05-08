@@ -7,7 +7,28 @@ var async = require('async');
 var _ = require('underscore');
 
 exports.saveUserInfo = function(request,response){
-    response.redirect('/');
+//    console.log(request.body);
+//    console.log('/ent/provider/member/update/:id');
+    try{
+        var memberId = request.session.user._id;
+        console.log(request.session.user);
+        var httpClient = new HttpClient({
+            'host':Config.inf.host,
+            'port':Config.inf.port,
+            'path':'/ent/agent/member/update/'+memberId,
+            'method':"POST"
+        });
+
+        httpClient.postReq(request.body,function(err,result){
+            if(err || result.error != 0){
+                console.log("saveUserInfo Error",err,result);
+            }
+            response.redirect("/");
+        });
+    }catch(e){
+        console.log("saveUserInfo Error2", e.message);
+        response.redirect("/");
+    }
 };
 
 exports.userInfo = function(request,response){
@@ -134,8 +155,10 @@ exports.forgetPasswd = function(request,response){
 
 exports.getVerifyCode = function(req,res){
     async.waterfall([function(cb){
+
         var mobile = req.body.mobile;
         var type   = req.body.type;
+        console.debug('mobile is '+mobile);
 //        console.log('1');
         if( _.isEmpty(mobile) || !/\d{11,11}/.test(mobile) || mobile.length!=11 ){
 //            console.log('6');
@@ -166,26 +189,23 @@ exports.getVerifyCode = function(req,res){
             });
         }
     },function(result,cb){
-        console.log('3');
         var http = new HttpClient({
             'host':Config.inf.host,
             'port':Config.inf.port,
             'path':'/member/code',
             'method':"POST"
         });
-        console.log({mobile:result.mobile,ip:""});
-        http.postReq({mobile:result.mobile,ip:""},function(error,result){
-            if(error || result.error != 0 ){
-                console.log("获取验证码失败",error,result);
+        http.postReq({mobile:result.mobile,ip:req.ip},function(error,data){
+            if(error || data.error != 0 ){
+                console.error("获取验证码失败,请求验证码的手机为%s,请求验证码的ip为%s,返回的错误数据为%s",result.mobile,req.ip,error,data);
                 cb('getCodeError',null);
             }else{
-                console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',result);
-                cb(null,result);
+                console.debug('debug /member/code',data);
+                cb(null,data);
             }
         });
     }],function(error,result){
-            console.log(result);
-            var result={};
+            var result={error:0,errorMsg:""};
             if(error){
                 switch (error){
                     case "mobileError":          result = {error:1,errorMsg:"手机号格式错误！"};break;
@@ -193,9 +213,9 @@ exports.getVerifyCode = function(req,res){
                     case "doubleRegisterError": result = {error:3,errorMsg:"此号码已经注册！"};break;
                     case "noRegisterError":     result = {error:4,errorMsg:"此号码尚未注册！"};break;
                     case "getCodeError":        result = {error:5,errorMsg:"获取验证码异常！"};break;
-                    default :result = error;
+                    default :result = result;
                 }
             }
-            res.json({error:0,errorMsg:""});
+            res.json(result);
     });
 };

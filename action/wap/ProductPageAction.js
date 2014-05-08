@@ -43,17 +43,55 @@ exports.getProducts = function(request,response){
         response.render('wap/products',{'titleName':'商品列表','products':res[1],'city':{'name':res[0].name}});
     });
 };
+//微信页面中需要用到的产品列表 传进来 ticket ticketPackage package三个字段
+exports.getProductList = function(request,response){
+    var productType = request.params.type;
+    if( productType == 'ticket' || productType == 'ticketPackage' || productType == 'package三个字段'){
+        try{
+            var httpClient = new HttpClient({
+                'host':Config.inf.host,
+                'port':Config.inf.port,
+                'path':'/product/'+productType+'/webList',
+                'method':"GET"
+            });
+            httpClient.getReq(function(err,res){
+                if(err || res.error != 0 ){
+                    console.log('wap getProductList',err,res);
+                    response.redirect('wap/errorPage');
+                } else {
+                    response.render('wap/productList',{'titleName':'商品列表','products':res.data});
+                }
+            });
+        }catch(e){
+            response.redirect('wap/errorPage');
+        }
+    }else{
+        response.redirect('wap/errorPage');
+    }
+};
+
+var productLevelConvert = function(productLevel,productType){
+    if(productType==1){
+        if(productLevel==0){
+            return "";
+        }else{
+            return "<p>产品等级："+productLevel.toString()+'A级景区'+"</p>";
+        }
+
+    }else if(productType == 2){
+        if(productLevel<3){
+            return "经济型酒店";
+        }else{
+            return productLevel.toString()+'星级酒店';
+        }
+    }
+};
 
 exports.getDetail = function(request,response){
     var id = request.params.id;
     var type = request.params.type;
-
     var path = "";
-    if(4===type){
-        path = "/product/package/detail/"+id;
-    }else{
-        path = "/product/ticket/detail/"+id;
-    }
+    path = "/product/ticket/detail/"+id;
     var httpClient = new HttpClient({
         'host':Config.inf.host,
         'port':Config.inf.port,
@@ -66,45 +104,20 @@ exports.getDetail = function(request,response){
         }else{
             if(0===res.error){
                 var product = res.data;
-                var level = "";
-                if(product.type==1){
-                    switch(product.level){
-                        case 1:
-                            level='1A景区'
-                            break;
-                        case 2:
-                            level='2A景区'
-                            break;
-                        case 3:
-                            level='3A景区'
-                            break;
-                        case 4:
-                            level='4A景区'
-                            break;
-                        case 5:
-                            level='5A景区'
-                            break;
-                    }
-                } else if(product.type==2) {
-                    switch(product.level){
-                        case 1:
-                            level='经济型酒店'
-                            break;
-                        case 2:
-                            level='经济型酒店'
-                            break;
-                        case 3:
-                            level='三星级酒店'
-                            break;
-                        case 4:
-                            level='四星级酒店'
-                            break;
-                        case 5:
-                            level='五星级酒店'
-                            break;
-                    }
+                if(!us.isEmpty(product.relatedProductID)){
+                    product.image=[];
+                    product.relatedProductID.forEach(function(p){
+                        if(!us.isEmpty(p.product.image[0])){
+                            product.image.push(p.product.image[0]);
+                        }
+                        if(!us.isEmpty(p.product.image[1])){
+                            product.image.push(p.product.image[1]);
+                        }
+                        p.product.level = productLevelConvert(p.product.level,p.product.type);
+                    });
                 }
-                product.level=level;
+                product.level=productLevelConvert(product.level,product.type);
+
                 if(4===product.type){
                     //if from productCalendar then can get select date and price
                     if(!us.isEmpty(request.query.date)){
@@ -113,19 +126,28 @@ exports.getDetail = function(request,response){
                     if(!us.isEmpty(request.query.price)){
                         product.price = request.query.price;
                     }
+                    console.log(product);
                     response.render('wap/productDetail',{'titleName':'商品详情','product':product});
                 }else{
+                    var path="";
+                    if( product.type == 1){
+                        path='/product/ticket/priceLog/list?product='+ product._id + "&status=2";
+                    }else if(product.type == 5){
+                        path='/product/ticketPackage/priceLog/list?product='+ product._id + "&status=2";
+                    }
                     //get price log list
                     var hc = new HttpClient({
                         'host':Config.inf.host,
                         'port':Config.inf.port,
-                        'path':'/product/ticket/priceLog/list?product='+ product._id + "&status=2",
+                        'path':path,
                         'method':"GET"
                     });
+                    console.log('pricelog----------',path);
                     hc.getReq(function(error,result){
                         if(error){
                             response.send(404,error);
                         }else{
+                            console.log('pricelog-----',result);
                             if(0===result.error){
                                 var pls = [];
                                 result.data.forEach(function(obj){
@@ -139,6 +161,7 @@ exports.getDetail = function(request,response){
                                     pls.push(pl);
                                 });
                                 product.pls = pls;
+//                                console.log(product);
                                 response.render('wap/productDetail',{'titleName':'商品详情','product':product});
                             }else{
                                 response.send(404,result.errorMsg);
@@ -234,6 +257,7 @@ exports.detailInfo = function(request,response){
         response.send(404,"没有这种类型");
     }
 };
+
 exports.toSubOrder = function(request,response){
     var time = request.body.exDate;
     var price = request.body.sPrice;
@@ -280,7 +304,7 @@ exports.toSubOrder = function(request,response){
             }
         }
     });
-}
+};
 
 exports.saveOrder = function(request,response){
     var data = {};
@@ -372,6 +396,7 @@ exports.saveOrder = function(request,response){
             'path':'/order/save',
             'method':"POST"
         });
+        console.log(data);
         httpClient.postReq(data,function(err,result){
             if(err){
                 response.send(404,err);
@@ -409,6 +434,62 @@ exports.saveOrder = function(request,response){
         });
 
     }else{
+        console.log(result);
         response.send(404,errorMsg);
     }
-}
+};
+
+var productLevelConvert = function(productLevel,productType){
+    if(productType==1){
+        if(productLevel==0){
+            return "";
+        }else{
+            return "<p>产品等级："+productLevel.toString()+'A级景区'+"</p>";
+        }
+
+    }else if(productType == 2){
+        if(productLevel<3){
+            return "<p>产品等级："+"经济型酒店";
+        }else{
+            return "<p>产品等级："+productLevel.toString()+'星级酒店'+"</p>";
+        }
+    }
+};
+
+exports.productDetail = function(request,response){
+    var id = request.params.id;
+    var httpClient = new HttpClient({
+        'host':Config.inf.host,
+        'port':Config.inf.port,
+        'path':'/product/ticket/detail/'+id,
+        'method':"GET"
+    });
+    httpClient.getReq(function(err,res){
+        if(err ||res.error != 0 ){
+            console.log(err,res);
+            response.redirect("/wap/errorPage",{});
+        } else {
+                var viewData={};
+            viewData.products = [];
+                var product = res.data;
+                if( parseInt(product.type) == 1 || parseInt(product.type) == 2 || parseInt(product.type) == 3){
+                    viewData.products.push({"product":product});
+                }else{
+                    viewData.products = product.relatedProductID;
+                }
+                if(!us.isEmpty(viewData.products)){
+                    viewData.products.forEach(function(p){
+                        p.product.level = productLevelConvert(p.product.level,p.product.type);
+                        if(!us.isEmpty(p.product.image)){
+                            p.product.image.forEach(function(i){
+                                i.url = Config.inf.imageHost+ i.url;
+                            });
+                        }
+                    });
+                }
+            viewData.titleName="商品详情";
+            viewData.info={type:"detail"};
+            response.render("wap/productSectionDetail",viewData);
+        }
+    });
+};

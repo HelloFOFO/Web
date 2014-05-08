@@ -17,16 +17,23 @@ module.exports = function(app){
 
     app.all('/*',function(request,response,next){
         response.charset = 'utf-8';
-        if(request.session.autoLogin&&!request.session.user&&request.cookies.m&&request.cookies.p){
-            console.log('---------------listen--------------------');
-            MemberAction.autoLogin(request,function(){
-                console.log(request.session.user);
-                console.log('---------------listen end--------------------');
-                next()
-            });
-        } else {
-            next();
+        if(request.session && request.cookies){
+            if(request.session.autoLogin && !request.session.user && request.cookies.m && request.cookies.p){
+                console.log('---------------listen--------------------');
+                MemberAction.autoLogin(request,function(){
+                    console.log(request.session.user);
+                    console.log('---------------listen end--------------------');
+                    next()
+                });
+            } else {
+                console.log("not logged!");
+                next();
+//            response.redirect("/");
+            }
+        }else{
+           next();
         }
+
     });
 
 //    app.get('/web/register',MemberPageAction.register);

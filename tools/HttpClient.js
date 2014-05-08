@@ -19,14 +19,15 @@ HttpClient.prototype.getReq = function(cb) {
         });
 
         res.on('end',function(){
-            var data={};
-            try{
-                data=JSON.parse(_data);
-                cb(null,JSON.parse(_data));
-            }catch(e){
-                data={error:1,errorMsg:_data.toString()};
-                cb(null,data);
-            }
+            cb(null,JSON.parse(_data));
+//            var data={};
+//            try{
+//                data=JSON.parse(_data);
+//                cb(null,JSON.parse(_data));
+//            }catch(e){
+//                data={error:111111,errorMsg:_data.toString()};
+//                cb(null,data);
+//            }
         });
     });
     req.on('error', function(e) {

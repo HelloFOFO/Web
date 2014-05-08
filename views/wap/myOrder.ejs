@@ -1,0 +1,33 @@
+<% include header %>
+    <div class="wcy-myOrdersTitle">
+        <div class="chooseBox">
+            <a href="/wap/orders/unpaid" class="leftbt <%=unpaidStatus%>">待付款 </a>
+            <a href="/wap/orders/all" class="rightbt <%=allStatus%>" >所有</a>
+        </div>
+    </div>
+    <%orders.list.forEach(function(o){%>
+
+        <div class="wcy-myOrdersbox">
+            <!--<div class="leftimg"><img src="images/wap-myorder01.jpg"></div>-->
+            <div class="container">
+                    <div class="tickeInfo">
+                        <div class="tickeName"><a href="/wap/orderDetail/<%=o._id%>"><%=o.name?o.name:""%></a></div>
+                        <div class="tickePrice">
+                            <span class="num">数量：<%=o.quantity?o.quantity:""%></span>
+                            总价： <span class="price">¥<%=o.totalPrice?o.totalPrice:""%></span>
+                        </div>
+                    </div>
+                    <div class="paybt">
+                        <a href="/wap/reqTrade/<%=o._id%>/<%=o.oid%>" class="btn <%if (o.status == "付款") {%> wap-submitBt <% } else {%> disable <%}%>"><%=o.status%></a>
+                    </div>
+            </div>
+        </div>
+
+            <%});%>
+</div>
+<% include footer %>
+
+
+</body>
+
+</html>

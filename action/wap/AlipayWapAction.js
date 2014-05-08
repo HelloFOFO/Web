@@ -7,8 +7,9 @@ var HttpClient = require('./../../tools/HttpClient.js');
 //请求交易
 exports.getReqTrade = function(req,res){
     //todo 参数取值
-    var _id = req.body._id;
-    var tradeNo = req.body.oid;
+//    console.log(Config.alipay);
+    var _id = req.body._id?req.body._id:req.params._id;
+    var tradeNo = req.body.oid?req.body.oid:req.params.oid;
     var total_fee = "0.01";
     var httpClient = new HttpClient({
         'host':Config.inf.host,
@@ -16,12 +17,15 @@ exports.getReqTrade = function(req,res){
         'path':'/order/detail/'+_id,
         'method':"GET"
     });
+//    console.log('/order/detail/'+_id);
     try{
         httpClient.getReq(function(err,result){
-            if(err){
-                res.send(404,"error is "+err);
+            if( err || result.error != 0 ){
+                console.log("/wap getReq",err,result);
+                res.redirect("/wap/errorPage");
             }else{
                 var subject = result.data.product.name;
+                //正式上线的时候取消这个注释 把上面的0.01注释掉！
 //                total_fee = result.data.totalPrice+"";
                 alipay.wap.reqAuth(_id,tradeNo,subject,total_fee,function(error,token){
                     if(""===token){

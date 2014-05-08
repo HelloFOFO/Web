@@ -1,4 +1,5 @@
 <% include header %>
+<link href="/css/flat-ui.css" rel="stylesheet">
 <form action="/wap/confirm" method="post" id="formConfirm">
 <div class="container">
     <div class="wcy-hTNoInvoiceTitle"><%=product.name%></div>
@@ -145,11 +146,18 @@
             onText:'需要',
             offText:'不需要'
         });
+        var recaculatePrice = function(){
+            $('#display').html(parseInt($('#sp').val())*$("#num").val());
+        };
+        recaculatePrice();
         //select num
         $("#add").click(function(){
             var n=$("#num").val();
             var num=parseInt(n)+1;
             if(num==0){num = 1;}
+            if(num>99){
+                return;
+            }
             $("#num").val(num);
             $('#display').html(parseInt($('#sp').val())*num);
         });
@@ -157,7 +165,7 @@
         $("#sub").click(function(){
             var n=$("#num").val();
             var num=parseInt(n)-1;
-            if(num==0){alert("不能为0!"); return;}
+            if(num==0){return;}
             $("#num").val(num);
             $('#display').html(parseInt($('#sp').val())*num);
         });
@@ -165,10 +173,15 @@
         $('#num').keyup(function(){
             var n = $('#num').val();
             if(n<=0){
-                alert('数字不能小于等于0!');
                 $('#num').val(1);
+                return;
             }
-            $('#display').html(parseInt($('#sp').val())*$('#num').val());
+            if(n>99){
+                $('#num').val(99);
+                recaculatePrice();
+                return;
+            }
+            recaculatePrice();
         });
         //submit
         $('#formConfirm').submit(function(e){

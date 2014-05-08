@@ -3,20 +3,22 @@
 <div class="wcy-prodetail">
     <div class="container">
         <div class="wcy-Prodetailbox">
+            <%products.forEach(function(product){%>
             <div class="blackbox">
-                <p>景点名称：<%=info.name%>
+                <p>景点名称：<%=product.product.name%>
 
-                <p>景点等级：<%=info.level%>
+                <%-product.product.level%>
 
-                <p>景点地址：<%=info.address%> <a href="#">地图</a>
+                <p>景点地址：<%=product.product.addr%> <a href="#">地图</a>
 
-                <p>营业时间：<%=info.openTime%>
+                <p>营业时间：<%=product.product.openTime%>
             </div>
             <div class="graybox">
-                <img src="http://dd885.b0.upaiyun.com/<%=info.image.url%>" class="imgfloat">
-                <p><%-info.intro.replace(/\n/g, '<br/>')%></p>
-                <img src="http://dd885.b0.upaiyun.com/<%=info.image2.url%>">
+                <img src="<%=product.product.image[0]?product.product.image[0].url:""%>" class="imgfloat">
+                <p><%-product.product.intro.replace(/\n/g, '<br/>')%></p>
+                <img src="<%=product.product.image[0]?product.product.image[0].url:""%>">
             </div>
+            <% });%>
         </div>
     </div>
 </div>
