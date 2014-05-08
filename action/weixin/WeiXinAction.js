@@ -3,26 +3,46 @@
  */
 var weixin = require('./../../tools/WeiXin');
 var config = require('./../../tools/Config');
-//msg
+//verify
 exports.notify = function(req,res){
-    if(!req.query.echostr){
-        console.log("notify=========="+JSON.stringify(req.query));
-    }else{
-        var signature = req.query.signature;
-        var ts = req.query.timestamp;
-        var nonce = req.query.nonce;
-        var echostr = req.query.echostr;
-        if(weixin.check(signature,ts,nonce,echostr)){
-            if(null==echostr){
-                res.send('error');
-            }else{
-                res.send(echostr);
-            }
-        }else{
+    var signature = req.query.signature;
+    var ts = req.query.timestamp;
+    var nonce = req.query.nonce;
+    var echostr = req.query.echostr;
+    if(weixin.check(signature,ts,nonce)){
+        if(null==echostr){
             res.send('error');
+        }else{
+            res.send(echostr);
         }
+    }else{
+        res.send('error');
     }
 };
+
+//get msg
+exports.msgNotify = function(req,res){
+    res.set('Content-Type', 'text/xml');
+    //check
+    var signature = req.query.signature;
+    var ts = req.query.timestamp;
+    var nonce = req.query.nonce;
+    console.log(signature,ts,nonce);
+    if(weixin.check(signature,ts,nonce)){
+        var _data = "";
+        req.on('data',function(chunk){
+            _data+=chunk;
+        });
+        req.on('end',function(){
+            weixin.message(_data,function(err,result){
+                console.log(result);
+                res.send(result);
+            });
+        });
+    }else{
+        res.send('无效信息!');
+    }
+}
 
 //pay
 exports.order = function(req,res){
@@ -50,7 +70,7 @@ exports.order = function(req,res){
 
 exports.payNotify = function(req,res){
     console.log("===================",JSON.stringify(req.body));
-    res.send("success");
+//    res.send("success");
 }
 
 //customer

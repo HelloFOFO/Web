@@ -44,3 +44,15 @@ exports.alipay = {
     direct_notify_url : process.env.ALIPAY_WEB_NOTIFY||"http://cloud.bingdian.com/web/notify/",
     direct_return_url : process.env.ALIPAY_WEB_CALLBACK||"http://cloud.bingdian.com/web/callback/"
 };
+
+exports.wx = {
+    appID:"wxb26b4089c384c714",
+    appsecret:"2b0bf7006c87f9f8655f242f34e28973",
+//    appID:"wxf8b4f85f3a794e77",
+//    appsecret:"4333d426b8d01a3fe64d53f36892df",
+    paySignKey:"2Wozy2aksie1puXUBpWD8oZxiD1DfQuEaiC7KcRATv1Ino3mdopKaPGQQ7TtkNySuAmCaDCrw4xhPY5qKTBl7Fzm0RgR3c0WaVYIXZARsxzHV2x7iwPPzOz94dnwPWSn",
+    partnerId:"1900000109",
+    partnerKey:"8934e7d15453e97507ef794cf7b0519d",
+    wxhost : "api.weixin.qq.com",
+    wxport : 443
+};
