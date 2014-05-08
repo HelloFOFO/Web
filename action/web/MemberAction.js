@@ -194,7 +194,7 @@ exports.getVerifyCode = function(req,res){
             'path':'/member/code',
             'method':"POST"
         });
-        console.log({mobile:result.mobile,ip:req.ip});
+        console.log("aaaaaaa",{mobile:result.mobile,ip:req.headers});
         http.postReq({mobile:result.mobile,ip:req.ip},function(error,result){
             if(error || result.error != 0 ){
                 console.log("获取验证码失败",error,result);

@@ -292,4 +292,11 @@ body {
 
 
 
-
+/*404*/
+.bs-wcy-error{ margin:150px 0; text-align:center; padding-top:300px;}
+.bs-wcy-404{ background:url(../images/wcy-404.png) no-repeat top center;}
+.bs-wcy-500{ background:url(../images/wcy-500.png) no-repeat top center;}
+.bs-wcy-errornotice{ font-size:24px; color:#ff7212; line-height:35px;}
+.bs-wcy-errorinfo{ color:#505050; font-size:16px;  line-height:35px;}
+.bs-wcy-errorinfo a{ color:#13d377;}
+.bs-wcy-errorinfo span{color:#13d377;}

@@ -116,7 +116,7 @@ exports.getDetail = function(request,response){
                         'path':path,
                         'method':"GET"
                     });
-                    console.log('pricelog----------','/product/ticket/priceLog/list?product='+ product._id + "&status=2");
+                    console.log('pricelog----------',path);
                     hc.getReq(function(error,result){
                         if(error){
                             response.send(404,error);
