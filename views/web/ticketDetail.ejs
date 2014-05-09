@@ -92,16 +92,16 @@
         <div class="blackbox">
             <p>产品名称：<%=product.product.name%></p>
 
-            <p>产品等级：<%=product.product.level%></p>
+            <%-product.product.level%>
 
             <p>产品地址：<%=product.product.addr%> <a href="#">地图</a></p>
 
             <p>营业时间：<%=product.product.openTime%> </p>
         </div>
         <div class="graybox">
-            <img src="http://dd885.b0.upaiyun.com/<%=product.product.image[0]?product.product.image[0].url:""%>" class="imgfloat">
+            <img src="http://dd885.b0.upaiyun.com/<%=product.product.image[3].url%>!Detail550" class="imgfloat">
             <p><%-product.product.intro.replace(/\n/g, '<br/>')%></p>
-            <img src="http://dd885.b0.upaiyun.com/<%=product.product.image[1]?product.product.image[1].url:""%>">
+            <img src="http://dd885.b0.upaiyun.com/<%=product.product.image[4]%>!Detail880">
         </div>
         <% });%>
 
@@ -109,16 +109,16 @@
             <div class="blackbox">
                 <p>产品名称：<%=product.name%></p>
 
-                <p>产品等级：<%=product.level%></p>
+                <%-product.level%>
 
                 <p>产品地址：<%=product.addr%> <a href="#">地图</a></p>
 
                 <p>营业时间：<%=product.openTime%> </p>
             </div>
-            <div class="graybox"><img src="/images/wcy_hotelTicket01.jpg" class="imgfloat">
-                <img src="http://dd885.b0.upaiyun.com/<%=product.image[0].url%>" class="imgfloat">
+            <div class="graybox">
+                <img src="http://dd885.b0.upaiyun.com/<%=product.image[3].url%>!Detail550" class="imgfloat">
                 <p><%-product.intro.replace(/\n/g, '<br/>')%></p>
-                <img src="http://dd885.b0.upaiyun.com/<%=product.image[1].url%>">
+                <img src="http://dd885.b0.upaiyun.com/<%=product.image[4].url%>!Detail880">
             </div>
         <%}%>
 

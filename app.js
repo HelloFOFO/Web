@@ -62,20 +62,9 @@ app.use(function(request,response,next){
     next();
 });
 
-//app.use(function(request,response,next){
-//    if(request.session.user){
-//        app.locals.user = request.session.user;
-//        app.locals.userModules = request.session.user.modules;
-//        console.log(app.locals.userModules);
-//    }
-//    next();
-//});
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(app.router);
-
-
-
 
 
 // development only

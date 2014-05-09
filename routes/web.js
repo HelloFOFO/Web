@@ -16,19 +16,17 @@ module.exports = function(app){
     app.get('/errorPage',function(req,res){res.render('./web/errorPage')});
 
     app.all('/*',function(request,response,next){
+        console.log('aaaaaaaaaa',request.url);
         response.charset = 'utf-8';
         if(request.session && request.cookies){
+            //如果session超时了，但是cookie里还有东西，则帮用户重新登录
             if(request.session.autoLogin && !request.session.user && request.cookies.m && request.cookies.p){
-                console.log('---------------listen--------------------');
                 MemberAction.autoLogin(request,function(){
-                    console.log(request.session.user);
                     console.log('---------------listen end--------------------');
-                    next()
+                    next();
                 });
             } else {
-                console.log("not logged!");
                 next();
-//            response.redirect("/");
             }
         }else{
            next();

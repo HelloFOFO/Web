@@ -71,19 +71,29 @@ exports.getProductList = function(request,response){
 };
 
 var productLevelConvert = function(productLevel,productType){
-    if(productType==1){
+    if( productType == 1 ){
+        //门票
         if(productLevel==0){
             return "";
         }else{
             return "<p>产品等级："+productLevel.toString()+'A级景区'+"</p>";
         }
 
-    }else if(productType == 2){
+    }else if( productType == 2 ){
+        //酒店
         if(productLevel<3){
             return "经济型酒店";
         }else{
             return productLevel.toString()+'星级酒店';
         }
+    }else if(productType == 3){
+        if(productLevel==0){
+            return "";
+        }else{
+            return "<p>产品等级："+productLevel.toString()+'星推荐'+"</p>";
+        }
+    }else {
+        return "";
     }
 };
 

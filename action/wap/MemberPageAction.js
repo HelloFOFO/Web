@@ -31,7 +31,6 @@ exports.doLogin = function(request,response){
             } else {
                 response.send('failed');
             }
-
         }
     });
 };

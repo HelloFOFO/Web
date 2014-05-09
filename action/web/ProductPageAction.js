@@ -66,6 +66,47 @@ var productLevelConvert = function(productLevel,productType){
     }
 };
 
+
+var formatProductDetailImage = function(imageArr){
+    var returnImage=imageArr;
+    if(us.isEmpty(returnImage) || !us.isArray(returnImage)){
+        console.error('image data type error!%s',returnImage);
+        return [{url:""},{url:""},{url:""},{url:""},{url:""}];
+    }else{
+//        console.log('imagelength',returnImage.length);
+        if(returnImage.length>=5){
+            //有五张图片最好
+            return returnImage;
+        }else if(returnImage.length == 4 ){
+            //如果只有4张，则最后一张用第一张补
+            returnImage[4]=returnImage[0];
+            return returnImage;
+        }else if(returnImage.length == 3){
+            //如果只有三张，则第张用第二张补
+            returnImage[4]=returnImage[0];
+            returnImage[3]=returnImage[1];
+            return returnImage;
+        }else if(returnImage.length == 2){
+            //如果只有三张，则第张用第二张补
+            returnImage[4]=returnImage[0];
+            returnImage[3]=returnImage[1];
+            returnImage[2]=returnImage[0];
+//            console.debug('here',returnImage);
+            return returnImage;
+        }
+        else if(returnImage.length == 1){
+            //如果只有三张，则第张用第二张补
+            returnImage[4]=returnImage[0];
+            returnImage[3]=returnImage[0];
+            returnImage[2]=returnImage[0];
+            returnImage[1]=returnImage[0];
+            return returnImage;
+        }else{
+            return [{url:""},{url:""},{url:""},{url:""},{url:""}];
+        }
+    }
+};
+
 exports.getDetail = function(request,response){
     var id = request.params.id;
 
@@ -85,13 +126,23 @@ exports.getDetail = function(request,response){
                 var product = res.data;
 
                 if(!us.isEmpty(product.relatedProductID)){
+                    //如果是套票或者是打包产品，则上面的大图每个产品取两张，实际上只能用到前三张
+                    console.debug('relateProduct',product.relatedProductID);
                     product.relatedProductID.forEach(function(p){
-                        product.image.push(p.product.image[0]);
-                        product.image.push(p.product.image[1]);
+                        if(!us.isEmpty(p.product.image[0])){
+                            product.image.push(p.product.image[0]);
+                        }
+                        if(!us.isEmpty(p.product.image[1])){
+                            product.image.push(p.product.image[1]);
+                        }
                         p.product.level = productLevelConvert(p.product.level,p.product.type);
                     });
                 }
+                //处理图片
+                product.image = formatProductDetailImage(product.image);
+//                console.debug('debug processed image',product.image);
                 product.level=productLevelConvert(product.level,product.type);
+                console.log("level........",product.level);
                 if(parseInt(product.type)==4){
                     //get price list
                     //get server now time

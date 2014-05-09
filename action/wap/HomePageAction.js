@@ -116,7 +116,14 @@ exports.toLogin =  function(request,response){
     if(request.session.user){
        response.redirect('/wap/');
     }else{
-        response.render('wap/login',{titleName:'登录'});
+        //如果没登录过，而又进了登录页，要先看看他是不是主动进的登录页，如果不是，则把前序页面传过去,否则传空，然后前端会去做判断
+        console.debug('login redirect url %s',request.url);
+        if(request.url!="/wap/login"){
+            response.render('wap/login',{titleName:'登录',prePage:request.url});
+        }else{
+            response.render('wap/login',{titleName:'登录',prePage:""});
+        }
+
     }
 }
 

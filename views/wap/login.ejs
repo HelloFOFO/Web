@@ -14,7 +14,7 @@
             <div class="wap-loginFogerPW"><a href="/wap/forget">忘记密码？</a></div>
             <div class="wap-logincheck"><input type="checkbox" id="autoLogin" checked><span>自动登录</span></div>
         </div>
-        <button type="submit" class="btn wap-submitBt btn-block" data-loading-text="登录中...请稍候" id="btnLogin">登录</button>
+        <button type="submit" class="btn wap-submitBt btn-block" data-loading-text="登录中...请稍候" id="btnLogin" prePage="<%=prePage%>">登录</button>
     </form>
     <div class="wap-already">还没有账号？<a href="/wap/register">注册</a></div>
 </div>
@@ -63,7 +63,11 @@
                 }
             }).done(function(data){
                 if(data=='success'){
-                    document.location.href = '/wap/';
+                    if( $('#btnLogin').attr('prePage') == "" ){
+                        document.location.href = '/wap/';
+                    }else{
+                        document.location.href = $('#btnLogin').attr("prePage");
+                    }
                 } else {
                     $('#f_error').removeClass('hidden');
                     $('#f_errorMsg').text('用户名或密码不正确!');
