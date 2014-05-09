@@ -268,91 +268,195 @@ exports.toPkgOrder = function(request,response){
     });
 };
 
-//go to confirm page and save order
+////go to confirm page and save order
+//exports.toConfirmBak = function(request,response){
+//    var data = {};
+//    var flag = true;
+//    var errorMsg = "";
+//    var id = "";
+//    data.source = "534de2e3309199c11f233cf4";
+//    data.payWay = "1";
+//    data.remark = "";
+//    if(!us.isEmpty(request.session.user._id)){
+//        data.member = request.session.user._id;
+//    }else{
+//        errorMsg = "请先登录";
+//        flag = false;
+//    }
+//    if(!us.isEmpty(request.body.pid)){
+//        data.product = request.body.pid;
+//    }else{
+//        errorMsg = "产品ID为空";
+//        flag = false;
+//    }
+//    if(!us.isEmpty(request.body.orderType)){
+//        var orderType = request.body.orderType;
+//        if("p"===orderType){
+//            data.startDate = new Date(request.body.time+timeZone).getTime();
+//        }else{
+//            var arrays = request.body.time.split('~');
+//            data.startDate = new Date(arrays[0]+timeZone).getTime();
+//            data.endDate = new Date(arrays[1]+timeZone).getTime();
+//            if(!us.isEmpty(request.body.isWeekend)){
+//                data.priceLogisWeeknd = "y"===request.body.isWeekend?true:false;
+//            }else{
+//                errorMsg = "是否周末不能为空";
+//                flag = false;
+//            }
+//            if(!us.isEmpty(request.body.lid)){
+//                data.priceLog = request.body.lid;
+//            }else{
+//                errorMsg = "是否周末不能为空";
+//                flag = false;
+//            }
+//        }
+//    }else{
+//        errorMsg = "订单类型为空";
+//        flag = false;
+//    }
+//    if(!us.isEmpty(request.body.num)){
+//        data.quantity = request.body.num;
+//    }else{
+//        errorMsg = "产品数量不能为空或为0";
+//        flag = false;
+//    }
+//    if(!us.isEmpty(request.body.person)){
+//        data.liveName = request.body.person;
+//    }else{
+//        errorMsg = "入住人姓名不能为空";
+//        flag = false;
+//    }
+//    if(!us.isEmpty(request.body.mobile)){
+//        data.contactPhone = request.body.mobile;
+//    }else{
+//        errorMsg = "联系手机号不能为空";
+//        flag = false;
+//    }
+//    if(!us.isEmpty(request.body.isNeed)&&"y"===request.body.isNeed){
+//        if(!us.isEmpty(request.body.invoiceType)){
+//            data.invoiceType = request.body.invoiceType;
+//        }else{
+//            errorMsg = "发票类型不能为空";
+//            flag = false;
+//        }
+//        if(!us.isEmpty(request.body.invoiceTitle)){
+//            data.invoiceTitle = request.body.invoiceTitle;
+//        }else{
+//            errorMsg = "发票抬头不能为空";
+//            flag = false;
+//        }
+//        if(!us.isEmpty(request.body.invoiceAdd)){
+//            data.invoiceAdd = request.body.invoiceAdd;
+//        }else{
+//            errorMsg = "发票地址不能为空";
+//            flag = false;
+//        }
+//    }
+//    if(flag){
+//        var httpClient = new HttpClient({
+//            'host':Config.inf.host,
+//            'port':Config.inf.port,
+//            'path':'/order/save',
+//            'method':"POST"
+//        });
+//        httpClient.postReq(data,function(err,result){
+//            if(err){
+//                console.error('/order/save error %s %s',err,data);
+//                console.log(data);
+//                response.send(404,err);
+//            }else{
+//                if(0===result.error){
+//                    var res = {};
+//                    res.name = request.body.pName;
+//                    res.orderType = request.body.orderType;
+//                    res._id = result.data._id;
+//                    res.oid = result.data.orderID;
+//                    if("p"===request.body.orderType){
+//                        res.time = new Date(result.data.startDate).Format("yyyy-MM-dd");
+//                    }else{
+//                        var sd = new Date(result.data.startDate).Format("yyyy-MM-dd");
+//                        var ed = new Date(result.data.endDate).Format("yyyy-MM-dd");
+//                        res.time = sd + '~' + ed;
+//                    }
+//                    res.num = result.data.quantity;
+//                    res.total = result.data.totalPrice;
+//                    res.person = result.data.liveName;
+//                    res.mobile = result.data.contactPhone;
+//                    if(!us.isEmpty(result.data.invoice.types)){
+//                        res.isNeed = "y";
+//                        res.invoiceType = result.data.invoice.types;
+//                        res.invoiceTitle = result.data.invoice.title;
+//                        res.invoiceAdd = result.data.invoice.address;
+//                    }else{
+//                        res.isNeed = "n";
+//                    }
+//                    response.render('web/orderConfirm',{info:res});
+//                }else{
+//                    console.log("api error /order/save","post data",data,"return data",result);
+//                    response.send(404,result.errorMsg);
+//                }
+//            }
+//        });
+//
+//    }else{
+//        console.log("http error /order/save",errorMsg);
+//        response.send(404,errorMsg);
+//    }
+//};
+
+
+
+//save order and go to confirm page
 exports.toConfirm = function(request,response){
     var data = {};
-    var flag = true;
-    var errorMsg = "";
-    var id = "";
-    data.source = "534de2e3309199c11f233cf4";
-    data.payWay = "1";
-    data.remark = "";
-    if(!us.isEmpty(request.session.user._id)){
-        data.member = request.session.user._id;
+    if(us.isEmpty(request.session.user._id)){
+        //to do: do login errorMsg = "请先登录";        flag = false;
+        console.error('save order and go to confirm error',"未登录");
+    }else if(us.isEmpty(request.body.pid)){
+        //to do:产品ID为空
+        console.error('save order and go to confirm error',"产品id为空");
+    }else if(us.isEmpty(request.body.orderType)){
+        //to do:订单类型为空
+        console.error('save order and go to confirm error',"订单类型为空");
+    }else if(us.isEmpty(request.body.num)){
+        //to do:产品数量为空
+        console.error('save order and go to confirm error',"产品数量为空");
+    }else if(us.isEmpty(request.body.person)){
+        //to do:入住人为空
+        console.error('save order and go to confirm error',"入住人为空");
+    }else if(us.isEmpty(request.body.mobile)){
+        //to do:联系人手机为空
+        console.error('save order and go to confirm error',"联系人手机为空");
+    }else if( "p" != orderType && us.isEmpty(request.body.isWeekend)){
+        //如果是非套餐(门票、套票)而又没有选择周中周末 则报错
+        console.error('save order and go to confirm error',"（门票、套票)而又没有选择周中周末");
+    }else if( "p" != orderType && us.isEmpty(request.body.lid)){
+        //如果是非套餐(门票、套票)而又没有LogID则报错
+        console.error('save order and go to confirm error',"(门票、套票)而又没有LogID");
+    }else if((!us.isEmpty(request.body.isNeed) &&  "y"===request.body.isNeed) && (us.isEmpty(request.body.invoiceType)||us.isEmpty(request.body.invoiceTitle)||us.isEmpty(request.body.invoiceAdd))){
+        //发票信息不全
+        console.error('save order and go to confirm error',"发票信息不全");
     }else{
-        errorMsg = "请先登录";
-        flag = false;
-    }
-    if(!us.isEmpty(request.body.pid)){
-        data.product = request.body.pid;
-    }else{
-        errorMsg = "产品ID为空";
-        flag = false;
-    }
-    if(!us.isEmpty(request.body.orderType)){
-        var orderType = request.body.orderType;
+        //才开始做真正的逻辑
+        data.product        = request.body.pid;
+        data.member         = request.session.user._id;
+        data.invoiceType    = request.body.invoiceType;
+        data.invoiceTitle   = request.body.invoiceTitle;
+        data.invoiceAdd     = request.body.invoiceAdd;
+        var orderType        =  request.body.orderType;
+        data.source = "534de2e3309199c11f233cf4";
+        data.payWay = "1";
+        data.remark = "";
         if("p"===orderType){
             data.startDate = new Date(request.body.time+timeZone).getTime();
         }else{
+            //如果是套票、门票，则需要拆有效期
             var arrays = request.body.time.split('~');
             data.startDate = new Date(arrays[0]+timeZone).getTime();
             data.endDate = new Date(arrays[1]+timeZone).getTime();
-            if(!us.isEmpty(request.body.isWeekend)){
-                data.priceLogisWeeknd = "y"===request.body.isWeekend?true:false;
-            }else{
-                errorMsg = "是否周末不能为空";
-                flag = false;
-            }
-            if(!us.isEmpty(request.body.lid)){
-                data.priceLog = request.body.lid;
-            }else{
-                errorMsg = "是否周末不能为空";
-                flag = false;
-            }
+            data.priceLogisWeeknd = "y"===request.body.isWeekend?true:false;
+            data.priceLog = request.body.lid;
         }
-    }else{
-        errorMsg = "订单类型为空";
-        flag = false;
-    }
-    if(!us.isEmpty(request.body.num)){
-        data.quantity = request.body.num;
-    }else{
-        errorMsg = "产品数量不能为空或为0";
-        flag = false;
-    }
-    if(!us.isEmpty(request.body.person)){
-        data.liveName = request.body.person;
-    }else{
-        errorMsg = "入住人姓名不能为空";
-        flag = false;
-    }
-    if(!us.isEmpty(request.body.mobile)){
-        data.contactPhone = request.body.mobile;
-    }else{
-        errorMsg = "联系手机号不能为空";
-        flag = false;
-    }
-    if(!us.isEmpty(request.body.isNeed)&&"y"===request.body.isNeed){
-        if(!us.isEmpty(request.body.invoiceType)){
-            data.invoiceType = request.body.invoiceType;
-        }else{
-            errorMsg = "发票类型不能为空";
-            flag = false;
-        }
-        if(!us.isEmpty(request.body.invoiceTitle)){
-            data.invoiceTitle = request.body.invoiceTitle;
-        }else{
-            errorMsg = "发票抬头不能为空";
-            flag = false;
-        }
-        if(!us.isEmpty(request.body.invoiceAdd)){
-            data.invoiceAdd = request.body.invoiceAdd;
-        }else{
-            errorMsg = "发票地址不能为空";
-            flag = false;
-        }
-    }
-    if(flag){
         var httpClient = new HttpClient({
             'host':Config.inf.host,
             'port':Config.inf.port,
@@ -360,47 +464,42 @@ exports.toConfirm = function(request,response){
             'method':"POST"
         });
         httpClient.postReq(data,function(err,result){
-            if(err){
+            if(err || result.error != 0){
+                console.error('/order/save error',err,data);
                 response.send(404,err);
             }else{
-                if(0===result.error){
-                    var res = {};
-                    res.name = request.body.pName;
-                    res.orderType = request.body.orderType;
-                    res._id = result.data._id;
-                    res.oid = result.data.orderID;
-                    if("p"===request.body.orderType){
-                        res.time = new Date(result.data.startDate).Format("yyyy-MM-dd");
-                    }else{
-                        var sd = new Date(result.data.startDate).Format("yyyy-MM-dd");
-                        var ed = new Date(result.data.endDate).Format("yyyy-MM-dd");
-                        res.time = sd + '~' + ed;
-                    }
-                    res.num = result.data.quantity;
-                    res.total = result.data.totalPrice;
-                    res.person = result.data.liveName;
-                    res.mobile = result.data.contactPhone;
-                    if(!us.isEmpty(result.data.invoice.types)){
-                        res.isNeed = "y";
-                        res.invoiceType = result.data.invoice.types;
-                        res.invoiceTitle = result.data.invoice.title;
-                        res.invoiceAdd = result.data.invoice.address;
-                    }else{
-                        res.isNeed = "n";
-                    }
-                    response.render('web/orderConfirm',{info:res});
+                var res = {};
+                res.name = request.body.pName;
+                res.orderType = request.body.orderType;
+                res._id = result.data._id;
+                res.oid = result.data.orderID;
+                if("p"===request.body.orderType){
+                    res.time = new Date(result.data.startDate).Format("yyyy-MM-dd");
                 }else{
-                    console.log("api error /order/save","post data",data,"return data",result);
-                    response.send(404,result.errorMsg);
+                    var sd = new Date(result.data.startDate).Format("yyyy-MM-dd");
+                    var ed = new Date(result.data.endDate).Format("yyyy-MM-dd");
+                    res.time = sd + '~' + ed;
                 }
+                res.num = result.data.quantity;
+                res.total = result.data.totalPrice;
+                res.person = result.data.liveName;
+                res.mobile = result.data.contactPhone;
+                if(!us.isEmpty(result.data.invoice.types)){
+                    res.isNeed = "y";
+                    res.invoiceType = result.data.invoice.types;
+                    res.invoiceTitle = result.data.invoice.title;
+                    res.invoiceAdd = result.data.invoice.address;
+                }else{
+                    res.isNeed = "n";
+                }
+                response.render('web/orderConfirm',{info:res});
             }
         });
 
-    }else{
-        console.log("http error /order/save",errorMsg);
-        response.send(404,errorMsg);
     }
+
 };
+
 
 //go to fill ticket order
 exports.toTktOrder = function(request,response){

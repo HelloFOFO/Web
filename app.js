@@ -77,7 +77,11 @@ web(app);
 weixin(app);
 
 app.get('*',function(request,response){
-    response.redirect("/errorPage");
+    if(request.url.indexOf('wap')){
+        response.redirect("/wap/errorPage");
+    }else{
+        response.redirect("/errorPage");
+    }
 });
 
 

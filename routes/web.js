@@ -16,7 +16,6 @@ module.exports = function(app){
     app.get('/errorPage',function(req,res){res.render('./web/errorPage')});
 
     app.all('/*',function(request,response,next){
-        console.log('aaaaaaaaaa',request.url);
         response.charset = 'utf-8';
         if(request.session && request.cookies){
             //如果session超时了，但是cookie里还有东西，则帮用户重新登录
@@ -33,18 +32,6 @@ module.exports = function(app){
         }
 
     });
-
-//    app.get('/web/register',MemberPageAction.register);
-//    app.post('/web/login',MemberPageAction.login);
-//    app.post('/web/doRegister',MemberPageAction.doRegister);
-//    app.all('/web/*',function(request,response,next){
-//        if(request.session.user==null){
-//            response.render('wap/login')
-//        } else {
-//            next();
-//        }
-//    })
-//    app.get('/web/',HomePageAction.getHomePage);
 
     app.get('/',HomePageAction.home);
     app.post('/register',MemberAction.register);

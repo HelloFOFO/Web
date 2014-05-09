@@ -9,6 +9,7 @@ var AlipayWapAction = require('./../action/wap/AlipayWapAction');
 var OrderAction = require('./../action/wap/OrderAction');
 var us = require('underscore');
 module.exports = function(app){
+
     app.all('/wap/*',function(request,response,next){
         response.charset = 'utf-8';
         if(request.session && request.cookies){
