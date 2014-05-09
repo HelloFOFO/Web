@@ -75,6 +75,8 @@ WeiXin.event = function (xml) {
             case 'HOT':
                 return WeiXin.sendMsg['news'](xml.xml.FromUserName[0],xml.xml.ToUserName[0]);
                 break;
+            case 'PAY_ORDER':
+                break;
         }
     }
 };
@@ -142,7 +144,7 @@ WeiXin.createMenu = function (fn) {
                     {
                         "type": "view",
                         "name": "门票",
-                        "url": "http://dd885.com/wap/productList/ticket"
+                        "url": "http://cloud.bingdian.com/wap/productList/ticket"
                     },
                     {
                         "type": "view",
@@ -185,9 +187,9 @@ WeiXin.createMenu = function (fn) {
                 "name": "我的订单",
                 "sub_button": [
                     {
-                        "type": "click",
+                        "type": "view",
                         "name": "已购买订单",
-                        "key": "PAY_ORDER"
+                        "url": "http://cloud.bingdian.com/wap/orders/all"
                     },
                     {
                         "type": "click",
