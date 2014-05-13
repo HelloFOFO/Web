@@ -3,6 +3,7 @@
  */
 var HttpClient = require('./../../tools/HttpClient.js');
 var Config = require('./../../tools/Config');
+var WeiXin = require('./../../tools/WeiXin');
 var async = require('async');
 var us = require('underscore');
 var timeZone = ' 00:00:00 +08:00';
@@ -45,6 +46,10 @@ exports.getProducts = function(request,response){
 };
 //微信页面中需要用到的产品列表 传进来 ticket ticketPackage package三个字段
 exports.getProductList = function(request,response){
+    console.log("==============================="+request.query.code,request.query.state);
+    WeiXin.oAuth(request.query.code,function(error,result){
+
+    });
     var productType = request.params.type;
     if( productType == 'ticket' || productType == 'ticketPackage' || productType == 'package三个字段'){
         try{

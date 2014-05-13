@@ -40,7 +40,10 @@ module.exports = function(app){
 //            next();
 //        }
 //    });
+<<<<<<< HEAD
 
+=======
+>>>>>>> 08bad628f51d65c66aef701a6d8a485ff9d95c55
     //home go
     app.get('/wap/',HomePageAction.getHomePage);
     app.all('/wap/login',HomePageAction.toLogin);
