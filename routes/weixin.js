@@ -10,7 +10,7 @@ module.exports = function(app){
     app.get('/weixin/menu',WeiXinAction.createMenu);
     app.get('/weixin/delMenu',WeiXinAction.delMenu);
     //pay
-    app.get('/weixin/order',WeiXinAction.order);
+    app.all('/weixin/order',WeiXinAction.order);
     app.all('/weixin/paynotify',WeiXinAction.payNotify);
     //customer
     app.post('weixin/customer',WeiXinAction.customerNotify);

@@ -88,25 +88,19 @@ WeiXin.sendMsg.news = function (to, from) {
         + "<FromUserName><![CDATA[" + from + "]]></FromUserName>"
         + "<CreateTime>" + new Date().getTime() + "</CreateTime>"
         + "<MsgType><![CDATA[news]]></MsgType>"
-        + "<ArticleCount>3</ArticleCount>"
+        + "<ArticleCount>2</ArticleCount>"
         + "<Articles>"
         + "<item>"
-        + "<Title><![CDATA[大图]]></Title>"
-        + "<Description><![CDATA[第一条]]></Description>"
-        + "<PicUrl><![CDATA[http://dd885.b0.upaiyun.com/b03f76dae360757138d3746c.jpg]]></PicUrl>"
-        + "<Url><![CDATA[http://cloud.bingdian.com/wap/productDetail/53675651b6a2387918e301fb/5]]></Url>"
+        + "<Title><![CDATA[长三角自驾游专家委员会在沪成立]]></Title>"
+        + "<Description><![CDATA[长三角自驾游专家委员会在沪成立]]></Description>"
+        + "<PicUrl><![CDATA[http://dd885.b0.upaiyun.com/eb42654a71d982c8e2d13905.jpg]]></PicUrl>"
+        + "<Url><![CDATA[http://mp.weixin.qq.com/s?__biz=MjM5NzE3NTA1Nw==&mid=200347437&idx=1&sn=3fa0757d7174a8e665ddffa8a618593e&scene=1&from=singlemessage&isappinstalled=0&key=e60cf81314c277c7b83f19ff1f6394fe3936dff8525e181fa9b1edecb310d202eb4554cfc888282b3851cfe094f8941e&ascene=0&uin=MjY3ODM1]]></Url>"
         + "</item>"
         + "<item>"
-        + "<Title><![CDATA[小图]]></Title>"
-        + "<Description><![CDATA[第二条]]></Description>"
-        + "<PicUrl><![CDATA[http://dd885.b0.upaiyun.com/b03f76dae360757138d3746c.jpg]]></PicUrl>"
-        + "<Url><![CDATA[http://cloud.bingdian.com/wap/productDetail/53675651b6a2387918e301fb/5]]></Url>"
-        + "</item>"
-        + "<item>"
-        + "<Title><![CDATA[小图]]></Title>"
-        + "<Description><![CDATA[第三条]]></Description>"
-        + "<PicUrl><![CDATA[http://dd885.b0.upaiyun.com/b03f76dae360757138d3746c.jpg]]></PicUrl>"
-        + "<Url><![CDATA[http://cloud.bingdian.com/wap/productDetail/53675651b6a2387918e301fb/5]]></Url>"
+        + "<Title><![CDATA[让我告诉您：象山有多美]]></Title>"
+        + "<Description><![CDATA[让我告诉您：象山有多美]]></Description>"
+        + "<PicUrl><![CDATA[http://dd885.b0.upaiyun.com/09c684a85dadbe15ba9f17ec.jpg]]></PicUrl>"
+        + "<Url><![CDATA[http://mp.weixin.qq.com/s?__biz=MzA4MTM0MTQyNw==&mid=200123420&idx=1&sn=4da3c8904b5ce6201ce3e9d03ed02fa7#rd]]></Url>"
         + "</item>"
         + "</Articles>"
         +"</xml>";
@@ -144,7 +138,7 @@ WeiXin.createMenu = function (fn) {
                     {
                         "type": "view",
                         "name": "门票",
-                        "url": "http://cloud.bingdian.com/wap/productList/ticket"
+                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://cloud.bingdian.com/wap/productList/ticket&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
                     },
                     {
                         "type": "view",
@@ -174,7 +168,7 @@ WeiXin.createMenu = function (fn) {
                     {
                         "type": "view",
                         "name": "优秀目的地",
-                        "url": "www.baidu.com"
+                        "url": "http://mp.weixin.qq.com/s?__biz=MzA4MTM0MTQyNw==&mid=200063436&idx=1&sn=58fa04cd3eefdae4632cfcf5ca431edf#rd"
                     },
                     {
                         "type": "view",
@@ -232,18 +226,84 @@ WeiXin.delMenu = function (fn) {
 }
 
 //customer
-WeiXin.customer = function (cb) {
+WeiXin.customer = function (data,cb) {
     parseString(data, function (err, result) {
         type = result.xml.MsgType[0];
-        if ("request" === type) {
-
-        } else if ("confirm" === type) {
-
-        } else if ("reject" === type) {
-
-        } else {
-            cb('error', '没有这种类型的数据');
+        if(err){
+            cb('error','数据异常无法解析');
+        }else{
+            var keys = ["appId","appKey","timestamp","openId"];
+            var values = {};
+            values.appId = config.wx.appID;
+            values.appKey = config.wx.appsecret;
+            values.timestamp = result.xml.TimeStamp[0];
+            values.openId = result.xml.OpenId[0];
+            if(isPass(keys,values,result.xml.AppSignature[0])){
+                cb(null,WeiXin.customer[type](result));
+            }else{
+                cb('error','签名不正确');
+            }
+            ;
         }
+    });
+}
+
+//处理用户新增诉求
+WeiXin.customer.request = function(result){
+    //TODO 处理用户新增诉求
+}
+
+//处理用户确认处理完毕
+WeiXin.customer.confirm = function(result){
+    //TODO 处理用户确认处理完毕
+}
+
+//处理用户拒绝处理完毕
+WeiXin.customer.reject = function(result){
+    //TODO 处理用户拒绝处理完毕
+}
+
+//签名验证
+function isPass(keys,values,signature){
+    keys.sort();
+    //generator keyvalue string
+    var str = "";
+    var isFirst = true;
+    for(var key in keys){
+        if(isFirst){
+            str = key + "=" + values[key];
+            isFirst = false;
+        }else{
+            str = str + "&" + key + "=" + values[key];
+        }
+    }
+    //compare
+    var crypto = require('crypto');
+    var shasum = crypto.createHash('sha1');
+    shasum.update(str);
+    var mySign = shasum.digest('hex');
+    if (mySign === signature) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+//oAuth2.0
+WeiXin.oAuth = function(code,cb){
+    var opt = {
+        hostname: config.wx.wxhost,
+        port: config.wx.wxport,
+        path: "/sns/oauth2/access_token?appid="+config.wx.appID+"&secret="+config.wx.appsecret+"&code="+code+"&grant_type=authorization_code",
+        method: "GET"
+    };
+    new httpsClient(opt).getReq(function (err, response) {
+       if(err){
+           cb('error',err);
+       }else{
+           console.log(response);
+           cb(null,response.openid);
+       }
     });
 }
 module.exports = WeiXin;

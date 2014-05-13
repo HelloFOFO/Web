@@ -28,15 +28,15 @@ module.exports = function(app){
         }
     });
 
-    app.all('/wap/*',function(request,response,next){
-        if(us.isEmpty(request.session.user) && 0>request.url.indexOf('login') && 0>request.url.indexOf('doLogin') && 0>request.url.indexOf('forget')&&0 >request.url.indexOf('doForget') && 0>request.url.indexOf('register') && 0>request.url.indexOf('doRegister') && 0>request.url.indexOf('notify')){
-            //如果被访问的页面需要登录，但是现在还没有登录，则跳登录页面，跳登录页的时候把前序页面记录下来，并传给登录页action
-            console.log('your request page need a login %s',request.url);
-            HomePageAction.toLogin(request,response);
-        } else {
-            next();
-        }
-    });
+//    app.all('/wap/*',function(request,response,next){
+//        if(us.isEmpty(request.session.user) && 0>request.url.indexOf('login') && 0>request.url.indexOf('doLogin') && 0>request.url.indexOf('forget')&&0 >request.url.indexOf('doForget') && 0>request.url.indexOf('register') && 0>request.url.indexOf('doRegister') && 0>request.url.indexOf('notify')){
+//            //如果被访问的页面需要登录，但是现在还没有登录，则跳登录页面，跳登录页的时候把前序页面记录下来，并传给登录页action
+//            console.log('your request page need a login %s',request.url);
+//            HomePageAction.toLogin(request,response);
+//        } else {
+//            next();
+//        }
+//    });
     //home go
     app.get('/wap/',HomePageAction.getHomePage);
     app.all('/wap/login',HomePageAction.toLogin);

@@ -48,19 +48,20 @@ exports.msgNotify = function(req,res){
 exports.order = function(req,res){
     var msg = "";
     var useragent = req.headers['user-agent'];
-    if(useragent.indexOf('MicroMessenger')<0){
-        msg = '不支持微信以外的游览器';
-    }
-    var wxVer = parseInt(useragent.substr(useragent.lastIndexOf('/')+1,1));
-    if(wxVer<=4&&""===msg){
-        msg = '微信版本过低，无法支付，请升级';
-    }
+//    if(useragent.indexOf('MicroMessenger')<0){
+//        msg = '不支持微信以外的游览器';
+//    }
+//    var wxVer = parseInt(useragent.substr(useragent.lastIndexOf('/')+1,1));
+//    if(wxVer<=4&&""===msg){
+//        msg = '微信版本过低，无法支付，请升级';
+//    }
     if(""===msg){
         var wx = {};
         wx.appId = config.wx.appID;
         wx.partnerId = config.wx.partnerId;
         wx.key = config.wx.paySignKey;
         wx.partnerKey = config.wx.partnerKey;
+        console.log("coming");
         res.render('weixin/test',{wx:wx});
 //        res.render('weixin/demo');
     }else{
@@ -75,14 +76,16 @@ exports.payNotify = function(req,res){
 
 //customer
 exports.customerNotify = function(req,res){
-    var data = req.body.postData;
-    if(us.isEmpty(data)){
-        res.send(404,'没有返回数据');
-    }else{
-        weixin.customer(function(err,result){
-
+    var _data = "";
+    req.on('data',function(chunk){
+        _data+=chunk;
+    });
+    req.on('end',function(){
+        weixin.message(_data,function(err,result){
+            console.log(result);
+            res.send(result);
         });
-    }
+    });
 }
 //menu
 exports.createMenu = function(req,res){
