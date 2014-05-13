@@ -248,4 +248,10 @@ a:active { text-decoration: none;}
 .footerAbout div{ float:left; box-sizing:border-box; width:50%;}
 .footerAbout div a{ color:#fff; padding-right:10px;}
 .footerAbout div a:hover{ color:#dafff3;}
-.wcy-wap-footerwidth .Copyright{ color:#0d8f66;} 
+.wcy-wap-footerwidth .Copyright{ color:#0d8f66;}
+
+
+/*500*/
+.wcy-500{ margin:50px 0 0 0; text-align:center; background:url(../images/500.png) no-repeat top center; background-size: 265px 133px; padding-top:160px;}
+.wcy-500 h2{ font-size:24px; text-align:center; height:40px; line-height:40px; color:#ff7212;}
+.wcy-500 h4{ font-size:16px; text-align:center; height:30px; line-height:30px; color:#505050;}

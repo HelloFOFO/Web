@@ -47,9 +47,9 @@ module.exports = function(app){
     app.get('/productDetail/:id',ProductPageAction.getDetail);
     app.get('/product/relevance/:productID',ProductPageAction.getRelevanceProduct);
 //订单相关
-    app.post('/package/fill',ProductPageAction.toPkgOrder);
-    app.get('/order/submit',ProductPageAction.saveOrderAction);
+    app.get('/package/fill',ProductPageAction.toPkgOrder);
     app.get('/ticket/fill',ProductPageAction.toTktOrder);
+    app.post('/order/submit',ProductPageAction.saveOrderAction);
     app.get('/order/confirm/:id',ProductPageAction.renderConfirm);
 
 

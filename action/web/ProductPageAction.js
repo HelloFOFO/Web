@@ -240,9 +240,9 @@ exports.getPrices = function(productId,path,cb){
 //go to fill package order
 exports.toPkgOrder = function(request,response){
     //todo get calendar time and get price
-    var time = request.body.selDate;
-    var price = request.body.price;
-    var id = request.body.product;
+    var time = request.query.selDate;
+    var price = request.query.price;
+    var id = request.query.product;
     var httpClient = new HttpClient({
         'host':Config.inf.host,
         'port':Config.inf.port,
@@ -404,11 +404,11 @@ exports.renderConfirm = function(req,res){
 
 //go to fill ticket order
 exports.toTktOrder = function(request,response){
-    var time = request.body.exDate;
-    var price = request.body.sPrice;
-    var lid = request.body.lid;
-    var isWeekend = request.body.isWeekend;
-    var id = request.body.product;
+    var time = request.query.exDate;
+    var price = request.query.sPrice;
+    var lid = request.query.lid;
+    var isWeekend = request.query.isWeekend;
+    var id = request.query.product;
     if(us.isEmpty(time)||us.isEmpty(price)||us.isEmpty(id)||us.isEmpty(isWeekend)||us.isEmpty(lid)){
         response.send(404,'传入参数不正确!');
     }else{

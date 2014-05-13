@@ -40,10 +40,7 @@ module.exports = function(app){
 //            next();
 //        }
 //    });
-<<<<<<< HEAD
 
-=======
->>>>>>> 08bad628f51d65c66aef701a6d8a485ff9d95c55
     //home go
     app.get('/wap/',HomePageAction.getHomePage);
     app.all('/wap/login',HomePageAction.toLogin);
@@ -56,7 +53,7 @@ module.exports = function(app){
 
 
 
-    app.get('/wap/errorPage',function(req,res){res.render('wap/errorPage')});
+    app.get('/wap/errorPage',function(req,res){res.render('wap/errorPage',{titleName:""})});
 
     //需要做验证的页面
     app.get('/wap/orderDetail/:id' , UserAuth.WapAuth , OrderAction.detail);//订单详情页

@@ -50,22 +50,25 @@
                 </tr>
               </table>
 	  </div>
-    		<div class="listnoborder">
-       		  <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                      <tr>
+
+        <%if(order.type){%>
+            <div class="listnoborder">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
                         <td width="35%" height="30" align="left" valign="top">发票类型：</td>
-                        <td width="65%" align="left" valign="top">个人</td>
-                </tr>
-                      <tr>
+                        <td width="65%" align="left" valign="top"><%=order.type%></td>
+                    </tr>
+                    <tr>
                         <td height="30" align="left" valign="top">发票抬头：</td>
-                        <td align="left" valign="top">张三</td>
-                </tr>
-                      <tr>
+                        <td align="left" valign="top"><%=order.title%></td>
+                    </tr>
+                    <tr>
                         <td height="30" align="left" valign="top">邮寄地址：</td>
-                        <td align="left" valign="top">上海市徐汇区田林路140号</td>
-                </tr>
-              </table>
-	  </div>
+                        <td align="left" valign="top"><%=order.address%></td>
+                    </tr>
+                </table>
+            </div>
+        <%}%>
     </div>
 </div>
 <div class="container">
@@ -73,7 +76,8 @@
 </div>
 <div class="wcy-orderdetail">
 		<div class="container">
-        <img src="images/wcy_QRCode.png" data-src="holder.js/170x170" alt="电子凭证"></div>
+        <img src="images/wcy_QRCode.png" data-src="holder.js/170x170" alt="电子凭证">
+        </div>
 </div>
 <div class="container">
 		<div class="wcy-orderdetailTitle">产品包含</div>

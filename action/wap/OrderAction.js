@@ -105,8 +105,8 @@ exports.detail = function(request,response){
                             }
                             var od = new Date(res.data.orderDate);
                             order.orderDate = od.getFullYear()+"-"+(od.getMonth()+1)+"-"+od.getDate();
-                            if(!us.isEmpty(res.data.invoice.types)){
-                                order.type = res.data.invoice.types;
+                            if(!us.isEmpty(res.data.invoice) && !us.isEmpty(res.data.invoice.types)){
+                                order.type = res.data.invoice.types=='p'?"个人":"公司";
                                 order.title = res.data.invoice.title;
                                 order.address = res.data.invoice.address;
                             }
@@ -116,12 +116,12 @@ exports.detail = function(request,response){
                             order.cancelRule = r.data.cancelRule? r.data.cancelRule:"";
                             response.render('wap/orderDetail',{order:order,titleName:"订单详情"});
                         }else{
-                            response.send(404,r.errMsg);
+                            response.redirect('/wap/errorPage');
                         }
                     }
                 });
             }else{
-                response.send(404,res.errMsg);
+                response.redirect('/wap/errorPage');
             }
         }
     });
