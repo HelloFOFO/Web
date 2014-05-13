@@ -16,7 +16,8 @@
         </div>
         <button type="submit" class="btn wap-submitBt btn-block" data-loading-text="登录中...请稍候" id="btnLogin" prePage="<%=prePage%>">登录</button>
     </form>
-    <div class="wap-already">还没有账号？<a href="/wap/register">注册</a></div>
+    <!--从登录页跳转到注册页的时候，把登录页的前置页面继续传给注册页，注册完毕后直接跳转登录页的前置页面-->
+    <div class="wap-already">还没有账号？<a href="/wap/register?prePage=<%=prePage%>">注册</a></div>
 </div>
 <%include footer%>
 <script src="/js/md5.js"></script>
@@ -63,6 +64,7 @@
                 }
             }).done(function(data){
                 if(data=='success'){
+                    //如果登录成功，并且没有前置页面，那么跳首页，否则跳前置页面
                     if( $('#btnLogin').attr('prePage') == "" ){
                         document.location.href = '/wap/';
                     }else{

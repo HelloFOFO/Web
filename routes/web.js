@@ -46,11 +46,12 @@ module.exports = function(app){
     app.get('/products/:id',ProductPageAction.getProducts);
     app.get('/productDetail/:id',ProductPageAction.getDetail);
     app.get('/product/relevance/:productID',ProductPageAction.getRelevanceProduct);
-
+//订单相关
     app.post('/package/fill',ProductPageAction.toPkgOrder);
-    app.post('/package/submitOrder',ProductPageAction.toConfirm);
-    app.post('/ticket/fill',ProductPageAction.toTktOrder);
-    app.post('/ticket/submitOrder',ProductPageAction.toConfirm);
+    app.get('/order/submit',ProductPageAction.saveOrderAction);
+    app.get('/ticket/fill',ProductPageAction.toTktOrder);
+    app.get('/order/confirm/:id',ProductPageAction.renderConfirm);
+
 
     app.get('/govNotice',NoticeAction.noticeList);
     app.get('/noticeDetail/:id',NoticeAction.detail);

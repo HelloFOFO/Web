@@ -1,5 +1,5 @@
 <%include header%>
-      <form name="form1" method="post" action="/wap/updateUser">
+      <form name="form1" method="post" action="/saveUserInfo">
         <div class="wcy-userinfo">
             <div class="container">
                       <table width="100%" border="0" cellspacing="0" cellpadding="0" class="infoTab">
@@ -9,12 +9,12 @@
                                   <input type="newly-SelfDriving" class="form-control" id="name" name="name" value="<%=u.name?u.name:""%>">
                                 </span></td>
                               </tr>
-                              <tr>
-                                <td height="30" align="left" valign="middle">所在城市</td>
-                                <td align="right" valign="middle" class="wap-orange">
-                                    <input type="newly-SelfDriving" class="form-control" id="city" name="city" value="">
-                                </td>
-                              </tr>
+                              <!--<tr>-->
+                                <!--<td height="30" align="left" valign="middle">所在城市</td>-->
+                                <!--<td align="right" valign="middle" class="wap-orange">-->
+                                    <!--<input type="newly-SelfDriving" class="form-control" id="city" name="city" value="">-->
+                                <!--</td>-->
+                              <!--</tr>-->
                               <tr>
                                 <td height="30" align="left" valign="middle">性别</td>
                                 <td align="right" valign="middle">
@@ -38,26 +38,34 @@
                               </tr>
                               <tr>
                                 <td height="30" align="left" valign="middle">年龄</td>
-                                <td align="right" valign="middle"  class="wap-orange">
-                                      <select class="form-control">
-                                        <option value="20-30">20-30</option>
-                                        <option value="30-35">30-35</option>
-                                        <option value="35-40">35-40</option>
-                                        <option value="40-50">40-50</option>
-                                        <option value="50-60">50-60</option>
-                                      </select>
-                                </td>
+                                  <td width="65%" align="right" valign="middle" ><span class="wap-orange">
+                                  <input type="newly-SelfDriving" class="form-control" id="birthYear" name="birthYear" value="<%=u.birthYear?u.birthYear:''%>">
+                                </span></td>
+
+                                <!--<td align="right" valign="middle"  class="wap-orange">-->
+                                      <!--<select class="form-control">-->
+                                        <!--<option value="20-30">20-30</option>-->
+                                        <!--<option value="30-35">30-35</option>-->
+                                        <!--<option value="35-40">35-40</option>-->
+                                        <!--<option value="40-50">40-50</option>-->
+                                        <!--<option value="50-60">50-60</option>-->
+                                      <!--</select>-->
+                                <!--</td>-->
                               </tr>
                               <tr>
                                 <td height="30" align="left" valign="middle">同行对象</td>
-                                <td align="right" valign="middle"  class="wap-orange">
-                                      <select class="form-control">
-                                        <option value="全家">全家</option>
-                                        <option value="朋友">朋友</option>
-                                        <option value="恋人">恋人</option>
-                                        <option value="同事">同事</option>
-                                      </select>
-                                </td>
+                                  <td width="65%" align="right" valign="middle" ><span class="wap-orange">
+                                  <input type="newly-SelfDriving" class="form-control" id="accompany" name="accompany" value="<%=u.accompany?u.accompany:''%>">
+                                </span></td>
+
+                                <!--<td align="right" valign="middle"  class="wap-orange">-->
+                                      <!--<select class="form-control">-->
+                                        <!--<option value="全家">全家</option>-->
+                                        <!--<option value="朋友">朋友</option>-->
+                                        <!--<option value="恋人">恋人</option>-->
+                                        <!--<option value="同事">同事</option>-->
+                                      <!--</select>-->
+                                <!--</td>-->
                               </tr>
                               <tr>
                                 <td height="30" align="left" valign="middle">最近一次自<br>
@@ -84,8 +92,8 @@
                             </table>
             </div>
         </div>
-
         <div class="container">
+                <input type="hidden" id="prePage" value="<%=prePage%>" name="prePage">
         		<div class="wcy-hotelTicketPayBt">
         		<button type="submit" class="btn wap-submitBt btn-block">保存</button>
                 </div>

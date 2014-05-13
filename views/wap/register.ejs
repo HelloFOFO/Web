@@ -148,6 +148,7 @@
         </form>
         <div class="wap-already">已是万车游会员？<a href="/wap/login">登录</a></div>
     </div>
+   <input type="hidden" value="<%=prePage%>" id="prePage">
 <%include footer%>
 <script src="/js/md5.js"></script>
 <script src="./../js/underscore.min.js"></script>
@@ -196,7 +197,11 @@
                 }
             }).done(function(data){
                         if(data=='success'){
-                            document.location.href = '/wap/';
+                            if($('#prePage').val() != ""){
+                                document.location.href = $('#prePage').val();
+                            }else{
+                                document.location.href = '/wap/';
+                            }
                         } else {
                             $('#r_error').removeClass('hidden');
                             $('#r_errorMsg').text(data);

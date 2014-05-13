@@ -26,7 +26,7 @@
             <% data.relate.forEach(function(p){ %>
             <div class="col-xs-6">
                 <div class="listProBox">
-                    <div class="imgbox"><a href="/wap/productDetail/<%=p._id%>/<%=p._type%>"><img src="http://dd885.b0.upaiyun.com/<%= p.image[0].url %>"></a>
+                    <div class="imgbox"><a href="/wap/productDetail/<%=p._id%>/<%=p._type%>"><img src="http://dd885.b0.upaiyun.com/<%= p.image[0].url %>!WapPreview"></a>
                     </div>
                     <div class="probox">
                         <a href="/wap/productDetail/<%= p._id %>/<%= p.type %>">
@@ -132,9 +132,9 @@
                             var imageList = "";
                             $.each(data.data.image,function(index,data){
                                 if(index==0){
-                                    imageList += str.replace(/__imageurl__/,data.wapURL).replace(/__isactive__/,"active");
+                                    imageList += str.replace(/__imageurl__/,data.wapURL + "!WapDetailHead" ).replace(/__isactive__/,"active");
                                 }else{
-                                    imageList += str.replace(/__imageurl__/,data.wapURL);
+                                    imageList += str.replace(/__imageurl__/,data.wapURL + "!WapDetailHead" );
                                 }
                             });
                             $('#homeBanner').empty().append(imageList);

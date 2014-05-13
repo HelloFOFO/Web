@@ -35,7 +35,7 @@
 <div class="wap-onlyTicketbox">
     <div class="container">
         <div class="title"><%= product.name %></div>
-        <form name="form_order" method="post" id="form_order" action="/wap/subOrder">
+        <form name="form_order" method="GET" id="form_order" action="/wap/subOrder">
             <table width="100%" border="0" cellspacing="0" cellpadding="0" class="Ticket">
                 <%if(4!==parseInt(product.type)){%>
                 <tr>
@@ -104,14 +104,6 @@
 </div>
 <div class="wap-onlyTicketLinkbox">
     <form method="get" action="/wap/productDetails/<%=product._id%>">
-        <!--<input type="hidden" name="type" value="detail">-->
-        <!--<input type="hidden" name="name" value="<%=product.name%>">-->
-        <!--<input type="hidden" name="level" value="<%=product.level%>">-->
-        <!--<input type="hidden" name="address" value="<%=product.addr%>">-->
-        <!--<input type="hidden" name="openTime" value="<%=product.openTime%>">-->
-        <!--<input type="hidden" name="image" value="<%=product.image[0]?product.image[0].url:""%>">-->
-        <!--<input type="hidden" name="image2" value="<%=product.image[1]?product.image[1].url:""%>">-->
-        <!--<input type="hidden" name="intro" value="<%=product.intro%>">-->
         <button type="submit" class="wap-TicketLinkBt btn-block">商品详情</button>
     </form>
 </div>

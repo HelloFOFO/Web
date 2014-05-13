@@ -117,19 +117,20 @@ exports.toLogin =  function(request,response){
        response.redirect('/wap/');
     }else{
         //如果没登录过，而又进了登录页，要先看看他是不是主动进的登录页，如果不是，则把前序页面传过去,否则传空，然后前端会去做判断
-        console.debug('login redirect url %s',request.url);
-        if(request.url!="/wap/login"){
-            response.render('wap/login',{titleName:'登录',prePage:request.url});
+        console.debug('login redirect url %s',request.headers['referer']);
+        if(request.headers['referer'] && request.headers['referer']!='/wap/login'){
+            response.render('wap/login',{titleName:'登录',prePage:request.headers['referer']});
         }else{
             response.render('wap/login',{titleName:'登录',prePage:""});
         }
-
     }
 }
 
 //go to register
 exports.register = function(request,response){
-    response.render('wap/register',{titleName:'注册'});
+    //接收从登录页面传回来的前置页面，并渲染到注册页面上。
+    var prePage = request.query.prePage?request.query.prePage:"";
+    response.render('wap/register',{titleName:'注册',prePage:prePage});
 };
 
 //go to aboutUs
@@ -148,5 +149,5 @@ exports.logOut = function(request,response){
     request.session.autoLogin = false;
     response.cookie('m',null);
     response.cookie('p',null);
-    response.redirect('/wap/login');
+    response.redirect('/wap/');
 }

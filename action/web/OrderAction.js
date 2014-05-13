@@ -31,7 +31,7 @@ exports.orders = function(request,response){
                     });
                     response.render('web/myOrder',{orders:orders});
                 }else{
-                    response.redirect('errorPage');
+                    response.redirect('/errorPage');
                 }
         });
     }else{
@@ -84,7 +84,7 @@ exports.detail = function(request,response){
                             }
                             var od = new Date(res.data.orderDate);
                             order.orderDate = od.getFullYear()+"-"+(od.getMonth()+1)+"-"+od.getDate();
-                            if(!us.isEmpty(res.data.invoice.types)){
+                            if(!us.isEmpty(res.data.invoice) && !us.isEmpty(res.data.invoice.types)){
                                 order.type = res.data.invoice.types;
                                 order.title = res.data.invoice.title;
                                 order.address = res.data.invoice.address;

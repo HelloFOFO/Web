@@ -4,9 +4,12 @@
 
 var HomePageAction = require('./../action/wap/HomePageAction');
 var ProductPageAction = require('./../action/wap/ProductPageAction');
+var ProductPageActionWeb = require('./../action/web/ProductPageAction');
 var MemberPageAction = require('./../action/wap/MemberPageAction');
 var AlipayWapAction = require('./../action/wap/AlipayWapAction');
 var OrderAction = require('./../action/wap/OrderAction');
+var UserAuth = require('./../tools/UserAuth.js');
+
 var us = require('underscore');
 module.exports = function(app){
 
@@ -28,15 +31,16 @@ module.exports = function(app){
         }
     });
 
-    app.all('/wap/*',function(request,response,next){
-        if(us.isEmpty(request.session.user) && 0>request.url.indexOf('login') && 0>request.url.indexOf('doLogin') && 0>request.url.indexOf('forget')&&0 >request.url.indexOf('doForget') && 0>request.url.indexOf('register') && 0>request.url.indexOf('doRegister') && 0>request.url.indexOf('notify')){
-            //如果被访问的页面需要登录，但是现在还没有登录，则跳登录页面，跳登录页的时候把前序页面记录下来，并传给登录页action
-            console.log('your request page need a login %s',request.url);
-            HomePageAction.toLogin(request,response);
-        } else {
-            next();
-        }
-    });
+//    app.all('/wap/*',function(request,response,next){
+//        if(us.isEmpty(request.session.user) && 0>request.url.indexOf('login') && 0>request.url.indexOf('doLogin') && 0>request.url.indexOf('forget')&&0 >request.url.indexOf('doForget') && 0>request.url.indexOf('register') && 0>request.url.indexOf('doRegister') && 0>request.url.indexOf('notify')){
+//            //如果被访问的页面需要登录，但是现在还没有登录，则跳登录页面，跳登录页的时候把前序页面记录下来，并传给登录页action
+//            console.log('your request page need a login %s',request.url);
+//            HomePageAction.toLogin(request,response);
+//        } else {
+//            next();
+//        }
+//    });
+
     //home go
     app.get('/wap/',HomePageAction.getHomePage);
     app.all('/wap/login',HomePageAction.toLogin);
@@ -46,12 +50,25 @@ module.exports = function(app){
     app.get('/wap/logout',HomePageAction.logOut);
 
 
+
+
+
     app.get('/wap/errorPage',function(req,res){res.render('wap/errorPage')});
+
+    //需要做验证的页面
+    app.get('/wap/orderDetail/:id' , UserAuth.WapAuth , OrderAction.detail);//订单详情页
+    app.get('/wap/orders/:type', UserAuth.WapAuth , OrderAction.orders);//订单列表页，分已付款和未付款列表
+    app.get('/wap/userInfo', UserAuth.WapAuth , MemberPageAction.renderUserInfo);//查看修改用户信息
+    app.get('/wap/subOrder', UserAuth.WapAuth , ProductPageAction.toSubOrder);//订单填写页
+    app.get('/wap/order/confirm/:id', UserAuth.WapAuth , ProductPageAction.renderConfirm);//订单确认页，最后会去跳付款
+
     //member
     app.all('/wap/doLogin',MemberPageAction.doLogin);
+
+
     app.post('/wap/doRegister',MemberPageAction.doRegister);
     app.post('/wap/doForget',MemberPageAction.forgetPasswd);
-    app.get('/wap/userInfo',MemberPageAction.userInfo);
+
     app.get('/wap/updateUser',MemberPageAction.updateUser);
     //products
     app.get('/wap/products/:id',ProductPageAction.getProducts);
@@ -61,13 +78,15 @@ module.exports = function(app){
 
     app.get('/wap/productDetails/:id',ProductPageAction.productDetail);
 
-    app.post('/wap/subOrder',ProductPageAction.toSubOrder);
-    app.post('/wap/confirm',ProductPageAction.saveOrder);
+
+    app.post('/wap/order/submit',ProductPageActionWeb.saveOrderAction);
+
+//    app.post('/wap/confirm',ProductPageAction.saveOrder);
     app.get('/wap/productDetailInfo',ProductPageAction.detailInfo);
     app.get('/wap/calendar/:id',ProductPageAction.productCalendar);
     //order
-    app.get('/wap/orderDetail/:id',OrderAction.detail);
-    app.get('/wap/orders/:type',OrderAction.orders);//unpaid or all
+
+
 
     //ajax
     app.get('/wap/ajax/cityList',HomePageAction.cityList);

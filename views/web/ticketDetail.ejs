@@ -1,4 +1,9 @@
 <% include header %>
+<style>
+    #baidumap img {
+        max-width: none;
+    }
+</style>
 <div class="bs-wcy_htbox container">
     <div class="bs-wcy_htTitle">
         <a href="#">首页</a> > <a href="/products/<%=product.city._id%>"><%=product.city.name%></a> > <%=product.name%>
@@ -22,7 +27,7 @@
                 <div class="hotelname">
                     <h1><%=product.name%></h1>
                 </div>
-                <form class="formtab" role="form" method="post" id="form_order" action="/ticket/fill">
+                <form class="formtab" role="form" method="GET" id="form_order" action="/ticket/fill">
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                         <%if(4!==parseInt(product.type)){%>
                         <tr>
@@ -94,14 +99,24 @@
 
             <%-product.product.level%>
 
-            <p>产品地址：<%=product.product.addr%> <a href="#">地图</a></p>
+            <p>产品地址：<%=product.product.addr%> <a href="#" class="baidumap" lat="<%=product.product.gps.lat%>" lon="<%=product.product.gps.lon%>">地图</a></p>
+            <div class="modal fade" id="baidumap" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div id="baidumapcontent" style="height: 400px;">
 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <p>营业时间：<%=product.product.openTime%> </p>
         </div>
         <div class="graybox">
             <img src="http://dd885.b0.upaiyun.com/<%=product.product.image[3].url%>!Detail550" class="imgfloat">
             <p><%-product.product.intro.replace(/\n/g, '<br/>')%></p>
-            <img src="http://dd885.b0.upaiyun.com/<%=product.product.image[4]%>!Detail880">
+            <img src="http://dd885.b0.upaiyun.com/<%=product.product.image[4].url%>!Detail880">
         </div>
         <% });%>
 
@@ -159,6 +174,7 @@
 </div>
 <% include footer %>
 <script type="text/javascript" src="/js/jquery.nivo.slider.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Ml0U5j0GPltz1dBjqz1ZHUF5"></script>
 <script>
     function setShowData(){
         if(""===$('#dateSelect').val()||undefined===$('#dateSelect').val()){
@@ -272,5 +288,27 @@
         setTimeout(function(){
             refreshRelevanceProduct($('#productID').val());
         },1000);
+
+        var map = new BMap.Map('baidumapcontent');
+        var point = new BMap.Point(116.404, 39.915);    // 创建点坐标
+        map.centerAndZoom(point,15);                     // 初始化地图,设置中心点坐标和地图级别。
+        map.enableScrollWheelZoom();                            //启用滚轮放大缩小
+
+        var setMap = function(lat,lon){
+            var point =  new BMap.Point(lat, lon);    // 创建点坐标
+            var marker = new BMap.Marker(point);
+            map.addOverlay(marker);
+            map.centerAndZoom(point,15);             // 初始化地图,设置中心点坐标和地图级别。
+            map.enableScrollWheelZoom();
+        };
+
+        $('.baidumap').click(function(e){
+            e.preventDefault();
+            var lat=$(this).attr("lat");
+            var lon=$(this).attr("lon");
+            setMap( lat , lon );
+            $('#baidumap').modal('show');
+        });
+
     });
 </script>

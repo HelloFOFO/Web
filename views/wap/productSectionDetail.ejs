@@ -14,9 +14,9 @@
                 <p>营业时间：<%=product.product.openTime%>
             </div>
             <div class="graybox">
-                <img src="<%=product.product.image[0]?product.product.image[0].url:""%>" class="imgfloat">
+                <img src="<%=product.product.image[0]?product.product.image[0].url:""%>!WapDetail" class="imgfloat">
                 <p><%-product.product.intro.replace(/\n/g, '<br/>')%></p>
-                <img src="<%=product.product.image[0]?product.product.image[0].url:""%>">
+                <img src="<%=product.product.image[1]?product.product.image[1].url:""%>!WapDetail">
             </div>
             <% });%>
         </div>

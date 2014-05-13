@@ -7,8 +7,6 @@ var async = require('async');
 var _ = require('underscore');
 
 exports.saveUserInfo = function(request,response){
-//    console.log(request.body);
-//    console.log('/ent/provider/member/update/:id');
     try{
         var memberId = request.session.user._id;
         console.log(request.session.user);
@@ -20,14 +18,29 @@ exports.saveUserInfo = function(request,response){
         });
 
         httpClient.postReq(request.body,function(err,result){
+            console.debug('saveUserInfos post data is:',request.body);
             if(err || result.error != 0){
-                console.log("saveUserInfo Error",err,result);
+                console.error("saveUserInfo Error",err,result);
             }
-            response.redirect("/");
+            //如果有前置页面，则跳转到前置页面，否则跳转到首页,因为是共享wap和web，所以判断一下如果是wap过来的跳转到wap首页
+            if( request.body.prePage != "" ){
+                console.debug("userInfo page's referer is:",request.body.prePage);
+                response.redirect( request.body.prePage );
+            }else{
+                if(/wap\//.test(request.url)){
+                    response.redirect('/wap/');
+                }else{
+                    response.redirect('/');
+                }
+            }
         });
     }catch(e){
         console.log("saveUserInfo Error2", e.message);
-        response.redirect("/");
+        if(/wap\//.test(request.url)){
+            response.redirect('/wap/');
+        }else{
+            response.redirect('/');
+        }
     }
 };
 
@@ -40,10 +53,16 @@ exports.userInfo = function(request,response){
         'method':"GET"
     });
     httpClient.getReq(function(err,res){
-        if(err){
-            response.send(404,'fuck 404');
+        if( err || res.error != 0 ){
+            console.error(__dirname,err,res);
+            response.redirect('/errorPage');
         } else {
-            response.render('web/userInfo',{'u':res.data});
+            var prePage = request.headers['referer'];
+            if(!prePage || /userInfo/.test(prePage)){
+                //如果前置页面是自己，则传空，否则使用前置页面
+                prePage = "";
+            }
+            response.render('web/userInfo',{'u':res.data,prePage:prePage});
         }
     });
 };
@@ -152,10 +171,8 @@ exports.forgetPasswd = function(request,response){
     });
 };
 
-
 exports.getVerifyCode = function(req,res){
     async.waterfall([function(cb){
-
         var mobile = req.body.mobile;
         var type   = req.body.type;
         console.debug('mobile is '+mobile);
@@ -205,6 +222,7 @@ exports.getVerifyCode = function(req,res){
             }
         });
     }],function(error,result){
+            console.log("verify code return result is",result);
             var result={error:0,errorMsg:""};
             if(error){
                 switch (error){

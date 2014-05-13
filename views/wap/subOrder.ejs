@@ -61,7 +61,7 @@
                     <%}%>
                 </td>
                 <td width="70%" align="right" valign="top">
-                    <input type="name1" id="name" name="name" class="form-control" placeholder="填写姓名">
+                    <input type="name1" id="person" name="person" class="form-control" placeholder="填写姓名">
                 </td>
             </tr>
             <tr class="tdend">
@@ -74,6 +74,7 @@
     </div>
 </div>
 <%if(4===product.type){%>
+    <input type="hidden" id="orderType" name="orderType" value="p"/>
 <div class="container">
     <div class="wcy-hotelTicketPayTitle">发票信息</div>
 </div>
@@ -92,7 +93,7 @@
             <tr>
                 <td width="30%" height="30" align="left" valign="middle" class="gray">发票类型</td>
                 <td width="70%" align="right" valign="top">
-                    <input name="radio" type="radio" id="inType" name="inType" value="p" checked>
+                    <input name="radio" type="radio" id="invoiceType" name="invoiceType" value="p" checked>
                     个人&nbsp;&nbsp;&nbsp;
                     <label for="inType"></label>
                     <input type="radio" name="radio" id="inType2" name="inType" value="e">
@@ -103,21 +104,26 @@
             <tr>
                 <td height="30" align="left" valign="middle" class="gray">发票抬头</td>
                 <td align="right" valign="top">
-                    <input type="name2" class="form-control" id="title" name="title" placeholder="请填写发票抬头">
+                    <input type="name2" class="form-control" id="invoiceTitle" name="invoiceTitle" placeholder="请填写发票抬头">
                 </td>
             </tr>
             <tr class="tdend">
                 <td height="30" align="left" valign="middle" class="gray">邮寄地址</td>
                 <td align="right" valign="top">
-                    <input type="mobile" class="form-control" id="address" name="address" placeholder="请填写邮寄地址">
+                    <input type="mobile" class="form-control" id="invoiceAdd" name="invoiceAdd" placeholder="请填写邮寄地址">
                 </td>
             </tr>
             </tr>
         </table>
     </div>
 </div>
-<%}%>
+<%} else {%>
+    <input type="hidden" id="orderType" name="orderType" value="t"/>
+    <%}%>
 <div class="container">
+    <div id="errorBox" class="hidden">
+        <div colspan="2" id="errorMsg" style="color: #ff0000"></div>
+    </div>
     <div class="wcy-hotelTicketPayBt">
         <button type="submit" class="btn wap-submitBt btn-block">提交订单</button>
     </div>
@@ -152,59 +158,84 @@
         recaculatePrice();
         //select num
         $("#add").click(function(){
-            var n=$("#num").val();
-            var num=parseInt(n)+1;
-            if(num==0){num = 1;}
+            var num=$("#num").val();
+                num=parseInt(num)+1;
+            if(num==0){
+                num = 1;
+            }
             if(num>99){
-                return;
+                num = 99;
             }
             $("#num").val(num);
-            $('#display').html(parseInt($('#sp').val())*num);
+            recaculatePrice();
         });
 
         $("#sub").click(function(){
-            var n=$("#num").val();
-            var num=parseInt(n)-1;
-            if(num==0){return;}
+            var num = $("#num").val();
+                 num = parseInt(num) - 1;
+            if( num <= 0 ){
+                num = 1;
+            }
+            if( num > 99 ){
+                num = 99;
+            }
             $("#num").val(num);
-            $('#display').html(parseInt($('#sp').val())*num);
+            recaculatePrice();
         });
 
         $('#num').keyup(function(){
-            var n = $('#num').val();
-            if(n<=0){
-                $('#num').val(1);
-                return;
+            var num = $('#num').val();
+            if(num <= 0){
+                num = 1;
             }
-            if(n>99){
-                $('#num').val(99);
-                recaculatePrice();
-                return;
+            if(num > 99){
+                num = 99;
             }
+            $("#num").val(num);
             recaculatePrice();
         });
         //submit
         $('#formConfirm').submit(function(e){
-            if(us.isEmpty($('#name').val().trim())){
-                alert('姓名不能为空!');
+            e.preventDefault();
+            if(us.isEmpty($('#person').val().trim())){
+                $('#errorBox').removeClass('hidden');
+                $('#errorMsg').empty().text('使用人姓名不能为空!');
                 return false;
-            }
-            if(us.isEmpty($('#mobile').val().trim())){
-                alert('手机号不能为空!');
+            }else if(us.isEmpty($('#mobile').val().trim())){
+                $('#errorBox').removeClass('hidden');
+                $('#errorMsg').empty().text('手机号不能为空!');
                 return false;
             }
             <%if(4===product.type){%>
-            if($('#isNeed').prop('checked')){
-                if(us.isEmpty($('#title').val().trim())){
-                    alert('发票抬头不能为空!');
-                    return false;
-                }
-                if(us.isEmpty($('#address').val().trim())){
-                    alert('发票地址不能为空!');
-                    return false;
-                }
+            else if( $('#isNeed').prop('checked') && us.isEmpty($('#invoiceTitle').val().trim()) ){
+                $('#errorBox').removeClass('hidden');
+                $('#errorMsg').empty().text('您选择了发票，发票抬头为必填!');
+                return false;
+            }else if($('#isNeed').prop('checked') && us.isEmpty($('#invoiceAdd').val().trim())){
+                $('#errorBox').removeClass('hidden');
+                $('#errorMsg').empty().text('您选择了发票，发票地址为必填!');
+                return false;
             }
            <%}%>
+            $.ajax({
+                url:"/wap/order/submit"
+                ,method:"POST"
+                ,data:$('#formConfirm').serialize()
+            }).done(function(data){
+                        if(data.error == 10010){
+                            window.location.href="/wap/login";
+                        }else if(data.error !=0 ){
+                            //如果报错则显示错误信息
+                            $('#errorBox').removeClass('hidden');
+                            $('#errorMsg').empty().text(data.errorMsg);
+                        }else{
+                            window.location.href="/wap/order/confirm/"+data._id;
+                        }
+                    }).fail(function(){
+                        $('#errorBox').removeClass('hidden');
+                        $('#errorMsg').empty().text("网络异常，请重试！");
+                    });
+
         });
     });
 </script>

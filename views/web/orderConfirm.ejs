@@ -14,29 +14,29 @@
                         		<h4>订单信息</h4>
                         		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tab">
                                       <tr>
-                                        <td width="41%" height="60" align="left" valign="middle"><%=info.name%></td>
-                                        <%if("p"===info.orderType){%>
-                                            <td width="28%" align="left" valign="middle">使用日期：<%=info.time%></td>
-                                        <%}else{%>
-                                            <td width="28%" align="left" valign="middle">有效期：<%=info.time%></td>
-                                        <%}%>
-                                        <td width="15%" align="left" valign="middle"><%=info.num%>张</td>
-                                        <td width="16%" align="left" valign="middle" class="bs-wcy_orange">¥<span class="price"><%=info.total%></span></td>
-                                  </tr>
-                                      <tr>
-                                        <td height="60" align="left" valign="middle"><p>姓名：<%=info.person%></p>
-                                        <p>手机号：<%=info.mobile%></p>
-                                        <%if("y"===info.isNeed){%>
-                                            <p>&nbsp;</p>
-                                            <p>发票类型：<%"p"===info.invoiceType?"个人":"企业"%></p>
-                                            <p>发票抬头：<%=info.invoiceTitle%></p>
-                                            <p>邮寄地址：<%=info.invoiceAdd%></p>
-                                        <%}%>
-                                        </td>
-                                        <td align="left" valign="middle">&nbsp;</td>
-                                        <td align="left" valign="middle">&nbsp;</td>
-                                        <td align="left" valign="middle" class="bs-wcy_orange">&nbsp;</td>
-                                  </tr>
+                                            <td width="41%" height="60" align="left" valign="middle"><%=info.name%></td>
+                                            <%if("p"===info.orderType){%>
+                                                <td width="28%" align="left" valign="middle">使用日期：<%=info.time%></td>
+                                            <%}else{%>
+                                                <td width="28%" align="left" valign="middle">有效期：<%=info.time%></td>
+                                            <%}%>
+                                            <td width="15%" align="left" valign="middle"><%=info.num%>张</td>
+                                            <td width="16%" align="left" valign="middle" class="bs-wcy_orange">¥<span class="price"><%=info.total%></span></td>
+                                        </tr>
+                                          <tr>
+                                            <td height="60" align="left" valign="middle"><p>姓名：<%=info.person%></p>
+                                            <p>手机号：<%=info.mobile%></p>
+                                            <%if("y"===info.isNeed){%>
+                                                <p>&nbsp;</p>
+                                                <p>发票类型：<%="p"==info.invoiceType?"个人":"企业"%></p>
+                                                <p>发票抬头：<%=info.invoiceTitle%></p>
+                                                <p>邮寄地址：<%=info.invoiceAdd%></p>
+                                            <%}%>
+                                            </td>
+                                            <td align="left" valign="middle">&nbsp;</td>
+                                            <td align="left" valign="middle">&nbsp;</td>
+                                            <td align="left" valign="middle" class="bs-wcy_orange">&nbsp;</td>
+                                      </tr>
                           </table>
        		</div>
             <div class="bs-wcy-tickeorderpad">

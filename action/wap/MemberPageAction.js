@@ -65,6 +65,7 @@ exports.doRegister = function(request,response){
     httpClient.postReq({'mobile':mobile,'passwd':passwd},function(err,res){
         if(!err){
             if(0===res.error){
+                //如果注册成功，自动做登录
                 request.session.user = res.data;
                 request.session.autoLogin = true;
                 response.cookie('m',mobile,{'maxAge':7*24*3600*1000});
@@ -108,7 +109,7 @@ exports.forgetPasswd = function(request,response){
     });
 };
 
-exports.userInfo = function(request,response){
+exports.renderUserInfo = function(request,response){
     var id = "";
     if(request.session.user){
         id = request.session.user._id;
@@ -119,21 +120,23 @@ exports.userInfo = function(request,response){
             'method':"GET"
         });
         httpClient.getReq(function(err,res){
-            if(err){
-                response.send(404,err);
+            if(err || 0 != res.error){
+                console.error("renderUserInfo error",err,res);
+                response.redirect("/wap/errorPage");
             } else {
-                if(0===res.error){
-                    response.render('wap/userInfo',{titleName:'个人信息','u':res.data});
-                }else{
-                    response.send(404,res.errorMsg);
+                var prePage = request.headers['referer'];
+                if(!prePage || /userInfo/.test(prePage)){
+                    //如果前置页面是自己，则传空，否则使用前置页面
+                    prePage = "";
                 }
+                response.render('wap/userInfo',{titleName:'个人信息','u':res.data,prePage:prePage});
             }
         });
     }else{
         response.render('wap/login',{titleName:'登录'});
     }
-}
+};
 
 exports.updateUser = function(request,response){
     response.send('/wap/');
-}
+};

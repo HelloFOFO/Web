@@ -7,7 +7,7 @@
         <ul>
             <%for(var i in products){%>
             <li>
-                <a href="/productDetail/<%=products[i]._id%>"><img src="http://dd885.b0.upaiyun.com/<%=products[i].image.length>0?products[i].image[0].url:''%>" alt="<%=products[i].image.length>0?products[i].image[0].intro:''%>"></a>
+                <a href="/productDetail/<%=products[i]._id%>"><img src="http://dd885.b0.upaiyun.com/<%=products[i].image.length>0?products[i].image[0].url:''%>!productListPreview" alt="<%=products[i].image.length>0?products[i].image[0].intro:''%>"></a>
                 <a href="/productDetail/<%=products[i]._id%>" class="cityinfo">
                     <span class="price">￥<span class="pricebig"><%=products[i].price%></span>起</span>
                     <span class="info"><%=products[i].name%></span>
