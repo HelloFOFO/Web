@@ -15,19 +15,27 @@ module.exports = function(app){
 
     app.all('/wap/*',function(request,response,next){
         response.charset = 'utf-8';
-        if(request.session && request.cookies){
-            //如果session超时了，但是cookie里还有东西，则帮用户重新登录
-            if( request.session.autoLogin && !request.session.user && request.cookies.m && request.cookies.p ){
-                console.log('---------------autoLogin--------------------');
-                MemberPageAction.autoLogin(request,function(){
-                    console.log('---------------autoLogin end--------------------');
+        if(  request.query.code && req.headers['user-agent'].indexOf('MicroMessenger') > 0 ){
+            //如果是从weixin来的，直接做autologin
+            MemberPageAction.autoLogin(request,function(){
+                console.log('---------------weixin autoLogin end--------------------');
+                next();
+            });
+        }else{
+            if( ( request.session && request.cookies ) ){
+                //如果session超时了，但是cookie里还有东西，则帮用户重新登录
+                if( request.session.autoLogin && !request.session.user && request.cookies.m && request.cookies.p ){
+                    console.log('---------------autoLogin--------------------');
+                    MemberPageAction.autoLogin(request,function(){
+                        console.log('---------------autoLogin end--------------------');
+                        next();
+                    });
+                } else {
                     next();
-                });
-            } else {
+                }
+            }else{
                 next();
             }
-        }else{
-            next();
         }
     });
 

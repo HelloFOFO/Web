@@ -40,21 +40,51 @@ exports.doLogin = function(request,response){
 };
 
 exports.autoLogin = function(request,fn){
-    var mobile = request.cookies.m;
-    var passwd = request.cookies.p;
-    var httpClient = new HttpClient({
-        'host':Config.inf.host,
-        'port':Config.inf.port,
-        'path':'/member/login',
-        'method':"POST"
-    });
-    httpClient.postReq({'mobile':mobile,'passwd':passwd},function(err,res){
-        if(!err){
-            request.session.user=res.data;
-            request.session.autoLogin=true;
-        }
-        fn();
-    });
+    var code = request.query.code;
+    var useragent = req.headers['user-agent'];
+    if( code && useragent.indexOf('MicroMessenger') > 0 ){
+        //如果是微信用户则用openID登录
+        WeiXin.oAuth(code,function(error,result){
+            if(error){
+                //如果认证出错，则什么都不做
+                fn();
+            }else{
+                //如果认证成功 先把openID写到session里，然后取用户信息，把用户信息也写到session中
+                request.session.openID = result;
+                var httpClient = new HttpClient({
+                    'host':Config.inf.host,
+                    'port':Config.inf.port,
+                    'path':'/member/weixin/'+result,
+                    'method':"GET"
+                });
+                httpClient.getReq(function(err,result){
+                    if(err || result.error != 0){
+                        fn();
+                    }else{
+                        request.session.user=res.data;
+                        request.session.autoLogin=true;
+                        fn();
+                    }
+                });
+            }
+        });
+    }else{
+        var mobile = request.cookies.m;
+        var passwd = request.cookies.p;
+        var httpClient = new HttpClient({
+            'host':Config.inf.host,
+            'port':Config.inf.port,
+            'path':'/member/login',
+            'method':"POST"
+        });
+        httpClient.postReq({'mobile':mobile,'passwd':passwd},function(err,res){
+            if(!err){
+                request.session.user=res.data;
+                request.session.autoLogin=true;
+            }
+            fn();
+        });
+    }
 };
 
 exports.doRegister = function(request,response){
