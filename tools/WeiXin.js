@@ -277,25 +277,66 @@ WeiXin.customer = function (data,cb) {
             values.openid = result.xml.OpenId[0];
             var sign = WeiXin.generateSign(keys,values);
             if(result.xml.AppSignature[0] === sign){
-                cb(null,WeiXin.customer[type](result));
+                WeiXin.customer[type](result,function(e,r){
+                    if(e){
+                        cb("error",r);
+                    }else{
+                        if(0===r.error){
+                            cb(null,"success");
+                        }else{
+                            cb(r.error, r.errorMsg);
+                        }
+                    }
+                });
             }else{
                 cb('error','签名不正确',result.xml.AppSignature[0]+","+sign);
             }
-            ;
         }
     });
 }
 
 //处理用户新增诉求
-WeiXin.customer.request = function(result){
-    //TODO 处理用户新增诉求
-    console.log("新增维权了",JSON.stringify(result));
+WeiXin.customer.request = function(result,cb){
+    var params = {};
+    params.openID = result.xml.OpenId[0];
+    params.msgType = result.xml.MsgType[0];
+    params.feedbackID = result.xml.FeedBackId[0];
+    params.transID = result.xml.TransId[0];
+    params.reason = result.xml.Reason[0];
+    params.solution = result.xml.Solution[0];
+    params.extInfo = result.xml.ExtInfo[0];
+    var opt = {
+        hostname: config.inf.host,
+        port: config.inf.port,
+        path: "/weixin/feedback/create",
+        method: "POST"
+    };
+    new httpsClient(opt).postReq(params,function (err, response) {
+        if (err) {
+            cb("error",err);
+        }else{
+            cb(null,response);
+        }
+    });
 }
 
 //处理用户确认处理完毕
-WeiXin.customer.confirm = function(result){
-    //TODO 处理用户确认处理完毕
-    console.log("确认维权了",JSON.stringify(result));
+WeiXin.customer.confirm = function(result,cb){
+    var params = {};
+    params.msgType = result.xml.MsgType[0];
+    var opt = {
+        hostname: config.inf.host,
+        port: config.inf.port,
+        path: "/weixin/feedback/update/"+result.xml.FeedBackId[0],
+        method: "POST"
+    };
+    new httpsClient(opt).postReq(params,function (err, response) {
+        if (err) {
+            cb("error",err);
+        }else{
+            cb(null,response);
+        }
+    });
 }
 
 //处理用户拒绝处理完毕

@@ -104,7 +104,9 @@ exports.customerNotify = function(req,res){
     });
     req.on('end',function(){
         weixin.customer(_data,function(err,result){
-            console.log(result);
+            if(err){
+                console.log("customer is error:",err,result);
+            }
             res.send("success");
         });
     });
