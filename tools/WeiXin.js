@@ -33,7 +33,6 @@ WeiXin.check = function (signature, timestamp, nonce) {
 WeiXin.message = function (xml, cb) {
     var parseString = require('xml2js').parseString;
     parseString(xml, function (err, result) {
-        console.log("===============" + JSON.stringify(result));
         var msgType = result.xml.MsgType[0];
         cb(err, WeiXin[msgType](result));
     });
@@ -83,6 +82,7 @@ WeiXin.event = function (xml) {
 
 //send msg
 WeiXin.sendMsg.news = function (to, from) {
+    console.log("send new "+to);
     return "<xml>"
         + "<ToUserName><![CDATA[" + to + "]]></ToUserName>"
         + "<FromUserName><![CDATA[" + from + "]]></FromUserName>"
@@ -117,7 +117,6 @@ WeiXin.getAT = function (fn) {
             method: "GET"
         };
         new httpsClient(opt).getReq(function (err, response) {
-            console.log(response);
             if (response.access_token) {
                 WeiXin.ACCESS_TOKEN = response.access_token;
                 WeiXin.expressTime = new Date().getTime() + response.expires_in * 1000;
@@ -173,7 +172,7 @@ WeiXin.createMenu = function (fn) {
                     {
                         "type": "view",
                         "name": "官方发布",
-                        "url": "www.baidu.com"
+                        "url": "http://cloud.bingdian.com/weixin/pay/order?showwxpaytitle=1"
                     }
                 ]
             },
@@ -225,6 +224,44 @@ WeiXin.delMenu = function (fn) {
     });
 }
 
+//deliver notify
+WeiXin.deliver = function(openid,transid,out_trade_no,cb){
+    //postParams
+    var params = {};
+    params.appid = config.wx.appID;
+    params.openid = openid;
+    params.transid = transid;
+    params.out_trade_no = out_trade_no;
+    params.deliver_timestamp = Math.round((new Date().getTime()/1000)).toString();
+    params.deliver_status = "1"; //1 deliver success  2 deliver failed,if failed then deliver_msg is set failed reason
+    params.deliver_msg = "OK";
+    params.appkey = config.wx.paySignKey; //only generate sign use it\
+    var keys = ["appid","appkey","openid","transid","out_trade_no","deliver_timestamp","deliver_status","deliver_msg"];
+    params.app_signature = WeiXin.generateSign(keys,params);
+    params.sign_method = "sha1";
+    //params delete appkey
+    delete params.appKey;
+    var opt = {
+        hostname: config.wx.wxhost,
+        port: config.wx.wxport,
+        path: "/pay/delivernotify?access_token=" + WeiXin.ACCESS_TOKEN,
+        method: "POST"
+    };
+    new httpsClient(opt).postReq(params,function (err, response) {
+        if (err) {
+            cb("error",err);
+        }else{
+            if(response.errcode!==0){
+                cb(response.errcode,response.errmsg);
+            }else{
+                cb(null,response.errmsg);
+            }
+
+        }
+
+    });
+}
+
 //customer
 WeiXin.customer = function (data,cb) {
     parseString(data, function (err, result) {
@@ -235,10 +272,10 @@ WeiXin.customer = function (data,cb) {
             var keys = ["appId","appKey","timestamp","openId"];
             var values = {};
             values.appId = config.wx.appID;
-            values.appKey = config.wx.appsecret;
+            values.appKey = config.wx.paySignKey;
             values.timestamp = result.xml.TimeStamp[0];
             values.openId = result.xml.OpenId[0];
-            if(isPass(keys,values,result.xml.AppSignature[0])){
+            if(result.xml.AppSignature[0] === WeiXin.generateSign(keys,values)){
                 cb(null,WeiXin.customer[type](result));
             }else{
                 cb('error','签名不正确');
@@ -251,42 +288,87 @@ WeiXin.customer = function (data,cb) {
 //处理用户新增诉求
 WeiXin.customer.request = function(result){
     //TODO 处理用户新增诉求
+    console.log("新增维权了",JSON.stringify(result));
 }
 
 //处理用户确认处理完毕
 WeiXin.customer.confirm = function(result){
     //TODO 处理用户确认处理完毕
+    console.log("确认维权了",JSON.stringify(result));
 }
 
 //处理用户拒绝处理完毕
 WeiXin.customer.reject = function(result){
     //TODO 处理用户拒绝处理完毕
+    console.log("拒绝维权了",JSON.stringify(result));
 }
 
-//签名验证
-function isPass(keys,values,signature){
+//feedback
+WeiXin.feedback = function(openid,feedbackid,cb){
+    var opt = {
+        hostname: config.wx.wxhost,
+        port: config.wx.wxport,
+        path: "/payfeedback/update?access_token=" + WeiXin.ACCESS_TOKEN + "&openid=" + openid + "&feedbackid=" + feedbackid,
+        method: "GET"
+    };
+    new httpsClient(opt).getReq(function (err, response) {
+        if (err) {
+            cb("error",err);
+        }else{
+            if(0!==response.errcode){
+                cb(response.errcode,response.errmsg);
+            }else{
+                cb(null,"ok");
+            }
+        }
+    });
+}
+
+//pay notify
+WeiXin.payNotify = function(xml,cb){
+    var parseString = require('xml2js').parseString;
+    parseString(xml, function (err, result) {
+        if(err){
+            cb("error",err);
+        }else{
+            var data = {};
+            data.appid = result.xml.AppId[0];
+            data.appkey = config.wx.paySignKey;
+            data.timestamp = result.xml.TimeStamp[0];
+            data.noncestr = result.xml.NonceStr[0];
+            data.openid = result.xml.OpenId[0];
+            data.issubscribe = result.xml.IsSubscribe[0];
+            var keys = ["appid","appkey","timestamp","noncestr","openid","issubscribe"];
+            var sign = WeiXin.generateSign(keys,data);
+            if(result.xml.AppSignature[0]===sign){
+                cb(null, data.openid);
+            }else{
+                cb("error","sign is not true,"+result.xml.AppSignature[0]+","+sign);
+            }
+        }
+    });
+}
+
+//生成签名
+WeiXin.generateSign = function(keys,values){
     keys.sort();
     //generator keyvalue string
     var str = "";
     var isFirst = true;
-    for(var key in keys){
+    keys.forEach(function(key){
         if(isFirst){
             str = key + "=" + values[key];
             isFirst = false;
         }else{
             str = str + "&" + key + "=" + values[key];
         }
-    }
-    //compare
+    });
+    //generate
     var crypto = require('crypto');
     var shasum = crypto.createHash('sha1');
     shasum.update(str);
     var mySign = shasum.digest('hex');
-    if (mySign === signature) {
-        return true;
-    } else {
-        return false;
-    }
+    return mySign;
 }
 
 //oAuth2.0

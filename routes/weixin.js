@@ -10,8 +10,10 @@ module.exports = function(app){
     app.get('/weixin/menu',WeiXinAction.createMenu);
     app.get('/weixin/delMenu',WeiXinAction.delMenu);
     //pay
-    app.all('/weixin/order',WeiXinAction.order);
-    app.all('/weixin/paynotify',WeiXinAction.payNotify);
+    app.all('/weixin/pay/order',WeiXinAction.order);
+    app.post('/weixin/pay/paynotify',WeiXinAction.payNotify);
+    app.get('/weixin/deliver',WeiXinAction.deliver);
     //customer
-    app.post('weixin/customer',WeiXinAction.customerNotify);
+    app.post('/weixin/customer',WeiXinAction.customerNotify);
+    app.get('/weixin/feedback',WeiXinAction.feedback);
 };

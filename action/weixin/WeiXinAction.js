@@ -35,7 +35,6 @@ exports.msgNotify = function(req,res){
         });
         req.on('end',function(){
             weixin.message(_data,function(err,result){
-                console.log(result);
                 res.send(result);
             });
         });
@@ -47,21 +46,22 @@ exports.msgNotify = function(req,res){
 //pay
 exports.order = function(req,res){
     var msg = "";
+    var ip = req.ip;
     var useragent = req.headers['user-agent'];
-//    if(useragent.indexOf('MicroMessenger')<0){
-//        msg = '不支持微信以外的游览器';
-//    }
-//    var wxVer = parseInt(useragent.substr(useragent.lastIndexOf('/')+1,1));
-//    if(wxVer<=4&&""===msg){
-//        msg = '微信版本过低，无法支付，请升级';
-//    }
+    if(useragent.indexOf('MicroMessenger')<0){
+        msg = '不支持微信以外的游览器';
+    }
+    var wxVer = parseInt(useragent.substr(useragent.lastIndexOf('/')+1,1));
+    if(wxVer<=4&&""===msg){
+        msg = '微信版本过低，无法支付，请升级';
+    }
     if(""===msg){
         var wx = {};
         wx.appId = config.wx.appID;
         wx.partnerId = config.wx.partnerId;
         wx.key = config.wx.paySignKey;
         wx.partnerKey = config.wx.partnerKey;
-        console.log("coming");
+        wx.ip = ip;
         res.render('weixin/test',{wx:wx});
 //        res.render('weixin/demo');
     }else{
@@ -69,9 +69,31 @@ exports.order = function(req,res){
     }
 };
 
+//payNotify
 exports.payNotify = function(req,res){
-    console.log("===================",JSON.stringify(req.body));
-//    res.send("success");
+    var _data = "";
+    req.on('data',function(chunk){
+        _data+=chunk;
+    });
+    req.on('end',function(){
+        weixin.payNotify(_data,function(err,result){
+            console.log(err,result);
+        });
+    });
+    res.send("success");
+}
+
+//deliver
+exports.deliver = function(req,res){
+    var openid = req.query.openid;
+    var transid = req.query.transid;
+    var out_trade_no = req.query.out_trade_no;
+    weixin.getAT(function(){
+        weixin.deliver(openid,transid,out_trade_no,function(e,r){
+            console.log(e,r);
+            res.send('fin');
+        });
+    });
 }
 
 //customer
@@ -81,12 +103,24 @@ exports.customerNotify = function(req,res){
         _data+=chunk;
     });
     req.on('end',function(){
-        weixin.message(_data,function(err,result){
+        weixin.customer(_data,function(err,result){
             console.log(result);
-            res.send(result);
+            res.send("success");
         });
     });
 }
+
+exports.feedback = function(req,res){
+    var openid = req.query.openid;
+    var feedbackid = req.query.feedbackid;
+    weixin.getAT(function(){
+        weixin.feedback(openid,feedbackid,function(err,result){
+            console.log(err,result);
+            res.send("fin");
+        });
+    });
+}
+
 //menu
 exports.createMenu = function(req,res){
     weixin.getAT(function(){
