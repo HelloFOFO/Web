@@ -41,7 +41,7 @@ exports.doLogin = function(request,response){
 
 exports.autoLogin = function(request,fn){
     var code = request.query.code;
-    var useragent = req.headers['user-agent'];
+    var useragent = request.headers['user-agent'];
     if( code && useragent.indexOf('MicroMessenger') > 0 ){
         //如果是微信用户则用openID登录
         WeiXin.oAuth(code,function(error,result){
