@@ -56,7 +56,7 @@ exports.getProductList = function(request,response){
                 cb('auth error',null);
             }else{
                 //如果微信认证成功，则把openID写到Session中
-                req.session.WEIXIN.openID = result;
+                request.session.openID = result;
                 cb(null,result);
             }
         });

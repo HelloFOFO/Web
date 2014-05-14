@@ -20,7 +20,7 @@ exports.doLogin = function(request,response){
     });
     var postData = {'mobile':mobile,'passwd':passwd};
     if(req.session.user.openID){
-        postData.openID=req.session.WEIXIN.openID;
+        postData.openID=req.session.openID;
     }
     httpClient.postReq(postData,function(err,res){
         if(err){
