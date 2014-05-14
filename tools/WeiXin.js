@@ -269,16 +269,17 @@ WeiXin.customer = function (data,cb) {
         if(err){
             cb('error','数据异常无法解析');
         }else{
-            var keys = ["appId","appKey","timestamp","openId"];
+            var keys = ["appid","appkey","timestamp","openid"];
             var values = {};
-            values.appId = config.wx.appID;
-            values.appKey = config.wx.paySignKey;
+            values.appid = config.wx.appID;
+            values.appkey = config.wx.paySignKey;
             values.timestamp = result.xml.TimeStamp[0];
-            values.openId = result.xml.OpenId[0];
-            if(result.xml.AppSignature[0] === WeiXin.generateSign(keys,values)){
+            values.openid = result.xml.OpenId[0];
+            var sign = WeiXin.generateSign(keys,values);
+            if(result.xml.AppSignature[0] === sign){
                 cb(null,WeiXin.customer[type](result));
             }else{
-                cb('error','签名不正确');
+                cb('error','签名不正确',result.xml.AppSignature[0]+","+sign);
             }
             ;
         }
