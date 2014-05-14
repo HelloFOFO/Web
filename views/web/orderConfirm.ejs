@@ -46,11 +46,15 @@
               </div>
             </div>
                 </div>
-                <input type="submit" class="btn bs-ticketsubmit btn-lg" value="去付款">
+                <!--<input type="submit" class="btn bs-ticketsubmit btn-lg" value="去付款">-->
+            <a class="btn bs-ticketsubmit btn-lg" target="_blank" href="/web/reqTrade/<%=info._id%>/<%=info.oid%>"> 去付款 </a>
     	 </div>
-          <!-- hidden fields -->
-          <input type="hidden" name="oid" value="<%=info.oid%>"/>
-          <input type="hidden" name="_id" value="<%=info._id%>"/>
        </form>
  </div>
+<script>
+  $('form1').submit(function(e){
+      e.preventDefault();
+
+  });
+</script>
 <%include footer%>

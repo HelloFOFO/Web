@@ -18,7 +18,11 @@ exports.doLogin = function(request,response){
         'path':'/member/login',
         'method':"POST"
     });
-    httpClient.postReq({'mobile':mobile,'passwd':passwd},function(err,res){
+    var postData = {'mobile':mobile,'passwd':passwd};
+    if(req.session.user.openID){
+        postData.openID=req.session.WEIXIN.openID;
+    }
+    httpClient.postReq(postData,function(err,res){
         if(err){
             response.send('系统异常，请重试!');
         } else {
@@ -92,7 +96,7 @@ exports.forgetPasswd = function(request,response){
         'path':'/member/password/change',
         'method':"POST"
     });
-    httpClient.postReq({'mobile':mobile,'passwd':passwd},function(err,res){
+    httpClient.postReq({'mobile':mobile,'passwd':passwd,code:code},function(err,res){
         if(err){
             response.send('系统异常，请重试!');
         } else {

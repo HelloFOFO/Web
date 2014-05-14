@@ -61,7 +61,7 @@ module.exports = function(app){
 
     //alipay for web
     app.get('/web/reqTrade/:_id/:oid',AlipayWebAction.getReqTrade);
-    app.post('/web/reqTrade',AlipayWebAction.reqTrade);
+//    app.post('/web/reqTrade',AlipayWebAction.reqTrade);
     app.post('/web/notify/:id',AlipayWebAction.notify);
     app.get('/web/callback/:id',AlipayWebAction.callBack);
 

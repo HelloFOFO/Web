@@ -4,33 +4,6 @@
 var alipay = require('./../../tools/Alipay.js');
 var HttpClient = require('./../../tools/HttpClient.js');
 var Config = require('./../../tools/Config.js');
-//trade request
-exports.reqTrade = function(req,res){
-    //for Test
-    var _id = req.body._id;
-    var tradeNo = req.body.oid;
-    var total_fee = "0.01";
-    var httpClient = new HttpClient({
-        'host':Config.inf.host,
-        'port':Config.inf.port,
-        'path':'/order/detail/'+_id,
-        'method':"GET"
-    });
-    try{
-        httpClient.getReq(function(err,result){
-            if(err){
-                res.send(404,"error is "+err);
-            }else{
-                var subject = result.data.product.name;
-//                total_fee = result.data.totalPrice+"";
-                res.send(alipay.web.reqTrade(_id,tradeNo,subject,total_fee));
-            }
-        });
-    }catch(e){
-        res.send(404,"error is "+ e.message);
-    }
-}
-
 //get 交易请求
 exports.getReqTrade = function(req,res){
     //for Test
@@ -54,7 +27,7 @@ exports.getReqTrade = function(req,res){
             }
         });
     }catch(e){
-        res.send(404,"error is "+ e.message);
+        res.redirect("/errorPage");
     }
 }
 
@@ -358,3 +331,30 @@ exports.notify = function(req,res){
         }
     });
 };
+
+////trade request
+//exports.reqTrade = function(req,res){
+//    //for Test
+//    var _id = req.body._id;
+//    var tradeNo = req.body.oid;
+//    var total_fee = "0.01";
+//    var httpClient = new HttpClient({
+//        'host':Config.inf.host,
+//        'port':Config.inf.port,
+//        'path':'/order/detail/'+_id,
+//        'method':"GET"
+//    });
+//    try{
+//        httpClient.getReq(function(err,result){
+//            if(err){
+//                res.send(404,"error is "+err);
+//            }else{
+//                var subject = result.data.product.name;
+////                total_fee = result.data.totalPrice+"";
+//                res.send(alipay.web.reqTrade(_id,tradeNo,subject,total_fee));
+//            }
+//        });
+//    }catch(e){
+//        res.send(404,"error is "+ e.message);
+//    }
+//};

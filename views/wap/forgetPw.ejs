@@ -2,23 +2,24 @@
 <div class="container">
         <form role="form" class="wap-forgetPw" id="forgetForm">
                   <div class="form-group">
-                         <input type="mobile" class="form-control"  placeholder="手机号" id="mobile">
+                         <input type="mobile" class="form-control"  placeholder="手机号" id="f_mobile">
                          <div id="yzminfo" class="yzminfo"></div>
                   </div>
                   <div class="form-group  wap-clear">
                                 <div class="yzInput"><input type="Captcha" class="form-control Captcha" id="Captcha" placeholder="手机验证码">&nbsp;</div>
                                 <div class="yzInputBt"><input type="button" value="获取验证码" class="btn btn-block wap-CaptchaBt"   id="fsyzm"  onclick="getmobile()"  ></div>
                                 <script type="text/javascript">
-                                      var Time=60;
-                                      var c=Time;
+                                      var pwc=60;
+                                      var c=pwc;
                                       function timedCount(){
                                           document.getElementById('fsyzm').value="重新获取(" + c + ")";
                                           document.getElementById('fsyzm').disabled="disabled";
                                           document.getElementById('fsyzm').className = "btn btn-block wap-CaptchaUnlinkBt";
+                                          if(c==60){getSMSCode('forget');}//第一次循环的时候才调获取短信验证码接口
                                           c=c-1;
-                                          t=setTimeout("timedCount()",1000)
+                                          pwt=setTimeout("timedCount()",1000)
                                           if(c<0){
-                                              c=Time;
+                                              c=pwc;
                                               stopCount();
                                               document.getElementById('fsyzm').value="重获验证码";
                                               document.getElementById('fsyzm').removeAttribute("disabled");
@@ -26,10 +27,10 @@
                                           }
                                       }
                                       function stopCount(){
-                                          clearTimeout(t);
+                                          clearTimeout(pwt);
                                       }
                                       function getmobile(){
-                                            var mobile=document.getElementById('mobile').value;
+                                            var mobile=document.getElementById('f_mobile').value;
                                             if(mobile==null || mobile=="" ){
                                                 /*alert("空");*/
                                                  document.getElementById('yzminfo').innerHTML="请输入手机号";
@@ -48,6 +49,59 @@
                                                         }
                                                 }
                                           }
+                                      //发送验证码
+                                      var getSMSCode = function(type){
+                                          //传入参数为 string:'register | forget '
+                                          var mobile = "";
+                                          var errorBox,errorMsg;
+                                          if(type=="register"){
+                                              mobile=document.getElementById('r_mobile').value;
+                                              errorBox=$('#r_error');
+                                              errorMsg=$('#r_errorMsg');
+                                          }else if(type="forget"){
+                                              mobile=document.getElementById('f_mobile').value;
+                                              errorBox=$('#f_error');
+                                              errorMsg=$('#f_errorMsg');
+                                          }
+                                          $.ajax({
+                                              url:"/getVerifyCode"
+                                              ,method:"POST"
+                                              ,data:{mobile:mobile,type:type}
+                                          }).done(function(data){
+                                                      if(data.error!=0){
+                                                          //后台判断的错误信息展示
+                                                          errorBox.removeClass('hidden');
+                                                          errorMsg.text(data.errorMsg);
+                                                          if(type=='register'){
+                                                              document.getElementById('fsyzm').value = "发送验证码";
+                                                              document.getElementById('fsyzm').removeAttribute("disabled");
+                                                              c=60;
+                                                              clearTimeout(t);
+                                                          }else{
+                                                              pwc=60;
+                                                              clearTimeout(pwt);
+                                                              document.getElementById('pwfsyzm').value = "发送验证码";
+                                                              document.getElementById('pwfsyzm').removeAttribute("disabled");
+                                                          }
+                                                      }else{
+                                                          //发成功了就隐藏掉
+                                                          errorBox.addClass('hidden');
+                                                      }
+                                                  }).fail(function(data){
+                                                      //发失败的报错
+                                                      errorBox.removeClass('hidden');
+                                                      errorMsg.text('获取验证码失败！');
+                                                      document.getElementById('fsyzm').value = "发送验证码";
+                                                      document.getElementById('fsyzm').removeAttribute("disabled");
+                                                      if(type=='register'){
+                                                          c=60;
+                                                          clearTimeout(t);
+                                                      }else{
+                                                          pwc=60;
+                                                          clearTimeout(pwt);
+                                                      }
+                                                  });
+                                      };
                                   </script>
                   </div>
                   <div class="form-group  wap-clear">
@@ -74,27 +128,23 @@
         var us = _.noConflict();
         $('#forgetForm').submit(function(e){
             e.preventDefault();
-            if(us.isEmpty($('#mobile').val())){
+            if(us.isEmpty($('#f_mobile').val())){
                 $('#f_error').removeClass('hidden');
                 $('#f_errorMsg').text('手机号不能为空!');
                 return false;
-            }
-            if(us.isEmpty($('#Captcha').val())){
+            }else if(us.isEmpty($('#Captcha').val())){
                 $('#f_error').removeClass('hidden');
                 $('#f_errorMsg').text('验证码不能为空!');
                 return false;
-            }
-            if(us.isEmpty($('#password').val())){
+            }else if(us.isEmpty($('#password').val())){
                 $('#f_error').removeClass('hidden');
                 $('#f_errorMsg').text('新密码不能为空!');
                 return false;
-            }
-            if(us.isEmpty($('#confirmPW').val())){
+            }else if(us.isEmpty($('#confirmPW').val())){
                 $('#f_error').removeClass('hidden');
                 $('#f_errorMsg').text('确认密码不能为空!');
                 return false;
-            }
-            if($('#password').val()!==$('#confirmPW').val()){
+            }else if($('#password').val()!==$('#confirmPW').val()){
                 $('#f_error').removeClass('hidden');
                 $('#f_errorMsg').text('新密码和确认密码不一致!');
                 return false;
@@ -104,7 +154,7 @@
                 'url':'/wap/doForget',
                 'type':'post',
                 'data':{
-                    'mobile':$('#mobile').val(),
+                    'mobile':$('#f_mobile').val(),
                     'passwd':faultylabs.MD5($('#password').val()).toLowerCase(),
                     'code':$('#Captcha').val()
                 }

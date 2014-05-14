@@ -47,32 +47,56 @@ exports.getProducts = function(request,response){
 //微信页面中需要用到的产品列表 传进来 ticket ticketPackage package三个字段
 exports.getProductList = function(request,response){
     console.log("==============================="+request.query.code,request.query.state);
-    WeiXin.oAuth(request.query.code,function(error,result){
-
-    });
-    var productType = request.params.type;
-    if( productType == 'ticket' || productType == 'ticketPackage' || productType == 'package三个字段'){
-        try{
-            var httpClient = new HttpClient({
-                'host':Config.inf.host,
-                'port':Config.inf.port,
-                'path':'/product/'+productType+'/webList',
-                'method':"GET"
-            });
-            httpClient.getReq(function(err,res){
-                if(err || res.error != 0 ){
-                    console.log('wap getProductList',err,res);
-                    response.redirect('wap/errorPage');
-                } else {
-                    response.render('wap/productList',{'titleName':'商品列表','products':res.data});
+    async.waterfall([
+       function(cb){
+        //先做微信认证
+        var code = request.query.code?request.query.code:"";
+        WeiXin.oAuth(code,function(error,result){
+            if(error){
+                cb('auth error',null);
+            }else{
+                //如果微信认证成功，则把openID写到Session中
+                req.session.WEIXIN.openID = result;
+                cb(null,result);
+            }
+        });
+    },function(cb,result){
+        //如果认证通过则查产品列表
+            var productType = request.params.type;
+            if( productType == 'ticket' || productType == 'ticketPackage' || productType == 'package三个字段'){
+                try{
+                    var httpClient = new HttpClient({
+                        'host':Config.inf.host,
+                        'port':Config.inf.port,
+                        'path':'/product/'+productType+'/webList',
+                        'method':"GET"
+                    });
+                    httpClient.getReq(function(err,res){
+                        if(err || res.error != 0 ){
+                            cb(res,null);
+                        } else {
+                            cb(null,{'titleName':'商品列表','products':res.data});
+                        }
+                    });
+                }catch(e){
+                    cb(e.message,null);
                 }
-            });
-        }catch(e){
+            }else{
+                cb('productType error',null);
+            }
+    }],function(err,result){
+        if(err){
+            console.err(err);
             response.redirect('wap/errorPage');
+        }else{
+            response.render('wap/productList',result);
         }
-    }else{
-        response.redirect('wap/errorPage');
-    }
+    });
+
+
+
+
+
 };
 
 var productLevelConvert = function(productLevel,productType){
