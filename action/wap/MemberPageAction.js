@@ -19,8 +19,8 @@ exports.doLogin = function(request,response){
         'method':"POST"
     });
     var postData = {'mobile':mobile,'passwd':passwd};
-    if(req.session.user.openID){
-        postData.openID=req.session.openID;
+    if(request.session.openID){
+        postData.openID=request.session.openID;
     }
     httpClient.postReq(postData,function(err,res){
         if(err){

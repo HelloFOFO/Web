@@ -60,7 +60,7 @@ exports.getProductList = function(request,response){
                 cb(null,result);
             }
         });
-    },function(cb,result){
+    },function(result,cb){
         //如果认证通过则查产品列表
             var productType = request.params.type;
             if( productType == 'ticket' || productType == 'ticketPackage' || productType == 'package三个字段'){
