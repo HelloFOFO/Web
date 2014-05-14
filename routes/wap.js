@@ -15,7 +15,7 @@ module.exports = function(app){
 
     app.all('/wap/*',function(request,response,next){
         response.charset = 'utf-8';
-        if(  request.query.code && req.headers['user-agent'].indexOf('MicroMessenger') > 0 ){
+        if(  request.query.code && request.headers['user-agent'].indexOf('MicroMessenger') > 0 ){
             //如果是从weixin来的，直接做autologin
             MemberPageAction.autoLogin(request,function(){
                 console.log('---------------weixin autoLogin end--------------------');
