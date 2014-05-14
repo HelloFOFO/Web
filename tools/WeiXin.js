@@ -340,9 +340,22 @@ WeiXin.customer.confirm = function(result,cb){
 }
 
 //处理用户拒绝处理完毕
-WeiXin.customer.reject = function(result){
-    //TODO 处理用户拒绝处理完毕
-    console.log("拒绝维权了",JSON.stringify(result));
+WeiXin.customer.reject = function(result,cb){
+    var params = {};
+    params.msgType = result.xml.MsgType[0];
+    var opt = {
+        hostname: config.inf.host,
+        port: config.inf.port,
+        path: "/weixin/feedback/update/"+result.xml.FeedBackId[0],
+        method: "POST"
+    };
+    new httpsClient(opt).postReq(params,function (err, response) {
+        if (err) {
+            cb("error",err);
+        }else{
+            cb(null,response);
+        }
+    });
 }
 
 //feedback

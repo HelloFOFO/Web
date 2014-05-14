@@ -3,6 +3,7 @@
  */
 var weixin = require('./../../tools/WeiXin');
 var config = require('./../../tools/Config');
+var HttpClient = require('./../../tools/HttpClient');
 //verify
 exports.notify = function(req,res){
     var signature = req.query.signature;
@@ -77,21 +78,70 @@ exports.payNotify = function(req,res){
     });
     req.on('end',function(){
         weixin.payNotify(_data,function(err,result){
-            console.log(err,result);
+            if(err){
+                res.send("fail");
+            }else{
+                var httpClient = new HttpClient({
+                    'host':config.inf.host,
+                    'port':config.inf.port,
+                    'path':'/order/detail/'+req.params.id,
+                    'method':"GET"
+                });
+                try{
+                    httpClient.getReq(function(e,r){
+                        if(e){
+                            res.send("fail");
+                        }else{
+                            if(0===r.error){
+                                if(0===r.data.status&&0===req.query.trade_state){
+                                        var hc = new HttpClient({
+                                            'host':config.inf.host,
+                                            'port':config.inf.port,
+                                            'path':'/order/update/'+req.params.id,
+                                            'method':"POST"
+                                        });
+                                        hc.postReq({status:1,operator:'5320ffb06532aa00951ff5e1',transID:req.query.transaction_id},function(er,rs){
+                                            if(er){
+                                                res.send("fail");
+                                            }else{
+                                                if(0===rs.error){
+                                                    res.send("success");
+                                                }else{
+                                                    res.send("fail");
+                                                }
+                                            }
+                                        });
+                                }
+                            }else{
+                                res.send("fail");
+                            }
+                        }
+                    });
+                }catch(e){
+                    console.log(e.message);
+                    res.send("fail");
+                }
+            }
         });
     });
-    res.send("success");
 }
 
 //deliver
 exports.deliver = function(req,res){
+    var response = {};
     var openid = req.query.openid;
     var transid = req.query.transid;
     var out_trade_no = req.query.out_trade_no;
     weixin.getAT(function(){
         weixin.deliver(openid,transid,out_trade_no,function(e,r){
-            console.log(e,r);
-            res.send('fin');
+            if(e){
+                response.error = 1;
+                response.errorMsg = r;
+            }else{
+                response.error = 0;
+                response.errorMsg = r;
+            }
+            res.send(response);
         });
     });
 }
@@ -113,12 +163,19 @@ exports.customerNotify = function(req,res){
 }
 
 exports.feedback = function(req,res){
+    var response = {};
     var openid = req.query.openid;
     var feedbackid = req.query.feedbackid;
     weixin.getAT(function(){
         weixin.feedback(openid,feedbackid,function(err,result){
-            console.log(err,result);
-            res.send("fin");
+            if(err){
+                response.error = 1;
+                response.errorMsg = err;
+            }else{
+                response.error = 0;
+                response.errorMsg = result;
+            }
+            res.send(response);
         });
     });
 }

@@ -11,7 +11,7 @@ module.exports = function(app){
     app.get('/weixin/delMenu',WeiXinAction.delMenu);
     //pay
     app.all('/weixin/pay/order',WeiXinAction.order);
-    app.post('/weixin/pay/paynotify',WeiXinAction.payNotify);
+    app.post('/weixin/pay/paynotify/:id',WeiXinAction.payNotify);
     app.get('/weixin/deliver',WeiXinAction.deliver);
     //customer
     app.post('/weixin/customer',WeiXinAction.customerNotify);

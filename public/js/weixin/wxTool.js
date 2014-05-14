@@ -19,12 +19,12 @@ function getNonceStr(){
     return noceStr;
 }
 
-function getPackage(pName,orderId,partnerId,ip,totalFee,partnerKey){
+function getPackage(pName,orderId,order_id,partnerId,ip,totalFee,partnerKey){
     var banktype = "WX";
     var body = pName;//商品名称信息，这里由测试网页填入。
     var fee_type = "1";//费用类型，这里1为默认的人民币
     var input_charset = "UTF-8";//字符集
-    var notify_url = "http://cloud.bingdian.com/weixin/pay/paynotify";//支付成功后将通知该地址
+    var notify_url = "http://cloud.bingdian.com/weixin/pay/paynotify/"+order_id;//支付成功后将通知该地址
     var out_trade_no = orderId;//订单号，商户需要保证该字段对于本商户的唯一性
     var partner = partnerId;//测试商户号
     var spbill_create_ip = ip;//用户浏览器的ip，这个需要在前端获取。这里使用127.0.0.1测试值
