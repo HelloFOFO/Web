@@ -9,6 +9,7 @@ var MemberPageAction = require('./../action/wap/MemberPageAction');
 var AlipayWapAction = require('./../action/wap/AlipayWapAction');
 var OrderAction = require('./../action/wap/OrderAction');
 var UserAuth = require('./../tools/UserAuth.js');
+var WeiXin = require('./../../tools/WeiXin');
 
 var us = require('underscore');
 module.exports = function(app){

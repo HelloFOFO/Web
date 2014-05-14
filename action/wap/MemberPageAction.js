@@ -3,6 +3,7 @@
  */
 var HttpClient = require('./../../tools/HttpClient.js');
 var Config = require('./../../tools/Config');
+var WeiXin = require('./../../tools/WeiXin');
 
 exports.doLogin = function(request,response){
     var mobile = request.body.mobile?request.body.mobile:request.cookies.m;
