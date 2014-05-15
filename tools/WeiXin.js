@@ -2,6 +2,7 @@
  * @author zzy
  */
 var httpsClient = require("./HttpsClient.js");
+var httpClient = require("./HttpClient.js");
 var config = require("./Config.js");
 var us = require('underscore');
 var parseString = require('xml2js').parseString;
@@ -240,14 +241,14 @@ WeiXin.deliver = function(openid,transid,out_trade_no,cb){
     params.app_signature = WeiXin.generateSign(keys,params);
     params.sign_method = "sha1";
     //params delete appkey
-    delete params.appKey;
+    delete params.appkey;
     var opt = {
         hostname: config.wx.wxhost,
         port: config.wx.wxport,
         path: "/pay/delivernotify?access_token=" + WeiXin.ACCESS_TOKEN,
         method: "POST"
     };
-    new httpsClient(opt).postReq(params,function (err, response) {
+    new (opt).postReq(params,function (err, response) {
         if (err) {
             cb("error",err);
         }else{
@@ -311,7 +312,7 @@ WeiXin.customer.request = function(result,cb){
         path: "/weixin/feedback/create",
         method: "POST"
     };
-    new httpsClient(opt).postReq(params,function (err, response) {
+    new httpClient(opt).postReq(params,function (err, response) {
         if (err) {
             cb("error",err);
         }else{
@@ -330,7 +331,7 @@ WeiXin.customer.confirm = function(result,cb){
         path: "/weixin/feedback/update/"+result.xml.FeedBackId[0],
         method: "POST"
     };
-    new httpsClient(opt).postReq(params,function (err, response) {
+    new httpClient(opt).postReq(params,function (err, response) {
         if (err) {
             cb("error",err);
         }else{
@@ -349,7 +350,7 @@ WeiXin.customer.reject = function(result,cb){
         path: "/weixin/feedback/update/"+result.xml.FeedBackId[0],
         method: "POST"
     };
-    new httpsClient(opt).postReq(params,function (err, response) {
+    new httpClient(opt).postReq(params,function (err, response) {
         if (err) {
             cb("error",err);
         }else{
@@ -366,7 +367,7 @@ WeiXin.feedback = function(openid,feedbackid,cb){
         path: "/payfeedback/update?access_token=" + WeiXin.ACCESS_TOKEN + "&openid=" + openid + "&feedbackid=" + feedbackid,
         method: "GET"
     };
-    new httpsClient(opt).getReq(function (err, response) {
+    new httpClient(opt).getReq(function (err, response) {
         if (err) {
             cb("error",err);
         }else{
