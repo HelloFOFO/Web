@@ -367,7 +367,7 @@ WeiXin.feedback = function(openid,feedbackid,cb){
         path: "/payfeedback/update?access_token=" + WeiXin.ACCESS_TOKEN + "&openid=" + openid + "&feedbackid=" + feedbackid,
         method: "GET"
     };
-    new httpClient(opt).getReq(function (err, response) {
+    new httpsClient(opt).getReq(function (err, response) {
         if (err) {
             cb("error",err);
         }else{

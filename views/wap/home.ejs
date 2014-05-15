@@ -130,15 +130,7 @@
 
             //刷新热门产品列表
             var refreshHotProduct = function(city){
-//                var proudctStr =    '<li>'+
-//                        '<a href="/productDetail/__productid__">'+
-//                        '<div class="imgbox"><img src="__imageurl__" alt="__imagename__"></div>'+
-//                        '<div class="price">￥<span>__price__</span></div>'+
-//                        '<div class="name" title="__productname__">__productShortname__</div>'+
-//                        '</a>'
-//                '</li>';
-
-                var productStr = '<div class="col-xs-6">'+
+                var proudctStr = '<div class="col-xs-6">'+
                                     '<div class="listProBox">'+
                                         '<div class="imgbox">' +
                                             '<a href="/wap/productDetail/__productid__/__producttype__"><img  src="__imageurl__!WapPreview"></a>'+
@@ -159,14 +151,13 @@
                 }).done(function(data){
                             var hotProductListStr = "";
                             $.each(data.data,function(index,data){
-
                                 hotProductListStr += proudctStr.replace(/__imageurl__/,data.image.url)
                                         .replace(/__imagename__/,data.image.intro)
                                         .replace(/__price__/,data.price)
-                                        .replace(/__productShortname__/,data.shortName)
+                                        .replace(/__productShortname__/,data.name)
                                         .replace(/__productname__/,data.name)
-                                        .replace(/__producttype__/,data.type)
-                                        .replace(/__productid__/,data._id);
+                                        .replace(/__producttype__/g,data.type)
+                                        .replace(/__productid__/g,data._id);
                             });
                             $('#hotProductList').empty().append(hotProductListStr);
                         });
