@@ -5,7 +5,7 @@
             <%products.forEach(function(p){%>
                 <div class="col-xs-6">
                     <div class="listProBox">
-                        <div class="imgbox"><a href="/wap/productDetail/<%=p._id%>/<%=p.type%>"><img src="http://dd885.b0.upaiyun.com/<%=p.image[0].url%>!WapPreview" alt="<%=p.image[0].intro%>"/></a></div>
+                        <div class="imgbox"><a href="/wap/productDetail/<%=p._id%>/<%=p.type%>"><img style="height: 300px" src="http://dd885.b0.upaiyun.com/<%=p.image[0].url%>!WapPreview" alt="<%=p.image[0].intro%>"/></a></div>
                         <a href="/wap/productDetail/<%=p._id%>/<%=p.type%>"><div class="probox">
                             <div class="hotelName"><%=p.name%></div>
                             <div class="hotelPrice">￥<span><%=p.price%></span></div>

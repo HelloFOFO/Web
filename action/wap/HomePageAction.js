@@ -4,10 +4,12 @@
 var HttpClient = require('./../../tools/HttpClient.js');
 var Config = require('./../../tools/Config');
 var async = require('async');
+var _=require('underscore');
 var action = this;
 exports.getHomePage = function(request,response){
     async.waterfall([
         function(cb){
+            //获取默认城市
             var httpClient = new HttpClient({
                 'host':Config.inf.host,
                 'port':Config.inf.port,
@@ -25,14 +27,14 @@ exports.getHomePage = function(request,response){
                     }
                 }
             });
-        },
-        function(pre,cb){
-            action.getRelateHotProducts(pre._id,function(err,res){
-                res.default = pre;
-                cb(err,res);
-            });
-        },
-        function(pre,cb){
+        }
+//        ,function(pre,cb){
+//            action.getRelateHotProducts(pre._id,function(err,res){
+//                res.default = pre;
+//                cb(err,res);
+//            });
+//        }
+        ,function(pre,cb){
             var key = request.query.key;
             var httpClient = new HttpClient({
                 'host':Config.inf.host,
@@ -58,8 +60,8 @@ exports.getHomePage = function(request,response){
         if(e){
             response.send(r);
         }else{
-//            console.log(r);
-            response.render('wap/home',{titleName:'首页',data: r});
+//            console.debug(r);
+                response.render('wap/home',{titleName:'首页',data: r});
         }
     });
 };
@@ -73,17 +75,32 @@ this.getRelateHotProducts = function(cityId,fn){
         'method':"GET"
     });
     httpClient.getReq(function(err,res){
+        console.debug('/product/webList/'+cityId+'?isHot=true',res);
         if(err){
             fn('error',err);
         }else{
             if(0===res.error){
+
                 fn(null,res);
             }else{
                 fn('error',res.errorMsg);
             }
         }
     });
-}
+};
+//以下没有用  静态表中的图片会把子产品中的图片挪出来。
+//var moveRelateProductImageToProduct = function(product){
+//    if(!_.isEmpty(product.relatedProductID)){
+//         //如果关联产品里有东西
+//        product.relatedProductID.forEach(function(p){
+//            if(!_.isEmpty(p.product.image[0])){
+//                product.image.push(p.product.image[0]);
+//            }
+//        });
+//    }
+//    return product;
+//};
+
 
 exports.cityList = function(request,response){
     var key = request.query.key;

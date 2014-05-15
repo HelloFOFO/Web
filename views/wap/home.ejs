@@ -2,7 +2,7 @@
     <!--轮播-->
     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
         <!-- Wrapper for slides -->
-        <div class="carousel-inner" id="homeBanner">
+        <div class="carousel-inner" id="homeBanner" >
         </div>
         <!-- Controls -->
         <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
@@ -21,22 +21,7 @@
     <!--大家都喜欢的-->
     <div class="home-title01"></div>
     <div class="container">
-        <div class="row">
-
-            <% data.relate.forEach(function(p){ %>
-            <div class="col-xs-6">
-                <div class="listProBox">
-                    <div class="imgbox"><a href="/wap/productDetail/<%=p._id%>/<%=p._type%>"><img src="http://dd885.b0.upaiyun.com/<%= p.image[0].url %>!WapPreview"></a>
-                    </div>
-                    <div class="probox">
-                        <a href="/wap/productDetail/<%= p._id %>/<%= p.type %>">
-                            <div class="hotelName"><%= p.name %></div>
-                            <div class="hotelPrice">￥<span><%= p.price %></span></div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <% }); %>
+        <div class="row" id="hotProductList">
 
         </div>
     </div>
@@ -128,7 +113,7 @@
                                 $('#cityName').val(data.data.name);
                                 $('#cityID').val(data.data._id);
                             }
-                            var str = '<div class="item __isactive__"><img src="__imageurl__"></div>';
+                            var str = '<div class="item __isactive__"><img style="height: 300px" src="__imageurl__"></div>';
                             var imageList = "";
                             $.each(data.data.image,function(index,data){
                                 if(index==0){
@@ -142,5 +127,52 @@
                         });
             };
             refreshHomeBanner();
+
+            //刷新热门产品列表
+            var refreshHotProduct = function(city){
+//                var proudctStr =    '<li>'+
+//                        '<a href="/productDetail/__productid__">'+
+//                        '<div class="imgbox"><img src="__imageurl__" alt="__imagename__"></div>'+
+//                        '<div class="price">￥<span>__price__</span></div>'+
+//                        '<div class="name" title="__productname__">__productShortname__</div>'+
+//                        '</a>'
+//                '</li>';
+
+                var productStr = '<div class="col-xs-6">'+
+                                    '<div class="listProBox">'+
+                                        '<div class="imgbox">' +
+                                            '<a href="/wap/productDetail/__productid__/__producttype__"><img  src="__imageurl__!WapPreview"></a>'+
+                                        '</div>'+
+                                        '<div class="probox">'+
+                                            '<a href="/wap/productDetail/__productid__/__producttype__'+
+                                                '<div class="hotelName">__productShortname__</div>'+
+                                                '<div class="hotelPrice">￥<span>__price__</span></div>'+
+                                            '</a>'+
+                                        '</div>'+
+                                    '</div>'+
+                                    '</div>';
+
+                $.ajax({
+                    url:'/hotProductListByCity'
+                    ,data:{cityID:city}
+                    ,method:"GET"
+                }).done(function(data){
+                            var hotProductListStr = "";
+                            $.each(data.data,function(index,data){
+
+                                hotProductListStr += proudctStr.replace(/__imageurl__/,data.image.url)
+                                        .replace(/__imagename__/,data.image.intro)
+                                        .replace(/__price__/,data.price)
+                                        .replace(/__productShortname__/,data.shortName)
+                                        .replace(/__productname__/,data.name)
+                                        .replace(/__producttype__/,data.type)
+                                        .replace(/__productid__/,data._id);
+                            });
+                            $('#hotProductList').empty().append(hotProductListStr);
+                        });
+            };
+
+            refreshHotProduct();
+
         });
     </script>

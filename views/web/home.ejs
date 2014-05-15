@@ -132,7 +132,7 @@
                         var hotProductListStr = "";
                         $.each(data.data,function(index,data){
 
-                            hotProductListStr += proudctStr.replace(/__imageurl__/,data.image.url)
+                            hotProductListStr += proudctStr.replace(/__imageurl__/,data.image.url+'!hotProductList')
                                                            .replace(/__imagename__/,data.image.intro)
                                                            .replace(/__price__/,data.price)
                                                            .replace(/__productShortname__/,data.shortName)
@@ -161,14 +161,13 @@
                         var str = '<li class="touchslider-nav-item"><img src="__imageurl__"></li>';
                         var imageList = "";
                         $.each(data.data.image,function(index,data){
-                            imageList += str.replace(/__imageurl__/,data.url);
+                            imageList += str.replace(/__imageurl__/,data.url+'!HomePageHead');
                         });
                         $('#homeBanner').empty().append(imageList);
                         initSlider();
                     });
         };
         refreshHomeBanner();
-
     });
 </script>
 

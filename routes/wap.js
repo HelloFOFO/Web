@@ -23,7 +23,7 @@ module.exports = function(app){
                 next();
             });
         }else{
-            if( ( request.session && request.cookies ) ){
+            if( ( !request.session && request.cookies ) ){
                 //如果session超时了，但是cookie里还有东西，则帮用户重新登录
                 if( request.session.autoLogin && !request.session.user && request.cookies.m && request.cookies.p ){
                     console.log('---------------autoLogin--------------------');

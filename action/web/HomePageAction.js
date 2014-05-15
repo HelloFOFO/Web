@@ -47,12 +47,12 @@ exports.hotProduct = function(req,res){
             if(err){
                 res.json({error:1,errorMsg: err});
             } else {
-                console.log(data.data);
+//                console.log('aaaaaaaaaaaaaaaaaaaaaaaa',data.data);
                 //只取第一张图片(这个逻辑可以更改)
                 data.data.forEach(function(data){
                     data.shortName = truncProductName(data.name);
                     data.image = data.image[0];
-                    data.image.url=   'http://dd885.b0.upaiyun.com/'+data.image.url+"!hotProductList";
+                    data.image.url=   'http://dd885.b0.upaiyun.com/'+data.image.url;
                 });
                 res.json(data);
             }
