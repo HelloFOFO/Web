@@ -106,6 +106,16 @@ exports.payNotify = function(req,res){
                                             }else{
                                                 if(0===rs.error){
                                                     res.send("success");
+                                                    //deliver
+                                                    weixin.getAT(function(){
+                                                        weixin.deliver(result.openid,req.query.transaction_id,req.query.out_trade_no,function(error,ret){
+                                                            if(error){
+                                                                console.log(req.query.out_trade_no+" deliver is failed:"+ret);
+                                                            }else{
+                                                                console.log(req.query.out_trade_no+" deliver is success");
+                                                            }
+                                                        });
+                                                    });
                                                 }else{
                                                     res.send("fail");
                                                 }
