@@ -438,7 +438,6 @@ WeiXin.oAuth = function(code,cb){
        if(err){
            cb('error',err);
        }else{
-           console.log(response);
            cb(null,response.openid);
        }
     });

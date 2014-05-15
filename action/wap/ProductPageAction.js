@@ -51,15 +51,17 @@ exports.getProductList = function(request,response){
        function(cb){
         //先做微信认证
         var code = request.query.code?request.query.code:"";
-        WeiXin.oAuth(code,function(error,result){
-            if(error){
-                cb('auth error',null);
-            }else{
-                //如果微信认证成功，则把openID写到Session中
-                request.session.openID = result;
-                cb(null,result);
-            }
-        });
+           WeiXin.getAT(function(){
+               WeiXin.oAuth(code,function(error,result){
+                   if(error){
+                       cb('auth error',null);
+                   }else{
+                       //如果微信认证成功，则把openID写到Session中
+                       request.session.openID = result;
+                       cb(null,result);
+                   }
+               });
+           });
     },function(result,cb){
         //如果认证通过则查产品列表
             var productType = request.params.type;
@@ -86,7 +88,7 @@ exports.getProductList = function(request,response){
             }
     }],function(err,result){
         if(err){
-            console.err(err);
+            console.error(err);
             response.redirect('wap/errorPage');
         }else{
             response.render('wap/productList',result);

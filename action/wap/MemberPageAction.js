@@ -62,7 +62,7 @@ exports.autoLogin = function(request,fn){
                     if(err || result.error != 0){
                         fn();
                     }else{
-                        request.session.user=res.data;
+                        request.session.user=result.data;
                         request.session.autoLogin=true;
                         fn();
                     }
