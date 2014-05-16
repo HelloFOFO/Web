@@ -40,7 +40,7 @@ exports.doLogin = function(request,response){
     });
 };
 
-exports.autoLogin = function(request,fn){
+exports.autoLogin = function(request,response,fn){
     var code = request.query.code;
     var useragent = request.headers['user-agent'];
     if( code && useragent.indexOf('MicroMessenger') > 0 ){
@@ -64,6 +64,7 @@ exports.autoLogin = function(request,fn){
                     }else{
                         request.session.user=result.data;
                         request.session.autoLogin=true;
+                        response.locals.user = request.session.user;
                         fn();
                     }
                 });

@@ -18,7 +18,7 @@ module.exports = function(app){
         response.charset = 'utf-8';
         if(  request.query.code && request.headers['user-agent'].indexOf('MicroMessenger') > 0 ){
             //如果是从weixin来的，直接做autologin
-            MemberPageAction.autoLogin(request,function(){
+            MemberPageAction.autoLogin(request,response,function(){
                 console.log('---------------weixin autoLogin end--------------------');
                 next();
             });
@@ -27,7 +27,7 @@ module.exports = function(app){
                 //如果session超时了，但是cookie里还有东西，则帮用户重新登录
                 if( request.session.autoLogin && !request.session.user && request.cookies.m && request.cookies.p ){
                     console.log('---------------autoLogin--------------------');
-                    MemberPageAction.autoLogin(request,function(){
+                    MemberPageAction.autoLogin(request,response,function(){
                         console.log('---------------autoLogin end--------------------');
                         next();
                     });

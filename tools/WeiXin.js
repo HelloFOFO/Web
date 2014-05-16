@@ -248,7 +248,7 @@ WeiXin.deliver = function(openid,transid,out_trade_no,cb){
         path: "/pay/delivernotify?access_token=" + WeiXin.ACCESS_TOKEN,
         method: "POST"
     };
-    new (opt).postReq(params,function (err, response) {
+    new httpsClient(opt).postReq(params,function (err, response) {
         if (err) {
             cb("error",err);
         }else{
