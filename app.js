@@ -18,6 +18,13 @@ var store = new RedisStore({
     pass: process.env.REDISPASS||'rtadd885'
 });
 
+
+
+
+var app = express();
+app.use(require('stylus').middleware(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
+
 //log4js config
 log4js.configure({
     appenders : [ {
@@ -29,7 +36,6 @@ log4js.configure({
 var logger = log4js.getLogger();
 //logger.setLevel('ERROR');
 
-var app = express();
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
@@ -62,8 +68,7 @@ app.use(function(request,response,next){
     next();
 });
 
-app.use(require('stylus').middleware(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(app.router);
 
 
