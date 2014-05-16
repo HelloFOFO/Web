@@ -93,7 +93,9 @@ exports.payNotify = function(req,res){
                             res.send("fail");
                         }else{
                             if(0===r.error){
-                                if(0===r.data.status&&0===req.query.trade_state){
+                                console.log("==================================",r.data.status,req.query.trade_state,req.query.transaction_id);
+                                if(0===r.data.status){
+                                    if("0"===req.query.trade_state){
                                         var hc = new HttpClient({
                                             'host':config.inf.host,
                                             'port':config.inf.port,
@@ -101,6 +103,7 @@ exports.payNotify = function(req,res){
                                             'method':"POST"
                                         });
                                         hc.postReq({status:1,operator:'5320ffb06532aa00951ff5e1',transID:req.query.transaction_id},function(er,rs){
+                                            console.log("++++++++++++++++++++++++++++++++",er,rs);
                                             if(er){
                                                 res.send("fail");
                                             }else{
@@ -121,6 +124,9 @@ exports.payNotify = function(req,res){
                                                 }
                                             }
                                         });
+                                    }
+                                }else{
+                                    res.send("success");
                                 }
                             }else{
                                 res.send("fail");

@@ -346,6 +346,11 @@ exports.toSubOrder = function(request,response){
                     ret.isWeekend = isWeekend;
                     ret.lid = lid;
                 }
+                ret.isWeiXin = false;
+                var useragent = request.headers['user-agent'];
+                if(useragent.indexOf('MicroMessenger')>0){
+                    ret.isWeiXin = true;
+                }
                 response.render('wap/subOrder',{titleName:'填写订单',product:ret});
             }else{
                 response.send(404,'error message is '+res.errorMsg);
@@ -451,13 +456,62 @@ exports.renderConfirm = function(req,res){
                 }else{
                     viewData.isNeed = "n";
                 }
+                //weixin pay need fields
+                viewData.ip = req.ip;
+                //必须使用微信5.0以上版本才能进行微支付
+                var isWeiXin = true;
+                var wxMsg = "";
+                var useragent = req.headers['user-agent'];
+                if(useragent.indexOf('MicroMessenger')<0){
+                    wxMsg = '不支持微信以外的游览器';
+                    isWeiXin = false;
+                }
+                var wxVer = parseInt(useragent.substr(useragent.lastIndexOf('/')+1,1));
+                if(wxVer<=4&&""===wxMsg){
+                    wxMsg = '微信版本过低，无法支付，请升级';
+                }
+                viewData.isWeiXin = isWeiXin;
+                viewData.wxMsg = wxMsg;
+                viewData.appId = Config.wx.appID;
+                viewData.partnerId = Config.wx.partnerId;
+                viewData.key = Config.wx.paySignKey;
+                viewData.partnerKey = Config.wx.partnerKey;
                 res.render('wap/orderConfirm',{titleName:'支付订单',info:viewData});
             }
         });
     }
 };
 
+//go to trade_success
+exports.tradeSuccess = function(req,res){
+    var httpClient = new HttpClient({
+        'host':Config.inf.host,
+        'port':Config.inf.port,
+        'path':'/order/detail/'+req.params.id,
+        'method':"GET"
+    });
+    try{
+        httpClient.getReq(function(err,result){
+            if(err){
+                res.send(404,err);
+            }else{
+                if(0===result.error){
+                    var order = {};
+                    order.oid = result.data.orderID;
+                    order._id = result.data._id;
+                    order.pName = result.data.product.name;
+                    order.total = result.data.totalPrice;
+                    res.render('wap/trade_success',{titleName:'交易成功',order:order});
+                }else{
+                    res.send(404,result.errorMsg);
+                }
+            }
+        });
 
+    }catch(e){
+        res.send(404, e.message);
+    }
+}
 
 //exports.saveOrder = function(request,response){
 //    var data = {};

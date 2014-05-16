@@ -325,6 +325,9 @@ exports.saveOrderAction = function(request,response){
         var orderType         = request.body.orderType;
         data.quantity        = request.body.num;
         data.source = "534de2e3309199c11f233cf4";
+        if(request.params.source){
+            data.source = request.params.source;
+        }
         data.payWay = "1";
         data.remark = "";
         if("p"===orderType){
@@ -346,8 +349,11 @@ exports.saveOrderAction = function(request,response){
         console.debug('save order action data',data);
         httpClient.postReq(data,function(err,result){
             if(err || result.error != 0){
-                console.error('/order/save error',err,'post data:',data,'save order response:',result);
-                response.json({error:111,errorMsg:"产品已售完！"});
+                if(result.error == 502){
+                    response.json({error:111,errorMsg:"未支付订单超过10张，暂不允许下单！"});
+                }else{
+                    response.json({error:111,errorMsg:"产品已售完！"});
+                }
             }else{
                 response.json( { error:0,_id:result.data._id } );
             }

@@ -88,13 +88,12 @@ module.exports = function(app){
     app.get('/wap/productDetails/:id',ProductPageAction.productDetail);
 
 
-    app.post('/wap/order/submit',ProductPageActionWeb.saveOrderAction);
-
+    app.post('/wap/order/submit/:source',ProductPageActionWeb.saveOrderAction);
 //    app.post('/wap/confirm',ProductPageAction.saveOrder);
     app.get('/wap/productDetailInfo',ProductPageAction.detailInfo);
     app.get('/wap/calendar/:id',ProductPageAction.productCalendar);
     //order
-
+    app.get('/wap/order/success/:id',ProductPageAction.tradeSuccess);
 
 
     //ajax

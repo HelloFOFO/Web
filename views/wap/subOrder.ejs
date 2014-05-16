@@ -217,8 +217,17 @@
                 return false;
             }
            <%}%>
+            var redirectUrl = "";
+            var url = "/wap/order/submit/";
+            <%if(product.isWeiXin){%>
+                url += "534de2fb2bb90df41f15c7af";
+                redirectUrl = "/weixin/pay/";
+            <%}else{%>
+                url += "534de2f3bad580e91f103420";
+                redirectUrl = "/wap/order/confirm/";
+            <%}%>
             $.ajax({
-                url:"/wap/order/submit"
+                url:url
                 ,method:"POST"
                 ,data:$('#formConfirm').serialize()
             }).done(function(data){
@@ -229,7 +238,7 @@
                             $('#errorBox').removeClass('hidden');
                             $('#errorMsg').empty().text(data.errorMsg);
                         }else{
-                            window.location.href="/wap/order/confirm/"+data._id;
+                            window.location.href= redirectUrl+data._id;
                         }
                     }).fail(function(){
                         $('#errorBox').removeClass('hidden');
