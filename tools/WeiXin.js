@@ -143,17 +143,17 @@ WeiXin.createMenu = function (fn) {
                     {
                         "type": "view",
                         "name": "联票",
-                        "url": "http://cloud.bingdian.com/wap/productList/ticketPackage"
+                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://cloud.bingdian.com/wap/productList/ticketPackage&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
                     },
                     {
                         "type": "view",
                         "name": "自驾游套餐",
-                        "url": "http://cloud.bingdian.com/wap/productList/package"
+                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://cloud.bingdian.com/wap/productList/package&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
                     },
                     {
                         "type": "view",
                         "name": "主题活动",
-                        "url": "http://cloud.bingdian.com/wap/productList/package"
+                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://cloud.bingdian.com/wap/productList/package&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
                     }
                 ]
             },
@@ -183,7 +183,7 @@ WeiXin.createMenu = function (fn) {
                     {
                         "type": "view",
                         "name": "已购买订单",
-                        "url": "http://cloud.bingdian.com/wap/orders/all"
+                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://cloud.bingdian.com/wap/orders/all&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
                     },
                     {
                         "type": "click",

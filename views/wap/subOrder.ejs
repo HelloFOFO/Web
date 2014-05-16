@@ -238,7 +238,7 @@
                             $('#errorBox').removeClass('hidden');
                             $('#errorMsg').empty().text(data.errorMsg);
                         }else{
-                            window.location.href= redirectUrl+data._id;
+                            window.location.href= redirectUrl+data._id+"?showwxpaytitle=1";
                         }
                     }).fail(function(){
                         $('#errorBox').removeClass('hidden');
