@@ -134,11 +134,11 @@ exports.sendOrderSMS = function(req,res){
 
         var http = new HttpClient(opt);
         http.getReq(function(err,result){
-            if(err || result.error !=0 ){
-                console.error(new Error('发送订单信息失败!'),err,result);
-                res.json({error:1,errorMsg: "发送订单信息失败!"});
+            if(err){
+                console.error(new Error('订单信息发送失败！'));
+                res.json({error:1,errorMsg:"发送失败！"});
             }else{
-                res.json({error:0});
+                res.json(result);
             }
         });
 

@@ -58,7 +58,7 @@
                             <p>邮寄地址：<%=order.address%></p>
                     </div>
                     <%}%>
-                    <%if("已支付"===order.status){%>
+                    <%if("已支付"===order.status || "已确认"===order.status){%>
                     <div class="QRCodeTitle">电子票凭证</div>
                     <div class="QRCodeDiv">
                     	<!--<div class="QRCode" id="qrCode"></div>-->
