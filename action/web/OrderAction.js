@@ -6,6 +6,7 @@ var Config = require('./../../tools/Config');
 var async = require('async');
 var timeZone = ' 00:00:00 +08:00';
 var us = require('underscore');
+var querystring = require('querystring');
 exports.orders = function(request,response){
     var orders = {};
     orders.list = [];
@@ -119,4 +120,29 @@ function getStsName(status){
         case 4:
             return "已退款";break;
     }
-}
+};
+
+exports.sendOrderSMS = function(req,res){
+    try{
+        var params = querystring.stringify({mobile:req.query.mobile,orderID:req.query.orderID,member:req.session.user._id});
+        var opt = {
+            'host':Config.inf.host,
+            'port':Config.inf.port,
+            'path':'/order/sms?'+params,
+            'method':"GET"
+        };
+
+        var http = new HttpClient(opt);
+        http.getReq(function(err,result){
+            if(err || result.error !=0 ){
+                console.error(new Error('发送订单信息失败!'),err,result);
+                res.json({error:1,errorMsg: "发送订单信息失败!"});
+            }else{
+                res.json({error:0});
+            }
+        });
+
+    }catch(e){
+        res.json({error:1,errorMsg: e.message});
+    }
+};

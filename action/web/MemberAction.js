@@ -172,9 +172,9 @@ exports.forgetPasswd = function(request,response){
 };
 
 exports.getVerifyCode = function(req,res){
+    var type   = req.body.type;
     async.waterfall([function(cb){
         var mobile = req.body.mobile;
-        var type   = req.body.type;
         console.debug('mobile is '+mobile);
 //        console.log('1');
         if( _.isEmpty(mobile) || !/\d{11,11}/.test(mobile) || mobile.length!=11 ){
@@ -212,7 +212,9 @@ exports.getVerifyCode = function(req,res){
             'path':'/member/code',
             'method':"POST"
         });
-        http.postReq({mobile:result.mobile,ip:req.ip},function(error,data){
+        //string:'register | forget '
+        type = type=='register'?0:1;
+        http.postReq({mobile:result.mobile,ip:req.ip,type:type},function(error,data){
             if(error || data.error != 0 ){
                 console.error("获取验证码失败,请求验证码的手机为%s,请求验证码的ip为%s,返回的错误数据为%s",result.mobile,req.ip,error,data);
                 cb('getCodeError',null);

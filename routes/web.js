@@ -8,6 +8,7 @@ var NoticeAction = require('./../action/web/NoticeAction');
 var MemberAction = require('./../action/web/MemberAction');
 var OrderAction = require('./../action/web/OrderAction');
 var AlipayWebAction = require('./../action/web/AlipayWebAction');
+var UserAuth = require('./../tools/UserAuth.js');
 
 module.exports = function(app){
     //获取手机验证码
@@ -68,6 +69,8 @@ module.exports = function(app){
     //ajax
     app.get('/ajax/cityBox',HomePageAction.cityBox);
     app.get('/getCityDetail',HomePageAction.getCityDetail);
+    //发送订单信息的短信接口需要做验证，外面一层做登录验证，里面会做订单号里对应的member和这个member是不是一致
+    app.get('/getOrderSMS',UserAuth.WebAuth,OrderAction.sendOrderSMS);
 
     //静态公告
     app.get('/noticeDetailStatic/:id',function(req,res){
