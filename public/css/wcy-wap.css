@@ -77,6 +77,7 @@ a:active { text-decoration: none;}
 .home-modalMain{ background:#e6e6e6; border-bottom:#cccccc solid 1px; padding:0 10px;}
 .home-modalBt{ border:none; height:40px; line-height:40px; color:#333; text-align:left; font-size:16px; outline:none;}
 .home-modalBtMainRight{ background:url(../images/wap-arrowRight.png) no-repeat right center; background-size:16px 16px; }
+.home-modalBtMainDown{ background:url(../images/wap-arrowDown.png) no-repeat right center; background-size:16px 16px; }
 .home-modalSub{}
 .home-modalBtSub{line-height:30px; padding-left:10px;  background:#fff; border-bottom:#cccccc solid 1px; outline:none;}
 
@@ -103,6 +104,15 @@ a:active { text-decoration: none;}
 .wcy-Prodetailbox .blackbox p{ color:#333333;}
 .wcy-Prodetailbox .black{color:#333333;}
 .wcy-Prodetailbox img{ max-height:200px; padding:10px 0;}
+
+/*gover detail*/
+.wcy-goverDetail{ background:#fff; margin-top:15px;}
+.wcy-goverDetailBox{ background:#fff; clear:both; font-size:14px; color:#818181; height:auto; overflow:hidden; padding-bottom:10px;}
+.wcy-goverDetailBox p{line-height:20px; color:#808080; text-indent:2em; padding:5px 0;}
+.wcy-goverDetailBox h3{ line-height:24px; font-size:18px; color:#333333; text-align:center;}
+.wcy-goverDetailBox h5{ line-height:24px; font-size:12px; color:#808080; text-align:center; padding-bottom:10px;}
+.wcy-goverDetailBox img{ max-height:200px; padding:10px 0;}
+
 
 /*about us*/
 .wcy-aboutUs{ color:#033333; font-size:14px; line-height:22px;}
@@ -146,6 +156,12 @@ a:active { text-decoration: none;}
 .hotelTicketPayBox li .radio .icon, .hotelTicketPayBox li .checkbox .icon {right: 10px;}
 .hotelTicketPayBox li .radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"] {float:none;margin-left: -20px;}
 .wcy-hotelTicketPayBt{ padding:20px 0;}
+
+/*gover notice*/
+.wcy-goverNotice{background:#fff; border-top:#e6e6e6 solid 1px;  color:#333333; font-size:14px; margin-top:15px;}
+.wcy-goverNotice ul li{ height:40px; line-height:40px; overflow:hidden; border-bottom:#e6e6e6 solid 1px; padding:0 10px;}
+.wcy-goverNotice .title{ float:left; font-size:16px; width:80%; height:40px; line-height:40px; overflow:hidden;}
+.wcy-goverNotice .date{  float:left; width:20%; text-align:right; font-size:12px; color:#818181; height:40px; line-height:40px; overflow:hidden;}
 
 /*noInvoice*/
 .wcy-hTNoInvoice{background:#fff; border-top:#e6e6e6 solid 1px;  border-bottom:#e6e6e6 solid 1px; color:#333333; font-size:14px; padding:10px 0;}
@@ -208,17 +224,17 @@ a:active { text-decoration: none;}
 .wcy-myOrdersTitle .chooseBox .leftbt{ float:left; width:96px; height:36px; line-height:30px; text-align:center; border:#1abc89 solid 2px;border-top-left-radius:5px; border-bottom-left-radius:5px;}
 .wcy-myOrdersTitle .chooseBox .rightbt{ float:left; width:96px; height:36px; line-height:30px; text-align:center; border:#1abc89 solid 2px;border-top-right-radius:5px; border-bottom-right-radius:5px;}
 .wcy-myOrdersTitle .chooseBox .btOn{ background:#1abc89; color:#fff;}
-.wcy-myOrdersbox{background:#fff; border-bottom:#e6e6e6 solid 1px; color:#333333; font-size:14px; padding:5px 0; height:auto; overflow:hidden;}
+.wcy-myOrdersbox{background:#fff; border-bottom:#e6e6e6 solid 1px; color:#333333; font-size:14px; padding:10px 0; height:auto; overflow:hidden;}
 .wcy-myOrdersbox .leftimg{ float:left;  box-sizing:border-box;  -webkit-box-sizing:border-box; width:45%;  padding:5px 0; text-align:right;}
 .wcy-myOrdersbox .leftimg img{width:130px; height:100px; margin:0px 10px;}
 .wcy-myOrdersbox .rightinfo{ float:left;  width:55%;  box-sizing:border-box; -webkit-box-sizing:border-box; padding:5px 0;}
-.wcy-myOrdersbox .rightinfo .tickeInfo{ height:65px; overflow:hidden; padding:0px 5px}
-.wcy-myOrdersbox .rightinfo .tickeName{ font-size:16px; line-height:20px;}
-.wcy-myOrdersbox .rightinfo .tickePrice{ font-size:14px; line-height:20px;}
-.wcy-myOrdersbox .rightinfo .tickePrice .num{ padding-right:10px;}
-.wcy-myOrdersbox .rightinfo .tickePrice .price{ font-size:16px; color:#ff7212;}
-.wcy-myOrdersbox .rightinfo .paybt{ height:auto; overflow:hidden;  padding:0px 5px;}
-.wcy-myOrdersbox .rightinfo .paybt .disabled{ background:#CCC; border:#999999 solid 1px;}
+.wcy-myOrdersbox  .tickeInfo{ height:80px; overflow:hidden; padding:0px 5px}
+.wcy-myOrdersbox  .tickeName{ font-size:16px; line-height:20px; padding:5px 0;}
+.wcy-myOrdersbox  .tickePrice{ font-size:14px; line-height:20px;}
+.wcy-myOrdersbox  .tickePrice .num{ padding-right:10px;}
+.wcy-myOrdersbox  .tickePrice .price{ font-size:16px; color:#ff7212;}
+.wcy-myOrdersbox  .paybt{ height:auto; overflow:hidden;  padding:0px 5px;}
+.wcy-myOrdersbox  .paybt .disabled{ background:#CCC; border:#999999 solid 1px;}
 
 /*calendar*/
 .calendarbox{height:auto; overflow:hidden; }
@@ -238,6 +254,16 @@ a:active { text-decoration: none;}
 .table-calendar tr td.active{ background:#1abc89; color:#fff;}
 .table-calendar tr td.active span{color:#fff;}
 
+/*500*/
+.wcy-500{ margin:50px 0 0 0; text-align:center; background:url(../images/500.png) no-repeat top center; background-size: 265px 133px; padding-top:160px;}
+.wcy-500 h2{ font-size:24px; text-align:center; height:40px; line-height:40px; color:#ff7212;}
+.wcy-500 h4{ font-size:16px; text-align:center; height:30px; line-height:30px; color:#505050;}
+
+/*404*/
+.wcy-404{ margin:50px 0 0 0; text-align:center; background:url(../images/404.png) no-repeat top center; background-size: 265px 133px; padding-top:160px;}
+.wcy-404 h2{ font-size:24px; text-align:center; height:40px; line-height:40px; color:#ff7212;}
+.wcy-404 h4{ font-size:16px; text-align:center; height:30px; line-height:30px; color:#505050;}
+
 /*footer*/
 .wcy-wapfooter{ height:auto; overflow:hidden; clear:both;}
 .footlogin{ padding:15px; height:auto; overflow:hidden; color:#1abc89; font-size:14px; text-align:right; line-height:20px;}
@@ -249,9 +275,4 @@ a:active { text-decoration: none;}
 .footerAbout div a{ color:#fff; padding-right:10px;}
 .footerAbout div a:hover{ color:#dafff3;}
 .wcy-wap-footerwidth .Copyright{ color:#0d8f66;}
-
-
-/*500*/
-.wcy-500{ margin:50px 0 0 0; text-align:center; background:url(../images/500.png) no-repeat top center; background-size: 265px 133px; padding-top:160px;}
-.wcy-500 h2{ font-size:24px; text-align:center; height:40px; line-height:40px; color:#ff7212;}
-.wcy-500 h4{ font-size:16px; text-align:center; height:30px; line-height:30px; color:#505050;}
+.wcy-wap-footerwidth .Copyright a{color:#0d8f66;}

@@ -1,0 +1,13 @@
+<%include header%>
+<div class="wcy-prodetail">
+	<div class="container">
+    		<div class="wcy-goverDetail">
+            	<div class="wcy-goverDetailBox">
+                    <h3><%= news.title %></h3>
+                    <h5><%= new Date(news.createTime).Format('yyyy年MM月dd日hh:mm:ss') %></h5>
+                    <p><%- news.content.replace(/\n/g, '<br/>') %></p>
+                </div>
+            </div>
+    </div>
+</div>
+<%include footer%>

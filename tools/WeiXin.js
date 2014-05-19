@@ -173,7 +173,7 @@ WeiXin.createMenu = function (fn) {
                     {
                         "type": "view",
                         "name": "官方发布",
-                        "url": "http://cloud.bingdian.com/weixin/pay/order?showwxpaytitle=1"
+                        "url": "http://cloud.bingdian.com/wap/govNotice"
                     }
                 ]
             },

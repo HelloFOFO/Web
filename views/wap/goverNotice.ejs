@@ -1,0 +1,20 @@
+<% include header %>
+<div class="wcy-goverNotice">
+    <ul>
+        <li>
+            <div class="title"><a href="/wap/noticeDetailStatic/201411">驾专委[2014]第011号</a></div>
+            <div class="date">2014年03月28日16:25:55</div>
+        </li>
+        <li>
+            <div class="title"><a href="/wap/noticeDetailStatic/201473">驾专委[2014]第073号</a></div>
+            <div class="date">2014年03月28日16:25:55</div>
+        </li>
+        <% newses.forEach(function(news){ %>
+        <li>
+            <div class="title"><a href="/wap/noticeDetail/<%= news._id %>"><%= news.title %></a></div>
+            <div class="date"><%= new Date(news.createTime).Format('yyyy年MM月dd日hh:mm:ss') %></div>
+        </li>
+        <% }); %>
+    </ul>
+</div>
+<% include footer %>
