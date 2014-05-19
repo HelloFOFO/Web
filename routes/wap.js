@@ -9,7 +9,7 @@ var MemberPageAction = require('./../action/wap/MemberPageAction');
 var AlipayWapAction = require('./../action/wap/AlipayWapAction');
 var OrderAction = require('./../action/wap/OrderAction');
 var UserAuth = require('./../tools/UserAuth.js');
-
+var NoticeAction = require('./../action/wap/NoticeAction');
 
 var us = require('underscore');
 module.exports = function(app){
@@ -58,8 +58,23 @@ module.exports = function(app){
     app.get('/wap/forget',HomePageAction.forget);
     app.get('/wap/logout',HomePageAction.logOut);
 
-
-
+    //notice
+    app.get('/wap/govNotice',NoticeAction.noticeList);
+    app.get('/wap/noticeDetail/:id',NoticeAction.detail);
+    //静态公告
+    app.get('/wap/noticeDetailStatic/:id',function(req,res){
+        if(req.params.id=="201411"){
+            res.render("wap/noticeDetailStatic",{titleName:'公告详情',  title:"驾专委[2014]第011号",
+                createDate:"2014年03月28日16:25:55",
+                imageURL:"http://dd885.b0.upaiyun.com/9a1afe0002993639d7a34afe.jpg"});
+        }else if(req.params.id=="201473"){
+            res.render("wap/noticeDetailStatic",{titleName:'公告详情',  title:"驾专委[2014]第073号",
+                createDate:"2014年03月28日16:25:55",
+                imageURL:"wap://dd885.b0.upaiyun.com/8c71dc911d9d94266e6ddb99.jpg"});
+        }else{
+            res.render("web/noticeDetailStatic",{titleName:'公告详情',title:"",createDate:"",imageURL:""});
+        }
+    });
 
 
     app.get('/wap/errorPage',function(req,res){res.render('wap/errorPage',{titleName:""})});
