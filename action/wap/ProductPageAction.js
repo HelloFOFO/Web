@@ -65,7 +65,7 @@ exports.getProductList = function(request,response){
     },function(result,cb){
         //如果认证通过则查产品列表
             var productType = request.params.type;
-            if( productType == 'ticket' || productType == 'ticketPackage' || productType == 'package三个字段'){
+            if( productType == 'ticket' || productType == 'ticketPackage' || productType == 'package'){
                 try{
                     var httpClient = new HttpClient({
                         'host':Config.inf.host,
