@@ -71,6 +71,8 @@ module.exports = function(app){
     app.get('/getCityDetail',HomePageAction.getCityDetail);
     //发送订单信息的短信接口需要做验证，外面一层做登录验证，里面会做订单号里对应的member和这个member是不是一致
     app.get('/getOrderSMS',UserAuth.WebAuth,OrderAction.sendOrderSMS);
+    app.get('/getPackagePrice/:productID',ProductPageAction.getPackagePrice);
+    app.get('/getPriceLog/:productID',ProductPageAction.getPriceLog);
 
     //静态公告
     app.get('/noticeDetailStatic/:id',function(req,res){
