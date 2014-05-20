@@ -19,4 +19,6 @@ module.exports = function(app){
     //customer
     app.post('/weixin/customer',WeiXinAction.customerNotify);
     app.get('/weixin/feedback',WeiXinAction.feedback);
+    //warn
+    app.get('/weixin/warn',WeiXinAction.warn);
 };

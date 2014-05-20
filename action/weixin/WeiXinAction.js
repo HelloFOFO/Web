@@ -194,6 +194,11 @@ exports.feedback = function(req,res){
     });
 }
 
+//warn
+exports.warn = function(req,res){
+    res.send("success");
+}
+
 //menu
 exports.createMenu = function(req,res){
     weixin.getAT(function(){
