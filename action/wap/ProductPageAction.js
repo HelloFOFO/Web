@@ -91,7 +91,7 @@ exports.getProductList = function(request,response){
             console.error(err);
             response.redirect('wap/errorPage');
         }else{
-            response.render('wap/productList',result);
+            response.render('wap/productlist',result);
         }
     });
 

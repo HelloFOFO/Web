@@ -54,14 +54,14 @@ var productLevelConvert = function(productLevel,productType){
         if(productLevel==0){
             return "";
         }else{
-            return "<p>产品等级："+productLevel.toString()+'A级景区'+"</p>";
+            return "<p>产品等级："+productLevel.toString()+'A级景区</p>';
         }
 
     }else if(productType == 2){
         if(productLevel<3){
-            return "经济型酒店";
+            return "<p>酒店星级：经济型酒店</p>";
         }else{
-            return productLevel.toString()+'星级酒店';
+            return "<p>酒店星级："+productLevel.toString()+'星级酒店</p>';
         }
     }
 };
@@ -107,9 +107,7 @@ var formatProductDetailImage = function(imageArr){
 };
 
 exports.getDetail = function(request,response){
-    var id = request.params.id;
-
-//    response.send(id);
+    var id = request.params.id; //this is productID
     var httpClient = new HttpClient({
         'host':Config.inf.host,
         'port':Config.inf.port,
@@ -127,7 +125,8 @@ exports.getDetail = function(request,response){
                 if(!us.isEmpty(product.relatedProductID)){
                     //如果是套票或者是打包产品，则上面的大图每个产品取两张，实际上只能用到前三张
                     product.relatedProductID.forEach(function(p){
-                        console.log('relateProduct', p.product.image);
+//                        console.debug('relateProduct', p.product.image);
+                        //如果是打包产品或者是套票产品，则先把关联的产品图片格式化，然后再把关联产品的图片复制到大产品中
                         p.product.image = formatProductDetailImage(p.product.image);
                         if(!us.isEmpty(p.product.image[0])){
                             product.image.push(p.product.image[0]);
@@ -135,17 +134,19 @@ exports.getDetail = function(request,response){
                         if(!us.isEmpty(p.product.image[1])){
                             product.image.push(p.product.image[1]);
                         }
+                        //产品级别格式化，如果级别为0，则不显示，否则对酒店和门票的级别进行格式化
                         p.product.level = productLevelConvert(p.product.level,p.product.type);
                     });
                 }
 
-                //处理图片
+                //处理图片 如果是门票产品，这里才需要进行formate,否则仅仅会用到product.image中的前三张图片
                 product.image = formatProductDetailImage(product.image);
+                product.level = productLevelConvert(product.level,product.type);
 //                console.debug('debug processed image',product.image);
-                product.level=productLevelConvert(product.level,product.type);
-                console.log("level........",product.level);
+
+                console.debug("level........",product.level);
                 if(parseInt(product.type)==4){
-                    //get price list
+                    //如果是打包产品，则组织日历框数据
                     //get server now time
                     var now = new Date();
                     var sd = now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDate()+timeZone;
@@ -167,7 +168,8 @@ exports.getDetail = function(request,response){
                                 r.data.forEach(function(p){
                                     if(p.inventory>0){
                                         var now = new Date(p.date).Format("yyyy-MM-dd");
-                                        prices[now] = p.packagePrice;
+                                        //注意：打包产品的价格后来是他们自己录，展示价格应当是price
+                                        prices[now] = p.price;
                                     }
                                 });
                                 product.prices = JSON.stringify(prices);
@@ -178,7 +180,7 @@ exports.getDetail = function(request,response){
                         }
                     });
                 } else {
-                    //get price log list
+                    //如果是套票或者是门票则组织有效期数据
                     var o = {
                         'host':Config.inf.host,
                         'port':Config.inf.port,
@@ -208,7 +210,7 @@ exports.getDetail = function(request,response){
                                     pls.push(pl);
                                 });
                                 product.pls = pls;
-                                console.log('ticket detail product page render',product);
+                                console.debug('ticket detail product page render',product);
                                 response.render('web/ticketDetail',{'product':product});
 
                             }else{
@@ -224,6 +226,91 @@ exports.getDetail = function(request,response){
     });
 };
 
+
+exports.getPackagePrice = function(req,res){
+    try{
+        var productID = req.params.productID;
+        //获取打包产品的价格数据
+        //get server now time
+        var now = new Date();
+        var sd = now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDate()+timeZone;
+        now.setMonth(now.getMonth()+3);
+        var ed = now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDate()+timeZone;
+        var opt = {
+            'host':Config.inf.host,
+            'port':Config.inf.port,
+            'path':'/product/package/price/list/'+ productID + '?effectDate='+new Date(sd).getTime() + '&expiryDate='+new Date(ed).getTime(),
+            'method':"GET"
+        };
+        var http = new HttpClient(opt);
+        http.getReq(function(e,r){
+            if(e){
+                res.json({error:1,errorMsg: e});
+            }else{
+                if(0===r.error){
+                    var prices = {};
+                    r.data.forEach(function(p){
+                        if(p.inventory>0){
+                            var now = new Date(p.date).Format("yyyy-MM-dd");
+                            //注意：打包产品的价格后来是他们自己录，展示价格应当是price
+                            prices[now] = p.price;
+                        }
+                    });
+                    res.json({error:0,data:prices});
+                }else{
+                    res.json({error:1,errorMsg: "接口出错！"});
+                }
+            }
+        });
+    }catch(e){
+            res.json({error:1,errorMsg: e.message});
+    }
+};
+
+exports.getPriceLog = function(req,res){
+    try{
+        var productID = req.params.productID;
+        //如果是套票或者是门票则组织有效期数据
+        var o = {
+            'host':Config.inf.host,
+            'port':Config.inf.port,
+            'method':"GET"
+        };
+        o.path='/product/ticket/priceLog/list?product='+ productID + "&status=2";
+//        if(product.type==1){
+//            o.path='/product/ticket/priceLog/list?product='+ productID + "&status=2";
+//        }else{
+//            o.path='/product/ticketPackage/priceLog/list?product='+ productID + "&status=2";
+//        }
+//        console.error('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',o.path);
+        var hc = new HttpClient(o);
+        hc.getReq(function(e,r){
+            if(e){
+                response.send(404,e);
+            }else{
+                if(0==r.error){
+                    var pls = [];
+                    r.data.forEach(function(obj){
+                        var pl = {};
+                        var sd = new Date(obj.startDate).Format("yyyy-MM-dd");
+                        var ed = new Date(obj.endDate).Format("yyyy-MM-dd");
+                        pl.name = sd + '~' + ed;
+                        pl._id = obj._id;
+                        pl.price = obj.price;
+                        pl.priceWeekend = obj.priceWeekend;
+                        pls.push(pl);
+                    });
+                    res.json({error:0,data:pls});
+                }else{
+                    res.json({error:1,errorMsg: e});
+                }
+            }
+        });
+    }catch(e){
+           res.json({error:1,errorMsg: e.message});
+    }
+};
+
 //get price list
 exports.getPrices = function(productId,path,cb){
     var httpClient = new HttpClient({
@@ -235,7 +322,7 @@ exports.getPrices = function(productId,path,cb){
     httpClient.getReq(function(err,res){
         cb(err,res);
     });
-}
+};
 
 //go to fill package order
 exports.toPkgOrder = function(request,response){

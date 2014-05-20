@@ -9,8 +9,20 @@
 
     $.fn.calender = function(options){
         var $opts = $.extend({}, $.fn.calender.defaults, options);
-        var cal = new Calender($opts,$(this));
-        cal.init();
+        var $this = $(this);
+        if($opts.url){
+            $.ajax({'url':$opts.url,'type':'GET'})
+                .done(function(data){
+                    if( data.error ==0 ){
+                        $opts.data = data.data;
+                        var cal = new Calender($opts,$this);
+                        cal.init();
+                    }
+                });
+        } else {
+            var cal = new Calender($opts,$this);
+            cal.init();
+        }
     };
 
     $.fn.calender.defaults = {
@@ -64,7 +76,7 @@
             $this.append(table);
             var tr=$("<tr></tr>");
             var month = new Date(this.currMonth.getFullYear(),this.currMonth.getMonth(),1);
-;           var currDay = month.getDay();
+            ;           var currDay = month.getDay();
             for(var i=0;i<currDay;i++){
                 tr.append("<td class='day old'></td>");
             }
@@ -113,6 +125,7 @@
                         td.append(span);
                     }
                     td.click(function(){
+                        console.log($(this).data);
                         if($(this).data('disable')){
                             return;
                         }

@@ -112,6 +112,7 @@
             $('#bigCity').text(city);
             $(".bs-wcy-homecitybox").hide();
             refreshHomeBanner(cityID);
+            refreshHotProduct(cityID);
             e.preventDefault();
         });
 
@@ -139,7 +140,7 @@
                                                            .replace(/__productname__/,data.name)
                                                            .replace(/__productid__/,data._id);
                         });
-                        $('#hotProductList').append(hotProductListStr);
+                        $('#hotProductList').empty().append(hotProductListStr);
                     });
         };
 
