@@ -183,7 +183,7 @@
                     status = "<p class='datefull'>满</p>";
                     break;
                 default :
-                    status = "<p class='datefull'>"+roomQty+"</p>";
+                    status = "<p class='datefull'>￥"+roomQty+"</p>";
                     break;
             }
             return status;
