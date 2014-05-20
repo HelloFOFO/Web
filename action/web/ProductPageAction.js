@@ -143,81 +143,11 @@ exports.getDetail = function(request,response){
                 product.image = formatProductDetailImage(product.image);
                 product.level = productLevelConvert(product.level,product.type);
 //                console.debug('debug processed image',product.image);
-
                 console.debug("level........",product.level);
                 if(parseInt(product.type)==4){
-                    //如果是打包产品，则组织日历框数据
-                    //get server now time
-                    var now = new Date();
-                    var sd = now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDate()+timeZone;
-                    now.setMonth(now.getMonth()+3);
-                    var ed = now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDate()+timeZone;
-                    var opt = {
-                        'host':Config.inf.host,
-                        'port':Config.inf.port,
-                        'path':'/product/package/price/list/'+ product._id + '?effectDate='+new Date(sd).getTime() + '&expiryDate='+new Date(ed).getTime(),
-                        'method':"GET"
-                    };
-                    var hc = new HttpClient(opt);
-                    hc.getReq(function(e,r){
-                        if(e){
-                            response.send(404,e);
-                        }else{
-                            if(0===r.error){
-                                var prices = {};
-                                r.data.forEach(function(p){
-                                    if(p.inventory>0){
-                                        var now = new Date(p.date).Format("yyyy-MM-dd");
-                                        //注意：打包产品的价格后来是他们自己录，展示价格应当是price
-                                        prices[now] = p.price;
-                                    }
-                                });
-                                product.prices = JSON.stringify(prices);
-                                response.render('web/packageDetail',{'product':product});
-                            }else{
-                                response.send(404,r.errorMsg);
-                            }
-                        }
-                    });
+                    response.render('web/packageDetail',{'product':product});
                 } else {
-                    //如果是套票或者是门票则组织有效期数据
-                    var o = {
-                        'host':Config.inf.host,
-                        'port':Config.inf.port,
-                        'method':"GET"
-                    };
-                    if(product.type==1){
-                        o.path='/product/ticket/priceLog/list?product='+ product._id + "&status=2";
-                    }else{
-                        o.path='/product/ticketPackage/priceLog/list?product='+ product._id + "&status=2";
-                    }
-                    var hc = new HttpClient(o);
-
-                    hc.getReq(function(e,r){
-                        if(e){
-                            response.send(404,e);
-                        }else{
-                            if(0===r.error){
-                                var pls = [];
-                                r.data.forEach(function(obj){
-                                    var pl = {};
-                                    var sd = new Date(obj.startDate).Format("yyyy-MM-dd");
-                                    var ed = new Date(obj.endDate).Format("yyyy-MM-dd");
-                                    pl.name = sd + '~' + ed;
-                                    pl._id = obj._id;
-                                    pl.price = obj.price;
-                                    pl.priceWeekend = obj.priceWeekend;
-                                    pls.push(pl);
-                                });
-                                product.pls = pls;
-                                console.debug('ticket detail product page render',product);
-                                response.render('web/ticketDetail',{'product':product});
-
-                            }else{
-                                response.send(404, r.errorMsg);
-                            }
-                        }
-                    });
+                    response.render('web/ticketDetail',{'product':product});
                 }
             } else {
                 response.send(404,res.errorMsg);

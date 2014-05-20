@@ -138,22 +138,22 @@ WeiXin.createMenu = function (fn) {
                     {
                         "type": "view",
                         "name": "门票",
-                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://dd885.com/wap/productList/ticket&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
+                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://www.dd885.com/wap/productList/ticket&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
                     },
                     {
                         "type": "view",
                         "name": "联票",
-                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://dd885.com/wap/productList/ticketPackage&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
+                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://www.dd885.com/wap/productList/ticketPackage&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
                     },
                     {
                         "type": "view",
                         "name": "自驾游套餐",
-                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://dd885.com/wap/productList/package&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
+                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://www.dd885.com/wap/productList/package&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
                     },
                     {
                         "type": "view",
                         "name": "主题活动",
-                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://dd885.com/wap/productList/package&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
+                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://www.dd885.com/wap/productList/package&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
                     }
                 ]
             },
@@ -173,7 +173,7 @@ WeiXin.createMenu = function (fn) {
                     {
                         "type": "view",
                         "name": "官方发布",
-                        "url": "http://dd885.com/wap/govNotice"
+                        "url": "http://www.dd885.com/wap/govNotice"
                     }
                 ]
             },
@@ -183,7 +183,7 @@ WeiXin.createMenu = function (fn) {
                     {
                         "type": "view",
                         "name": "已购买订单",
-                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://dd885.com/wap/orders/all&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
+                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://www.dd885.com/wap/orders/all&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
                     },
                     {
                         "type": "click",
