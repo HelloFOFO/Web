@@ -1,0 +1,398 @@
+<% include header %>
+<style>
+    #baidumap img {
+        max-width: none;
+    }
+</style>
+<div class="bs-wcy_htbox container">
+    <div class="bs-wcy_htTitle">
+        <a href="#">首页</a> > <a href="/products/<%=product.city._id%>"><%=product.city.name%></a> > <%=product.name%>
+    </div>
+
+</div>
+<div class="bs-wcy_htBanbgcolor">
+    <div class="bs-wcy_htBanbg">
+        <!--大广告图切换位置-->
+        <div class="bs-wcy_htBanbox">
+            <!--大图列表-->
+            <div id="slider" class="nivoSlider">
+
+                <%for(var i=0;i<(product.image.length>3?3:product.image.length);i++){%>
+                <img src="http://dd885.b0.upaiyun.com/<%=product.image[i].url%>!productDetailHead" data-thumb="http://dd885.b0.upaiyun.com/<%=product.image[i].url%>!productDetailBanner" alt="<%=product.image[i].intro%>"/>
+                <%}%>
+
+            </div>
+            <!--浮层日期信息-->
+            <div class="bs-wcy_htBanInfo">
+                <div class="hotelname">
+                    <h1><%=product.name%></h1>
+                </div>
+                <form class="formtab" role="form" method="GET" id="form_order" action="<%if(product.type==4){%>/package/fill<%}else{%>/ticket/fill<%}%>">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <%if(4!==parseInt(product.type)){%>
+                        <tr>
+                            <td width="30%" height="50" align="left" valign="middle"><label>有效期</label></td>
+                            <td align="left" valign="middle">
+                                <select id="dateSelect" class="inputSelect">
+
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="30%" height="30" align="left" valign="middle"><label>门票类型</label></td>
+                            <td align="left" valign="middle">
+                                <input name="weekend" id="wk" type="radio" isWk="y" checked>&nbsp;周末&nbsp;&nbsp;&nbsp;
+                                <input name="weekend" id="nor" isWk="n" type="radio">&nbsp;平日
+                            </td>
+                        </tr>
+                        <!--门票和套票产品中为下一个页面传参的隐藏域-->
+                        <input type="hidden" name="exDate" id="exDate"/>
+                        <input type="hidden" name="sPrice" id="sPrice"/>
+                        <input type="hidden" name="isWeekend" id="isWeekend"/>
+                        <input type="hidden" name="lid" id="lid"/>
+                        <%}else{%>
+                            <tr>
+                                <td width="30%" height="50" align="left" valign="middle"><label>入住日期</label></td>
+                                <td align="left" valign="middle">
+                                    <input class="inputcalendar" size="16" type="text" value="" id="packageDate" readonly>
+                                </td>
+                            </tr>
+                            <!--打包产品中为下一个页面传参的隐藏域-->
+                            <input type="hidden" id="price" name="price" value="">
+                            <input type="hidden" id="selDate" name="selDate" value="">
+                        <%}%>
+                        <tr>
+                            <td width="30%" height="50" align="left" valign="middle"><label>价格</label></td>
+                            <td align="left" valign="middle" class="price" id="formprice"><span id="divPrice"></span></td>
+                        </tr>
+                        <tr>
+                            <td height="50" colspan="2" align="left" valign="bottom">
+                                <input type="hidden" name="product" id="productID" value="<%=product._id%>">
+                                <button type="submit" class="btn btn-block bs-wcy_htBanInfosubmit">立即购买</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div id="cal">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 图片列表  -->
+<div class="bs-wcy_htbox container">
+    <div class="bs-wcy_htimglistbox" id="relevantProduct">
+
+    </div>
+</div>
+<!--  产品信息 -->
+<div class="bs-wcy_htbox container">
+    <ul class="nav nav-tabs bs-wcy_htProNav">
+        <li class="active"><a href="#">产品简介</a></li>
+        <li><a href="#prodetail">产品详情</a></li>
+        <li><a href="#ydxz">预订须知</a></li>
+    </ul>
+    <div class="bs-wcy_htProbox">
+        <div class="title"><img src="/images/wcy_hotelTictitle02.gif" alt="产品简介"></div>
+        <div class="graybox">
+            <p><%-product.content.replace(/\n/g, '<br/>')%></p>
+        </div>
+        <div class="title" id="prodetail"><img src="/images/wcy_hotelTictitle03.gif" alt="产品详情"></div>
+
+        <%if( product.type==5 || product.type==4 ){%>
+        <!--如果是套票或者打包产品，则产品详情用关联产品做循环，否则展示单产品的详情-->
+        <%product.relatedProductID.forEach(function(product){%>
+        <div class="blackbox">
+            <p>产品名称：<%=product.product.name%></p>
+
+            <%-product.product.level%>
+
+            <p>产品地址：<%=product.product.addr%> <a href="#<%=product.product._id%>" data-toggle="collapse">地图</a></p>
+            <div class="collapse" id="<%=product.product._id%>">
+            <img src="http://api.map.baidu.com/staticimage?width=580&height=400&zoom=16&markerStyles=l,A&center=<%=product.product.gps.lat%>,<%=product.product.gps.lon%>&markers=<%=product.product.gps.lat%>,<%=product.product.gps.lon%>">
+            </div>
+            <!--<div class="modal fade" id="baidumap" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+                <!--<div class="modal-dialog">-->
+                    <!--<div class="modal-content">-->
+                        <!--<div class="modal-body">-->
+                            <!--<div id="baidumapcontent" style="height: 400px;">-->
+
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <p>营业时间：<%=product.product.openTime%> </p>
+        </div>
+        <div class="graybox">
+            <img src="http://dd885.b0.upaiyun.com/<%=product.product.image[3].url%>!Detail550" class="imgfloat">
+            <p><%-product.product.intro.replace(/\n/g, '<br/>')%></p>
+            <img src="http://dd885.b0.upaiyun.com/<%=product.product.image[4].url%>!Detail880">
+        </div>
+        <% });%>
+
+        <%}else{%>
+        <div class="blackbox">
+            <p>产品名称：<%=product.name%></p>
+
+            <%-product.level%>
+
+            <p>产品地址：<%=product.addr%> <a href="#<%=product._id%>" data-toggle="collapse">地图</a></p>
+            <div class="collapse" id="<%=product._id%>">
+                <img src="http://api.map.baidu.com/staticimage?width=580&height=400&zoom=16&markerStyles=l,A&center=<%=product.gps.lat%>,<%=product.gps.lon%>&markers=<%=product.gps.lat%>,<%=product.gps.lon%>">
+            </div>
+
+            <p>营业时间：<%=product.openTime%> </p>
+        </div>
+        <div class="graybox">
+            <img src="http://dd885.b0.upaiyun.com/<%=product.image[3].url%>!Detail550" class="imgfloat">
+            <p><%-product.intro.replace(/\n/g, '<br/>')%></p>
+            <img src="http://dd885.b0.upaiyun.com/<%=product.image[4].url%>!Detail880">
+        </div>
+        <%}%>
+
+        <div class="title" id="ydxz"><img src="/images/wcy_hotelTictitle04.gif" alt="预定须知"></div>
+        <div class="YDlist">
+            <ul>
+                <li>
+                    <p class="black">预订规则</p>
+
+                    <p><%-product.bookRule.replace(/\n/g, '<br/>')%></p>
+                </li>
+                <li>
+                    <p class="black">使用规则</p>
+
+                    <p><%-product.useRule.replace(/\n/g, '<br/>')%></p>
+                </li>
+                <li>
+                    <p class="black">注意事项</p>
+
+                    <p><%-product.cancelRule.replace(/\n/g, '<br/>')%></p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<% include footer %>
+<script type="text/javascript" src="/js/jquery.nivo.slider.js"></script>
+<script type="text/javascript" src="/js/jquery.calendar.js"></script>
+<script>
+
+
+
+    $(document).ready(function () {
+
+        <%if(product.type != 4){%>
+        //套票或者门票的日期选择逻辑
+        var setShowData = function (){
+            if(!$('#dateSelect').val() || ""===$('#dateSelect').val()||undefined===$('#dateSelect').val()){
+                $('#exDate').val("");
+                $('#wk').val("");
+                $('#nor').val("");
+                //$('#divPrice').html("");
+                $('#sPrice').val("");
+                $('#isWeekend').val("");
+                $('#lid').val("");
+            }else{
+                console.log(!$('#dateSelect').val(),'aaaaaaaaaaa');
+                $('#exDate').val($('#dateSelect :checked').text());
+                var array = $('#dateSelect').val().split(',');
+                $('#wk').val(array[1]);
+                $('#nor').val(array[0]);
+                $('#divPrice').html("￥"+$("input[name='weekend']:checked").val());
+                $('#sPrice').val($("input[name='weekend']:checked").val());
+                $('#isWeekend').val($("input[name='weekend']:checked").attr('isWk'));
+                $('#lid').val(array[2]);
+            }
+        };
+
+        //套票或者门票的日期选择器的初始化
+//        setShowData();
+
+        //套票或者门票的日期选择后的动作
+        $('#dateSelect').change(function(){
+            setShowData();
+        });
+
+        //套票或者门票的周末非周末的选择动作
+        $("input[name='weekend']").click(function(){
+            if(""!==$("input[name='weekend']:checked").val()&&undefined!==$("input[name='weekend']:checked").val()&&"on"!==$("input[name='weekend']:checked").val()){
+                $('#divPrice').html("￥"+$("input[name='weekend']:checked").val());
+                $('#sPrice').val($("input[name='weekend']:checked").val());
+                $('#isWeekend').val($("input[name='weekend']:checked").attr('isWk'));
+            }
+        });
+
+        //套票或者门票的价格获取
+        var refreshPriceLog = function(productID){
+            $.ajax({
+                url:'/getPriceLog/'+productID
+                ,method:'GET'
+            }).done(function(data){
+                        var priceLogListStr = "<option value=''>请选择有效期</option>";
+                        //data:[ {name:yyyy-mm-dd ~ yyyy-mm-dd, price:111 , priceWeekend:222} ]
+                        var minPriceSelectValue = "";
+                        var minPrice=99999;
+                        var minPriceIsWeekend="y";
+                        $.each(data.data,function(index,data){
+                            var optionStr = '<option value="__price__,__priceWeekend__,__priceLogID__">__priceName__</option>';
+                            optionStr = optionStr.replace(/__price__/,data.price)
+                                    .replace(/__priceWeekend__/,data.priceWeekend)
+                                    .replace(/__priceLogID__/,data._id)
+                                    .replace(/__priceName__/,data.name);
+                            priceLogListStr+=optionStr;
+                            if( data.price < minPrice ){
+                                minPrice = data.price;
+                                minPriceIsWeekend='n';
+                                minPriceSelectValue = [data.price,data.priceWeekend,data._id].join(',');
+                            }else if( data.priceWeekend < minPrice ){
+                                minPrice = data.price;
+                                minPriceIsWeekend='y';
+                                minPriceSelectValue = [data.price,data.priceWeekend,data._id].join(',');
+                            }
+                        });
+//                        console.log(minPrice,minPriceIsWeekend,minPriceSelectValue);
+                        $('#divPrice').html("￥"+minPrice+"起");
+                        $('#dateSelect').empty().append(priceLogListStr);
+//                        $('#dateSelect').val(minPriceSelectValue);
+                    });
+        };
+
+        //套票或者门票的价格获取初始化
+        refreshPriceLog('<%=product._id%>');
+
+        //套票或者门票的form提交
+        $('#form_order').submit(function(event){
+            if($('#nav_logined').hasClass('hidden')){
+                event.preventDefault();
+                $('.loginModal').modal('show');
+            } else {
+                if(""===$('#dateSelect').val()){
+                    alert('请选择有效期!');
+                    event.preventDefault();
+                }
+            }
+        });
+
+        <%}else{%>
+
+        //打包产品的日期选择初始化--清空
+        var packagePriceInit = function(){
+            $('#price').val("");//为下一个页面传参的隐藏域
+            $('#selDate').val("");//为下一个页面传参的隐藏域
+            $('#packageDate').val("");
+            $('#divPrice').html("");
+        };
+
+        packagePriceInit();
+
+        //打包产品的价格日历控件初始化
+        $('#cal').calender({
+            'target':'packageDate',
+            'url':'/getPackagePrice/<%=product._id%>',
+            'onSelect':function(data){
+                $('#price').val(data.price);
+                $('#selDate').val(data.date);
+                if(0<parseInt(data.price)){
+                    $('#divPrice').html("￥<span>"+data.price+"</span>");
+                }else{
+                    $('#divPrice').html("");
+                }
+            },
+            onData:function(data){
+                //页面上的价格初始化
+                var minPriceDate="";
+                var minPrice=99999;
+                for(var date in data.data){
+                    if(data.data[date]<minPrice){
+                        minPrice=data.data[date];
+                        minPriceDate=date;
+                    }
+                }
+                $('#divPrice').html("￥<span>"+minPrice+"</span>起");
+//                $('#packageDate').val(minPriceDate);
+            }
+        });
+
+        $('#form_order').submit(function(event){
+            if($('#nav_logined').hasClass('hidden')){
+                event.preventDefault();
+                $('.loginModal').modal('show');
+            } else {
+                if(""===$('#selDate').val()){
+                    alert("请选择日期!");
+                    return false;
+                }
+                if(""===$('#price').val()){
+                    alert("选择的日期没有价格，请重新选择!");
+                    return false;
+                }
+            }
+        });
+        <%}%>
+
+        //以下是公共方法：包括slider init baidumap inti relevanceproduct init
+        $('#slider').nivoSlider({
+            effect: 'fade', //Specify sets like: 'fold,fade,sliceDown'
+            slices: 15,
+            animSpeed: 200, //Slide transition speed
+            pauseTime: 3000,
+            startSlide: 0, //Set starting Slide (0 index)
+            directionNav: false, //Next & Prev
+            directionNavHide: true, //Only show on hover
+            controlNav: true, //1,2,3...
+            controlNavThumbs: true, //Use thumbnails for Control Nav
+            controlNavThumbsFromRel: true, //Use image rel for thumbs
+            controlNavThumbsSearch: '.jpg', //Replace this with...
+            controlNavThumbsReplace: '_thumb.jpg', //...this in thumb Image src
+            keyboardNav: true, //Use left & right arrows
+            pauseOnHover: true, //Stop animation while hovering
+            manualAdvance: false, //Force manual transitions
+            captionOpacity: 0.3, //Universal caption opacity
+            beforeChange: function (){
+            },
+            afterChange: function (){
+            },
+            slideshowEnd: function () {
+            } //Triggers after all slides have been shown
+        });
+        //刷新关联产品的逻辑
+        var refreshRelevanceProduct = function(productid){
+            var productStr = '<li>'+
+                    '<a href="/productDetail/__productid__"><img src="__imageurl__" alt="__imagename__"></a>'+
+                    '<a href="/productDetail/__productid__" class="cityinfo">'+
+                    '<span class="price">￥<span class="pricebig">__price__</span>起</span>'+
+                    '<span class="info" title="__productname__">__productshortname__</span>'+
+                    '</a>'+
+                    '</li>';
+            $.ajax({
+                url:'/product/relevance/'+productid
+                ,method:"GET"
+            }).done(function(data){
+                        if(data.data.length==0){
+                            $('#relevantProduct').removeClass("bs-wcy_htimglistbox");
+                            console.log("no relevant products");
+                            return;
+                        }else{
+                            var relevanceProductListStr = "";
+                            $.each(data.data,function(index,data){
+                                relevanceProductListStr += productStr.replace(/__imageurl__/,data.image.url)
+                                        .replace(/__imagename__/,data.image.intro)
+                                        .replace(/__price__/,data.price)
+                                        .replace(/__productshortname__/,data.shortName)
+                                        .replace(/__productname__/,data.name)
+                                        .replace(/__productid__/g,data._id);
+                            });
+                            var header='<div class="bs-wcy_htimglisttitle"><img src="/images/wcy_hotelTictitle01.gif" alt="相关商品"></div>';
+                            $('#relevantProduct').append(header+"<ul>"+relevanceProductListStr+"</ul>");
+                        }
+                    });
+        };
+
+        //刷新关联产品的延时任务，延时1秒钟刷新
+        setTimeout(function(){
+            refreshRelevanceProduct($('#productID').val());
+        },1000);
+
+    });
+</script>

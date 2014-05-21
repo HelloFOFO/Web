@@ -1,6 +1,7 @@
 /**
  * Created by zzy on 4/14/14.
  */
+var clicked = false;
 (function($){
 //    var today = new Date();
 //    var currMonth = today.getMonth();
@@ -13,15 +14,38 @@
         if($opts.url){
             $.ajax({'url':$opts.url,'type':'GET'})
                 .done(function(data){
+                    $opts.onData(data);
                     if( data.error ==0 ){
                         $opts.data = data.data;
                         var cal = new Calender($opts,$this);
                         cal.init();
+                        $('#'+$opts.target).focus(function(){
+//                            console.log('focus');
+                            $this.show();
+                        }).blur(function(event){
+//                                console.log('blur',clicked);
+                                if(clicked){
+                                    clicked = false;
+                                } else {
+                                    $this.hide();
+                                }
+                            });
                     }
                 });
         } else {
             var cal = new Calender($opts,$this);
             cal.init();
+            $('#'+$opts.target).focus(function(){
+//                console.log('focus');
+                $this.show();
+            }).blur(function(event){
+//                    console.log('blur',clicked);
+                    if(clicked){
+                        clicked = false;
+                    } else {
+                        $this.hide();
+                    }
+                });
         }
     };
 
@@ -47,8 +71,9 @@
         $this.addClass("calendarbox");
 
         this.cleanDiv = function(){
-            $this.empty();
+            $this.html('');
         };
+
         this.init = function(){
             var table = $("<table class='table-calendar' width='100%'></table>");
             var body = $("<tbody></tbody>");
@@ -76,7 +101,7 @@
             $this.append(table);
             var tr=$("<tr></tr>");
             var month = new Date(this.currMonth.getFullYear(),this.currMonth.getMonth(),1);
-            ;           var currDay = month.getDay();
+            var currDay = month.getDay();
             for(var i=0;i<currDay;i++){
                 tr.append("<td class='day old'></td>");
             }
@@ -125,8 +150,9 @@
                         td.append(span);
                     }
                     td.click(function(){
-                        console.log($(this).data);
+//                        console.log($(this).data);
                         if($(this).data('disable')){
+                            $('#'+that.target).focus();
                             return;
                         }
                         that.defaultOnSelect(this);
@@ -134,6 +160,9 @@
                             'date':$(this).data('dfm'),
                             'price':$(this).data('price')
                         });
+                    });
+                    td.mousedown(function(){
+                        clicked = true;
                     });
                     tr.append(td);
                 }
@@ -145,16 +174,23 @@
             table.append(header);
             table.append(body);
             table.append(footer);
+
             $('.prev').click(function(){
                 that.prevClick();
-            });
+                $('#'+that.target).focus();
+            }).mousedown(function(){
+                    clicked=true;
+                });
+
             $('.next').click(function(){
+//                console.log('click');
                 that.nextClick();
-            });
-            $('#'+that.target).focus(function(){
-                $this.show();
-            });
-        }
+                $('#'+that.target).focus();
+            }).mousedown(function(){
+//                    console.log('mousedown',clicked);
+                 clicked=true;
+                });
+        };
 
         this.prevClick = function(){
             this.currMonth.setMonth(this.currMonth.getMonth()-1);
@@ -165,6 +201,7 @@
             this.cleanDiv();
             this.init();
         };
+
         this.nextClick = function(){
             this.currMonth.setMonth(this.currMonth.getMonth()+1);
             if(this.currMonth.getTime()>this.maxMonth.getTime()){
@@ -175,6 +212,7 @@
             this.init();
         };
     }
+
     Date.prototype.Format = function (fmt) {
         var o = {
             "M+": this.getMonth() + 1, //月份

@@ -1,0 +1,48 @@
+
+<input type="text" readonly id="target">
+
+        <div id="pop">
+            <ul>
+                <li>aaa</li>
+                <li>bbb</li>
+            </ul>
+        </div>
+
+
+
+
+<script src="/js/jquery.min.js">
+
+</script>
+
+
+<script>
+    $(function(){
+        var clicked = false;
+        $('#pop').hide();
+        $('#target').focus(function(){
+            console.log('i am focus');
+            $('#pop').show();
+
+
+        }).blur(function(){
+                    console.log('i am blur click is',clicked);
+                    if(clicked){
+                        clicked=false;
+                    }else{
+                        $('#pop').hide();
+                    }
+                });
+
+        $('#pop').on('click','li',function(){
+            console.log('i am clicked click is',clicked);
+            console.log($(this).html());
+            $('#target').focus();
+        }).mousedown(function(){
+                    clicked=true;
+                });
+
+
+    })
+
+</script>

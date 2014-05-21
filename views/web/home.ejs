@@ -98,11 +98,13 @@
         $(".searchInput").focus(function () {
             $(".bs-wcy-homecitybox").show();
         }).blur(function(){
-                    setTimeout(function(){
+                    if(cityClicked){
+                        cityClicked=false;
+                    }else{
                         $(".bs-wcy-homecitybox").hide();
-                    },500);
+                    }
                 });
-
+        var cityClicked=false;
 
         $(".bs-wcy-homecitybox").on('click','a',function (e) {
             var city = $(this).text();
@@ -114,7 +116,9 @@
             refreshHomeBanner(cityID);
             refreshHotProduct(cityID);
             e.preventDefault();
-        });
+        }).on('mousedown','a',function(e){
+                    cityClicked=true;
+                });
 
         //刷新热门产品列表
         var refreshHotProduct = function(city){

@@ -52,6 +52,7 @@ exports.hotProduct = function(req,res){
                 data.data.forEach(function(data){
                     data.shortName = truncProductName(data.name);
                     data.image = data.image[0];
+                    data.image = data.image?data.image:"";
                     data.image.url=   'http://dd885.b0.upaiyun.com/'+data.image.url;
                 });
                 res.json(data);
