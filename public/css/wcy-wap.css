@@ -111,7 +111,7 @@ a:active { text-decoration: none;}
 .wcy-goverDetailBox p{line-height:20px; color:#808080; text-indent:2em; padding:5px 0;}
 .wcy-goverDetailBox h3{ line-height:24px; font-size:18px; color:#333333; text-align:center;}
 .wcy-goverDetailBox h5{ line-height:24px; font-size:12px; color:#808080; text-align:center; padding-bottom:10px;}
-.wcy-goverDetailBox img{ max-height:200px; padding:10px 0;}
+.wcy-goverDetailBox img{width:100%; padding:10px 0;}
 
 
 /*about us*/

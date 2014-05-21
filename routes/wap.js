@@ -70,7 +70,7 @@ module.exports = function(app){
         }else if(req.params.id=="201473"){
             res.render("wap/noticeDetailStatic",{titleName:'公告详情',  title:"驾专委[2014]第073号",
                 createDate:"2014年03月28日16:25:55",
-                imageURL:"wap://dd885.b0.upaiyun.com/8c71dc911d9d94266e6ddb99.jpg"});
+                imageURL:"http://dd885.b0.upaiyun.com/8c71dc911d9d94266e6ddb99.jpg"});
         }else{
             res.render("web/noticeDetailStatic",{titleName:'公告详情',title:"",createDate:"",imageURL:""});
         }
