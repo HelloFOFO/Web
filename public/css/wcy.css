@@ -29,7 +29,7 @@ body {
 .bs-wcy-homenav {text-shadow: 0 -1px 0 rgba(0,0,0,.15); background-image:url(../images/wcy_headbg02.png); border-color: #464949; box-shadow: 0 1px 0 rgba(255,255,255,.1); height:80px; line-height:80px;}
 .bs-wcy_headwidth{width: 1100px}
 .bs-wcy-headheight{ height:80px; line-height:80px;}
-.bs-wcy-logo{ float:left; background:url(../images/wcy_logo.png) no-repeat left 5px; width:250px; height:80px;}
+.bs-wcy-logo{ float:left; background:url(../images/wcy_logo.png) no-repeat left 5px; width:365px; height:80px;}
 .bs-wcy-headword{ float:left; padding-left:150px; font-size:16px; color:#13d377;}
 .bs-wcy_navlist{ float:right; height:80px; line-height:80px;}
 .bs-wcy_navlist li{ float:left; padding-left:20px;}
