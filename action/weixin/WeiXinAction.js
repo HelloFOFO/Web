@@ -107,6 +107,14 @@ exports.payNotify = function(req,res){
                                             }else{
                                                 if(0===rs.error){
                                                     res.send("success");
+                                                    //send sms
+                                                    sendOrderSMSFn(r.data.contactPhone,r.data.orderID,r.data.member._id,function(error,ret){
+                                                        if(error){
+                                                            console.log("mobile:"+r.data.contactPhone+",orderID:"+r.data.orderID+",memberId:"+r.data.member._id+" send pay success sms is failed,reason is "+ret);
+                                                        }else{
+                                                            console.log("mobile:"+r.data.contactPhone+",orderID:"+r.data.orderID+",memberId:"+r.data.member._id+" send pay success sms is success");
+                                                        }
+                                                    });
                                                     //deliver
                                                     weixin.getAT(function(){
                                                         weixin.deliver(result,req.query.transaction_id,req.query.out_trade_no,function(error,ret){
@@ -222,4 +230,31 @@ exports.delMenu = function(req,res){
             }
         });
     });
+}
+
+
+//send SMS
+function sendOrderSMSFn(mobile,orderID,memberID,cb){
+    try{
+        var querystring = require('querystring');
+        var params = querystring.stringify({mobile:mobile,orderID:orderID,member:memberID});
+        var opt = {
+            'host':Config.inf.host,
+            'port':Config.inf.port,
+            'path':'/order/sms?'+params,
+            'method':"GET"
+        };
+
+        var http = new HttpClient(opt);
+        http.getReq(function(err,result){
+            if(err){
+                cb('error',err);
+            }else{
+                cb(null,result);
+            }
+        });
+
+    }catch(e){
+        cb('error', e.message);
+    }
 }

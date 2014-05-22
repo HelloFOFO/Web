@@ -6,7 +6,6 @@ var Config = require('./../../tools/Config.js');
 var HttpClient = require('./../../tools/HttpClient.js');
 //请求交易
 exports.getReqTrade = function(req,res){
-    //todo 参数取值
 //    console.log(Config.alipay);
     var _id = req.body._id?req.body._id:req.params._id;
     var tradeNo = req.body.oid?req.body.oid:req.params.oid;
@@ -78,21 +77,18 @@ exports.callBack = function(req,res){
                     if(0===result.error){
                         if(0===result.data.status){
                             if("success"===req.query.result){
-                                var hc = new HttpClient({
-                                    'host':Config.inf.host,
-                                    'port':Config.inf.port,
-                                    'path':'/order/update/'+req.params.id,
-                                    'method':"POST"
-                                });
-                                hc.postReq({status:1,operator:'5320ffb06532aa00951ff5e1'},function(e,r){
+                                updateOrder(req.params.id,function(e,r){
                                     if(e){
-                                        res.send(404, e);
+                                        console.log("orderID:"+result.data.orderID+" update status is failed,reason is "+r);
                                     }else{
-                                        if(0===r.error){
-                                            console.log("order "+req.query.out_trade_no+" is update status success");
-                                        }else{
-                                            res.send(404, r.errorMsg);
-                                        }
+                                        console.log("orderID:"+result.data.orderID+" update status is success");
+                                        sendOrderSMSFn(result.data.contactPhone,result.data.orderID,result.data.member._id,function(er,rs){
+                                            if(er){
+                                                console.log("mobile:"+result.data.contactPhone+",orderID:"+result.data.orderID+",memberId:"+result.data.member._id+" send pay success sms is failed,reason is "+rs);
+                                            }else{
+                                                console.log("mobile:"+result.data.contactPhone+",orderID:"+result.data.orderID+",memberId:"+result.data.member._id+" send pay success sms is success");
+                                            }
+                                        });
                                     }
                                 });
                             }
@@ -136,9 +132,7 @@ exports.notify = function(req,res){
                     httpClient.getReq(function(err,result){
                         if(err){
                             console.log("notify verify fail",err);
-                            res.writeHead(200, {"Content-Type": "text/html"});
-                            res.write("fail");
-                            res.end();
+                            res.send("fail");
                         }else{
                             if(0===result.error){
                                 if(0===result.data.status){
@@ -146,53 +140,87 @@ exports.notify = function(req,res){
                                     parseString(req.body.notify_data, function (er, rlt) {
                                         status = rlt.notify.trade_status[0];
                                     });
-                                    if("TRADE_FINISHED"===status||"TRADE_SUCCESS"===status){
-                                        var hc = new HttpClient({
-                                            'host':Config.inf.host,
-                                            'port':Config.inf.port,
-                                            'path':'/order/update/'+req.params.id,
-                                            'method':"POST"
-                                        });
-                                        hc.postReq({status:1,operator:'5320ffb06532aa00951ff5e1'},function(e,r){
+                                    if("TRADE_SUCCESS"===status){
+                                        updateOrder(req.params.id,function(e,r){
                                             if(e){
-                                                console.log("e",e);
-                                                res.writeHead(200, {"Content-Type": "text/html"});
-                                                res.write("fail");
-                                                res.end();
+                                                console.log("orderID:"+result.data.orderID+" update status is failed,reason is "+r);
+                                                res.send("fail");
                                             }else{
-                                                if(0===r.error){
-                                                    res.writeHead(200, {"Content-Type": "text/html"});
-                                                    res.write("success");
-                                                    res.end();
-                                                }else{
-                                                    console.log("r.error", r.errorMsg);
-                                                    res.writeHead(200, {"Content-Type": "text/html"});
-                                                    res.write("fail");
-                                                    res.end();
-                                                }
+                                                console.log("orderID:"+result.data.orderID+" update status is success");
+                                                sendOrderSMSFn(result.data.contactPhone,result.data.orderID,result.data.member._id,function(er,rs){
+                                                    if(er){
+                                                        console.log("mobile:"+result.data.contactPhone+",orderID:"+result.data.orderID+",memberId:"+result.data.member._id+" send pay success sms is failed,reason is "+rs);
+                                                    }else{
+                                                        console.log("mobile:"+result.data.contactPhone+",orderID:"+result.data.orderID+",memberId:"+result.data.member._id+" send pay success sms is success");
+                                                    }
+                                                });
+                                                res.send("success");
                                             }
                                         });
                                     }
+                                }else{
+                                    res.send("success");
                                 }
                             }else{
                                 console.log("notify verify fail");
-                                res.writeHead(200, {"Content-Type": "text/html"});
-                                res.write("fail");
-                                res.end();
+                                res.send("fail");
                             }
                         }
                     });
                 }catch(e){
                     console.log(e.message);
-                    res.writeHead(200, {"Content-Type": "text/html"});
-                    res.write("fail");
-                    res.end();
+                    res.send("fail");
                 }
             }else{
-                res.writeHead(200, {"Content-Type": "text/html"});
-                res.write("fail");
-                res.end();
+                res.send("fail");
             }
         }
     });
+}
+
+//update order status
+function updateOrder(id,cb){
+    var hc = new HttpClient({
+        'host':Config.inf.host,
+        'port':Config.inf.port,
+        'path':'/order/update/'+id,
+        'method':"POST"
+    });
+    hc.postReq({status:1,operator:'5320ffb06532aa00951ff5e1'},function(e,r){
+        if(e){
+            cb('error',e);
+        }else{
+            if(0===r.error){
+              cb(null,"success");
+            }else{
+               cb('error', r.errorMsg);
+            }
+        }
+    });
+}
+
+//send SMS
+function sendOrderSMSFn(mobile,orderID,memberID,cb){
+    try{
+        var querystring = require('querystring');
+        var params = querystring.stringify({mobile:mobile,orderID:orderID,member:memberID});
+        var opt = {
+            'host':Config.inf.host,
+            'port':Config.inf.port,
+            'path':'/order/sms?'+params,
+            'method':"GET"
+        };
+
+        var http = new HttpClient(opt);
+        http.getReq(function(err,result){
+            if(err){
+                cb('error',err);
+            }else{
+                cb(null,result);
+            }
+        });
+
+    }catch(e){
+        cb('error', e.message);
+    }
 }

@@ -112,27 +112,25 @@ exports.callBack = function(req,res){
                     }else{
                         if(0===result.error){
                             if(0===result.data.status){
-                                if("TRADE_FINISHED"===req.query.trade_status||"TRADE_SUCCESS"===req.query.trade_status){
-                                    var hc = new HttpClient({
-                                        'host':Config.inf.host,
-                                        'port':Config.inf.port,
-                                        'path':'/order/update/'+req.params.id,
-                                        'method':"POST"
-                                    });
-                                    hc.postReq({status:1,operator:'5320ffb06532aa00951ff5e1'},function(e,r){
+                                if("TRADE_SUCCESS"===req.query.trade_status){
+                                    updateOrder(req.params.id,function(e,r){
                                         if(e){
-                                            res.send(404, e);
+                                            res.send(404, r.errorMsg);
                                         }else{
-                                            if(0===r.error){
-                                                var order = {};
-                                                order.oid = req.query.out_trade_no;
-                                                order._id = req.params.id;
-                                                order.pName = req.query.subject;
-                                                order.total = req.query.total_fee;
-                                                res.render('web/trade_success',{order:order});
-                                            }else{
-                                                res.send(404, r.errorMsg);
-                                            }
+                                            var order = {};
+                                            order.oid = req.query.out_trade_no;
+                                            order._id = req.params.id;
+                                            order.pName = req.query.subject;
+                                            order.total = req.query.total_fee;
+                                            //send sms
+                                            sendOrderSMSFn(result.data.contactPhone,order.oid,result.data.member._id,function(er,rs){
+                                                if(er){
+                                                    console.log("mobile:"+result.data.contactPhone+",orderID:"+order.oid+",memberId:"+result.data.member._id+" send pay success sms is failed,reason is "+rs);
+                                                }else{
+                                                    console.log("mobile:"+result.data.contactPhone+",orderID:"+order.oid+",memberId:"+result.data.member._id+" send pay success sms is success");
+                                                }
+                                            });
+                                            res.render('web/trade_success',{order:order});
                                         }
                                     });
                                 }
@@ -273,55 +271,41 @@ exports.notify = function(req,res){
                 httpClient.getReq(function(err,result){
                     if(err){
                         console.log("notify verify fail");
-                        res.writeHead(200, {"Content-Type": "text/html"});
-                        res.write("fail");
-                        res.end();
+                        res.send("fail");
                     }else{
                         if(0===result.error){
                             if(0===result.data.status){
                                 console.log('notify status ok');
-                                if("TRADE_FINISHED"===req.body.trade_status||"TRADE_SUCCESS"===req.body.trade_status){
-                                    var hc = new HttpClient({
-                                        'host':Config.inf.host,
-                                        'port':Config.inf.port,
-                                        'path':'/order/update/'+req.params.id,
-                                        'method':"POST"
-                                    });
-                                    hc.postReq({status:1,operator:'5320ffb06532aa00951ff5e1'},function(e,r){
+                                if("TRADE_SUCCESS"===req.body.trade_status){
+                                    updateOrder(req.params.id,function(e,r){
                                         if(e){
-                                            console.log("notify verify fail");
-                                            res.writeHead(200, {"Content-Type": "text/html"});
-                                            res.write("fail");
-                                            res.end();
+                                            console.log("orderID:"+result.data.orderID+"update status is failed,reason is "+r);
+                                            res.send("fail");
                                         }else{
-                                            if(0===r.error){
-                                                res.writeHead(200, {"Content-Type": "text/html"});
-                                                res.write("success");
-                                                res.end();
-                                            }else{
-                                                console.log("notify verify fail");
-                                                res.writeHead(200, {"Content-Type": "text/html"});
-                                                res.write("fail");
-                                                res.end();
-                                            }
+                                            res.send("success");
+                                            sendOrderSMSFn(result.data.contactPhone,result.data.orderID,result.data.member._id,function(er,rs){
+                                                if(er){
+                                                    console.log("mobile:"+result.data.contactPhone+",orderID:"+result.data.orderID+",memberId:"+result.data.member._id+" send pay success sms is failed,reason is "+rs);
+                                                }else{
+                                                    console.log("mobile:"+result.data.contactPhone+",orderID:"+result.data.orderID+",memberId:"+result.data.member._id+" send pay success sms is success");
+                                                }
+                                            });
                                         }
                                     });
                                 }
+                            }else{
+                                res.send("success");
                             }
                         }else{
                             console.log("notify verify fail");
-                            res.writeHead(200, {"Content-Type": "text/html"});
-                            res.write("fail");
-                            res.end();
+                            res.send("fail");
                         }
                     }
                 });
             }catch(e){
                 console.log(e.message);
                 console.log("notify verify fail");
-                res.writeHead(200, {"Content-Type": "text/html"});
-                res.write("fail");
-                res.end();
+                res.send("fail");
             }
         }else{
             console.log("notify verify fail");
@@ -331,6 +315,53 @@ exports.notify = function(req,res){
         }
     });
 };
+
+//update order status
+function updateOrder(id,cb){
+    var hc = new HttpClient({
+        'host':Config.inf.host,
+        'port':Config.inf.port,
+        'path':'/order/update/'+id,
+        'method':"POST"
+    });
+    hc.postReq({status:1,operator:'5320ffb06532aa00951ff5e1'},function(e,r){
+        if(e){
+            cb('error',e);
+        }else{
+            if(0===r.error){
+                cb(null,"success");
+            }else{
+                cb('error',r.errorMsg);
+            }
+        }
+    });
+}
+
+//send SMS
+function sendOrderSMSFn(mobile,orderID,memberID,cb){
+    try{
+        var querystring = require('querystring');
+        var params = querystring.stringify({mobile:mobile,orderID:orderID,member:memberID});
+        var opt = {
+            'host':Config.inf.host,
+            'port':Config.inf.port,
+            'path':'/order/sms?'+params,
+            'method':"GET"
+        };
+
+        var http = new HttpClient(opt);
+        http.getReq(function(err,result){
+            if(err){
+                cb('error',err);
+            }else{
+                cb(null,result);
+            }
+        });
+
+    }catch(e){
+        cb('error', e.message);
+    }
+}
 
 ////trade request
 //exports.reqTrade = function(req,res){
