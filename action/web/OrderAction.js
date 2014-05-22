@@ -132,7 +132,7 @@ var sendOrderSMSFn = function(mobile,orderID,memberID,cb){
             'path':'/order/sms?'+params,
             'method':"GET"
         };
-
+        console.debug(opt.path);
         var http = new HttpClient(opt);
         http.getReq(function(err,result){
             if(err){
@@ -142,7 +142,6 @@ var sendOrderSMSFn = function(mobile,orderID,memberID,cb){
                 cb(null,result);
             }
         });
-
     }catch(e){
         console.error( 'aaa',new Error(e.message));
         cb('订单信息发送失败！',null);
@@ -156,7 +155,7 @@ exports.sendOrderSMS = function(req,res){
             if(err){
                 res.json({error:11,errorMsg:err});
             }else{
-                res.json({error:0});
+                res.json(result);
             }
         });
 

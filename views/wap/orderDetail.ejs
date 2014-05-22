@@ -72,11 +72,15 @@
     </div>
 </div>
 <div class="container">
-		<div class="wcy-orderdetailTitle">电子凭证</div>
+		<div class="wcy-orderdetailTitle">门票兑换码</div>
 </div>
 <div class="wcy-orderdetail">
 		<div class="container">
-        <img src="images/wcy_QRCode.png" data-src="holder.js/170x170" alt="电子凭证">
+            <p class="wap-orange">票号：<%=order.oid%></p>
+            <p class="wap-orange">*请在售票口验证后入场</p>
+            <p><input  type="text" class="mobileNum"   placeholder="接收凭证的手机号" id="OrderSMSMobile"></p>
+            <div id="errorBox" class="hidden"><label style="color: #ff0000" id="errorMsg"></label></div>
+            <p><button type="button" class="btn btn-warning QRCodePhoneBt" id="sendOrderSMS">发送至手机</button></p>
         </div>
 </div>
 <div class="container">
@@ -103,3 +107,33 @@
 </div>
 
 <%include footer%>
+<script>
+    $(document).ready(function(){
+
+        var sendOrderSMS = function(orderID,mobile,fn){
+            if(mobile.length != 11 && !(/\d{11,11}/.test(mobile))){
+                console.error(mobile.length,/\d{11,11}/.test(mobile));
+                fn(1,"手机号码格式不正确");
+            }else{
+                $.get('/getOrderSMS',{orderID:orderID,mobile:mobile}).done(function(data){
+                    if(data.error != 0){
+                        fn(1,data.errorMsg);
+                    }else{
+                        fn(0,"发送成功！");
+                    }
+                }).fail(function(data){
+                            fn(1,"网络不通,发送失败!");
+                        });
+            }
+        };
+
+        $('#sendOrderSMS').click(function(e){
+            var orderID = <%=order.oid%>;
+            var mobile = $('#OrderSMSMobile').val();
+            sendOrderSMS(orderID,mobile,function(err,result){
+                $('#errorBox').removeClass('hidden');
+                $('#errorMsg').html(result);
+            });
+        });
+    });
+</script>

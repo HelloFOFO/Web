@@ -59,12 +59,12 @@
                     </div>
                     <%}%>
                     <%if("已支付"===order.status || "已确认"===order.status){%>
-                    <div class="QRCodeTitle">电子票凭证</div>
+                    <div class="QRCodeTitle">门票兑换码:<%=order.oid%></div>
                     <div class="QRCodeDiv">
                     	<!--<div class="QRCode" id="qrCode"></div>-->
                         <div class="QRCodePhone" style="padding: 0;">
                         <form action="" method="get" >
-                        		<input  type="text" class="mobileNum"   placeholder="接收二维码凭证的手机号" id="OrderSMSMobile">
+                        		<input  type="text" class="mobileNum"   placeholder="接收凭证的手机号" id="OrderSMSMobile">
                                 <div id="errorBox" class="hidden"><label style="color: #ff0000" id="errorMsg"></label></div>
                                 <button type="button" class="btn btn-warning QRCodePhoneBt" id="sendOrderSMS">发送至手机</button>
                         </form>
