@@ -122,9 +122,10 @@ function getStsName(status){
     }
 };
 
-exports.sendOrderSMS = function(req,res){
+
+var sendOrderSMSFn = function(mobile,orderID,memberID,cb){
     try{
-        var params = querystring.stringify({mobile:req.query.mobile,orderID:req.query.orderID,member:req.session.user._id});
+        var params = querystring.stringify({mobile:mobile,orderID:orderID,member:memberID});
         var opt = {
             'host':Config.inf.host,
             'port':Config.inf.port,
@@ -135,14 +136,32 @@ exports.sendOrderSMS = function(req,res){
         var http = new HttpClient(opt);
         http.getReq(function(err,result){
             if(err){
-                console.error(new Error('订单信息发送失败！'));
-                res.json({error:1,errorMsg:"发送失败！"});
+                console.error('bbb',new Error('订单信息发送失败！'));
+                cb('订单信息发送失败！',null);
             }else{
-                res.json(result);
+                cb(null,result);
             }
         });
 
     }catch(e){
-        res.json({error:1,errorMsg: e.message});
+        console.error( 'aaa',new Error(e.message));
+        cb('订单信息发送失败！',null);
+    }
+};
+
+exports.sendOrderSMS = function(req,res){
+    try{
+        var params = querystring.stringify({mobile:req.query.mobile,orderID:req.query.orderID,member:req.session.user._id});
+        sendOrderSMSFn(req.query.mobile,req.query.orderID,req.session.user._id,function(err,result){
+            if(err){
+                res.json({error:11,errorMsg:err});
+            }else{
+                res.json({error:0});
+            }
+        });
+
+    }catch(e){
+        console.error(e.message,new Error());
+        res.json({error:111,errorMsg:"订单信息发送失败"});
     }
 };
