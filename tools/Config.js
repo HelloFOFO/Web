@@ -48,7 +48,7 @@ exports.alipay = {
 exports.wx = {
     appID:"wxb26b4089c384c714",
     appsecret:"2b0bf7006c87f9f8655f242f34e28973",
-    paySignKey:"R9oiKdUzuxTCvzHlFuKt3KbWifU9L3sNW81IOT1fOUzRlBc0rriYKDTJvVc9laXtXwFgzKKDx4TmDcsEfaMOA3Cwm6wOmobVfIMjzwyWf1gBY6Z4igkunjEHKUBnHcpD",
+    paySignKey:process.env.WEIXIN_PAYKEY,
     partnerId:"1218852001",
     partnerKey:"fa909f07b280503e68c0231b358aa9b9",
     wxhost : "api.weixin.qq.com",
