@@ -127,17 +127,31 @@
                         <div class="bs-wcy-homePerList">
                         		<ul>
                                 		<li class="bs-wcy-homePerbg01">
-                                        		<div class="name">在路上</div>
-                                                <div class="talk">春城的冬天，每天都可以感受到阳光明媚，春暖花开。一件长袖，一件外套，足矣。
-加上坐拥的得天独厚的地理位置...</div>
+                                        		<div class="name">省时</div>
+                                                <div class="talk">
+                                                		<p>不用寻找售票处</p>
+                                                        <p>不用费时抢购特价门票</p>
+                                                        <p>万车游长期提供热门景点门票</p>
+                                                        <p>把宝贵的旅游时间还给你</p>
+                                                </div>
                                         </li>
                                 		<li class="bs-wcy-homePerbg02">
-                                        		<div class="name">西瓜汁</div>
-                                                <div class="talk">一直想来凤凰，一直想吃正宗的长沙臭豆腐，一直想来一场说走就走的旅行。 因为朋友的一句：“要不要一起旅游？年初八走，云南...南...</div>
+                                        		<div class="name">超值</div>
+                                                <div class="talk">
+                                                		<p>更少的花费</p>
+                                                        <p>却获得更多的享受和体验</p>
+                                                        <p>特价不再需要抢购这里天天有特价</p>
+                                                        <p>我们为你节约每一次的花费</p>
+                                                </div>
                                         </li>
                                 		<li class="bs-wcy-homePerbg03">
-                                        		<div class="name">乐游游</div>
-                                                <div class="talk">013年夏至，因为工作关系去了一趟漠河，而且是开着玛莎拉蒂跑车去的，在一年中白昼最长的那几天里，我们从满洲里开着玛莎拉...招...</div>
+                                        		<div class="name">自由</div>
+                                                <div class="talk">
+                                                		<p>说走就走，玩转一座城市</p>
+                                                        <p>拒绝走马观花，旅游就应该走走停停</p>
+                                                        <p>万车游为你精选TOP旅游城市</p>
+                                                        <p>不错过任何精彩</p>
+                                                </div>
                                         </li>
                                 </ul>
                         </div>
@@ -146,23 +160,24 @@
       <div class="container bs-wcy_footerhomewidth">
       			<div class="infobox">
                 		<div class="rightinfo">
-                        		<p class="ptop"><a href="#">关于万车游</a>客服电话 400-888-8888</p>
                                 <p>
                                 		<span>关注我们</span>
                                   		<a href="#"><img src="images/wcy_icoweibo.png" alt="新浪微博"></a>
-                                		<a href="#"><img src="images/wcy_icoweixin.png" alt="微信"></a>
+                                		<a href="#" id="WXCode"><img src="images/wcy_icoweixin.png" alt="微信"></a>
                                         <a href="#"><img src="images/wcy_icoten.png" alt="腾讯微博"></a>
                                 </p>
+                                
                         </div>
                 		<div class="leftCopy">
-                        		<p><img src="images/wcy_logo02.png" alt="万车游Logo"></p>
-                                <p>©Copyright 2011-2014 万车游 All Rights Reserved. 沪ICP备08026014号</p>
+                                <p class="ptop"><a href="#">关于万车游</a>客服电话 400-888-8888</p>
                         </div>
                 </div>
                 <div class="friendlink">
                 		<div class="title">友情链接</div>
                         <p><a href="#">上海旅游</a><a href="#">江苏旅游</a><a href="#">浙江旅游</a><a href="#">安徽旅游</a><a href="#">新华社</a><a href="#">上海松江</a><a href="#">中国自驾游联盟</a><a href="#">解放日报</a><a href="#">新华日报</a><a href="#">万车游山水画</a><a href="#">万车游松江</a><a href="#">万车游青生活</a><a href="#">万车游亲亲水</a><a href="#">万车游温泉</a><a href="#">万车游上海动植物</a></p>
                 </div>
+                <div class="Copyright">©Copyright 2011-2014 万车游 All Rights Reserved. 沪ICP备08026014号</div>
+                <div class="weiXinCode"><img src="images/weixin-getqrcode.png" alt="微信二维码"></div>
       </div>
     </div>
     <!--登录弹出框-->
@@ -377,6 +392,13 @@ $(document).ready(function () {
 			$(".bs-wcy-homecitybox").hide();
 		})
 		
+	/* 微信二维码*/
+	$("#WXCode").mouseover(function(){
+		$(".weiXinCode").show();
+		})
+	$("#WXCode").mouseout(function(){
+		$(".weiXinCode").hide();
+		})
 
 });
 

@@ -2,19 +2,16 @@
     <div class="container bs-wcy_footerhomewidth">
         <div class="infobox">
             <div class="rightinfo">
-                <p class="ptop"><a href="/aboutUs">关于万车游</a>客服电话 400-885-3885</p>
-
                 <p>
                     <span>关注我们</span>
-                    <a href="#"><img src="/images/wcy_icoweibo.png" alt="新浪微博"></a>
-                    <a href="#weixin" data-toggle="popover" data-container="body"><img src="/images/wcy_icoweixin.png" data-placement="top" alt="微信"></a>
-                    <a href="#"><img src="/images/wcy_icoten.png" alt="腾讯微博"></a>
+                    <a href="#"><img src="images/wcy_icoweibo.png" alt="新浪微博"></a>
+                    <a href="#" id="WXCode"><img src="images/wcy_icoweixin.png" alt="微信"></a>
+                    <a href="#"><img src="images/wcy_icoten.png" alt="腾讯微博"></a>
                 </p>
+
             </div>
             <div class="leftCopy">
-                <p><img src="/images/wcy_logo.png" alt="万车游Logo"></p>
-
-                <p>©Copyright 2011-2014 万车游 All Rights Reserved. 沪ICP备08026014号</p>
+                <p class="ptop"><a href="#">关于万车游</a>客服电话 400-885-3885</p>
             </div>
         </div>
         <div class="friendlink">
@@ -38,19 +35,26 @@
                 <a href="http://www.dd885.org" target="_blank">长三角自驾游专家委员会</a>
             </p>
         </div>
+        <div class="Copyright">©Copyright 2011-2014 万车游 All Rights Reserved. 沪ICP备08026014号</div>
+        <div class="weiXinCode"><img src="images/weixin-getqrcode.png" alt="微信二维码"></div>
     </div>
 </div>
 
-<div id="weixin" class="popover fade top in">
-    <div class="arrow"></div>
-    <h3 class="popover-title"></h3>
-    <div class="popover-content">aaaabbb</div>
-</div>
 
 
 <script type="text/javascript">
     var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
     document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F7f4be4ed3a7f97a4f959908d32b6fb70' type='text/javascript'%3E%3C/script%3E"));
+    /* 微信二维码*/
+    $(document).ready(function(){
+        $("#WXCode").mouseover(function(){
+            $(".weiXinCode").show();
+        });
+        $("#WXCode").mouseout(function(){
+            $(".weiXinCode").hide();
+        });
+    });
+
 </script>
 </body>
 </html>

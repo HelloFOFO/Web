@@ -48,23 +48,23 @@ body {
 .bs-wcy_cityimgbox ul li .cityinfo .pricebig{ font-size:22px; padding:0px 1px;}
 .bs-wcy_footer{ background:#1abc89;}
 .bs-wcy_footerwidth{ width:940px; height:100px; color:#fff;}
-.bs-wcy_footerwidth .Copyright{ float:right; line-height:100px; font-size:14px; color:#fff}
 .bs-wcy_footerwidth .link{ float:left; line-height:100px; font-size:14px; color:#fff}
 .bs-wcy_footerwidth .link a{ color:#fff; padding-right:15px;}
 .bs-wcy_footerwidth .link a:hover{ color:#d6fcf0; text-decoration:none;}
-.bs-wcy_footerhomewidth{ width:940px; height:auto; color:#fff;}
+.bs-wcy_footerhomewidth{ width:940px; height:auto; color:#fff; position:relative;}
 .bs-wcy_footerhomewidth .infobox{ border-bottom:#13a476 solid 1px; padding:20px 0px; height:auto; overflow:hidden;}
 .bs-wcy_footerhomewidth .infobox .leftCopy{ float:left; font-size:12px; line-height:24px;}
-.bs-wcy_footerhomewidth .infobox .rightinfo{ float:right; font-size:14px;line-height:24px; text-align:right;}
-.bs-wcy_footerhomewidth .infobox .rightinfo .ptop{ padding-bottom:10px; }
-.bs-wcy_footerhomewidth .infobox .rightinfo .ptop a{ color:#fff; padding-right:20px;}
-.bs-wcy_footerhomewidth .infobox .rightinfo  a{color:#fff; padding-right:10px;}
+.bs-wcy_footerhomewidth .infobox .rightinfo{ float:right; font-size:14px; line-height:24px; text-align:right;}
+.bs-wcy_footerhomewidth .infobox .ptop{ font-size:16px;}
+.bs-wcy_footerhomewidth .infobox  .ptop a{ color:#fff; padding-right:30px;}
+.bs-wcy_footerhomewidth .infobox .rightinfo  a{color:#fff; padding-right:20px; font-size:14px;}
 .bs-wcy_footerhomewidth .infobox .rightinfo  a:hover{color:#d6fcf0; text-decoration:none;}
-.bs-wcy_footerhomewidth .infobox .rightinfo span{ color:#0d8f66; font-size:16px; padding-right:10px; line-height:20px;}
-.bs-wcy_footerhomewidth .friendlink{ padding:5px 0; height:auto; overflow:hidden; color:#fff;}
+.bs-wcy_footerhomewidth .infobox .rightinfo span{ color:#0d8f66; font-size:14px; padding-right:20px; line-height:20px;}
+.bs-wcy_footerhomewidth .friendlink{ padding:5px 0; height:auto; overflow:hidden; color:#fff; clear:both;}
 .bs-wcy_footerhomewidth .friendlink .title{ color:#0d8f66; font-size:13px; line-height:22px;}
 .bs-wcy_footerhomewidth .friendlink a{color:#fff; padding-right:20px; font-size:13px;}
 .bs-wcy_footerhomewidth .friendlink a:hover{color:#d6fcf0; text-decoration:none;}
+.bs-wcy_footerhomewidth .weiXinCode{ position:absolute; right:0px; top:-185px; display:none;}
 
 .bs-wcy-banner{ margin:0 auto; width:1280px; height:540px; overflow:hidden}
 .main_image {width:100%; height:540px; overflow:hidden; margin:0 auto; position:relative}
