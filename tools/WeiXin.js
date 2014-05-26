@@ -89,7 +89,7 @@ WeiXin.sendMsg.news = function (to, from) {
         + "<FromUserName><![CDATA[" + from + "]]></FromUserName>"
         + "<CreateTime>" + new Date().getTime() + "</CreateTime>"
         + "<MsgType><![CDATA[news]]></MsgType>"
-        + "<ArticleCount>3</ArticleCount>"
+        + "<ArticleCount>4</ArticleCount>"
         + "<Articles>"
         + "<item>"
         + "<Title><![CDATA[长三角自驾游专家委员会在沪成立]]></Title>"
@@ -108,6 +108,12 @@ WeiXin.sendMsg.news = function (to, from) {
         + "<Description><![CDATA[“变形金刚”5月29日登临静安公园]]></Description>"
         + "<PicUrl><![CDATA[http://dd885.b0.upaiyun.com/ef038731275c9253fa653bf5.jpg]]></PicUrl>"
         + "<Url><![CDATA[http://mp.weixin.qq.com/s?__biz=MzA4MTM0MTQyNw==&mid=200139459&idx=1&sn=73fa2e27d5a411a92546bbe2622bb209&scene=1&from=singlemessage&isappinstalled=0&key=bdc0fc08be7dd6d428144cdd531c0aa9b5fc03470cbafcbb351028e2d27fff6879b2459b68bdadfa3a45c5d55bf49617&ascene=0&uin=NDgyOTIyMjU1]]></Url>"
+        + "</item>"
+        + "<item>"
+        + "<Title><![CDATA[白领特驾活动精彩抢先看]]></Title>"
+        + "<Description><![CDATA[白领特驾活动精彩抢先看]]></Description>"
+        + "<PicUrl><![CDATA[http://dd885.b0.upaiyun.com/ef038731275c9253fa653bf5.jpg]]></PicUrl>"
+        + "<Url><![CDATA[http://mp.weixin.qq.com/s?__biz=MzA3NjAyMzYyOQ==&mid=200290206&idx=1&sn=1978e32fc881d8216c13e8eda03b90b4&scene=1#rd]]></Url>"
         + "</item>"
         + "</Articles>"
         +"</xml>";
@@ -144,22 +150,22 @@ WeiXin.createMenu = function (fn) {
                     {
                         "type": "view",
                         "name": "门票",
-                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://www.dd885.com/wap/productList/ticket&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
+                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://sh.dd885.com/wap/productList/ticket&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
                     },
                     {
                         "type": "view",
                         "name": "联票",
-                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://www.dd885.com/wap/productList/ticketPackage&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
+                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://sh.dd885.com/wap/productList/ticketPackage&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
                     },
                     {
                         "type": "view",
                         "name": "自驾游套餐",
-                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://www.dd885.com/wap/productList/package&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
+                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://sh.dd885.com/wap/productList/package&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
                     },
                     {
                         "type": "view",
                         "name": "主题活动",
-                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://www.dd885.com/wap/productList/package&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
+                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://sh.dd885.com/wap/productList/package&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
                     }
                 ]
             },
@@ -189,7 +195,7 @@ WeiXin.createMenu = function (fn) {
                     {
                         "type": "view",
                         "name": "已购买订单",
-                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://www.dd885.com/wap/orders/all&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
+                        "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+config.wx.appID+"&redirect_uri=http://sh.dd885.com/wap/orders/all&response_type=code&scope=snsapi_base&state=rta#wechat_redirect"
                     },
                     {
                         "type": "click",
