@@ -79,6 +79,7 @@ exports.payNotify = function(req,res){
     req.on('end',function(){
         weixin.payNotify(_data,function(err,result){
             if(err){
+                console.log("weixin pay notify is error:"+err);
                 res.send("fail");
             }else{
                 var httpClient = new HttpClient({
@@ -90,6 +91,7 @@ exports.payNotify = function(req,res){
                 try{
                     httpClient.getReq(function(e,r){
                         if(e){
+                            console.log("weixin pay notify while get order detail is error:"+e);
                             res.send("fail");
                         }else{
                             if(0===r.error){
@@ -103,9 +105,11 @@ exports.payNotify = function(req,res){
                                         });
                                         hc.postReq({status:1,operator:'5320ffb06532aa00951ff5e1',transID:req.query.transaction_id},function(er,rs){
                                             if(er){
+                                                console.log("weixin pay notify update order status is error:"+er);
                                                 res.send("fail");
                                             }else{
                                                 if(0===rs.error){
+                                                    console.log("orderID:"+r.data.orderID+" weixin pay notify is success");
                                                     res.send("success");
                                                     //send sms
                                                     sendOrderSMSFn(r.data.contactPhone,r.data.orderID,r.data.member._id,function(error,ret){
@@ -126,21 +130,24 @@ exports.payNotify = function(req,res){
                                                         });
                                                     });
                                                 }else{
+                                                    console.log("weixin pay notify is error:"+ rs.errorMsg);
                                                     res.send("fail");
                                                 }
                                             }
                                         });
                                     }
                                 }else{
+                                    console.log("orderID:"+r.data.orderID+" weixin pay notify is success,but this order status has been changed to"+ r.data.status);
                                     res.send("success");
                                 }
                             }else{
+                                console.log("weixin pay notify is error:"+ r.errorMsg);
                                 res.send("fail");
                             }
                         }
                     });
                 }catch(e){
-                    console.log(e.message);
+                    console.log("weixin pay notify is error:"+e.message);
                     res.send("fail");
                 }
             }
@@ -239,8 +246,8 @@ function sendOrderSMSFn(mobile,orderID,memberID,cb){
         var querystring = require('querystring');
         var params = querystring.stringify({mobile:mobile,orderID:orderID,member:memberID});
         var opt = {
-            'host':Config.inf.host,
-            'port':Config.inf.port,
+            'host':config.inf.host,
+            'port':config.inf.port,
             'path':'/order/sms?'+params,
             'method':"GET"
         };
