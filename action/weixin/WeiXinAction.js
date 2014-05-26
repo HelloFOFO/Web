@@ -239,8 +239,8 @@ function sendOrderSMSFn(mobile,orderID,memberID,cb){
         var querystring = require('querystring');
         var params = querystring.stringify({mobile:mobile,orderID:orderID,member:memberID});
         var opt = {
-            'host':Config.inf.host,
-            'port':Config.inf.port,
+            'host':config.inf.host,
+            'port':config.inf.port,
             'path':'/order/sms?'+params,
             'method':"GET"
         };
