@@ -1,15 +1,31 @@
 <% include header %>
-<!-- 滚动图 -->
-<div class="bs-wcy-banner">
-    <div class="main_visual">
-        <div class="main_image">
-            <ul id="homeBanner">
+<!-- 老式滚动图 -->
+<!--<div class="bs-wcy-banner">-->
+    <!--<div class="main_visual">-->
+        <!--<div class="main_image">-->
+            <!--<ul id="homeBanner">-->
 
-            </ul>
-            <a href="javascript:;" id="btn_prev"></a>
-            <a href="javascript:;" id="btn_next"></a>
-        </div>
+            <!--</ul>-->
+            <!--<a href="javascript:;" id="btn_prev"></a>-->
+            <!--<a href="javascript:;" id="btn_next"></a>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+<!--轮播-->
+<div class="bs-wcy-banner">
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" id="homeBanner" >
     </div>
+    <!-- Controls -->
+    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+</div>
 </div>
 <!-- 图片列表  -->
 <div class="container bs-wcy-homewidth">
@@ -91,21 +107,21 @@
             this.action = '/products/'+id;
         });
 
-        $(".main_visual").hover(function () {
-            $("#btn_prev,#btn_next").fadeIn()
-        }, function () {
-            $("#btn_prev,#btn_next").fadeOut()
-        });
+//        $(".main_visual").hover(function () {
+//            $("#btn_prev,#btn_next").fadeIn()
+//        }, function () {
+//            $("#btn_prev,#btn_next").fadeOut()
+//        });
 
-        var initSlider = function(){
-            $(".main_image").touchSlider({
-                 flexible : true
-                ,speed: 200
-                ,btn_prev: $("#btn_prev")
-                ,btn_next: $("#btn_next")
-                ,paging: $(".touchslider-nav-item")
-            });
-        };
+//        var initSlider = function(){
+//            $(".main_image").touchSlider({
+//                 flexible : true
+//                ,speed: 200
+//                ,btn_prev: $("#btn_prev")
+//                ,btn_next: $("#btn_next")
+//                ,paging: $(".touchslider-nav-item")
+//            });
+//        };
 
         /*搜索下拉*/
         $(".searchInput").focus(function () {
@@ -163,9 +179,32 @@
 
         refreshHotProduct();
 
+//        var refreshHomeBanner = function(city){
+//            $.ajax({
+//                 url:'/getCityDetail'
+//                ,method:"GET"
+//                ,data:{city:city}
+//            }).done(function(data){
+//                        if(!city){
+//                            //页面初次加载的时候
+//                            $('.searchInput').val(data.data.name);
+//                            $('#cityId').val(data.data._id);
+//                        }
+////                        $('.searchInput').val(data.name);
+////                        $('#cityId').val(data._id);
+//                        var str = '<li class="touchslider-nav-item"><img src="__imageurl__"></li>';
+//                        var imageList = "";
+//                        $.each(data.data.image,function(index,data){
+//                            imageList += str.replace(/__imageurl__/,data.url+'!HomePageHead');
+//                        });
+//                        $('#homeBanner').empty().append(imageList);
+//                        initSlider();
+//                    });
+//        };
+
         var refreshHomeBanner = function(city){
             $.ajax({
-                 url:'/getCityDetail'
+                url:'/getCityDetail'
                 ,method:"GET"
                 ,data:{city:city}
             }).done(function(data){
@@ -174,17 +213,19 @@
                             $('.searchInput').val(data.data.name);
                             $('#cityId').val(data.data._id);
                         }
-//                        $('.searchInput').val(data.name);
-//                        $('#cityId').val(data._id);
-                        var str = '<li class="touchslider-nav-item"><img src="__imageurl__"></li>';
+                        var str = '<div class="item __isactive__"><img style="height: 540px" src="__imageurl__"></div>';
                         var imageList = "";
                         $.each(data.data.image,function(index,data){
-                            imageList += str.replace(/__imageurl__/,data.url+'!HomePageHead');
+                            if(index==0){
+                                imageList += str.replace(/__imageurl__/,data.wapURL + "!HomePageHead" ).replace(/__isactive__/,"active");
+                            }else{
+                                imageList += str.replace(/__imageurl__/,data.wapURL + "!HomePageHead" );
+                            }
                         });
                         $('#homeBanner').empty().append(imageList);
-                        initSlider();
                     });
         };
+
         refreshHomeBanner();
     });
 </script>
