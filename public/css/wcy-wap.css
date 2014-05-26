@@ -70,9 +70,9 @@ a:active { text-decoration: none;}
 .home-list{ padding-bottom:25px; padding-left:90px; min-height:90px;}
 .home-list .title{ font-size:16px; height:22px; padding-bottom:5px; color:#1abc89;}
 .home-list p{ color:#818181; font-size:12px; line-height:14px;}
-.home-listimg01{ background:url(../images/wap-home01.png) no-repeat left top; background-size:80px 80px;}
-.home-listimg02{ background:url(../images/wap-home02.png) no-repeat left top; background-size:80px 80px;}
-.home-listimg03{ background:url(../images/wap-home03.png) no-repeat left top; background-size:80px 80px;}
+.home-listimg01{ background:url(../images/wcy_homeper01.png) no-repeat left top; background-size:80px 80px;}
+.home-listimg02{ background:url(../images/wcy_homeper02.png) no-repeat left top; background-size:80px 80px;}
+.home-listimg03{ background:url(../images/wcy_homeper03.png) no-repeat left top; background-size:80px 80px;}
 .home-modalBody{ padding:0;}
 .home-modalMain{ background:#e6e6e6; border-bottom:#cccccc solid 1px; padding:0 10px;}
 .home-modalBt{ border:none; height:40px; line-height:40px; color:#333; text-align:left; font-size:16px; outline:none;}
