@@ -226,7 +226,12 @@ exports.getPriceLog = function(req,res){
             'port':Config.inf.port,
             'method':"GET"
         };
-        o.path='/product/ticket/priceLog/list?product='+ productID + "&status=2";
+        if(parseInt(req.query.productType)==1){
+            o.path='/product/ticket/priceLog/list?product='+ productID + "&status=2";
+        }else{
+            o.path='/product/ticketPackage/priceLog/list?product='+ productID + "&status=2";
+        }
+
 //        if(product.type==1){
 //            o.path='/product/ticket/priceLog/list?product='+ productID + "&status=2";
 //        }else{

@@ -224,10 +224,11 @@
         });
 
         //套票或者门票的价格获取
-        var refreshPriceLog = function(productID){
+        var refreshPriceLog = function(productID,productType){
             $.ajax({
                 url:'/getPriceLog/'+productID
                 ,method:'GET'
+                ,data:{productType:productType}
             }).done(function(data){
                         var priceLogListStr = "<option value=''>请选择有效期</option>";
                         //data:[ {name:yyyy-mm-dd ~ yyyy-mm-dd, price:111 , priceWeekend:222} ]
@@ -259,7 +260,7 @@
         };
 
         //套票或者门票的价格获取初始化
-        refreshPriceLog('<%=product._id%>');
+        refreshPriceLog('<%=product._id%>','<%=product.type%>');
 
         //套票或者门票的form提交
         $('#form_order').submit(function(event){
