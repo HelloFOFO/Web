@@ -7,6 +7,24 @@ var WeiXin = require('./../../tools/WeiXin');
 var async = require('async');
 var us = require('underscore');
 var timeZone = ' 00:00:00 +08:00';
+
+var productLevelConvert = function(productLevel,productType){
+    if(productType==1){
+        if(productLevel==0){
+            return "";
+        }else{
+            return "<p>产品等级："+productLevel.toString()+'A级景区'+"</p>";
+        }
+
+    }else if(productType == 2){
+        if(productLevel<3){
+            return "<p>产品等级："+"经济型酒店";
+        }else{
+            return "<p>产品等级："+productLevel.toString()+'星级酒店'+"</p>";
+        }
+    }
+};
+
 exports.getProducts = function(request,response){
     var city = request.params.id;
     async.series([
@@ -36,6 +54,19 @@ exports.getProducts = function(request,response){
                 if(err){
                     cb(err,null);
                 } else {
+                    var existImgPreview = {};
+                    res.data.forEach(function(d){
+                        for(var id in d.image){
+                            if(existImgPreview[d.image[id].url]){
+                                d.image.shift();
+//                                        console.debug('d.image shifted',d.image)
+                            }else{
+                                existImgPreview[d.image[id].url]="new";
+//                                        console.log('aaaa');
+                                break;
+                            }
+                        }
+                    });
                     cb(null,res.data);
                 }
             });
@@ -77,6 +108,20 @@ exports.getProductList = function(request,response){
                         if(err || res.error != 0 ){
                             cb(res,null);
                         } else {
+                            var existImgPreview = {};
+                            res.data.forEach(function(d){
+                                for(var id in d.image){
+                                    if(existImgPreview[d.image[id].url]){
+                                        d.image.shift();
+//                                        console.debug('d.image shifted',d.image)
+                                    }else{
+                                        existImgPreview[d.image[id].url]="new";
+//                                        console.log('aaaa');
+                                        break;
+                                    }
+                                }
+                            });
+//                            console.log(existImgPreview);
                             cb(null,{'titleName':'商品列表','products':res.data});
                         }
                     });
@@ -99,33 +144,6 @@ exports.getProductList = function(request,response){
 
 
 
-};
-
-var productLevelConvert = function(productLevel,productType){
-    if( productType == 1 ){
-        //门票
-        if(productLevel==0){
-            return "";
-        }else{
-            return "<p>产品等级："+productLevel.toString()+'A级景区'+"</p>";
-        }
-
-    }else if( productType == 2 ){
-        //酒店
-        if(productLevel<3){
-            return "经济型酒店";
-        }else{
-            return productLevel.toString()+'星级酒店';
-        }
-    }else if(productType == 3){
-        if(productLevel==0){
-            return "";
-        }else{
-            return "<p>产品等级："+productLevel.toString()+'星推荐'+"</p>";
-        }
-    }else {
-        return "";
-    }
 };
 
 exports.getDetail = function(request,response){
@@ -160,6 +178,11 @@ exports.getDetail = function(request,response){
                 product.level=productLevelConvert(product.level,product.type);
 
                 if(4===product.type){
+                    var minPrice=9999;
+                    var now = new Date();
+                    var sd = now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDate()+timeZone;
+                    now.setMonth(now.getMonth()+3);
+                    var ed = now.getFullYear()+"-"+(now.getMonth()+1)+"-"+now.getDate()+timeZone;
                     //if from productCalendar then can get select date and price
                     if(!us.isEmpty(request.query.date)){
                         product.date = request.query.date;
@@ -167,8 +190,27 @@ exports.getDetail = function(request,response){
                     if(!us.isEmpty(request.query.price)){
                         product.price = request.query.price;
                     }
-                    console.log(product);
-                    response.render('wap/productDetail',{'titleName':'商品详情','product':product});
+                    var optPackagePrice = {
+                        'host':Config.inf.host,
+                        'port':Config.inf.port,
+                        'path':'/product/package/price/list/'+ id + '?effectDate='+new Date(sd).getTime() + '&expiryDate='+new Date(ed).getTime(),
+                        'method':"GET"
+                    };
+                    var packagePriceHttp = new HttpClient(optPackagePrice);
+                    packagePriceHttp.getReq(function(err,result){
+                        if( err || result.error != 0 ){
+                            minPrice = "";
+                        }else{
+                            result.data.forEach(function(p){
+                                minPrice = p.price<minPrice? p.price:minPrice;
+
+                            });
+                            product.minPrice = minPrice;
+//                    console.log(product);
+                            response.render('wap/productDetail',{'titleName':'商品详情','product':product});
+                        }
+                    });
+
                 }else{
                     var path="";
                     if( product.type == 1){
@@ -183,18 +225,20 @@ exports.getDetail = function(request,response){
                         'path':path,
                         'method':"GET"
                     });
-                    console.log('pricelog----------',path);
+//                    console.log('pricelog----------',path);
                     hc.getReq(function(error,result){
                         if(error){
                             response.send(404,error);
                         }else{
-                            console.log('pricelog-----',result);
+//                            console.log('pricelog-----',result);
                             if(0===result.error){
                                 var pls = [];
+                                var minPrice = 99999;
                                 result.data.forEach(function(obj){
                                     var pl = {};
                                     var sd = new Date(obj.startDate).Format("yyyy-MM-dd");
                                     var ed = new Date(obj.endDate).Format("yyyy-MM-dd");
+                                    minPrice = (obj.price<minPrice?obj.price:minPrice);
                                     pl.name = sd + '~' + ed;
                                     pl._id = obj._id;
                                     pl.price = obj.price;
@@ -202,7 +246,8 @@ exports.getDetail = function(request,response){
                                     pls.push(pl);
                                 });
                                 product.pls = pls;
-//                                console.log(product);
+                                product.minPrice = minPrice;
+                                console.log(product);
                                 response.render('wap/productDetail',{'titleName':'商品详情','product':product});
                             }else{
                                 response.send(404,result.errorMsg);
@@ -359,23 +404,6 @@ exports.toSubOrder = function(request,response){
     });
 };
 
-var productLevelConvert = function(productLevel,productType){
-    if(productType==1){
-        if(productLevel==0){
-            return "";
-        }else{
-            return "<p>产品等级："+productLevel.toString()+'A级景区'+"</p>";
-        }
-
-    }else if(productType == 2){
-        if(productLevel<3){
-            return "<p>产品等级："+"经济型酒店";
-        }else{
-            return "<p>产品等级："+productLevel.toString()+'星级酒店'+"</p>";
-        }
-    }
-};
-
 exports.productDetail = function(request,response){
     var id = request.params.id;
     var httpClient = new HttpClient({
@@ -413,7 +441,6 @@ exports.productDetail = function(request,response){
         }
     });
 };
-
 
 exports.renderConfirm = function(req,res){
     var viewData = {};
@@ -512,136 +539,3 @@ exports.tradeSuccess = function(req,res){
         res.send(404, e.message);
     }
 }
-
-//exports.saveOrder = function(request,response){
-//    var data = {};
-//    var flag = true;
-//    var errorMsg = "";
-//    var id = "";
-//    data.source = "534de2e3309199c11f233cf4";
-//    data.payWay = "1";
-//    data.remark = "";
-//    if(!us.isEmpty(request.session.user)){
-//        data.member = request.session.user._id;
-//    }else{
-//        errorMsg = "请先登录";
-//        flag = false;
-//    }
-//    if(!us.isEmpty(request.body.pid)){
-//        data.product = request.body.pid;
-//    }else{
-//        errorMsg = "产品ID为空";
-//        flag = false;
-//    }
-//    if(!us.isEmpty(request.body.type)){
-//        var orderType = request.body.type;
-//        if(4===parseInt(orderType)){
-//            data.startDate = new Date(request.body.time+timeZone).getTime();
-//        }else{
-//            var arrays = request.body.time.split('~');
-//            data.startDate = new Date(arrays[0]+timeZone).getTime();
-//            data.endDate = new Date(arrays[1]+timeZone).getTime();
-//            if(!us.isEmpty(request.body.isWeekend)){
-//                data.priceLogisWeeknd = "y"===request.body.isWeekend?true:false;
-//            }else{
-//                errorMsg = "是否周末不能为空";
-//                flag = false;
-//            }
-//            if(!us.isEmpty(request.body.lid)){
-//                data.priceLog = request.body.lid;
-//            }else{
-//                errorMsg = "是否周末不能为空";
-//                flag = false;
-//            }
-//        }
-//    }else{
-//        errorMsg = "订单类型为空";
-//        flag = false;
-//    }
-//    if(!us.isEmpty(request.body.num)){
-//        data.quantity = request.body.num;
-//    }else{
-//        errorMsg = "产品数量不能为空或为0";
-//        flag = false;
-//    }
-//    if(!us.isEmpty(request.body.name)){
-//        data.liveName = request.body.name;
-//    }else{
-//        errorMsg = "姓名不能为空";
-//        flag = false;
-//    }
-//    if(!us.isEmpty(request.body.mobile)){
-//        data.contactPhone = request.body.mobile;
-//    }else{
-//        errorMsg = "联系手机号不能为空";
-//        flag = false;
-//    }
-//    if(!us.isEmpty(request.body.isNeed)&&"y"===request.body.isNeed){
-//        if(!us.isEmpty(request.body.inType)){
-//            data.invoiceType = request.body.inType;
-//        }else{
-//            errorMsg = "发票类型不能为空";
-//            flag = false;
-//        }
-//        if(!us.isEmpty(request.body.title)){
-//            data.invoiceTitle = request.body.title;
-//        }else{
-//            errorMsg = "发票抬头不能为空";
-//            flag = false;
-//        }
-//        if(!us.isEmpty(request.body.address)){
-//            data.invoiceAdd = request.body.address;
-//        }else{
-//            errorMsg = "发票地址不能为空";
-//            flag = false;
-//        }
-//    }
-//    if(flag){
-//        var httpClient = new HttpClient({
-//            'host':Config.inf.host,
-//            'port':Config.inf.port,
-//            'path':'/order/save',
-//            'method':"POST"
-//        });
-//        console.log(data);
-//        httpClient.postReq(data,function(err,result){
-//            if(err){
-//                response.send(404,err);
-//            }else{
-//                if(0===result.error){
-//                    var res = {};
-//                    res.name = request.body.pName;
-//                    res.orderType = request.body.type;
-//                    res._id = result.data._id;
-//                    res.oid = result.data.orderID;
-//                    if(4===parseInt(request.body.type)){
-//                        res.time = new Date(result.data.startDate).Format("yyyy-MM-dd");
-//                    }else{
-//                        var sd = new Date(result.data.startDate).Format("yyyy-MM-dd");
-//                        var ed = new Date(result.data.endDate).Format("yyyy-MM-dd");
-//                        res.time = sd + '~' + ed;
-//                    }
-//                    res.num = result.data.quantity;
-//                    res.total = result.data.totalPrice;
-//                    res.person = result.data.liveName;
-//                    res.mobile = result.data.contactPhone;
-//                    if(!us.isEmpty(result.data.invoice.types)){
-//                        res.isNeed = "y";
-//                        res.invoiceType = result.data.invoice.types;
-//                        res.invoiceTitle = result.data.invoice.title;
-//                        res.invoiceAdd = result.data.invoice.address;
-//                    }else{
-//                        res.isNeed = "n";
-//                    }
-//                    response.render('wap/orderConfirm',{titleName:'支付订单',info:res});
-//                }else{
-//                    response.send(404,result.errorMsg);
-//                }
-//            }
-//        });
-//
-//    }else{
-//        console.log(result);
-//        response.send(404,errorMsg);
-//    }
-//};

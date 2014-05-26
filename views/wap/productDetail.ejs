@@ -66,8 +66,7 @@
                 <%}%>
                 <tr>
                     <td height="30">价格</td>
-                    <td class="wap-orange" id="formprice"><span class="wcy-f18" id="divPrice"></span>
-                    </td>
+                    <td class="wap-orange" id="formprice"><span class="wcy-f18" id="divPrice">￥<%=product.minPrice%>起</span></td>
                 </tr>
             </table>
             <div class="wcy-onlyTicketBt">
@@ -118,29 +117,29 @@
 </div>
 <% include footer %>
 <script>
-    <%if(4!==product.type){%>
-    function setShowData() {
-        if ("" === $('#dateSelect').val() || undefined === $('#dateSelect').val()) {
-            $('#exDate').val("");
-            var array = $('#dateSelect').val().split(',');
-            $('#wk').val("");
-            $('#nor').val("");
-            $('#divPrice').html("");
-            $('#sPrice').val("");
-            $('#isWeekend').val("");
-            $('#lid').val("");
-        } else {
-            $('#exDate').val($('#dateSelect :checked').text());
-            var array = $('#dateSelect').val().split(',');
-            $('#wk').val(array[1]);
-            $('#nor').val(array[0]);
-            $('#divPrice').html("￥" + $("input[name='weekend']:checked").val() + "起");
-            $('#sPrice').val($("input[name='weekend']:checked").val());
-            $('#isWeekend').val($("input[name='weekend']:checked").attr('isWk'));
-            $('#lid').val(array[2]);
+    $(document).ready(function (){
+        <%if(4!==product.type){%>
+        function setShowData() {
+            if ("" === $('#dateSelect').val() || undefined === $('#dateSelect').val()) {
+                $('#exDate').val("");
+                var array = $('#dateSelect').val().split(',');
+                $('#wk').val("");
+                $('#nor').val("");
+//                $('#divPrice').html("");
+                $('#sPrice').val("");
+                $('#isWeekend').val("");
+                $('#lid').val("");
+            } else {
+                $('#exDate').val($('#dateSelect :checked').text());
+                var array = $('#dateSelect').val().split(',');
+                $('#wk').val(array[1]);
+                $('#nor').val(array[0]);
+                $('#divPrice').html("￥" + $("input[name='weekend']:checked").val());
+                $('#sPrice').val($("input[name='weekend']:checked").val());
+                $('#isWeekend').val($("input[name='weekend']:checked").attr('isWk'));
+                $('#lid').val(array[2]);
+            }
         }
-    }
-    $(document).ready(function () {
         //inits
         setShowData();
         //submit
@@ -164,13 +163,12 @@
                 $('#isWeekend').val($("input[name='weekend']:checked").attr('isWk'));
             }
         });
-    });
+
     <%}else{%>
     //init
-    $('#divPrice').html("");
+//    $('#divPrice').html("");
     $('#sPrice').val("");
     $('#selDate').text("");
-    $('#exDate').val("");
     var selectDate = <%=product.date%>;
     if(selectDate){
         var d = new Date();
@@ -180,7 +178,7 @@
     }
     var p = <%=product.price%>;
     if(p){
-        $('#divPrice').html(p);
+        $('#divPrice').html("￥"+p);
         $('#sPrice').val(p);
     }
     //submit
@@ -191,4 +189,5 @@
         }
     });
     <%}%>
+    });
 </script>

@@ -100,6 +100,19 @@ exports.getProducts = function(request,response){
                 if(err||res.error!=0){
                     cb(err,null);
                 } else {
+                    var existImgPreview = {};
+                    res.data.forEach(function(d){
+                        for(var id in d.image){
+                            if(existImgPreview[d.image[id].url]){
+                                d.image.shift();
+//                                        console.debug('d.image shifted',d.image)
+                            }else{
+                                existImgPreview[d.image[id].url]="new";
+//                                        console.log('aaaa');
+                                break;
+                            }
+                        }
+                    });
                     cb(null,res.data);
                 }
             });
