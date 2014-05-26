@@ -108,6 +108,7 @@
                 $('#cityName').val($(this).val());
                 $('#myModal').modal('toggle');
                 refreshHomeBanner($(this).attr('cityId'));
+                refreshHotProduct($(this).attr('cityId'));
             });
             var refreshHomeBanner = function(city){
                 $.ajax({

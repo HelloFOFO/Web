@@ -22,7 +22,6 @@ exports.cityBox = function(request,response){
 };
 
 exports.home = function(request,response){
-    console.info('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
     response.render('web/home');
 };
 
@@ -34,7 +33,7 @@ exports.hotProduct = function(req,res){
     try{
         var city  = req.query.cityID;
         if(_.isEmpty(city)){
-            city='5343757bd8d3efb068465b1f';
+            city='537313bf573f6bf5bf46877e';
         }
         var httpClient = new HttpClient({
             'host':Config.inf.host,
@@ -67,7 +66,7 @@ exports.getCityDetail = function(req,res){
     try{
         var city = req.query.city;
         if(_.isEmpty(city)){
-            city = "5343757bd8d3efb068465b1f";
+            city = "537313bf573f6bf5bf46877e";
         }
         var httpClient = new HttpClient({
             'host':Config.inf.host,
