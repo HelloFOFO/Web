@@ -25,11 +25,11 @@ body {
 }
 
  body{ background:#ecf5f5}
-.bs-wcy-nav {text-shadow: 0 -1px 0 rgba(0,0,0,.15);  background-color: #464949; background-image:url(../images/wcy_headbg.gif); border-color: #464949; box-shadow: 0 1px 0 rgba(255,255,255,.1); height:80px; line-height:80px;}
-.bs-wcy-homenav {text-shadow: 0 -1px 0 rgba(0,0,0,.15); background-image:url(../images/wcy_headbg02.png); border-color: #464949; box-shadow: 0 1px 0 rgba(255,255,255,.1); height:80px; line-height:80px;}
+.bs-wcy-nav {text-shadow: 0 -1px 0 rgba(0,0,0,.15);  background-color: #464949; background-image:url(/images/wcy_headbg.gif); border-color: #464949; box-shadow: 0 1px 0 rgba(255,255,255,.1); height:80px; line-height:80px;}
+.bs-wcy-homenav {text-shadow: 0 -1px 0 rgba(0,0,0,.15); background-image:url(/images/wcy_headbg02.png); border-color: #464949; box-shadow: 0 1px 0 rgba(255,255,255,.1); height:80px; line-height:80px;}
 .bs-wcy_headwidth{width: 1100px}
 .bs-wcy-headheight{ height:80px; line-height:80px;}
-.bs-wcy-logo{ float:left; background:url(../images/wcy_logo.png) no-repeat left 5px; width:365px; height:80px;}
+.bs-wcy-logo{ float:left; background:url(/images/wcy_logo.png) no-repeat left 5px; width:365px; height:80px;}
 .bs-wcy-headword{ float:left; padding-left:69px; font-size:16px; color:#13d377;}
 .bs-wcy_navlist{ float:right; height:80px; line-height:80px;}
 .bs-wcy_navlist li{ float:left; padding-left:20px;}
@@ -37,12 +37,12 @@ body {
 .bs-wcy_navlist li a:hover{ color:#CCC; text-decoration:none;}
 .bs-wcy_citybox{ width:940px; padding:20px 0 50px;}
 .bs-wcy_citytitle{ height:55px; margin-bottom:25px;}
-.bs-wcy_citytitle .city{ height:50px; float:left; font-size:30px; padding-right:50px; font-weight:lighter; background:url(../images/wcy_titlelinebg.png) no-repeat right bottom; padding-bottom:5px; color:#25bf8f;}
+.bs-wcy_citytitle .city{ height:50px; float:left; font-size:30px; padding-right:50px; font-weight:lighter; background:url(/images/wcy_titlelinebg.png) no-repeat right bottom; padding-bottom:5px; color:#25bf8f;}
 .bs-wcy_cityimgbox{ background:#FFF; padding:30px 10px; height:auto; overflow:hidden;}
 .bs-wcy_cityimgbox ul{ padding:0; margin:0;  list-style: none;}
 .bs-wcy_cityimgbox ul li{ float:left; width:280px; height:180px; overflow:hidden; margin-left:20px; margin-bottom:20px; position:relative;}
 .bs-wcy_cityimgbox ul li img{width:280px; height:180px;}
-.bs-wcy_cityimgbox ul li .cityinfo{ background:url(../images/wcy_imggray.png); height:36px; line-height:36px; color:#FFFFFF; font-size:14px; position:absolute; bottom:0; left:0px; width:280px; text-decoration:none;}
+.bs-wcy_cityimgbox ul li .cityinfo{ background:url(/images/wcy_imggray.png); height:36px; line-height:36px; color:#FFFFFF; font-size:14px; position:absolute; bottom:0; left:0px; width:280px; text-decoration:none;}
 .bs-wcy_cityimgbox ul li .cityinfo .info{ padding:0 0 0 10px; float:left; width:200px; *width:180px;}
 .bs-wcy_cityimgbox ul li .cityinfo .price{ float:right; width:80px; color:#ff7212; text-align:right; padding-right:10px; font-size:12px;}
 .bs-wcy_cityimgbox ul li .cityinfo .pricebig{ font-size:22px; padding:0px 1px;}
@@ -73,13 +73,13 @@ body {
 .main_image li img{display:block; width:100%; height:540px}
 .main_image li a {display:block; width:100%; height:540px}
 #btn_prev,#btn_next{z-index:11111;position:absolute;display:block;width:40px!important;height:106px!important;top:50%;margin-top:-37px;display:none;}
-#btn_prev{background:url(../images/wcy_arrow.png) no-repeat center top; left:50px;}
-#btn_next{background:url(../images/wcy_arrow.png) no-repeat center bottom; right:50px;}
+#btn_prev{background:url(/images/wcy_arrow.png) no-repeat center top; left:50px;}
+#btn_next{background:url(/images/wcy_arrow.png) no-repeat center bottom; right:50px;}
 
 .bs-wcy-homewidth{ width:1000px;}
 .bs-wcy-hometitle{ padding:30px 0px 40px; text-align:center;}
 .bs-wcy-homeImgList{ padding-bottom:10px; height:auto; overflow:hidden;}
-.bs-wcy-homeImgList li{ float:left; width:302px; height:240px; background:url(../images/wcy_homeimgbg.png) no-repeat left top; overflow:hidden; margin: 0 20px 30px 0;}
+.bs-wcy-homeImgList li{ float:left; width:302px; height:240px; background:url(/images/wcy_homeimgbg.png) no-repeat left top; overflow:hidden; margin: 0 20px 30px 0;}
 .bs-wcy-homeImgList li .imgbox{ width:288px; height:182px; padding:0px 7px;}
 .bs-wcy-homeImgList li img{ width:288px; height:182px;}
 .bs-wcy-homeImgList li .name{ float:left; width:200px; font-size:22px; color:#333333; padding-left:10px; height:52px; line-height:52px;}
@@ -89,14 +89,14 @@ body {
 .bs-wcy-homePerList li{ float:left; width:320px; padding-top:170px;}
 .bs-wcy-homePerList li .name{ font-size:22px; color:#1abc89; text-align:center;padding:0px 60px 20px 0px;}
 .bs-wcy-homePerList li .talk{ color:#aaaaaa; font-size:16px; line-height:24px; padding:0px 60px 0px 10px;}
-.bs-wcy-homePerbg01{ background:url(../images/wcy_homeper01.png) no-repeat right top;}
-.bs-wcy-homePerbg02{ background:url(../images/wcy_homeper02.png) no-repeat right top;}
-.bs-wcy-homePerbg03{ background:url(../images/wcy_homeper03.png) no-repeat right top;}
+.bs-wcy-homePerbg01{ background:url(/images/wcy_homeper01.png) no-repeat right top;}
+.bs-wcy-homePerbg02{ background:url(/images/wcy_homeper02.png) no-repeat right top;}
+.bs-wcy-homePerbg03{ background:url(/images/wcy_homeper03.png) no-repeat right top;}
 
 .bs-wcy-homeSearchBox{ height:30px; position:relative;}
 .bs-wcy-homeSearch{ position:absolute; top:-20px; left:290px;}
-.bs-wcy-homeSearch .searchInput{ float:left; width:250px; height:40px; line-height:35px; font-size:22px; color:#818181; padding:0 10px; border:#13d377 solid 2px; background:url(../images/wcy_arrowDown.png) no-repeat 220px  10px; background-color:#fff; }
-.bs-wcy-homeSearch .searchBt{float:left;  background:url(../images/wcy_seepro.gif) no-repeat left top; width:118px; height:40px; border:none; cursor:pointer;}
+.bs-wcy-homeSearch .searchInput{ float:left; width:250px; height:40px; line-height:35px; font-size:22px; color:#818181; padding:0 10px; border:#13d377 solid 2px; background:url./images/wcy_arrowDown.png) no-repeat 220px  10px; background-color:#fff; }
+.bs-wcy-homeSearch .searchBt{float:left;  background:url(/images/wcy_seepro.gif) no-repeat left top; width:118px; height:40px; border:none; cursor:pointer;}
 .bs-wcy-homecitybox{ position:absolute; top:20px; background:#fff; left:290px; border-left:#e6e6e6 solid 1px; border-right:#e6e6e6 solid 1px; border-bottom:#e6e6e6 solid 1px; padding:10px 20px; width:368px; display:none;}
 .bs-wcy-homecitybox .cityHot{ border-bottom:#e6e6e6 solid 1px; padding-bottom:10px; margin-bottom:5px;}
 .bs-wcy-homecitybox .citybox{ padding:5px 0; height:auto; overflow:hidden; line-height:20px;}
@@ -104,7 +104,7 @@ body {
 .bs-wcy-homecitybox .citybox .rightcity{ float:right; width:280px;}
 .bs-wcy-homecitybox .citybox .rightcity a{ float:left; padding:0 15px 0 5px; color:#818181; font-size:14px;}
 .bs-wcy-homecitybox .citybox .rightcity a:hover{ text-decoration:none; color:#13d377;}
-.bs-wcy-homeSearchCenter{ position:absolute; top:-400px;  left:370px; background:url(../images/wcy_homeCenter.png) no-repeat top center; width:251px; height:251px; overflow:hidden;}
+.bs-wcy-homeSearchCenter{ position:absolute; top:-400px;  left:370px; background:url(/images/wcy_homeCenter.png) no-repeat top center; width:251px; height:251px; overflow:hidden;}
 .bs-wcy-homeSearchCenter h1{ font-size:72px; text-align:center; height:80px; line-height:80px; color:#FFFFFF; overflow:hidden; margin-top:70px;}
 .bs-wcy-homeSearchCenter h4{font-size:32px; text-align:center; height:45px; line-height:45px; color:#FFFFFF; overflow:hidden;}
 
@@ -116,7 +116,7 @@ body {
 .homemodal-body{ color:#aaaaaa}
 .homemodal-body .text{ border-radius:0}
 .homemodal-regsuc{ text-align:center;}
-.homemodal-regsuc h1{ background:url(../images/wcy_right.png) no-repeat 80px top; font-size:30px; line-height:50px; padding-left:10px; color:#333333; padding-bottom:10px;}
+.homemodal-regsuc h1{ background:url(/images/wcy_right.png) no-repeat 80px top; font-size:30px; line-height:50px; padding-left:10px; color:#333333; padding-bottom:10px;}
 .homemodal-regsuc h3{ color:#818181; font-size:18px; padding:20px 0;}
 .homemodal-submit{color: #fff; background-color: #ef541e; border: solid 1px #ef541e; *border:none; margin:20px 0 10px 0; padding:8px 40px; font-size:20px;border-radius:0;}
 .homemodal-fogetpw{ text-align:right; float:right;}
@@ -184,7 +184,7 @@ body {
 .bs-paybutton:hover, .bs-paybutton:focus, .bs-paybutton:active, .bs-paybutton.active {color: #ef541e; background-color:#ffede2; border-color: #ff7212;}
 
 .bs-wcy_payfail{background:#fff; padding:50px 30px 50px 300px; border:#e6e6e6 solid 1px;}
-.bs-wcy_payfail h1{ background:url(../images/wcy_wrong.png) no-repeat left 5px; padding-left:60px; height:50px; line-height:50px;}
+.bs-wcy_payfail h1{ background:url(/images/wcy_wrong.png) no-repeat left 5px; padding-left:60px; height:50px; line-height:50px;}
 .bs-wcy_payfail h4{ color:#818181; padding-left:60px; padding-bottom:20px; font-size:16px;}
 .bs-wcy_payfail p{ padding-left:60px; color:#818181; font-size:14px; line-height:24px;}
 .bs-wcy_payfail .plink{ padding-top:20px;}
@@ -192,15 +192,15 @@ body {
 .bs-wcy_payfail .plink a:hover{color:#13d377;}
 
 .bs-wcy_paysucceed{background:#fff; padding:50px 30px 50px 250px; border:#e6e6e6 solid 1px;}
-.bs-wcy_paysucceed h1{ background:url(../images/wcy_right.png) no-repeat left 5px; padding-left:60px; height:50px; line-height:50px;}
+.bs-wcy_paysucceed h1{ background:url(/images/wcy_right.png) no-repeat left 5px; padding-left:60px; height:50px; line-height:50px;}
 .bs-wcy_paysucceed p{ padding-left:60px; color:#818181; font-size:14px; line-height:24px;}
 .bs-wcy_paysucceed .plink{ padding-top:20px;}
 .bs-wcy_paysucceed .plink a{color:#13d377;}
 .bs-wcy_paysucceed .plink a:hover{color:#13d377;}
 
 .bs-wcy-tickettop{ padding:50px 0 20px 0; margin:0 auto; width:600px;}
-.bs-wcy-tickettop .proBar01{ background:url(../images/wcy_Progress01.png) no-repeat top center; padding:40px 0 0 0; height:auto; overflow:hidden;}
-.bs-wcy-tickettop .proBar02{ background:url(../images/wcy_Progress02.png) no-repeat top center; padding:40px 0 0 0; height:auto; overflow:hidden;}
+.bs-wcy-tickettop .proBar01{ background:url(/images/wcy_Progress01.png) no-repeat top center; padding:40px 0 0 0; height:auto; overflow:hidden;}
+.bs-wcy-tickettop .proBar02{ background:url(/images/wcy_Progress02.png) no-repeat top center; padding:40px 0 0 0; height:auto; overflow:hidden;}
 .bs-wcy-tickettop .info{ float:left; width:200px; height:60px; line-height:60px; text-align:center; font-size:16px; color:#818181}
 .bs-wcy-tickettop .deepgreen{ color:#1abc89; }
 .bs-wcy-tickettop .lightgreen{color:#a8d9c9;}
@@ -210,8 +210,8 @@ body {
 .bs-wcy-tickeBox .price{ font-size:36px; padding-right:5px;}
 .bs-wcy-tickeBox .bs-wcy_orange{ font-size:16px;}
 .bs-wcy-tickeBox .num{float:left;  height:22px; line-height:22px; border:#dddddd solid 1px; color:#333333; text-align:center; width:46px;}
-.bs-wcy-tickeBox .subbt{ float:left; background:url(../images/wcy_sub.gif) no-repeat left top; border:none; width:15px; height:15px; cursor:pointer; outline:none; margin:4px 4px;}
-.bs-wcy-tickeBox .addbt{float:left; background:url(../images/wcy_add.gif) no-repeat left top; border:none; width:15px; height:15px; cursor:pointer; outline:none; margin:4px 4px;}
+.bs-wcy-tickeBox .subbt{ float:left; background:url(/images/wcy_sub.gif) no-repeat left top; border:none; width:15px; height:15px; cursor:pointer; outline:none; margin:4px 4px;}
+.bs-wcy-tickeBox .addbt{float:left; background:url(/images/wcy_add.gif) no-repeat left top; border:none; width:15px; height:15px; cursor:pointer; outline:none; margin:4px 4px;}
 .bs-wcy-tickeorderpad{padding:30px;}
 .bs-wcy-tickeBox .ticket{border-bottom:#e5e5e5 solid 1px;}
 .bs-wcy-tickeBox .guesttab{ margin-top:20px;}
@@ -236,14 +236,14 @@ body {
 .bs-wcy_htTitle{ font-size:16px; height:40px; line-height:40px; color:#818181;}
 .bs-wcy_htTitle a{color:#818181;}
 .bs-wcy_htBanbgcolor{ background:#000000; }
-.bs-wcy_htBanbg{ background:url(../images/wcy_hotelbannerBg.jpg) no-repeat top center; height:460px;}
+.bs-wcy_htBanbg{ background:url(/images/wcy_hotelbannerBg.jpg) no-repeat top center; height:460px;}
 .bs-wcy_htBanbox{ margin:0 auto; width:940px; height:460px; position:relative; clear:both;}
-.bs-wcy_htBanInfo{ position:absolute; background:url(../images/wcy_hotelbaninfoBg.png); right:0; top:0; width:340px; height:460px; z-index: 999;}
+.bs-wcy_htBanInfo{ position:absolute; background:url(/images/wcy_hotelbaninfoBg.png); right:0; top:0; width:340px; height:460px; z-index: 999;}
 .bs-wcy_htBanInfo .hotelname{ margin:20px 20px 0 20px; border-bottom:#fff solid 1px; padding-bottom:10px; }
 .bs-wcy_htBanInfo h1{display:table-cell; font-size:28px; line-height:35px; vertical-align:middle; font-weight:lighter; color:#fff; height:120px; overflow:hidden;}
 .bs-wcy_htBanInfo .formtab{ padding:10px 20px;  color:#fff; }
 .bs-wcy_htBanInfo .formtab label{font-size:16px; font-weight:lighter;}
-.bs-wcy_htBanInfo .formtab .inputcalendar{ width:220px; *width:180px;  height:26px; line-height:26px; padding:0 30px 0 10px; background:url(../images/wcy_calendar.png) #fff no-repeat scroll 187px -6px; color:#818181; border:none;}
+.bs-wcy_htBanInfo .formtab .inputcalendar{ width:220px; *width:180px;  height:26px; line-height:26px; padding:0 30px 0 10px; background:url(/images/wcy_calendar.png) #fff no-repeat scroll 187px -6px; color:#818181; border:none;}
 .bs-wcy_htBanInfo .formtab .inputSelect {width:220px; *width:180px;  height:26px; line-height:26px;  color:#818181; border:none;}
 .calendarbox{ position:absolute; width:310px; height:auto; overflow:hidden; top:205px; right:17px; background:#fff; z-index:9999; border:#CCCCCC solid 1px; display:none;}
 .table-calendar thead{ color:#fff; background:#1abc89; }
@@ -252,8 +252,8 @@ body {
 .table-calendar td span{font-size:12px;}
 .table-calendar td.onday span{ color:#ff9955}
 .table-calendar tr td.disabledday { color:#cccccc}
-.table-calendar .arrow-left{display: inline-block; width: 16px; height: 16px; margin-top: 1px; line-height: 16px; vertical-align: text-top; background-image:url(../images/wcy_calendarArrow.png); background-position: 0px 0px; background-repeat: no-repeat; cursor: pointer;}
-.table-calendar .arrow-right{display: inline-block; width: 16px; height: 16px; margin-top: 1px; line-height: 16px; vertical-align: text-top; background-image:url(../images/wcy_calendarArrow.png); background-position: 0px -34px; background-repeat: no-repeat; cursor: pointer;}
+.table-calendar .arrow-left{display: inline-block; width: 16px; height: 16px; margin-top: 1px; line-height: 16px; vertical-align: text-top; background-image:url(/images/wcy_calendarArrow.png); background-position: 0px 0px; background-repeat: no-repeat; cursor: pointer;}
+.table-calendar .arrow-right{display: inline-block; width: 16px; height: 16px; margin-top: 1px; line-height: 16px; vertical-align: text-top; background-image:url(/images/wcy_calendarArrow.png); background-position: 0px -34px; background-repeat: no-repeat; cursor: pointer;}
 .table-calendar tr td i{ font-style:normal;}
 .table-calendar tr td.day{ cursor:pointer;}
 .table-calendar tr td.old, .table-calendar tr td.today, .table-calendar tr td.new {color: #ff0000;}
@@ -269,7 +269,7 @@ body {
 .bs-wcy_htimglistbox ul{ padding:0; margin:0;  list-style: none;}
 .bs-wcy_htimglistbox ul li{ float:left; width:280px; height:180px; overflow:hidden; margin:13px; position:relative;}
 .bs-wcy_htimglistbox ul li img{width:280px; height:180px;}
-.bs-wcy_htimglistbox ul li .cityinfo{ background:url(../images/wcy_imggray.png); height:36px; line-height:36px; color:#FFFFFF; font-size:14px; position:absolute; bottom:0; left:0px; width:280px; text-decoration:none;}
+.bs-wcy_htimglistbox ul li .cityinfo{ background:url(/images/wcy_imggray.png); height:36px; line-height:36px; color:#FFFFFF; font-size:14px; position:absolute; bottom:0; left:0px; width:280px; text-decoration:none;}
 .bs-wcy_htimglistbox ul li .cityinfo .info{ padding:0 0 0 10px; float:left; width:200px; *width:180px;}
 .bs-wcy_htimglistbox ul li .cityinfo .price{ float:right; width:80px; color:#ff7212; text-align:right; padding-right:10px; font-size:12px;}
 .bs-wcy_htimglistbox ul li .cityinfo .pricebig{ font-size:22px; padding:0px 1px;}
@@ -287,15 +287,15 @@ body {
 .bs-wcy_htProbox  .blackbox p{ color:#333333;}
 .bs-wcy_htProbox .imgfloat{ float:left; padding:10px 20px 20px 0px;}
 .bs-wcy_htProbox .YDlist{ padding:10px 0; height:auto; overflow:hidden;}
-.bs-wcy_htProbox .YDlist li{ background:url(../images/wcy_ico01.png) no-repeat left 13px; padding-left:15px; font-size:16px;}
+.bs-wcy_htProbox .YDlist li{ background:url(/images/wcy_ico01.png) no-repeat left 13px; padding-left:15px; font-size:16px;}
 .bs-wcy_htProbox  .black{color:#333333;}
 
 
 
 /*404*/
 .bs-wcy-error{ margin:150px 0; text-align:center; padding-top:300px;}
-.bs-wcy-404{ background:url(../images/wcy-404.png) no-repeat top center;}
-.bs-wcy-500{ background:url(../images/wcy-500.png) no-repeat top center;}
+.bs-wcy-404{ background:url(/images/wcy-404.png) no-repeat top center;}
+.bs-wcy-500{ background:url(/images/wcy-500.png) no-repeat top center;}
 .bs-wcy-errornotice{ font-size:24px; color:#ff7212; line-height:35px;}
 .bs-wcy-errorinfo{ color:#505050; font-size:16px;  line-height:35px;}
 .bs-wcy-errorinfo a{ color:#13d377;}
