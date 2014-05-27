@@ -158,7 +158,7 @@
         //radio select
         $("input[name='weekend']").click(function () {
             if ("" !== $("input[name='weekend']:checked").val() && undefined !== $("input[name='weekend']:checked").val() && "on" !== $("input[name='weekend']:checked").val()) {
-                $('#divPrice').html("￥" + $("input[name='weekend']:checked").val() + "起");
+                $('#divPrice').html("￥" + $("input[name='weekend']:checked").val());
                 $('#sPrice').val($("input[name='weekend']:checked").val());
                 $('#isWeekend').val($("input[name='weekend']:checked").attr('isWk'));
             }
