@@ -131,7 +131,7 @@ exports.hotProduct = function(request,response){
 //go to login
 exports.toLogin =  function(request,response){
     if(request.session.user){
-       response.redirect('/wap/');
+       response.redirect('/wap/?'+Date.now());
     }else{
         //如果没登录过，而又进了登录页，要先看看他是不是主动进的登录页，如果不是，则把前序页面传过去,否则传空，然后前端会去做判断
         console.debug('login redirect url %s',request.headers['referer']);
@@ -166,5 +166,5 @@ exports.logOut = function(request,response){
     request.session.autoLogin = false;
     response.cookie('m',null);
     response.cookie('p',null);
-    response.redirect('/wap/');
+    response.redirect('/wap/?'+Date.now());
 }

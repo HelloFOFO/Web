@@ -13,7 +13,6 @@ var NoticeAction = require('./../action/wap/NoticeAction');
 
 var us = require('underscore');
 module.exports = function(app){
-
     app.all('/wap/*',function(request,response,next){
         response.charset = 'utf-8';
         if(  request.query.code && request.headers['user-agent'].indexOf('MicroMessenger') > 0 ){
