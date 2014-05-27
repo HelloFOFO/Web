@@ -122,7 +122,7 @@
                     <!--</div>-->
                 <!--</div>-->
             <!--</div>-->
-            <p>营业时间：<%=product.product.openTime%> </p>
+            <p><%if(product.product.type==2){%>入住时间<%}else{%>营业时间<%}%>：<%=product.product.openTime%> </p>
         </div>
         <div class="graybox">
             <img src="http://dd885.b0.upaiyun.com/<%=product.product.image[3].url%>!Detail550" class="imgfloat">

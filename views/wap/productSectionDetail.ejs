@@ -12,7 +12,7 @@
                 <p>景点地址：<%=product.product.addr%> <a href="#<%=product.product._id%>" data-toggle="collapse">地图</a>
                 <p><div class="collapse" id="<%=product.product._id%>"><img src="http://api.map.baidu.com/staticimage?width=300&height=200&zoom=16&markerStyles=l,A&center=<%=product.product.gps.lat%>,<%=product.product.gps.lon%>&markers=<%=product.product.gps.lat%>,<%=product.product.gps.lon%>"></div></p>
 
-                <p>营业时间：<%=product.product.openTime%>
+                <p><%if(product.product.type==2){%>入住时间<%}else{%>营业时间<%}%>：<%=product.product.openTime%>
             </div>
             <div class="graybox">
                 <img src="<%=product.product.image[0]?product.product.image[0].url:""%>!WapDetail" class="imgfloat">
