@@ -44,11 +44,18 @@ exports.orders = function(request,response){
                         order.oid = o.orderID;
                         orders.list.push(order);
                     });
-                    console.log({orders:orders});
+//                    console.log({orders:orders});
 //
                       viewData.orders=orders;
                       viewData.titleName="订单详情页";
 //                      response.json(viewData);
+
+                    var useragent = request.headers['user-agent'];
+                    if(useragent.indexOf('MicroMessenger')>0){
+                        viewData.isWeiXin = true;
+                    }else{
+                        viewData.isWeiXin = false;
+                    }
                     response.render('wap/myOrder',viewData);
                 }else{
                     response.send(404,res.errMsg);
