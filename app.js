@@ -62,7 +62,7 @@ app.use(log4js.connectLogger(logger, { level: 'auto' }));
 //}));
 
 app.use(function(request,response,next){
-    if(request.session.user){
+    if(request.session && request.session.user){
         response.locals.user = request.session.user;
     }
     next();
