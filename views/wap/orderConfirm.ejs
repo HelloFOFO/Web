@@ -114,7 +114,8 @@
     var pName = '<%=info.name%>';
     var orderId = '<%=info.oid%>';
     var order_id = '<%=info._id%>';
-    var totalFee = "1";  //test amount
+    var totalFee = '<%=info.total%>';
+//    var totalFee = "1";  //test amount
     var oldTimeStamp = getTimeStamp();
     var oldNonceStr = getNonceStr();
     var oldPackageString = getPackage(pName,orderId,order_id,partnerId,ip,totalFee,partnerKey);
