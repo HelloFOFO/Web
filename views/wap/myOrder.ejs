@@ -17,7 +17,8 @@
                         </div>
                     </div>
                     <div class="paybt">
-                        <a href="<%if(isWeiXin){%>/weixin/pay/<%=o._id%>?showwxpaytitle=1<%}else{%>/wap/reqTrade/<%=o._id%>/<%=o.oid%><%}%>" class="btn <%if (o.status == "付款") {%> wap-submitBt <% } else {%> disable <%}%>"><%=o.status%></a>
+                        <%console.log(o);%>
+                        <a <%if (o.status == "付款") {%> href="<%if(isWeiXin){%>/weixin/pay/<%=o._id%>?showwxpaytitle=1<%}else{%>/wap/reqTrade/<%=o._id%>/<%=o.oid%><%}%>" <%}else{%><%}%> class="btn <%if (o.status == "付款") {%> wap-submitBt <% } else {%> disable <%}%>"><%=o.status%></a>
                     </div>
             </div>
         </div>

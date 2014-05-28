@@ -70,7 +70,7 @@ module.exports = function(app){
     app.get('/ajax/cityBox',HomePageAction.cityBox);
     app.get('/getCityDetail',HomePageAction.getCityDetail);
     //发送订单信息的短信接口需要做验证，外面一层做登录验证，里面会做订单号里对应的member和这个member是不是一致
-    app.get('/getOrderSMS',function(req,res){
+    app.get('/getOrderSMS',function(req,res,next){
         if(req.session && req.session.user){
             next();
         }else{
