@@ -78,6 +78,14 @@ WeiXin.event = function (xml) {
             case 'PAY_ORDER':
                 break;
         }
+    } else if('subscribe'=== xml.xml.Event[0]) {
+        return "<xml>"+
+            "<ToUserName><![CDATA["+xml.xml.FromUserName[0]+"]]></ToUserName>"+
+            "<FromUserName><![CDATA["+xml.xml.ToUserName[0]+"]]></FromUserName>"+
+            "<CreateTime>"+new Date().getTime()+"</CreateTime>"+
+            "<MsgType><![CDATA[text]]></MsgType>"+
+            "<Content><![CDATA[感谢您关注万车游 服务号，我们将及时为您提供最优惠的自驾游休闲度假线路和产品！\n万车游平台由各级旅游管理部门支持，长三角自驾游专家委员会、长三角自驾游产业论坛组委会主办，竭诚为您服务！\n如需查看和转发万车游平台的历史消息，请点击屏幕右上角的图标，选择“查看历史消息”，在出现的页面中选择任一历史消息阅读，并可转发朋友圈和好友！]]></Content>"+
+            "</xml>";
     }
 };
 
