@@ -202,8 +202,9 @@ exports.getDetail = function(request,response){
                             minPrice = "";
                         }else{
                             result.data.forEach(function(p){
-                                minPrice = p.price<minPrice? p.price:minPrice;
-
+                                if(p.inventory>0){
+                                    minPrice = p.price<minPrice? p.price:minPrice;
+                                }
                             });
                             product.minPrice = minPrice;
 //                    console.log(product);

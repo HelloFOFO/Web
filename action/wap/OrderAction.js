@@ -109,6 +109,11 @@ exports.detail = function(request,response){
                                 time = new Date(res.data.endDate);
                                 var ed = time.getFullYear()+"-"+(time.getMonth()+1)+"-"+time.getDate();
                                 order.date = sd + '~' + ed;
+                                if(res.data.isWeekend){
+                                    order.date += "(周末票)";
+                                }else{
+                                    order.date += "(平日票)";
+                                }
                             }
                             var od = new Date(res.data.orderDate);
                             order.orderDate = od.getFullYear()+"-"+(od.getMonth()+1)+"-"+od.getDate();
