@@ -220,6 +220,7 @@ exports.getVerifyCode = function(req,res){
                 cb('getCodeError',null);
             }else{
                 console.debug('debug /member/code',data);
+                console.debug('获取验证码成功,请求验证码的手机为%s,请求验证码的ip为%s,请求类型为%s',result.mobile,req.ip,type);
                 cb(null,data);
             }
         });
