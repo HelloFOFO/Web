@@ -33,6 +33,10 @@ body {
 .bs-wcy-headword{ float:left; padding-left:69px; font-size:16px; color:#13d377;}
 .bs-wcy_navlist{ float:right; height:80px; line-height:80px;}
 .bs-wcy_navlist li{ float:left; padding-left:20px;}
+.bs-wcy_navlist li.perCenter{ background:url(/images/wcy_arrow02.png) no-repeat right center; padding-right:20px; position:relative;}
+.bs-wcy_navlist li .perCenterBox{ display:none; position:absolute; width:100px; top:60px; right:-10px; background:#fff; border:#e1e1e1 solid 1px; padding:10px 0px;}
+.bs-wcy_navlist li .perCenterBox a{ display:block; height:30px; line-height:30px; text-align:center; color:#333333;}
+.bs-wcy_navlist li .perCenterBox a:hover{ background:#e1e1e1; color:#333333;}
 .bs-wcy_navlist li a{ color:#fff; font-size:14px;}
 .bs-wcy_navlist li a:hover{ color:#CCC; text-decoration:none;}
 .bs-wcy_citybox{ width:940px; padding:20px 0 50px;}
@@ -173,13 +177,14 @@ body {
 .bs-wcy_orderdetail .QRCodePhone .mobileNum::-webkit-input-placeholder{color:#aaaaaa;font-size:16px; }
 .bs-wcy_orderdetail .QRCodePhone .mobileNum::-moz-placeholder{color:#aaaaaa;font-size:16px; }
 .bs-wcy_orderdetail .QRCodePhoneBt{ display:block; border-radius:0}
-.bs-wcy_orderdetailTab{ color:#818181; font-size:14px; border:none; background-color:#f3f8f8; margin-bottom:0; border:#e6e6e6 solid 1px;}
-.bs-wcy_orderdetailTab>thead>tr>th, .bs-wcy_orderdetailTab>tbody>tr>th, .bs-wcy_orderdetailTab>tfoot>tr>th, .bs-wcy_orderdetailTab>thead>tr>td, .bs-wcy_orderdetailTab>tbody>tr>td, .bs-wcy_orderdetailTab>tfoot>tr>td {padding:5px 30px;vertical-align:middle; border:none; border-bottom:#e6e6e6 solid 1px;}
-.bs-wcy_orderdetailTab>thead>tr>th {vertical-align:bottom; border:none; background:#dce3e3;}
+.rebate{ text-align:right; font-size:13px; color:#333333; line-height:25px; padding:5px 0;}
+.bs-wcy_orderdetailTab{ color:#333333; font-size:14px; border:none; background-color:#f3f8f8; margin-bottom:10px; }
+.bs-wcy_orderdetailTab>thead>tr>th, .bs-wcy_orderdetailTab>tbody>tr>th, .bs-wcy_orderdetailTab>tfoot>tr>th, .bs-wcy_orderdetailTab>thead>tr>td, .bs-wcy_orderdetailTab>tbody>tr>td, .bs-wcy_orderdetailTab>tfoot>tr>td {padding:2px 5px;vertical-align:middle; border:none;}
+.bs-wcy_orderdetailTab>thead>tr>th {vertical-align:bottom;  border:none; background:#efefef; font-weight:lighter; color:#aaaaaa; font-size:12px;}
 .bs-wcy_orderdetailTab>tbody>tr:nth-child(odd)>td, .bs-wcy_orderdetailTab>tbody>tr:nth-child(odd)>th {  background:#fff;}
-.bs-wcy_orderdetailTab a{color:#818181; padding-right:10px;}
+.bs-wcy_orderdetailTab a{color:#13d377; padding-right:10px; font-size:16px;}
 .bs-wcy_orderdetailTab a:hover{ color:#428bca; text-decoration:none;}
-.bs-wcy_orderdetailTab .pricebig{ font-size:22px; padding:0px 1px;}
+
 .bs-paybutton{color: #ef541e; background-color: #ffe0cc; border-color: #ff7212; margin-left:80px; padding:3px 30px; font-size:20px;}
 .bs-paybutton:hover, .bs-paybutton:focus, .bs-paybutton:active, .bs-paybutton.active {color: #ef541e; background-color:#ffede2; border-color: #ff7212;}
 
@@ -213,6 +218,32 @@ body {
 .bs-wcy-tickeBox .subbt{ float:left; background:url(/images/wcy_sub.gif) no-repeat left top; border:none; width:15px; height:15px; cursor:pointer; outline:none; margin:4px 4px;}
 .bs-wcy-tickeBox .addbt{float:left; background:url(/images/wcy_add.gif) no-repeat left top; border:none; width:15px; height:15px; cursor:pointer; outline:none; margin:4px 4px;}
 .bs-wcy-tickeorderpad{padding:30px;}
+.bs-wcy-tickeorderpad h4{ line-height:30px; padding-bottom:10px; font-size:20px;}
+.bs-wcy-tickeorderpad .clientinfo{ padding:20px 0 0;  border-top:#e6e6e6 solid 1px; height:auto; overflow:hidden;}
+.bs-wcy-tickeorderpad .clientinfo p{ font-size:14px; line-height:28px;}
+.bs-wcy-tickeorderpad .clientinfo .halfbox{ float:left; width:400px; padding-right:20px; line-height:20px;}
+.bs-wcy-tickeorderpad .clientinfo .lightgray{ color:#aaaaaa;  font-size:12px; line-height:20px;}
+.bs-wcy-useCoupons{padding: 0 30px;}
+.bs-wcy-useCoupons h4{ line-height:30px; padding:30px 0 10px; font-size:20px;}
+.bs-wcy-useCoupons .clientinfo{ padding:20px 0;  border-top:#e6e6e6 solid 1px; height:auto; overflow:hidden;}
+.bs-wcy-useCoupons .clientinfo p{ font-size:14px; line-height:28px;}
+.bs-wcy-useCoupons .clientinfo .halfbox{ float:left; width:400px; padding-right:20px; line-height:20px;}
+.bs-wcy-useCoupons .clientinfo .lightgray{ color:#aaaaaa;  font-size:12px; line-height:20px;}
+.useCouponslist{ padding-left:15px; height:auto; overflow:hidden; display:none;}
+.useCouponslist li{ float:left; width:295px; height:94px; margin:10px 0;}
+.useCouponslist li .cashRadio{ margin:40px 8px 0 2px; float:left;}
+.useCouponslist li .cashbox{ float:left; position:relative; width:264px; height:93px; overflow:hidden;}
+.useCouponslist li .cashbox p{ line-height:16px;}
+.useCouponslist li .cashbg{ background:url(/images/wcy_s_coupons.png) no-repeat left top;}
+.useCouponslist li .cashGray{ background:url(/images/wcy_s_couponsGray.png) no-repeat left top;}
+.useCouponslist li .cashNum{position:absolute; left:7px; top:0px; color:#fff; font-size:60px; line-height:90px; font-family:"Arial Black", Gadget, sans-serif; letter-spacing:-3px;}
+.useCouponslist li .cashFree{position:absolute; left:10px; top:0px; color:#fff; font-size:55px; line-height:90px; font-family: 'Microsoft Yahei'; font-weight:bolder; }
+.useCouponslist li .cashFreeGray{position:absolute; left:10px; top:0px; color:#999999; font-size:55px; line-height:90px; font-family: 'Microsoft Yahei'; font-weight:bolder; }
+.useCouponslist li .cashWord{ position:absolute; left:90px; top:60px; color:#FFFFFF; font-weight:bold; font-size:16px;}
+
+.useCouponslist li .cashWord02{ position:absolute; left:70px; top:60px; color:#999999; font-weight:bold; font-size:16px;}
+.useCouponslist li .cashbox .pwhite{ position:absolute; top:15px; left:90px; font-size:12px; color:#FFF; }
+.useCouponslist li .cashbox .pgray{ position:absolute; top:15px; left:70px; font-size:12px; color:#999999; }
 .bs-wcy-tickeBox .ticket{border-bottom:#e5e5e5 solid 1px;}
 .bs-wcy-tickeBox .guesttab{ margin-top:20px;}
 .bs-wcy-tickeBox .guesttab input[type=text]{ border:#dddddd solid 1px; height:22px; line-height:22px; color:#999999; padding:0px 10px;}
@@ -300,3 +331,26 @@ body {
 .bs-wcy-errorinfo{ color:#505050; font-size:16px;  line-height:35px;}
 .bs-wcy-errorinfo a{ color:#13d377;}
 .bs-wcy-errorinfo span{color:#13d377;}
+/*my coupons*/
+.bs-wcy-mycoupons{ padding:0; height:auto; overflow:hidden;}
+.bs-wcy-mycoupons .couponTitle{ height:35px; line-height:35px; background:#eaefef;}
+.bs-wcy-mycoupons .couponTitle li{ float:left; padding:0 30px; font-size:14px; color:#818181; background:url(/images/wcy_line.gif) no-repeat right center;}
+.bs-wcy-mycoupons .couponTitle li a{ color:#818181;}
+.bs-wcy-mycoupons .couponTitle li a:hover{ color:#1abc89; text-decoration:none}
+.bs-wcy-mycoupons .couponTitle li.active a{ color:#1abc89}
+.bs-wcy-mycoupons .couponBox{ min-height:520px; background:#fff;}
+.bs-wcy-mycoupons .couponBox .noCashInfo{ font-size:14px; color:#818181; text-align:center; line-height:24px; padding:20px;}
+.bs-wcy-mycoupons .couponBox .cashList{ padding:30px 0 0 10px; height:auto; overflow:hidden;}
+.bs-wcy-mycoupons .couponBox .cashList li{ float:left; width:280px; margin:0px 0px 30px 20px; height:93px; overflow:hidden; position:relative;}
+.bs-wcy-mycoupons .couponBox .cashList .cashNum{position:absolute; left:5px; top:0px; color:#fff; font-size:70px; line-height:90px; font-family:"Arial Black", Gadget, sans-serif; letter-spacing:-3px;}
+.bs-wcy-mycoupons .couponBox .cashList .cashFree{position:absolute; left:10px; top:0px; color:#fff; font-size:60px; line-height:90px; font-family: 'Microsoft Yahei'; font-weight:bolder; }
+.bs-wcy-mycoupons .couponBox .cashList .cashWord{ position:absolute; left:105px; top:60px; color:#FFFFFF; font-weight:bold; font-size:16px;}
+.bs-wcy-mycoupons .couponBox .cashList .cashWord02{ position:absolute; left:80px; top:60px; color:#FFFFFF; font-weight:bold; font-size:16px;}
+.bs-wcy-mycoupons .couponBox .cashList .cashInfo{ position:absolute; left:105px; top:15px; color:#fff; font-size:12px; line-height:18px;}
+.bs-wcy-mycoupons .couponBox .cashList .cashInfo p{line-height:18px;}
+.bs-wcy-mycoupons .couponBox .cashList .cashInfoFree{ position:absolute; left:80px; top:15px; color:#fff; font-size:12px; line-height:18px;}
+.bs-wcy-mycoupons .couponBox .cashList .cashInfoFree p{line-height:18px;}
+.bs-wcy-mycoupons .couponBox .cashList .usedCashInfo{ position:absolute; left:105px; top:15px; color:#fff; font-size:12px; line-height:15px;}
+.bs-wcy-mycoupons .couponBox .cashList .usedCashInfo p{line-height:15px;}
+.bs-wcy-mycoupons .couponBox .cashList .usedCashInfo span{ color:#0d8f66}
+.bs-wcy-mycoupons .couponBox .couponbg{ background:url(/images/wcy_coupons.png) no-repeat left top;}
