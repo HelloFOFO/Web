@@ -1,0 +1,109 @@
+<% include header %>
+    <div class="container bs-wcy_citybox">
+        <div class="bs-wcy_govnoticetitle">我的优惠券</div>
+        <div class="bs-wcy-mycoupons">
+            <!--分组标题-->
+            <div class="couponTitle">
+                <ul  id="myTab">
+                    <li class="active"><a href="#nouse" data-toggle="tab">未使用</a></li>
+                    <li><a href="#used" data-toggle="tab">已使用</a></li>
+                    <li><a href="#overdue" data-toggle="tab">已过期</a></li>
+                </ul>
+            </div>
+            <!--分组内容-->
+            <div class="couponBox tab-content">
+                <!--未使用-->
+                <div class="cashList tab-pane active" id="nouse">
+                    <ul>
+                        <% unuse.forEach(function(coupon){%>
+                        <li class="couponbg">
+                            <div class="cashNum"><%=coupon.value%></div>
+                            <div class="cashInfo">
+                                <p>有效期：<%=new Date(coupon.effectDate).Format('yyyy/M/dd')%>-<%=new Date(coupon.expiryDate).Format('yyyy/M/dd')%></p>
+                                <p>使用规则：<%=coupon.name%></p>
+                            </div>
+                            <div class="cashWord">元优惠券</div>
+                        </li>
+                        <%});%>
+                        <!--
+                        <li class="couponbg">
+                            <div class="cashNum">50</div>
+                            <div class="cashInfo">
+                                <p>有效期：2014/5/11-2014/5/30</p>
+                                <p>使用规则：满50元立减50元</p>
+                            </div>
+                            <div class="cashWord">元优惠券</div>
+                        </li>
+                        <li class="couponbg">
+                            <div class="cashFree">免</div>
+                            <div class="cashInfoFree">
+                                <p>有效期：2014/5/11-2014/5/30</p>
+                                <p>使用规则：用于抵扣千岛湖1晚房费</p>
+                            </div>
+                            <div class="cashWord02">房券</div>
+                        </li>
+                        <li class="couponbg">
+                            <div class="cashNum">10</div>
+                            <div class="cashInfo">
+                                <p>有效期：2014/5/11-2014/5/30</p>
+                                <p>使用规则：满10元立减10元</p>
+                            </div>
+                            <div class="cashWord">元优惠券</div>
+                        </li>
+                        -->
+                    </ul>
+                </div>
+                <!--已使用-->
+                <div class="cashList tab-pane" id="used">
+                    <ul>
+                        <% used.forEach(function(coupon){%>
+                        <li class="couponbg">
+                            <div class="cashNum"><%=coupon.value%></div>
+                            <div class="usedCashInfo">
+                                <p>有效期：<%=new Date(coupon.effectDate).Format('yyyy/M/dd')%>-<%=new Date(coupon.expiryDate).Format('yyyy/M/dd')%></p>
+                                <p>使用规则：<%=coupon.name%></p>
+                                <p>用于订单：<span><%=coupon.orderID%></span></p>
+                            </div>
+                            <div class="cashWord">元优惠券</div>
+                        </li>
+                        <%});%>
+                        <!--
+                        <li class="couponbg">
+                            <div class="cashNum">10</div>
+                            <div class="usedCashInfo">
+                                <p>有效期：2014/5/11-2014/5/30</p>
+                                <p>使用规则：满20元立减20元</p>
+                                <p>用于订单：<span>345872643495</span></p>
+                            </div>
+                            <div class="cashWord">元优惠券</div>
+                        </li>
+                        -->
+                    </ul>
+                </div>
+                <!--已过期-->
+                <div class="noCashInfo tab-pane" id="overdue">
+                    <%if(expired.length>0){%>
+                    <ul>
+                        <% expired.forEach(function(coupon){%>
+                        <li class="couponbg">
+                            <div class="cashNum"><%=coupon.value%></div>
+                            <div class="cashInfo">
+                                <p>有效期：<%=new Date(coupon.effectDate).Format('yyyy/M/dd')%>-<%=new Date(coupon.expiryDate).Format('yyyy/M/dd')%></p>
+                                <p>使用规则：<%=coupon.name%></p>
+                            </div>
+                            <div class="cashWord">元优惠券</div>
+                        </li>
+                        <%});%>
+                    </ul>
+                    <%}else{%>
+                    暂无已过期的优惠券
+                    <%}%>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<% include footer %>
+</body>
+</html>

@@ -8,6 +8,7 @@ var NoticeAction = require('./../action/web/NoticeAction');
 var MemberAction = require('./../action/web/MemberAction');
 var OrderAction = require('./../action/web/OrderAction');
 var AlipayWebAction = require('./../action/web/AlipayWebAction');
+var CouponsAction = require('./../action/web/CouponsAction');
 var UserAuth = require('./../tools/UserAuth.js');
 
 module.exports = function(app){
@@ -98,4 +99,6 @@ module.exports = function(app){
 //    app.get('/web/ajax/cityList',HomePageAction.cityList);
 //
 //    app.get('/web/ajax/hotProduct',HomePageAction.hotProduct);
+
+    app.get('/myCoupons',CouponsAction.myCoupons);
 };
