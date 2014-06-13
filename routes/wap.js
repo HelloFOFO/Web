@@ -10,6 +10,7 @@ var AlipayWapAction = require('./../action/wap/AlipayWapAction');
 var OrderAction = require('./../action/wap/OrderAction');
 var UserAuth = require('./../tools/UserAuth.js');
 var NoticeAction = require('./../action/wap/NoticeAction');
+var CouponsAction = require('./../action/wap/CouponsAction');
 
 var us = require('underscore');
 module.exports = function(app){
@@ -120,4 +121,6 @@ module.exports = function(app){
     app.post('/wap/reqTrade',AlipayWapAction.getReqTrade);
     app.post('/wap/notify/:id',AlipayWapAction.notify);
     app.get('/wap/callback/:id',AlipayWapAction.callBack);
+
+    app.get('/wap/myCoupons',CouponsAction.myCoupons);
 };

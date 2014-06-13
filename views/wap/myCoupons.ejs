@@ -1,0 +1,80 @@
+<% include header %>
+    <div class="wcy-coupons">
+        <div class="container">
+            <!--分组标题-->
+            <div class="wcy-couponTitle">
+                <ul  id="myTab">
+                    <li class="active"><a href="#nouse" data-toggle="tab" class="leftpart">未使用</a></li>
+                    <li><a href="#used" data-toggle="tab">已使用</a></li>
+                    <li><a href="#overdue" data-toggle="tab" class="rightpart">已过期</a></li>
+                </ul>
+            </div>
+            <!--券面-->
+            <div class="tab-content">
+                <div class="tab-pane active" id="nouse">
+                    <% unuse.forEach(function(coupon){%>
+                    <div class="wcy-couponsbox wcy-couponsBg01">
+                        <div class="cashNum"><%=coupon.value%></div>
+                        <div class="cashInfo">
+                        <p>有效期:<%=new Date(coupon.effectDate).Format('yyyy/M/dd')%>-<%=new Date(coupon.expiryDate).Format('yyyy/M/dd')%></p>
+                        <p>使用规则:<%=coupon.name%></p>
+                        <div class="cash">元优惠券</div>
+                        </div>
+                        <div class="checkbg"></div>
+                    </div>
+                    <%});%>
+                </div>
+                <div class="tab-pane" id="used">
+                    <% used.forEach(function(coupon){%>
+                    <div class="wcy-couponsbox wcy-couponsBg01">
+                        <div class="cashNum"><%=coupon.value%></div>
+                        <div class="usedCashInfo">
+                            <p>有效期：<%=new Date(coupon.effectDate).Format('yyyy/M/dd')%>-<%=new Date(coupon.expiryDate).Format('yyyy/M/dd')%></p>
+                            <p>使用规则：<%=coupon.name%></p>
+                            <p>用于订单：<span><%=coupon.orderID%></span></p>
+                            <div class="cash">元优惠券</div>
+                        </div>
+                        <div class="checkbg"></div>
+                    </div>
+                    <%});%>
+                </div>
+                <div class="tab-pane" id="overdue">
+                    <%if(expired.length>0){%>
+                    <% expired.forEach(function(coupon){%>
+                    <div class="wcy-couponsbox wcy-couponsBg01">
+                        <div class="cashNum"><%=coupon.value%></div>
+                        <div class="cashInfo">
+                            <p>有效期:<%=new Date(coupon.effectDate).Format('yyyy/M/dd')%>-<%=new Date(coupon.expiryDate).Format('yyyy/M/dd')%></p>
+                            <p>使用规则:<%=coupon.name%></p>
+                            <div class="cash">元优惠券</div>
+                        </div>
+                        <div class="checkbg"></div>
+                    </div>
+                    <%});%>
+                    <%}else{%>
+                    <div class="noCashInfo">暂无已过期的优惠券</div>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<% include footer %>
+<script>
+    /*导航列表切换*/
+    $(function () {
+        $('#myTab a:first').tab('show');
+    })
+    /*个人信息*/
+    $(document).ready(function(){
+        $('#perinfo').click(function(){
+            if($('.perCenterArrow, .perCenterBox').is(':hidden')){
+                $('.perCenterArrow, .perCenterBox').show();
+            }else{
+                $('.perCenterArrow, .perCenterBox').hide();
+            }
+        });
+    });
+</script>
+</body>
+</html>
