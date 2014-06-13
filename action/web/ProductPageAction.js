@@ -70,6 +70,7 @@ var formatProductDetailImage = function(imageArr){
     }
 };
 
+
 //渲染产品列表页
 exports.getProducts = function(request,response){
     var city = request.params.id;
@@ -347,6 +348,9 @@ exports.saveOrderAction = function(request,response){
         //to do: do login errorMsg = "请先登录";        flag = false;
         console.error('save order and go to confirm error',"未登录");
         response.json({error:10010,errorMsg:""});
+    }else if(us.isEmpty(request.body.orderPayValue)){
+        console.error('save order and go to confirm error',"应付金额错误！");
+        response.json({error:10010,errorMsg:"payValue is null"});
     }else if(us.isEmpty(request.body.pid)){
         //to do:产品ID为空
         console.error('save order and go to confirm error',"产品id为空");
@@ -389,6 +393,10 @@ exports.saveOrderAction = function(request,response){
             data.invoiceTitle   = request.body.invoiceTitle;
             data.invoiceAdd     = request.body.invoiceAdd;
         }
+        if(!us.isEmpty(request.body.orderCoupon) ){
+            data.coupon = request.body.orderCoupon;
+        }
+        data.payValue        = request.body.orderPayValue;
         data.liveName        = request.body.person;
         data.contactPhone    = request.body.mobile;
         var orderType         = request.body.orderType;
@@ -461,6 +469,8 @@ exports.renderConfirm = function(req,res){
                 }
                 viewData.num = result.quantity;
                 viewData.total = result.totalPrice;
+                viewData.payValue = result.payValue;
+                viewData.couponValue = result.totalPrice - result.payValue;
                 viewData.person = result.liveName;
                 viewData.mobile = result.contactPhone;
                 if(!us.isEmpty(result.invoice) && !us.isEmpty(result.invoice.types)){

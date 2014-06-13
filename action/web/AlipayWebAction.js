@@ -22,7 +22,7 @@ exports.getReqTrade = function(req,res){
                 res.send(404,"error is "+err);
             }else{
                 var subject = result.data.product.name;
-                total_fee = result.data.totalPrice+"";
+                total_fee = result.data.payValue+"";
                 res.send(alipay.web.reqTrade(_id,tradeNo,subject,total_fee));
             }
         });

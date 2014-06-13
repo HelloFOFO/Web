@@ -101,4 +101,5 @@ module.exports = function(app){
 //    app.get('/web/ajax/hotProduct',HomePageAction.hotProduct);
 
     app.get('/myCoupons',CouponsAction.myCoupons);
+    app.get('/getRelatedCoupon',CouponsAction.getRelatedCoupon);
 };

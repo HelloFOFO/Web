@@ -5,10 +5,11 @@ var HttpClient = require('./../../tools/HttpClient.js');
 var Config = require('./../../tools/Config');
 var _ = require('underscore')._;
 exports.myCoupons = function(request,response){
+    var memberID = request.session.user._id;
     var httpClient = new HttpClient({
         'host':Config.inf.host,
         'port':Config.inf.port,
-        'path':'/coupon/list/538409ad8cd2f52e1bc65496',
+        'path':'/coupon/list/'+memberID,
         'method':"GET"
     });
     httpClient.getReq(function(err,res){
@@ -31,4 +32,34 @@ exports.myCoupons = function(request,response){
 
     });
 
+};
+
+
+var getRelatedCoupon = function(product,member,totalPrice,fn){
+    try{
+        var opt = {
+            'host':Config.inf.host,
+            'port':Config.inf.port,
+            'path':'/coupon/'+product+'/'+member+'?totalPrice='+totalPrice,
+            'method':"GET"
+        };
+        console.log(opt.path);
+        var http = new HttpClient(opt);
+        http.getReq(function(error,result){
+            if(error || result.error!=0){
+                fn({error:1});
+            }else{
+                fn(result);
+            }
+        });
+    }  catch (e){
+        fn({error:1});
+    }
+};
+
+exports.getRelatedCoupon = function(req,res){
+    getRelatedCoupon('537f11b20b2f88b830e4d314',req.session.user._id,10000,function(result){
+        res.json(result);
+    });
+//    res.json(getRelatedCoupon(req.query.product,req.session.user._id,req.query.totalPrice));
 };

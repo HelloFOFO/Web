@@ -34,7 +34,7 @@ body {
 .bs-wcy_navlist{ float:right; height:80px; line-height:80px;}
 .bs-wcy_navlist li{ float:left; padding-left:20px;}
 .bs-wcy_navlist li.perCenter{ background:url(/images/wcy_arrow02.png) no-repeat right center; padding-right:20px; position:relative;}
-.bs-wcy_navlist li .perCenterBox{ display:none; position:absolute; width:100px; top:60px; right:-10px; background:#fff; border:#e1e1e1 solid 1px; padding:10px 0px;}
+.bs-wcy_navlist li .perCenterBox{ display:none; position:absolute; width:100px; top:60px; right:-10px; background:#fff; border:#e1e1e1 solid 1px; padding:10px 0px;z-index: 1000}
 .bs-wcy_navlist li .perCenterBox a{ display:block; height:30px; line-height:30px; text-align:center; color:#333333;}
 .bs-wcy_navlist li .perCenterBox a:hover{ background:#e1e1e1; color:#333333;}
 .bs-wcy_navlist li a{ color:#fff; font-size:14px;}

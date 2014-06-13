@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>万车游 移动端 我的优惠券</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="telephone=no" name="format-detection" />
+<!-- Bootstrap -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link href="/css/wcy-wap.css" rel="stylesheet" type="text/css">
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+        <script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.min.js"></script>
+        <script src="http://cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+  </head>
+
+<body>
+<div id="wrap">
+<header class="head">
+		<h1><a class="leftlink" href="#"></a>我的优惠券<a class="righthome" href="#"></a></h1>
+</header>
+<div class="wcy-coupons">
+	<div class="container">
+            		<!--分组标题-->
+            		<div class="wcy-couponTitle">
+                    		<ul  id="myTab">
+                            		<li class="active"><a href="#nouse" data-toggle="tab" class="leftpart">未使用</a></li>
+                                    <li><a href="#used" data-toggle="tab">已使用</a></li>
+                                    <li><a href="#overdue" data-toggle="tab" class="rightpart">已过期</a></li>
+                            </ul>
+                    </div>
+    		<!--券面-->
+            		<div class="tab-content">
+                    		<div class="tab-pane active" id="nouse">
+                                <div class="wcy-couponsbox wcy-couponsBg01">
+                                        <div class="cashNum">50</div>
+                                        <div class="cashInfo">
+                                                <p>有效期:2014/5/11-2014/5/30</p>
+                                                <p>使用规则:满50元立减50元</p>
+                                                <div class="cash">元优惠券</div>
+                                        </div>
+                                        <div class="checkbg"></div>
+                                </div>
+                                <!--券面-->
+                                <div class="wcy-couponsbox wcy-couponsBg02">
+                                        <div class="cashNum">免</div>
+                                        <div class="cashInfo">
+                                                <p>有效期;2014/5/11-2014/5/30</p>
+                                                <p>使用规则:用于抵扣千岛湖1晚房费</p>
+                                                <div class="cash">房券</div>
+                                        </div>
+                                        <div class="checkbg"></div>
+                                </div>
+                                <!--券面-->
+                                <div class="wcy-couponsbox wcy-couponsBg01">
+                                        <div class="cashNum">10</div>
+                                        <div class="cashInfo">
+                                                <p>有效期:2014/5/11-2014/5/30</p>
+                                                <p>使用规则:满10元立减10元</p>
+                                                <div class="cash">元优惠券</div>
+                                        </div>
+                                        <div class="checkbg"></div>
+                                </div>
+                             </div>
+                    		<div class="tab-pane" id="used">
+                                <div class="wcy-couponsbox wcy-couponsBg01">
+                                        <div class="cashNum">20</div>
+                                        <div class="usedCashInfo">
+                                                <p>有效期：2014/5/11-2014/5/30</p>
+                                                <p>使用规则：满20元立减20元</p>
+                                                <p>用于订单：<span>345872643495</span></p>
+                                                <div class="cash">元优惠券</div>
+                                        </div>
+                                        <div class="checkbg"></div>
+                                </div>
+                             </div>
+                             <div class="tab-pane" id="overdue">
+                             		<div class="noCashInfo">暂无已过期的优惠券</div>
+                             </div>
+                   </div>
+    </div>
+</div>
+</div>
+<div id="footer" class="wcy-wapfooter">
+        <div class="footlogin">
+        	<ul class="navlist">
+            		<li>您好，neo</li>
+                    <li class="perCenter">
+                    		<a id="perinfo">个人信息</a>
+                            <div class="perCenterArrow"></div>
+                            <div class="perCenterBox">
+                            		<ul class="list">
+                                    		<li><a href="#">我的订单</a></li>
+                                            <li><a href="#">个人信息</a></li>
+                                            <li class="last"><a href="#">我的优惠券</a></li>
+                                    </ul>
+                            </div>
+                    </li>
+            </ul>
+          	完善信息，享自驾游专享价！
+        </div>
+        <div class="wcy-wap-footerwidth">
+            <div class="footerAbout">
+            		<div><a href="#">关于万车游</a></div>
+                    <div>客服电话 400-888-8888</div>
+            </div>
+            <p class="Copyright">©2014 万车游 沪ICP备08026014号 </p>
+        </div>
+</div>
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="/js/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script>
+/*导航列表切换*/
+      $(function () {
+        $('#myTab a:first').tab('show');
+      })
+/*个人信息*/
+	$(document).ready(function(){  
+	  	  $('#perinfo').click(function(){
+		  if($('.perCenterArrow, .perCenterBox').is(':hidden')){
+			  	$('.perCenterArrow, .perCenterBox').show();
+			  }else{
+				 $('.perCenterArrow, .perCenterBox').hide(); 
+				  }
+		  });
+	});
+    </script>
+</body>
+</html>

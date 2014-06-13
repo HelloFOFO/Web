@@ -43,8 +43,16 @@
                 <!--<li><a href="/govNotice">政府公告</a></li>-->
                 <li><a href="http://www.dd885.org/" target="_blank">政府公告</a></li>
                 <li><a href="javascript:void(0)">您好,<%=user.name?user.name:"自驾游会员"%></a></li>
-                <li><a href="/orders">我的订单</a></li>
-                <li><a href="/userInfo/<%=user._id%>">个人信息</a></li>
+                <!--<li><a href="/orders">我的订单</a></li>-->
+                <!--<li><a href="/userInfo/">个人信息</a></li>-->
+                <li class="perCenter">
+                    <a href="#">个人中心</a>
+                    <div class="perCenterBox">
+                        <a href="/orders">我的订单</a>
+                        <a href="/userInfo/<%=user._id%>">个人信息</a>
+                        <a href="/myCoupons">我的优惠券</a>
+                    </div>
+                </li>
                 <li><a href="javascript:void(0)" id="btn_logout">退出</a></li>
             </ul>
             <ul class="bs-wcy_navlist hidden" id="nav_unlogin">
@@ -185,6 +193,14 @@
                     $('#f_errorMsg').text(data);
                 }
             });
+        });
+
+        //个人中心
+        $('.perCenter').click(function(){
+            $('.perCenterBox').show();
+        });
+        $('.perCenterBox').mouseleave(function(){
+            $(this).slideUp();
         });
 
     });
