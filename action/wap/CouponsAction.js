@@ -4,6 +4,7 @@
 var HttpClient = require('./../../tools/HttpClient.js');
 var Config = require('./../../tools/Config');
 var _ = require('underscore')._;
+var  querystring  = require('querystring');
 exports.myCoupons = function(request,response){
     var memberID = request.session.user._id;
     var httpClient = new HttpClient({
@@ -49,6 +50,17 @@ var getRelatedCoupon = function(product,member,totalPrice,fn){
             if(error || result.error!=0){
                 fn({error:1});
             }else{
+                result.data.forEach(function(d){
+                    if(d.type==0){
+                        d.payValue = totalPrice - d.value;
+                    }else if( d.type == 1 ){
+                        d.payValue = Math.round( totalPrice * ( 1 - d.value / 10 ) );
+                    }else if( d.type == 3 ){
+                        d.payValue = totalPrice;
+                    }else if( d.type == 4 ){
+                        d.payValue = 0.01;
+                    }
+                });
                 fn(result);
             }
         });
@@ -58,8 +70,13 @@ var getRelatedCoupon = function(product,member,totalPrice,fn){
 };
 
 exports.getRelatedCoupon = function(req,res){
-    getRelatedCoupon('537f11b20b2f88b830e4d314',req.session.user._id,10000,function(result){
-        res.json(result);
+//    getRelatedCoupon('537f11b20b2f88b830e4d314',req.session.user._id,10000,function(result){
+//        res.json(result);
+//    });
+    var param =  querystring.stringify(req.query);
+
+    getRelatedCoupon('537f11b20b2f88b830e4d314',req.session.user._id,req.query.totalPrice,function(result){
+        res.render( 'wap/couponSelect',{ titleName:"" , data:result.data ,param:param} );
     });
 //    res.json(getRelatedCoupon(req.query.product,req.session.user._id,req.query.totalPrice));
 };

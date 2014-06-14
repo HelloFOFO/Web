@@ -34,7 +34,15 @@
                       <tr>
                         <td height="30" align="left" valign="top">总价：</td>
                         <td align="left" valign="top"><span class="wap-orange">¥<%=order.totalPrice%></span></td>
-                </tr>
+                      </tr>
+                      <tr>
+                          <td height="30" align="left" valign="top">优惠券抵扣：</td>
+                          <td align="left" valign="top"><span class="wap-orange">¥<%=order.couponValue%></span></td>
+                      </tr>
+                      <tr>
+                          <td height="30" align="left" valign="top">实际支付：</td>
+                          <td align="left" valign="top"><span class="wap-orange">¥<%=order.payValue%></span></td>
+                      </tr>
                     </table>
       </div>
     		<div class="list">

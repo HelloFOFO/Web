@@ -40,14 +40,21 @@
                                         <td align="left" valign="middle">&nbsp;</td>
                                   </tr>
                           </table>
+                <div class="rebate"><input type="checkbox" id="usecash"> &nbsp;使用优惠券</div>
                 <!-- hidden fields -->
                 <input type="hidden" id="sp" value=<%=product.price%>/>
                 <input type="hidden" id="pName" name="pName" value="<%=product.name%>"/>
                 <input type="hidden" id="time" name="time" value="<%=product.time%>"/>
                 <input type="hidden" id="orderType" name="orderType" value="p"/>
                 <input type="hidden" id="pid" name="pid" value="<%=product.id%>"/>
+                <input type="hidden" id="orderCoupon" name="orderCoupon" value=""/>
+                <input type="hidden" id="orderPayValue" name="orderPayValue" value="<%=product.price%>"/>
        		</div>
+              <div class="useCouponslist" id="couponList">
+
+              </div>
             <div class="bs-wcy-tickeorderpad ticket">
+                <div class="rebate">还需支付：<span class="bs-wcy_orange">¥<span class="pricebig" id="payValue"><%=product.price%></span></span></div>
    		      <h3>旅客信息</h3>
                          <table width="100%" border="0" cellspacing="0" cellpadding="0" class="guesttab">
                             <tr>
@@ -109,6 +116,69 @@
     <script>
 	$(document).ready(function(){
         var us = _.noConflict();
+
+        var reCaculatePayValue = function(){
+            var totalPrice = parseInt($('#sp').val())*parseInt($("#num").val());
+            //设置初始的需要支付的金额为totalPrice
+            var payValue = totalPrice;
+            //如果勾选了使用优惠券
+            if($('#usecash').prop('checked')){
+                //如果选择了其中一个优惠券
+                if($('input[name=coupon]:checked').val()){
+                    console.log('i am here!');
+                    var couponValue = parseInt($('input[name=coupon]:checked').val());
+                    var couponType  = parseInt($('input[name=coupon]:checked').attr('couponType'));
+                    if(couponType==0){
+                        payValue = totalPrice - couponValue;
+                    }else if(couponType==1){
+                        payValue = Math.round(totalPrice * (1-couponValue/10));
+                    }else if(couponType==3){
+                        payValue = value;
+                    }else if(couponType==4){
+                        payValue = 0.01;
+                    }
+                }
+            }
+            $('#payValue').html(payValue);
+            $('#orderPayValue').val(payValue);
+        };
+
+        var refreshCouponList = function(product,totalPrice){
+            $.ajax({
+                type:"GET",
+                url:'/getRelatedCoupon',
+                data:{product:product,totalPrice:totalPrice}
+            }).done(function(data){
+                        if(data.data.length==0){
+                            //显示暂无优惠券
+                        }else{
+                            //循环显示优惠券
+                            var couponStr = '<li>'+
+                                    '<input type="radio" class="cashRadio" name="coupon" value="__value__" couponType="__type__" id="__id__">'+
+                                    '<div class="cashbox cashbg">'+
+                                    '<div class="cashNum">__value__</div>'+
+                                    '<div class="pwhite">'+
+                                    '<p>有效期：__effectDate__-__expriyDate__</p>'+
+                                    '<p>使用规则：__name__</p>'+
+                                    '</div>'+
+                                    '<div class="cashWord">元优惠券</div>'+
+                                    '</div>'+
+                                    '</li>';
+                            var couponListStr = ""
+                            $.each(data.data,function(index,data){
+                                couponListStr += couponStr.replace(/__value__/g,data.value)
+                                        .replace(/__name__/,data.name)
+                                        .replace(/__effectDate__/,data.effectDate)
+                                        .replace(/__expriyDate__/,data.expiryDate)
+                                        .replace(/__type__/,data.type)
+                                        .replace(/__id__/,data._id);
+                            });
+                            couponListStr = "<ul>"+couponListStr+"</ul>";
+                            $('#couponList').html(couponListStr);
+                        }
+                    });
+        };
+
         var displayInvoiceInfo = function(){
             if($("input[name='isNeed']:checked").val()=='y'){
                 $('.invoiceInfo').removeClass('hidden');
@@ -121,12 +191,16 @@
             displayInvoiceInfo();
         });
         var reCaculatePrice = function(num){
+            var num=num;
             if( num <= 0 ){
                 num = 1;
             }else if( num > 99 ){
                 num == 99;
             }
             $("#num").val(num);
+            var totalPrice = parseInt($('#sp').val())*num;
+            //每次重新算价格的时候需要计算一次仍需支付的金额
+            refreshCouponList('<%=product.id%>',totalPrice);
             $('#display').html(parseInt($('#sp').val())*num);
         };
         reCaculatePrice(1);
@@ -145,6 +219,28 @@
         $('#num').keyup(function(){
             var num = $('#num').val();
             reCaculatePrice(num);
+        });
+
+        //初始化的时候，按单价来读取优惠券
+        refreshCouponList('<%=product.id%>',<%=product.price%>);
+        //初始化优惠券按钮
+        $('#usecash').prop('checked',false);
+        //点击优惠券
+        $('#usecash').click(function(){
+            if(!$(this).attr("checked")){
+                $('.useCouponslist').show();
+                $(this).attr("checked",true);
+            }
+            else if($(this).attr("checked"))
+            {
+                $('.useCouponslist').hide();
+                $(this).attr("checked",false);
+            }
+        });
+
+        $('#couponList').on('click','input:radio',function(){
+            $('#orderCoupon').val($('input[name=coupon]:checked').attr('id'));
+            reCaculatePayValue();
         });
 
 

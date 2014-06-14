@@ -123,4 +123,7 @@ module.exports = function(app){
     app.get('/wap/callback/:id',AlipayWapAction.callBack);
 
     app.get('/wap/myCoupons',CouponsAction.myCoupons);
+    app.get('/wap/couponSelect',CouponsAction.getRelatedCoupon);
+
+
 };

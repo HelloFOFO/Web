@@ -350,7 +350,7 @@ exports.saveOrderAction = function(request,response){
         response.json({error:10010,errorMsg:""});
     }else if(us.isEmpty(request.body.orderPayValue)){
         console.error('save order and go to confirm error',"应付金额错误！");
-        response.json({error:10010,errorMsg:"payValue is null"});
+        response.json({error:10010,errorMsg:"应付金额错误"});
     }else if(us.isEmpty(request.body.pid)){
         //to do:产品ID为空
         console.error('save order and go to confirm error',"产品id为空");

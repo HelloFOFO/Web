@@ -4,7 +4,7 @@
 
 exports.inf = {
 //    host:'localhost'
-     host:process.env.APISERVER||'172.16.0.15'
+     host:process.env.APISERVER||'localhost'
     ,port:process.env.APIPORT||3333
     ,pageSize:10
     ,imageHost:"http://dd885.b0.upaiyun.com/"

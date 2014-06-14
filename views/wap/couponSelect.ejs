@@ -1,0 +1,32 @@
+<% include header %>
+    <div class="wcy-coupons">
+        <div class="container">
+            <!--券面-->
+            <div class="tab-content">
+                <div class="tab-pane active" id="nouse">
+                    <% data.forEach(function(coupon){%>
+                    <a href="/wap/subOrder?<%=param%>&payValue=<%=coupon.payValue%>&coupon=<%=coupon._id%>">
+                        <div class="wcy-couponsbox wcy-couponsBg01">
+                            <div class="cashNum"><%=coupon.value%></div>
+                            <div class="cashInfo">
+                                <p>有效期:<%=new Date(coupon.effectDate).Format('yyyy/M/dd')%>-<%=new Date(coupon.expiryDate).Format('yyyy/M/dd')%></p>
+                                <p>使用规则:<%=coupon.name%></p>
+                                <div class="cash">元优惠券</div>
+                            </div>
+                            <div class="checkbg"></div>
+                        </div>
+                    </a>
+                    <%});%>
+                </div>
+            </div>
+        </div>
+    </div>
+<% include footer %>
+<script>
+    /*导航列表切换*/
+    $(function () {
+
+    });
+</script>
+</body>
+</html>

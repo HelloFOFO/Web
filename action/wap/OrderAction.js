@@ -99,6 +99,8 @@ exports.detail = function(request,response){
                             order.person = res.data.liveName;
                             order.mobile = res.data.contactPhone;
                             order.totalPrice = res.data.totalPrice;
+                            order.payValue = res.data.payValue?res.data.payValue:res.data.totalPrice;
+                            order.couponValue = res.data.payValue?(res.data.totalPrice - res.data.payValue ):0;
                             order.quantity = res.data.quantity;
                             if(4===order.pType){
                                 var time = new Date(res.data.startDate);

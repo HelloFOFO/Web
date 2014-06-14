@@ -357,16 +357,48 @@ exports.toSubOrder = function(request,response){
     var price = request.query.sPrice;
     var type = request.query.type;
     var id = request.query.product;
+    var payValue = request.query.payValue?request.query.payValue:request.query.sPrice;
+    var couponValue = 0;
+
+    if(request.query.payValue){
+        if(request.query.totalPrice){
+            couponValue = request.query.totalPrice - request.query.payValue;
+        }else{
+            couponValue = request.query.sPrice - request.query.payValue;
+        }
+    }else{
+        couponValue = 0;
+    }
+    var coupon = request.query.coupon?request.query.coupon:"";
     var path = "";
     var isWeekend = "n";
     var lid = "";
+    var ret = {};
+
     if("4"===type){
         path = '/product/package/detail/'+id;
     }else{
         isWeekend = request.query.isWeekend;
         lid = request.query.lid;
         path = '/product/ticket/detail/'+id;
+        ret.isWeekend = isWeekend;
+        ret.lid = lid;
     }
+    ret.id = id;
+    ret.time = time;
+    ret.price = price;
+    ret.payValue=payValue;
+    ret.couponValue=couponValue;
+    ret.coupon = coupon;
+    ret.referer = request.headers['referer']?request.headers['referer']:"";
+    ret.num=request.query.num?request.query.num:1;
+
+    ret.isWeiXin = false;
+    var useragent = request.headers['user-agent'];
+    if(useragent.indexOf('MicroMessenger')>0){
+        ret.isWeiXin = true;
+    }
+
     var httpClient = new HttpClient({
         'host':Config.inf.host,
         'port':Config.inf.port,
@@ -378,25 +410,13 @@ exports.toSubOrder = function(request,response){
             response.send(404,'error is '+err);
         }else{
             if(0===res.error){
-                var ret = {};
-                ret.id = id;
                 ret.name = res.data.name;
+                ret.type = res.data.type;
                 ret.content = res.data.content;
                 ret.bookRule = res.data.bookRule;
                 ret.useRule = res.data.useRule;
                 ret.cancelRule = res.data.cancelRule;
-                ret.type = res.data.type;
-                ret.time = time;
-                ret.price = price;
-                if(4!==type){
-                    ret.isWeekend = isWeekend;
-                    ret.lid = lid;
-                }
-                ret.isWeiXin = false;
-                var useragent = request.headers['user-agent'];
-                if(useragent.indexOf('MicroMessenger')>0){
-                    ret.isWeiXin = true;
-                }
+
                 response.render('wap/subOrder',{titleName:'填写订单',product:ret});
             }else{
                 response.send(404,'error message is '+res.errorMsg);
@@ -474,6 +494,8 @@ exports.renderConfirm = function(req,res){
                 }
                 viewData.num = result.quantity;
                 viewData.total = result.totalPrice;
+                viewData.payValue = result.payValue;
+                viewData.couponValue = result.totalPrice - result.payValue;
                 viewData.person = result.liveName;
                 viewData.mobile = result.contactPhone;
                 if(!us.isEmpty(result.invoice) && !us.isEmpty(result.invoice.types)){

@@ -1,18 +1,6 @@
 <% include header %>
 <script src="http://siteapp.baidu.com/static/webappservice/uaredirect.js"></script>
 <script type="text/javascript">uaredirect("http://dd885.com/wap/");</script>
-<!-- 老式滚动图 -->
-<!--<div class="bs-wcy-banner">-->
-    <!--<div class="main_visual">-->
-        <!--<div class="main_image">-->
-            <!--<ul id="homeBanner">-->
-
-            <!--</ul>-->
-            <!--<a href="javascript:;" id="btn_prev"></a>-->
-            <!--<a href="javascript:;" id="btn_next"></a>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
 
 <!--轮播-->
 <div class="bs-wcy-banner">
@@ -106,6 +94,13 @@
         $('#searchForm').submit(function(){
             var id = $('#cityId').val();
             this.action = '/products/'+id;
+        });
+
+        //点击跳转
+        $('.bs-wcy-homeSearchCenter').click(function(){
+            var id = $('#cityId').val();
+            console.log('a');
+            window.location.href = '/products/'+id;
         });
 
 //        $(".main_visual").hover(function () {
@@ -211,7 +206,9 @@
             }).done(function(data){
                         if(!city){
                             //页面初次加载的时候
-                            $('.searchInput').val(data.data.name);
+//                            $('.searchInput').val(data.data.name);
+//                            $('#cityId').val(data.data._id);
+                            $('.searchInput').val('更多目的地....');
                             $('#cityId').val(data.data._id);
                         }
                         var str = '<div class="item __isactive__"><img style="height: 540px" src="__imageurl__"></div>';
@@ -228,6 +225,7 @@
         };
 
         refreshHomeBanner();
+
     });
 </script>
 

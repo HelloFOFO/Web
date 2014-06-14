@@ -25,7 +25,7 @@ exports.getReqTrade = function(req,res){
             }else{
                 var subject = result.data.product.name;
                 //正式上线的时候取消这个注释 把上面的0.01注释掉！
-                total_fee = result.data.totalPrice+"";
+                total_fee = result.data.payValue + "";
                 alipay.wap.reqAuth(_id,tradeNo,subject,total_fee,function(error,token){
                     if(""===token){
                         res.send(404,'token is null');

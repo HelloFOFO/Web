@@ -108,7 +108,7 @@ body {
 .bs-wcy-homecitybox .citybox .rightcity{ float:right; width:280px;}
 .bs-wcy-homecitybox .citybox .rightcity a{ float:left; padding:0 15px 0 5px; color:#818181; font-size:14px;}
 .bs-wcy-homecitybox .citybox .rightcity a:hover{ text-decoration:none; color:#13d377;}
-.bs-wcy-homeSearchCenter{ position:absolute; top:-400px;  left:370px; background:url(/images/wcy_homeCenter.png) no-repeat top center; width:251px; height:251px; overflow:hidden;}
+.bs-wcy-homeSearchCenter{ position:absolute; top:-400px;  left:370px; background:url(/images/wcy_homeCenter.png) no-repeat top center; width:251px; height:251px; overflow:hidden;cursor: pointer}
 .bs-wcy-homeSearchCenter h1{ font-size:72px; text-align:center; height:80px; line-height:80px; color:#FFFFFF; overflow:hidden; margin-top:70px;}
 .bs-wcy-homeSearchCenter h4{font-size:32px; text-align:center; height:45px; line-height:45px; color:#FFFFFF; overflow:hidden;}
 
