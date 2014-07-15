@@ -58,7 +58,9 @@ var getRelatedCoupon = function(product,member,totalPrice,fn){
 };
 
 exports.getRelatedCoupon = function(req,res){
-    getRelatedCoupon('537f11b20b2f88b830e4d314',req.session.user._id,10000,function(result){
+    var product = req.query.product;
+    var totalPrice = req.query.totalPrice;
+    getRelatedCoupon(product,req.session.user._id,totalPrice,function(result){
         res.json(result);
     });
 //    res.json(getRelatedCoupon(req.query.product,req.session.user._id,req.query.totalPrice));
