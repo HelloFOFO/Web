@@ -125,7 +125,7 @@
             if($('#usecash').prop('checked')){
                 //如果选择了其中一个优惠券
                 if($('input[name=coupon]:checked').val()){
-                    //console.log('i am here!');
+                    console.log('i am here!');
                     var couponValue = parseInt($('input[name=coupon]:checked').val());
                     var couponType  = parseInt($('input[name=coupon]:checked').attr('couponType'));
                     if(couponType==0){
@@ -202,7 +202,6 @@
             //每次重新算价格的时候需要计算一次仍需支付的金额
             refreshCouponList('<%=product.id%>',totalPrice);
             $('#display').html(parseInt($('#sp').val())*num);
-            reCaculatePayValue();
         };
         reCaculatePrice(1);
         $("#add").click(function(){

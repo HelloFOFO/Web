@@ -91,7 +91,7 @@
             if($('#usecash').prop('checked')){
                 //如果选择了其中一个优惠券
                 if($('input[name=coupon]:checked').val()){
-//                    console.log('i am here!');
+                    console.log('i am here!');
                     var couponValue = parseInt($('input[name=coupon]:checked').val());
                     var couponType  = parseInt($('input[name=coupon]:checked').attr('couponType'));
                     if(couponType==0){
@@ -158,7 +158,6 @@
             refreshCouponList('<%=product.id%>',totalPrice);
             $('#payValue').html(totalPrice);
             $('#display').html(totalPrice);
-            reCaculatePayValue();
         };
 
         reCaculatePrice(1);
