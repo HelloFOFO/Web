@@ -49,6 +49,10 @@ var getRelatedCoupon = function(product,member,totalPrice,fn){
             if(error || result.error!=0){
                 fn({error:1});
             }else{
+                result.data.forEach(function(d){
+                    d.effectDate =  new Date(d.effectDate).Format('yyyy/M/dd');
+                    d.expiryDate =  new Date(d.expiryDate).Format('yyyy/M/dd');
+                });
                 fn(result);
             }
         });
